@@ -58,6 +58,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\DBHelper\GameDBHelper.cs" />
     <Compile Include="src\DBHelper\UserDBHelper.cs" />
+    <Compile Include="src\Models\UserRelationTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserRelationTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserRelationTable.cs">
+      <DependentUpon>UserRelationTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserRelationTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserRelationTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserRelationTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserRelationTable.tt</DependentUpon>
+    </Compile>
     <Compile Include="src\Models\UserTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +102,13 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="src\Models\UserRelationTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserRelationTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\UserRelationTable.edmx.diagram">
+      <DependentUpon>UserRelationTable.edmx</DependentUpon>
+    </None>
     <None Include="src\Models\UserTable.edmx.diagram">
       <DependentUpon>UserTable.edmx</DependentUpon>
     </None>
@@ -92,6 +117,16 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\Models\UserRelationTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserRelationTable.edmx</DependentUpon>
+      <LastGenOutput>UserRelationTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserRelationTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserRelationTable.edmx</DependentUpon>
+      <LastGenOutput>UserRelationTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\UserTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserTable.edmx</DependentUpon>
