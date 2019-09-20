@@ -14,6 +14,7 @@ namespace EpicGame.src.Models
     
     public partial class UserRelationTable
     {
+        public int RelationId { get; set; }
         public int UserId { get; set; }
         public int Relation { get; set; }
         public string List { get; set; }

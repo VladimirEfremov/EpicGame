@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="441de72ae8934a5b88bc179a70f83d7d" Name="Diagram1">
+      <Diagram DiagramId="e8759ad8ee014ef485bfb008d71d29e7" Name="Diagram1">
         <EntityTypeShape EntityType="EpicGame.src.Models.UserRelationTable" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>

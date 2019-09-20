@@ -57,6 +57,7 @@
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\DBHelper\GameDBHelper.cs" />
+    <Compile Include="src\DBHelper\RelationType.cs" />
     <Compile Include="src\DBHelper\UserDBHelper.cs" />
     <Compile Include="src\Models\UserRelationTable.Context.cs">
       <AutoGen>True</AutoGen>

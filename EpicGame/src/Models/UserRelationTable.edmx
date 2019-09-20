@@ -5,25 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Хранилище EpicGame.src.Models" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "EpicGameDataBase.dbo.UserRelationTable" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="UserRelationTable">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="Relation" />
+            <PropertyRef Name="RelationId" />
           </Key>
+          <Property Name="RelationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Relation" Type="int" Nullable="false" />
           <Property Name="List" Type="text" />
         </EntityType>
         <EntityContainer Name="Хранилище EpicGamesrcModelsContainer">
-          <EntitySet Name="UserRelationTable" EntityType="Self.UserRelationTable" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [UserRelationTable].[UserId] AS [UserId], 
-    [UserRelationTable].[Relation] AS [Relation], 
-    [UserRelationTable].[List] AS [List]
-    FROM [dbo].[UserRelationTable] AS [UserRelationTable]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="UserRelationTable" EntityType="Self.UserRelationTable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -32,9 +24,9 @@
       <Schema Namespace="EpicGame.src.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="UserRelationTable">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="Relation" />
+            <PropertyRef Name="RelationId" />
           </Key>
+          <Property Name="RelationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Relation" Type="Int32" Nullable="false" />
           <Property Name="List" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -51,6 +43,7 @@
           <EntitySetMapping Name="UserRelationTable">
             <EntityTypeMapping TypeName="EpicGame.src.Models.UserRelationTable">
               <MappingFragment StoreEntitySet="UserRelationTable">
+                <ScalarProperty Name="RelationId" ColumnName="RelationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Relation" ColumnName="Relation" />
                 <ScalarProperty Name="List" ColumnName="List" />

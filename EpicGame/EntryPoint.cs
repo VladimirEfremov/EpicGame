@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using EpicGame.src.UserDB;
-using EpicGame.src.Models;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-namespace EpicGame
+﻿namespace EpicGame
 {
+    using System;
+    using EpicGame.src.DBHelper;
     class EntryPoint
     {
         static void Main(string[] args)
@@ -18,12 +10,19 @@ namespace EpicGame
 
             using (var db = new UserDBHelper())
             {
-                while (true)
+                bool run = true;
+                while (run)
                 {
-                    var list = db.GetListOfUsers();
-                    foreach (var el in list)
+                    var usersList = db.GetListOfUsers();
+                    foreach (var el in usersList)
                     {
                         Console.WriteLine($"{el.Id} {el.FullName} {el.Nickname} {el.Email}");
+                    }
+
+                    var relationList = db.GetListOfUsersRelations();
+                    foreach (var el in relationList)
+                    {
+                        Console.WriteLine($"{el.UserId} {el.Relation} {el.List}");
                     }
 
                     Console.WriteLine("1. Add user\n2. Remove user by id");
@@ -63,7 +62,9 @@ namespace EpicGame
 
                                 break;
                             }
-                        default: return;
+                        default:
+                            run = false;
+                            break;
                     }
 
                     
