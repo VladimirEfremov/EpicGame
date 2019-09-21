@@ -33,6 +33,7 @@
                 while (run)
                 {
                     Console.WriteLine("1. Add user\n2. Remove user by id\n3. Add to friends\n" +
+                        "4. Remove from friends\n" +
                         "5. Print users\n6. Print relations");
                     var key = Console.ReadKey().Key;
                     Console.WriteLine();
@@ -92,6 +93,21 @@
                                 db.AddUserToFriends(thisIdInt, idToAddInt);
                                 break;
                             }
+                        case ConsoleKey.D4:
+                            {
+                                Int32 thisIdInt;
+                                Int32 idToAddInt;
+
+                                Console.Write("Write userid [who want to add]: ");
+                                string thisIdString = Console.ReadLine();
+                                Int32.TryParse(thisIdString, out thisIdInt);
+                                Console.Write("Write userid [whom want to add]: ");
+                                string idToAddString = Console.ReadLine();
+                                Int32.TryParse(idToAddString, out idToAddInt);
+
+                                db.RemoveUserFromFriends(thisIdInt, idToAddInt);
+                                break;
+                            }
                         case ConsoleKey.D5:
                             {
                                 Console.WriteLine("Users:");
@@ -108,7 +124,9 @@
                                 var relationList = db.GetListOfUsersRelations();
                                 foreach (var el in relationList)
                                 {
-                                    Console.WriteLine($"{el.UserId} {el.Relation} {el.List}");
+                                    Console.WriteLine($"{el.UserId} " +
+                                        $"{RelationConverter.ConvertToString((RelationType)el.Relation)} " +
+                                        $"{el.List}");
                                 }
                                 break;
                             }
@@ -118,7 +136,6 @@
                 }
             }
         }
-
 
         static void Main(string[] args)
         {

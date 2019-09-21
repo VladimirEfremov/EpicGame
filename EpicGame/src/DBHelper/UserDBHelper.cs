@@ -133,15 +133,11 @@
             return userRelationTable;
         }
 
-            //AddUserToFriends(User this, User toAdd)
-            //or
-            //In progress...
         /// <summary>
-        /// 
+        /// Используется при инвайте в друзья [от thisId для idToAdd]
         /// </summary>
         /// <param name="thisId">Кто добавляет в друзья</param>
         /// <param name="idToAdd">Кого добавляют в друзья (кидают инвайт)</param>
-        /// <returns>Возвращает, удачно ли произошло добавление</returns>
         public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
         {
             var array = m_UserRelationContext.UserRelationTable.ToArray();
@@ -152,59 +148,185 @@
                     if (array[i].UserId == thisId &&
                         (array[i].List.IndexOf(idToAdd.ToString()) != -1))
                     {
-                        //None: done
                         if (array[i].Relation == (System.Int32)RelationType.None)
                         {
                             //удаляем idToAdd из thisId.List группы none
                             var list = array[i].List;
                             var temp = $"{idToAdd} ";
-                            array[i].List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                array[i].List = list.Remove(
+                                    list.IndexOf(temp),
+                                    temp.Length);
+                            }
 
                             //добавляем thisId to Following group
                             var user = FindAttributeByIdRelation(thisId, RelationType.Following);
-                            user.List += idToAdd.ToString() + " ";
+                            if (user.List.IndexOf(idToAdd.ToString()) == -1)
+                            {
+                                user.List += idToAdd.ToString() + " ";
+                            }
 
                             //делаем тоже самое для idToAdd
                             var userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.None);
                             list = userToAdd.List;
                             temp = $"{thisId} ";
-                            userToAdd.List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                userToAdd.List = list.Remove(
+                                    list.IndexOf(temp),
+                                    temp.Length);
+                            }
 
                             userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.Followers);
-                            userToAdd.List += thisId.ToString() + " ";
+                            if (userToAdd.List.IndexOf(thisId.ToString()) == -1)
+                            {
+                                userToAdd.List += thisId.ToString() + " ";
+                            }
+                            UserRelationContextTrySave();
                         }
-                        else if (array[i].Relation == (System.Int32)RelationType.Following ||
-                                 array[i].Relation == (System.Int32)RelationType.Friends)
+                        //Following -> followers
+                        else if (array[i].Relation == (System.Int32)RelationType.Followers)
                         {
-                            //do nothing there
-                        }
-                        else //RelationType.Follower
-                        {
+                            //удаляем thisid из following
                             var list = array[i].List;
                             var temp = $"{idToAdd} ";
-                            array[i].List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                array[i].List = list.Remove(
+                                    list.IndexOf(temp),
+                                    temp.Length);
+                            }
 
-                            //добавляем thisId to Friends group
+                            //добавляем idToAdd to Friends group
                             var user = FindAttributeByIdRelation(thisId, RelationType.Friends);
-                            user.List += idToAdd.ToString() + " ";
+                            if (user.List.IndexOf(idToAdd.ToString()) == -1)
+                            {
+                                user.List += idToAdd.ToString() + " ";
+                            }
 
                             //удаляем thisID from Following
                             user = FindAttributeByIdRelation(idToAdd, RelationType.Following);
                             list = user.List;
                             temp = $"{thisId} ";
-                            user.List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
-                            
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                user.List = list.Remove(
+                                    list.IndexOf(temp),
+                                    temp.Length);
+                            }
+
                             //insert thisId into Friends group
                             user = FindAttributeByIdRelation(idToAdd, RelationType.Friends);
-                            user.List += thisId.ToString() + " ";
+                            if (user.List.IndexOf(thisId.ToString()) == -1)
+                            {
+                                user.List += thisId.ToString() + " ";
+                            }
+                            UserRelationContextTrySave();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                System.Console.WriteLine("Error: User relation table is empty!");
+                throw new System.Exception();
+            }
+        }
+
+        /// <summary>
+        /// не тестил
+        /// </summary>
+        /// <param name="thisId">Кто удаляет из друзей</param>
+        /// <param name="idToRemove">Кого удаляют из друзей</param>
+        public void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove)
+        {
+            var array = m_UserRelationContext.UserRelationTable.ToArray();
+            if (array.Length > 0)
+            {
+                for (var i = 0; i < array.Length; i++)
+                {
+                    if (array[i].UserId == thisId &&
+                        (array[i].List.IndexOf(idToRemove.ToString()) != -1))
+                    {
+                        if (array[i].Relation == (System.Int32)RelationType.Following)
+                        {
+                            //thisid: удаляем idToAdd из thisId.List группы following
+                            var list = array[i].List;
+                            var temp = $"{idToRemove} ";
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                array[i].List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+                            }
+
+                            //thisid: заносим idToRemove в None
+                            var thisIdUser = FindAttributeByIdRelation(thisId, RelationType.None);
+                            if (thisIdUser.List.IndexOf(idToRemove.ToString()) == -1)
+                            {
+                                thisIdUser.List += $"{idToRemove} ";
+                            }
+
+                            //idToRemove: удаляем thisId из Followers group
+                            var userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Followers);
+                            list = userToRemove.List;
+                            temp = $"{thisId} ";
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                userToRemove.List = list.Remove(
+                                    list.IndexOf(temp),
+                                    temp.Length);
+                            }
+
+                            //idToRemove: thisId -> None
+                            userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.None);
+                            if (userToRemove.List.IndexOf(thisId.ToString()) == -1)
+                            {
+                                userToRemove.List += $"{thisId} ";
+                            }
+
+                            UserRelationContextTrySave();
+                        }
+                        else if (array[i].Relation == (System.Int32)RelationType.Friends)
+                        {
+                            //do nothing there
+                            //thisid: удаляем idToAdd из thisId.List группы following
+                            var list = array[i].List;
+                            var temp = $"{idToRemove} ";
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                array[i].List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+                            }
+
+                            //thisid: заносим idToRemove в None
+                            var thisIdUser = FindAttributeByIdRelation(thisId, RelationType.Followers);
+                            if (thisIdUser.List.IndexOf(idToRemove.ToString()) == -1)
+                            {
+                                thisIdUser.List += $"{idToRemove} ";
+                            }
+
+                            //idToRemove: удаляем thisId из Followers group
+                            var userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Friends);
+                            list = userToRemove.List;
+                            temp = $"{thisId} ";
+                            if (list.IndexOf(temp) != -1)
+                            {
+                                userToRemove.List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+                            }
+
+                            //idToRemove: thisId -> None
+                            userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Following);
+                            if (thisIdUser.List.IndexOf(thisId.ToString()) == -1)
+                            {
+                                userToRemove.List += $"{thisId} ";
+                            }
+
+                            UserRelationContextTrySave();
                         }
                     }
                 }
