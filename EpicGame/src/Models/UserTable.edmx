@@ -34,7 +34,7 @@
           <Property Name="SecondName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="Nickname" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityContainer Name="UserTableEntity" annotation:LazyLoadingEnabled="true">

@@ -30,8 +30,9 @@
                         sb.Append($"{usersToAdd[i].Id} ");
                     }
                 }
+
                 m_UserContext.UserTable.Add(user);
-                m_UserContext.SaveChanges();
+                UserContextTrySave();
                 user.Id = FindUserByEmail(user.Email);
                 
                 var array = m_UserRelationContext.UserRelationTable.ToArray();
@@ -49,7 +50,7 @@
                     List = sb.ToString()
                 };
                 m_UserRelationContext.UserRelationTable.Add(newAttribute);
-                m_UserRelationContext.SaveChanges();
+                UserRelationContextTrySave();
             }
             else
             {
@@ -108,86 +109,111 @@
             return -1;
         }
 
-        //AddUserToFriends(User this, User toAdd)
-        //or
-        //In progress...
-        public bool AddUserToFriends(UserTable @this, UserTable toAdd, RelationType group)
+        [System.Runtime.CompilerServices.MethodImpl(256)]
+        private UserRelationTable FindAttributeByIdRelation(System.Int32 id, RelationType group)
         {
             var array = m_UserRelationContext.UserRelationTable.ToArray();
-            if (array.Length  > 0)
+            for (var i = 0; i < array.Length; i++)
             {
-                var inFriends = m_UserRelationContext.UserRelationTable
-                    .Where(p => p.UserId == @this.Id)
-                    .Where(p => p.Relation == (System.Int32)RelationType.Friend);
-                var follower = m_UserRelationContext.UserRelationTable
-                    .Where(p => p.UserId == @this.Id)
-                    .Where(p => p.Relation == (System.Int32)RelationType.Follower);
-                var followers = m_UserRelationContext.UserRelationTable
-                    .Where(p => p.UserId == @this.Id)
-                    .Where(p => p.Relation == (System.Int32)RelationType.Followers);
-
-                if (inFriends == null)
+                if (array[i].UserId   == id && 
+                    array[i].Relation == (System.Int32)group)
                 {
-                    
+                    return array[i];
                 }
+            }
+            //группы нет, значит мы должны ее добавить
+            var userRelationTable = new UserRelationTable()
+            {
+                UserId = id,
+                Relation = (System.Int32)group,
+                List = ""
+            };
+            m_UserRelationContext.UserRelationTable.Add(userRelationTable);
+            UserRelationContextTrySave();
+            return userRelationTable;
+        }
 
+            //AddUserToFriends(User this, User toAdd)
+            //or
+            //In progress...
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="thisId">Кто добавляет в друзья</param>
+        /// <param name="idToAdd">Кого добавляют в друзья (кидают инвайт)</param>
+        /// <returns>Возвращает, удачно ли произошло добавление</returns>
+        public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
+        {
+            var array = m_UserRelationContext.UserRelationTable.ToArray();
+            if (array.Length > 0)
+            {
                 for (var i = 0; i < array.Length; i++)
                 {
-                    if (array[i].UserId == @this.Id)
+                    if (array[i].UserId == thisId &&
+                        (array[i].List.IndexOf(idToAdd.ToString()) != -1))
                     {
-                        if ((array[i].Relation == (System.Int32)RelationType.Friend ||
-                             array[i].Relation == (System.Int32)RelationType.Follower) &&
-                             array[i].List.IndexOf(toAdd.Id.ToString()) != -1)
+                        //None: done
+                        if (array[i].Relation == (System.Int32)RelationType.None)
                         {
-                            //skip
-                        }
-                        else if (array[i].Relation == (System.Int32)RelationType.Followers &&
-                                 array[i].List.IndexOf(toAdd.Id.ToString()) != -1)
-                        {
-                            //@this && toAdd become friends
-                            //@this.List[followers].delete(toAdd)
-                            array[i].List.Substring(
-                                array[i].List.IndexOf($" {toAdd.Id} "), $"  {toAdd.Id}".Length);
-                            //@this.List[friends].add(toAdd)
-                            
-                        }
-                        else
-                        {
-                            
-                        }
-                    }
+                            //удаляем idToAdd из thisId.List группы none
+                            var list = array[i].List;
+                            var temp = $"{idToAdd} ";
+                            array[i].List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
 
-                    /*
-                        if (array[i].UserId == @this.Id && 
-                        array[i].Relation == (System.Int32)group)
-                    {
-                        var list = array[i].List;
-                        if (list.IndexOf(toAdd.Id.ToString()) == -1)
-                        {
-                            array[i].List += $"{toAdd.Id.ToString()} ";
-                            m_UserRelationContext.SaveChanges();
-                            return true;
+                            //добавляем thisId to Following group
+                            var user = FindAttributeByIdRelation(thisId, RelationType.Following);
+                            user.List += idToAdd.ToString() + " ";
+
+                            //делаем тоже самое для idToAdd
+                            var userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.None);
+                            list = userToAdd.List;
+                            temp = $"{thisId} ";
+                            userToAdd.List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+
+                            userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.Followers);
+                            userToAdd.List += thisId.ToString() + " ";
                         }
-                        else
+                        else if (array[i].Relation == (System.Int32)RelationType.Following ||
+                                 array[i].Relation == (System.Int32)RelationType.Friends)
                         {
-                            //Log.Warn: {toAdd} already in the group
-                            return false;
+                            //do nothing there
+                        }
+                        else //RelationType.Follower
+                        {
+                            var list = array[i].List;
+                            var temp = $"{idToAdd} ";
+                            array[i].List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+
+                            //добавляем thisId to Friends group
+                            var user = FindAttributeByIdRelation(thisId, RelationType.Friends);
+                            user.List += idToAdd.ToString() + " ";
+
+                            //удаляем thisID from Following
+                            user = FindAttributeByIdRelation(idToAdd, RelationType.Following);
+                            list = user.List;
+                            temp = $"{thisId} ";
+                            user.List = list.Remove(
+                                list.IndexOf(temp),
+                                temp.Length);
+                            
+                            //insert thisId into Friends group
+                            user = FindAttributeByIdRelation(idToAdd, RelationType.Friends);
+                            user.List += thisId.ToString() + " ";
                         }
                     }
-                    */
                 }
-                var attribute = new UserRelationTable();
-                attribute.UserId = @this.Id;
-                attribute.Relation = 1;
-                attribute.List = "";
             }
             else
             {
-
+                System.Console.WriteLine("Error: User relation table is empty!");
+                throw new System.Exception();
             }
-           
-            return true;
-
         }
 
         public System.Collections.Generic.List<UserTable> GetListOfUsers()
@@ -195,11 +221,57 @@
             return m_UserContext.UserTable.ToList();
         }
 
+        public System.Data.Entity.DbSet<UserRelationTable> GetDbSet() => 
+            m_UserRelationContext.UserRelationTable;
+
         public System.Collections.Generic.List<UserRelationTable> GetListOfUsersRelations()
         {
             return m_UserRelationContext.UserRelationTable.ToList();
         }
 
+        public void UserContextTrySave()
+        {
+            try
+            {
+                m_UserContext.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
+        public void UserRelationContextTrySave()
+        {
+            try
+            {
+                m_UserRelationContext.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
     }
 
 

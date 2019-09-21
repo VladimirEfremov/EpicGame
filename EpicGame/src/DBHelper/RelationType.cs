@@ -3,8 +3,8 @@
     enum RelationType
     {
         None = 0,
-        Friend,
+        Friends,
         Followers,
-        Follower
+        Following
     }
 }
