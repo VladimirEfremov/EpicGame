@@ -98,10 +98,10 @@
                                 Int32 thisIdInt;
                                 Int32 idToAddInt;
 
-                                Console.Write("Write userid [who want to add]: ");
+                                Console.Write("Write userid [who want to remove]: ");
                                 string thisIdString = Console.ReadLine();
                                 Int32.TryParse(thisIdString, out thisIdInt);
-                                Console.Write("Write userid [whom want to add]: ");
+                                Console.Write("Write userid [whom want to remove]: ");
                                 string idToAddString = Console.ReadLine();
                                 Int32.TryParse(idToAddString, out idToAddInt);
 
@@ -110,6 +110,7 @@
                             }
                         case ConsoleKey.D5:
                             {
+                                Console.Clear();
                                 Console.WriteLine("Users:");
                                 var usersList = db.GetListOfUsers();
                                 foreach (var el in usersList)
@@ -120,7 +121,8 @@
                             }
                         case ConsoleKey.D6:
                             {
-                                Console.WriteLine("Relations:");
+                                Console.Clear();
+                                Console.WriteLine("\nRelations:");
                                 var relationList = db.GetListOfUsersRelations();
                                 foreach (var el in relationList)
                                 {
@@ -128,10 +130,12 @@
                                         $"{RelationConverter.ConvertToString((RelationType)el.Relation)} " +
                                         $"{el.List}");
                                 }
+                                Console.WriteLine();
                                 break;
                             }
                         case ConsoleKey.C: { Console.Clear(); break; }
-                        default: { run = false; break; }
+                        case ConsoleKey.Escape: { run = false; break; }
+                        default: {  break; }
                     }
                 }
             }
@@ -139,9 +143,18 @@
 
         static void Main(string[] args)
         {
-
+#if TRUE
             TestUserDB();
-
+#else
+            string str = "2 ";//"21 213 2232 2 3 32 43 ";
+            int index = str.IndexOfId("2");
+            index = str.IndexOfId("3");
+            index = str.IndexOfId("32");
+            index = str.IndexOfId("13");
+            index = str.IndexOfId("4");
+            index = str.IndexOfId("1");
+#endif
+            Console.WriteLine("Press any key to continue ...");
             Console.ReadKey();
         }
     }

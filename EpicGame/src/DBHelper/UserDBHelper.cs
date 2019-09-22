@@ -3,6 +3,56 @@
     using System.Linq;
     using EpicGame.src.Models;
 
+    public static class AdditionalString
+    {
+        //not safe
+        public static System.Int32 IndexOfId(this string _string, string _id)
+        {
+            System.Int32 i;
+            System.Int32 j;
+            string sid = $"{_id} ";
+            bool isNumberFound = false;
+
+            for (i = 0; i < _string.Length; i++)
+            {
+                if (_string[i] == sid[0])
+                {
+                    isNumberFound = true;
+                    if (i + sid.Length <= _string.Length)
+                    {
+                        if (i != 0)
+                        {
+                            if (_string[i - 1] != ' ')
+                            {
+                                isNumberFound = false;
+                                j = sid.Length;
+                            }
+                        }
+
+                        for (j = 1; j < sid.Length; j++)
+                        {
+                            if (_string[i + j] != sid[j])
+                            {
+                                isNumberFound = false;
+                                j = sid.Length;
+                            }
+                        }
+
+                        if (isNumberFound)
+                        {
+                             return i; 
+                        }
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            }
+            return -1;
+        }
+    }
+
     class UserDBHelper : System.IDisposable
     {
         private readonly UserTableEntity m_UserContext = new UserTableEntity();
@@ -122,15 +172,15 @@
                 }
             }
             //группы нет, значит мы должны ее добавить
-            var userRelationTable = new UserRelationTable()
+            m_UserRelationContext.UserRelationTable.Add(new UserRelationTable()
             {
                 UserId = id,
                 Relation = (System.Int32)group,
                 List = ""
-            };
-            m_UserRelationContext.UserRelationTable.Add(userRelationTable);
+            });
             UserRelationContextTrySave();
-            return userRelationTable;
+            array = m_UserRelationContext.UserRelationTable.ToArray();
+            return array[array.Length - 1];
         }
 
         /// <summary>
@@ -152,36 +202,38 @@
                         {
                             //удаляем idToAdd из thisId.List группы none
                             var list = array[i].List;
-                            var temp = $"{idToAdd} ";
-                            if (list.IndexOf(temp) != -1)
+                            var temp = $"{idToAdd}";
+                            var indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 array[i].List = list.Remove(
-                                    list.IndexOf(temp),
-                                    temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //добавляем thisId to Following group
                             var user = FindAttributeByIdRelation(thisId, RelationType.Following);
-                            if (user.List.IndexOf(idToAdd.ToString()) == -1)
+                            temp = $"{idToAdd}";
+                            if (user.List.IndexOfId(temp) == -1)
                             {
-                                user.List += idToAdd.ToString() + " ";
+                                user.List += $"{temp} ";
                             }
 
                             //делаем тоже самое для idToAdd
                             var userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.None);
                             list = userToAdd.List;
-                            temp = $"{thisId} ";
-                            if (list.IndexOf(temp) != -1)
+                            temp = $"{thisId}";
+                            indexOfId = userToAdd.List.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 userToAdd.List = list.Remove(
-                                    list.IndexOf(temp),
-                                    temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             userToAdd = FindAttributeByIdRelation(idToAdd, RelationType.Followers);
-                            if (userToAdd.List.IndexOf(thisId.ToString()) == -1)
+                            temp = $"{thisId}";
+                            if (user.List.IndexOfId(temp) == -1)
                             {
-                                userToAdd.List += thisId.ToString() + " ";
+                                userToAdd.List += $"{temp} ";
                             }
                             UserRelationContextTrySave();
                         }
@@ -190,37 +242,39 @@
                         {
                             //удаляем thisid из following
                             var list = array[i].List;
-                            var temp = $"{idToAdd} ";
-                            if (list.IndexOf(temp) != -1)
+                            var temp = $"{idToAdd}";
+                            var indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 array[i].List = list.Remove(
-                                    list.IndexOf(temp),
-                                    temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //добавляем idToAdd to Friends group
                             var user = FindAttributeByIdRelation(thisId, RelationType.Friends);
-                            if (user.List.IndexOf(idToAdd.ToString()) == -1)
+                            temp = $"{idToAdd}";
+                            if (user.List.IndexOfId(temp) == -1)
                             {
-                                user.List += idToAdd.ToString() + " ";
+                                user.List += $"{temp} ";
                             }
 
                             //удаляем thisID from Following
                             user = FindAttributeByIdRelation(idToAdd, RelationType.Following);
                             list = user.List;
-                            temp = $"{thisId} ";
-                            if (list.IndexOf(temp) != -1)
+                            temp = $"{thisId}";
+                            indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 user.List = list.Remove(
-                                    list.IndexOf(temp),
-                                    temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //insert thisId into Friends group
                             user = FindAttributeByIdRelation(idToAdd, RelationType.Friends);
-                            if (user.List.IndexOf(thisId.ToString()) == -1)
+                            temp = $"{thisId}";
+                            if (user.List.IndexOf(temp) == -1)
                             {
-                                user.List += thisId.ToString() + " ";
+                                user.List += $"{temp} ";
                             }
                             UserRelationContextTrySave();
                         }
@@ -253,37 +307,39 @@
                         {
                             //thisid: удаляем idToAdd из thisId.List группы following
                             var list = array[i].List;
-                            var temp = $"{idToRemove} ";
-                            if (list.IndexOf(temp) != -1)
+                            var temp = $"{idToRemove}";
+                            var indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 array[i].List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //thisid: заносим idToRemove в None
                             var thisIdUser = FindAttributeByIdRelation(thisId, RelationType.None);
-                            if (thisIdUser.List.IndexOf(idToRemove.ToString()) == -1)
+                            temp = $"{idToRemove}";
+                            if (thisIdUser.List.IndexOfId(temp) == -1)
                             {
-                                thisIdUser.List += $"{idToRemove} ";
+                                thisIdUser.List += $"{temp} ";
                             }
 
                             //idToRemove: удаляем thisId из Followers group
                             var userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Followers);
                             list = userToRemove.List;
-                            temp = $"{thisId} ";
-                            if (list.IndexOf(temp) != -1)
+                            temp = $"{thisId}";
+                            indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 userToRemove.List = list.Remove(
-                                    list.IndexOf(temp),
-                                    temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //idToRemove: thisId -> None
                             userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.None);
-                            if (userToRemove.List.IndexOf(thisId.ToString()) == -1)
+                            temp = $"{thisId}";
+                            if (userToRemove.List.IndexOfId(temp) == -1)
                             {
-                                userToRemove.List += $"{thisId} ";
+                                userToRemove.List += $"{temp} ";
                             }
 
                             UserRelationContextTrySave();
@@ -293,37 +349,39 @@
                             //do nothing there
                             //thisid: удаляем idToAdd из thisId.List группы following
                             var list = array[i].List;
-                            var temp = $"{idToRemove} ";
-                            if (list.IndexOf(temp) != -1)
+                            var temp = $"{idToRemove}";
+                            var indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 array[i].List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //thisid: заносим idToRemove в None
                             var thisIdUser = FindAttributeByIdRelation(thisId, RelationType.Followers);
-                            if (thisIdUser.List.IndexOf(idToRemove.ToString()) == -1)
+                            temp = $"{idToRemove}";
+                            if (thisIdUser.List.IndexOfId(temp) == -1)
                             {
-                                thisIdUser.List += $"{idToRemove} ";
+                                thisIdUser.List += $"{temp} ";
                             }
 
                             //idToRemove: удаляем thisId из Followers group
                             var userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Friends);
                             list = userToRemove.List;
-                            temp = $"{thisId} ";
-                            if (list.IndexOf(temp) != -1)
+                            temp = $"{thisId}";
+                            indexOfId = list.IndexOfId(temp);
+                            if (indexOfId != -1)
                             {
                                 userToRemove.List = list.Remove(
-                                list.IndexOf(temp),
-                                temp.Length);
+                                    indexOfId, temp.Length + 1);
                             }
 
                             //idToRemove: thisId -> None
                             userToRemove = FindAttributeByIdRelation(idToRemove, RelationType.Following);
-                            if (thisIdUser.List.IndexOf(thisId.ToString()) == -1)
+                            temp = $"{thisId}";
+                            if (userToRemove.List.IndexOfId(temp) == -1)
                             {
-                                userToRemove.List += $"{thisId} ";
+                                userToRemove.List += $"{temp} ";
                             }
 
                             UserRelationContextTrySave();
@@ -348,7 +406,7 @@
 
         public System.Collections.Generic.List<UserRelationTable> GetListOfUsersRelations()
         {
-            return m_UserRelationContext.UserRelationTable.ToList();
+            return m_UserRelationContext.UserRelationTable.OrderBy(user=>user.Relation).ToList();
         }
 
         public void UserContextTrySave()
