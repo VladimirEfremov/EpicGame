@@ -47,6 +47,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -95,6 +97,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTable.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\Services\IServiceUserDBHelper.cs" />
+    <Compile Include="src\Services\ServiceUserDBHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

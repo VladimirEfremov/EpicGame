@@ -5,7 +5,6 @@
 
     public static class AdditionalString
     {
-        //not safe
         public static System.Int32 IndexOfId(this string _string, string _id)
         {
             System.Int32 i;
@@ -67,7 +66,7 @@
             m_UserRelationContext.Dispose();
         }
 
-        public void RegisterUserToTable(UserTable user)
+        private void RegisterUserToTable(UserTable user)
         {
             var userIndex = FindUserByEmail(user.Nickname);
             if (userIndex == -1)
@@ -124,10 +123,13 @@
 
         public bool IsRegisteredUser(string email, string passwordHash)
         {
+            string temail = email.Trim(' ');
+            string tpasswordHash = passwordHash.Trim(' ');
+
             var array = m_UserContext.UserTable.ToArray();
             for (var i = 0; i < array.Length; i++)
             {
-                if (array[i].Email.Equals(email) && array[i].PasswordHash.Equals(passwordHash))
+                if (array[i].Email.Trim(' ').Equals(temail) && array[i].PasswordHash.Trim(' ').Equals(tpasswordHash))
                 {
                     return true;
                 }

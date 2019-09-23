@@ -44,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IServiceLogin.cs" />
+    <Compile Include="IServiceUserDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceLogin.cs" />
+    <Compile Include="ServiceUserDBHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

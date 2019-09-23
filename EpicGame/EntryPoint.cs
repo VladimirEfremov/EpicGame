@@ -1,7 +1,11 @@
-﻿namespace EpicGame
+﻿using System;
+using System.ServiceModel;
+using EpicGame.src.DBHelper;
+using EpicGame.src.Services;
+using System.Web.Services.Description;
+
+namespace EpicGame
 {
-    using System;
-    using EpicGame.src.DBHelper;
     class EntryPoint
     {
         static Random rand = new Random();
@@ -144,8 +148,18 @@
         static void Main(string[] args)
         {
 #if TRUE
-            TestUserDB();
+            Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
+            BasicHttpBinding binding = new BasicHttpBinding();
+            Type contract = typeof(IServiceUserDBHelper);
+            ServiceHost host = new ServiceHost(typeof(ServiceUserDBHelper));
+            host.AddServiceEndpoint(contract, binding, address);
+            host.Open();
+
+            Console.WriteLine("Service is open!");
+            Console.ReadKey();
+
 #else
+            TestUserDB();
             string str = "2 ";//"21 213 2232 2 3 32 43 ";
             int index = str.IndexOfId("2");
             index = str.IndexOfId("3");
