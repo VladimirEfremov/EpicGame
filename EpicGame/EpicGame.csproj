@@ -61,6 +61,60 @@
     <Compile Include="src\DBHelper\GameDBHelper.cs" />
     <Compile Include="src\DBHelper\RelationType.cs" />
     <Compile Include="src\DBHelper\UserDBHelper.cs" />
+    <Compile Include="src\Models\UserFollowersTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowersTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowersTable.cs">
+      <DependentUpon>UserFollowersTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowersTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowersTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowersTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowersTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowingTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowingTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowingTable.cs">
+      <DependentUpon>UserFollowingTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowingTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowingTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFollowingTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFollowingTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFriendsTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFriendsTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFriendsTable.cs">
+      <DependentUpon>UserFriendsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFriendsTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFriendsTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\UserFriendsTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserFriendsTable.tt</DependentUpon>
+    </Compile>
     <Compile Include="src\Models\UserRelationTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,6 +165,27 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserRelationTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="src\Models\UserFriendsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserFriendsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="src\Models\UserFollowersTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserFollowersTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\UserFollowersTable.edmx.diagram">
+      <DependentUpon>UserFollowersTable.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="src\Models\UserFollowingTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserFollowingTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\UserFollowingTable.edmx.diagram">
+      <DependentUpon>UserFollowingTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\UserFriendsTable.edmx.diagram">
+      <DependentUpon>UserFriendsTable.edmx</DependentUpon>
+    </None>
     <None Include="src\Models\UserRelationTable.edmx.diagram">
       <DependentUpon>UserRelationTable.edmx</DependentUpon>
     </None>
@@ -122,6 +197,36 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\Models\UserFollowersTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFollowersTable.edmx</DependentUpon>
+      <LastGenOutput>UserFollowersTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserFollowersTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFollowersTable.edmx</DependentUpon>
+      <LastGenOutput>UserFollowersTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserFollowingTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFollowingTable.edmx</DependentUpon>
+      <LastGenOutput>UserFollowingTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserFollowingTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFollowingTable.edmx</DependentUpon>
+      <LastGenOutput>UserFollowingTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserFriendsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFriendsTable.edmx</DependentUpon>
+      <LastGenOutput>UserFriendsTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\UserFriendsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserFriendsTable.edmx</DependentUpon>
+      <LastGenOutput>UserFriendsTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\UserRelationTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserRelationTable.edmx</DependentUpon>

@@ -127,12 +127,25 @@ namespace EpicGame
                             {
                                 Console.Clear();
                                 Console.WriteLine("\nRelations:");
-                                var relationList = db.GetListOfUsersRelations();
-                                foreach (var el in relationList)
+                                var friends = db.GetListOfUserFriendsTable();
+                                Console.WriteLine("Frineds: ");
+                                foreach (var friend in friends)
                                 {
-                                    Console.WriteLine($"{el.UserId} " +
-                                        $"{RelationConverter.ConvertToString((RelationType)el.Relation)} " +
-                                        $"{el.List}");
+                                    Console.WriteLine($"{friend.UserId} - {friend.FriendId}");
+                                }
+
+                                var followers = db.GetListOfUserFollowersTable();
+                                Console.WriteLine("Followers: ");
+                                foreach (var follower in followers)
+                                {
+                                    Console.WriteLine($"{follower.UserId} - {follower.FollowerId}");
+                                }
+
+                                var followings = db.GetListOfUserFollowingsTable();
+                                Console.WriteLine("Followings: ");
+                                foreach (var following in followings)
+                                {
+                                    Console.WriteLine($"{following.UserId} - {following.FollowingId}");
                                 }
                                 Console.WriteLine();
                                 break;
@@ -166,12 +179,7 @@ namespace EpicGame
             Console.ReadKey();
 
 #else
-            //TestUserDB();
-            
-            for (int i = 0; i < 1000; i++)
-            {
-
-            }
+            TestUserDB();
 
 #endif
             Console.WriteLine("Press any key to continue ...");
