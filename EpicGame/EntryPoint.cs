@@ -145,9 +145,16 @@ namespace EpicGame
             }
         }
 
+        class MStruct
+        {
+            int id;
+            int relation;
+            string list;
+        }
+
         static void Main(string[] args)
         {
-#if TRUE
+#if FALSE
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
             Type contract = typeof(IServiceUserDBHelper);
@@ -159,14 +166,13 @@ namespace EpicGame
             Console.ReadKey();
 
 #else
-            TestUserDB();
-            string str = "2 ";//"21 213 2232 2 3 32 43 ";
-            int index = str.IndexOfId("2");
-            index = str.IndexOfId("3");
-            index = str.IndexOfId("32");
-            index = str.IndexOfId("13");
-            index = str.IndexOfId("4");
-            index = str.IndexOfId("1");
+            //TestUserDB();
+            
+            for (int i = 0; i < 1000; i++)
+            {
+
+            }
+
 #endif
             Console.WriteLine("Press any key to continue ...");
             Console.ReadKey();

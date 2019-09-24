@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using EpicGame.src.Models;
+    using System.Linq;
 
     public static class AdditionalString
     {
@@ -52,10 +53,53 @@
         }
     }
 
+    public static class AdditionalArray
+    {
+        public static bool ContainsId(this UserFriendsTable[] _array, 
+            System.Int32 thisId, System.Int32 id)
+        {
+            for (int i = 0; i < _array.Length; i++)
+            {
+                if (_array[i].UserId == thisId && 
+                    _array[i].FriendId == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool ContainsId(this UserFollowersTable[] _array, System.Int32 id)
+        {
+            for (int i = 0; i < _array.Length; i++)
+            {
+                if (_array[i].FollowerId == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool ContainsId(this UserFollowingTable[] _array, System.Int32 id)
+        {
+            for (int i = 0; i < _array.Length; i++)
+            {
+                if (_array[i].FollowingId == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     class UserDBHelper : System.IDisposable
     {
         private readonly UserTableEntity m_UserContext = new UserTableEntity();
         private readonly UserRelationTableEntity m_UserRelationContext = new UserRelationTableEntity();
+        private readonly UserFriendsTableEntity  m_UserFriendsContext = new UserFriendsTableEntity();
+        private readonly UserFollowersTableEntity m_UserFollowersContext = new UserFollowersTableEntity();
+        private readonly UserFollowingTableEntity m_UserFollowingContext = new UserFollowingTableEntity();
+
         public UserDBHelper()
         {
         }
@@ -64,6 +108,10 @@
         {
             m_UserContext.Dispose();
             m_UserRelationContext.Dispose();
+
+            m_UserFriendsContext.Dispose();
+            m_UserFollowersContext.Dispose();
+            m_UserFollowingContext.Dispose();
         }
 
         private bool RegisterUserToTable(UserTable user)
@@ -195,6 +243,51 @@
         public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
         {
             var array = m_UserRelationContext.UserRelationTable.ToArray();
+
+            var arrayFriends = from   friends in m_UserFriendsContext.UserFriendsTable
+                               where  friends.UserId   == thisId
+                               where  friends.FriendId == idToAdd
+                               select friends;
+            if (arrayFriends.Count() == 0)
+            {
+                //this user already in friend
+                return;
+            }
+            else
+            {
+                var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
+                                     where followers.UserId == thisId
+                                     where followers.FollowerId == idToAdd
+                                     select followers;
+                if (arrayFollowers.Count() != 0)
+                {
+                    //логика для follower
+                    //thisId.Follower.Delete(idToAdd)
+                    //thisId.Friends.Add(idToAdd)
+                    //idToAdd.Following.Delete(thisId)
+                    //idToAdd.Friend.Add(thisId)
+                }
+                else
+                {
+                    var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
+                                          where following.UserId == thisId
+                                          where following.FollowingId == idToAdd
+                                          select following;
+                    if (arrayFollowings.Count() != 0)
+                    {
+                        //логика followings
+                        return;
+                    }
+                    else
+                    {
+                        //логика none
+                        //thisId.Following.Add(idToAdd);
+                        //idToAdd.Followers.Add(thisId);
+                    }
+                }
+            }
+
+            //legacy
             if (array.Length > 0)
             {
                 for (var i = 0; i < array.Length; i++)
@@ -457,7 +550,5 @@
             }
         }
     }
-
-
 
 }
