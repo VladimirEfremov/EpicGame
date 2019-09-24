@@ -17,9 +17,9 @@ namespace EpicGame.src.Services
             return dbHelperInstance.IsRegisteredUser(email, passwordHash);
         }
 
-        public void RegisterUserToTable(string firstName, string secondName, string passswordHash, string nickname, string email)
+        public bool RegisterUserToTable(string firstName, string secondName, string passswordHash, string nickname, string email)
         {
-            dbHelperInstance.RegisterUserToTable(firstName, secondName, passswordHash, nickname, email);
+            return dbHelperInstance.RegisterUserToTable(firstName, secondName, passswordHash, nickname, email);
         }
 
         public void RemoveUserFromFriends(int thisId, int idToRemove)

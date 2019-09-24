@@ -66,7 +66,7 @@
             m_UserRelationContext.Dispose();
         }
 
-        private void RegisterUserToTable(UserTable user)
+        private bool RegisterUserToTable(UserTable user)
         {
             var userIndex = FindUserByEmail(user.Nickname);
             if (userIndex == -1)
@@ -100,17 +100,19 @@
                 };
                 m_UserRelationContext.UserRelationTable.Add(newAttribute);
                 UserRelationContextTrySave();
+                return true;
             }
             else
             {
-                //Log.Warn: $"This user's nickname already exists in db! [id = {index + 1}]" 
+                //Log.Warn: $"This user's nickname already exists in db! [id = {index + 1}]"
+                return false;
             }
         }
 
-        public void RegisterUserToTable(string firstName, string secondName,
+        public bool RegisterUserToTable(string firstName, string secondName,
             string passswordHash, string nickname, string email)
         {
-            RegisterUserToTable(new UserTable()
+            return RegisterUserToTable(new UserTable()
             {
                 FirstName = firstName,
                 SecondName = secondName,

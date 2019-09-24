@@ -8,11 +8,17 @@ namespace EpicGameWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public string Index()
         {
             ViewBag.Title = "Home Page";
 
-            return View();
+            string result = "Вы не авторизированы";
+            if (User.Identity.IsAuthenticated)
+            {
+                result = $"Ваш логин[email]: {User.Identity.Name}";
+            }
+
+            return result;
         }
     }
 }

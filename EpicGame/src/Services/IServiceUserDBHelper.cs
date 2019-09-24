@@ -7,7 +7,7 @@ namespace EpicGame.src.Services
     public interface IServiceUserDBHelper
     {
         [OperationContract]
-        void RegisterUserToTable(string firstName, string secondName,
+        bool RegisterUserToTable(string firstName, string secondName,
             string passswordHash, string nickname, string email);
         [OperationContract]
         bool IsRegisteredUser(string email, string passwordHash);

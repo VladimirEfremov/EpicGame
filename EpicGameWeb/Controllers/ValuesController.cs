@@ -5,22 +5,18 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-using System.ServiceModel;
+using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
 {
     public class ValuesController : ApiController
     {
-        static BasicHttpBinding binding = new BasicHttpBinding();
-        static EndpointAddress endpoint = new EndpointAddress(new Uri("http://127.0.0.1:2001/IServiceUserDBHelper"));
-        static ChannelFactory<IServiceUserDBHelper> factory = new ChannelFactory<IServiceUserDBHelper>(binding, endpoint);
-        static IServiceUserDBHelper channel = factory.CreateChannel();
-
         // GET api/values
+        [Authorize]
         public IEnumerable<string> Get()
         {
             bool response =
-                channel.IsRegisteredUser(
+                RemoteProcedureCallClass.GetRemoteChannel().IsRegisteredUser(
                     "AntonAgranov800@gmail.com", 
                     "123");
 
