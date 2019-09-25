@@ -225,7 +225,7 @@
                                where friends.UserId == thisId
                                where friends.FriendId == idToRemove
                                select friends;
-            if (arrayFriends.Count() == 0)
+            if (arrayFriends.Count() != 0)
             {
                 //friends logic
                 //thisId.Friend.Delete(idToRemove);
@@ -242,7 +242,6 @@
                 });
 
                 //idToRemove.Friend.Delete(thisId);
-                m_UserFriendsContext.UserFriendsTable.Find(idToRemove);
                 var idToRemoveUsers = from friends in m_UserFriendsContext.UserFriendsTable
                                       where friends.UserId == idToRemove
                                       where friends.FriendId == thisId
@@ -259,7 +258,7 @@
                 m_UserFollowingContext.UserFollowingTable.Add(new UserFollowingTable()
                 {
                     UserId = idToRemove,
-                    UserFollowingId = thisId
+                    FollowingId = thisId
                 });
 
                 UserFollowingsContextTrySave();

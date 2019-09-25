@@ -89,27 +89,67 @@ namespace EpicGame
 
                                 Console.Write("Write userid [who want to add]: ");
                                 string thisIdString = Console.ReadLine();
-                                Int32.TryParse(thisIdString, out thisIdInt);
-                                Console.Write("Write userid [whom want to add]: ");
-                                string idToAddString = Console.ReadLine();
-                                Int32.TryParse(idToAddString, out idToAddInt);
-
-                                db.AddUserToFriends(thisIdInt, idToAddInt);
+                                if (thisIdString.Length > 0)
+                                {
+                                    if (Int32.TryParse(thisIdString, out thisIdInt))
+                                    {
+                                        Console.Write("Write userid [whom want to remove]: ");
+                                        string idToAddString = Console.ReadLine();
+                                        if (idToAddString.Length > 0)
+                                        {
+                                            if (Int32.TryParse(idToAddString, out idToAddInt))
+                                            {
+                                                if (thisIdInt != 0 && idToAddInt != 0)
+                                                {
+                                                    db.AddUserToFriends(thisIdInt, idToAddInt);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine($"Can't pasrse idToAddString: {idToAddString}");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Can't pasrse thisIdString: {thisIdString}");
+                                    }
+                                }
                                 break;
                             }
                         case ConsoleKey.D4:
                             {
                                 Int32 thisIdInt;
-                                Int32 idToAddInt;
+                                Int32 idToRemoveInt;
 
                                 Console.Write("Write userid [who want to remove]: ");
                                 string thisIdString = Console.ReadLine();
-                                Int32.TryParse(thisIdString, out thisIdInt);
-                                Console.Write("Write userid [whom want to remove]: ");
-                                string idToAddString = Console.ReadLine();
-                                Int32.TryParse(idToAddString, out idToAddInt);
-
-                                db.RemoveUserFromFriends(thisIdInt, idToAddInt);
+                                if (thisIdString.Length > 0)
+                                {
+                                    if (Int32.TryParse(thisIdString, out thisIdInt))
+                                    {
+                                        Console.Write("Write userid [whom want to remove]: ");
+                                        string idToRemoveString = Console.ReadLine();
+                                        if (idToRemoveString.Length > 0)
+                                        {
+                                            if (Int32.TryParse(idToRemoveString, out idToRemoveInt))
+                                            {
+                                                if (thisIdInt != 0 && idToRemoveInt != 0)
+                                                {
+                                                    db.RemoveUserFromFriends(thisIdInt, idToRemoveInt);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine($"Can't pasrse idToAddString: {idToRemoveString}");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Can't pasrse thisIdString: {thisIdString}");
+                                    }
+                                }
                                 break;
                             }
                         case ConsoleKey.D5:
