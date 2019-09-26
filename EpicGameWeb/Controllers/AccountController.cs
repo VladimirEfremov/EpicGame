@@ -2,6 +2,7 @@
 using System.Web.Security;
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
+using EpicGameWeb.Models.JSONHelper;
 
 namespace EpicGameWeb.Controllers
 {
@@ -14,8 +15,10 @@ namespace EpicGameWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration(RegistrationModel model)
+        public ActionResult Registration(string stringModel)
         {
+            RegistrationModel model =
+                    stringModel.FromJson<RegistrationModel>();
             if (ModelState.IsValid)
             {
                 if (!RemoteProcedureCallClass.GetRemoteChannel().RegisterUserToTable(
@@ -35,7 +38,9 @@ namespace EpicGameWeb.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View(model);
+
+            if (model != null) { return View(model); }
+            else { return View(); }
         }
 
         public ActionResult Login()
@@ -45,8 +50,10 @@ namespace EpicGameWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model)
+        public ActionResult Login(string stringModel)
         {
+            LoginModel model =
+                    stringModel.FromJson<LoginModel>();
             if (ModelState.IsValid)
             {
                 if (RemoteProcedureCallClass
@@ -61,7 +68,8 @@ namespace EpicGameWeb.Controllers
                     ModelState.AddModelError("", "Такого пользователя не существует!");
                 }
             }
-            return View(model);
+            if (model != null) { return View(model); }
+            else { return View(); }
         }
 
         public ActionResult Logout()

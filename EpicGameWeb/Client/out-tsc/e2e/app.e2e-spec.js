@@ -11,7 +11,7 @@ describe('workspace-project App', function () {
     });
     it('should display welcome message', function () {
         page.navigateTo();
-        expect(page.getTitleText()).toEqual('myapp app is running!');
+        expect(page.getTitleText()).toEqual('Client app is running!');
     });
     afterEach(function () { return tslib_1.__awaiter(_this, void 0, void 0, function () {
         var logs;

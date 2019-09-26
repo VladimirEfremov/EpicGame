@@ -1,0 +1,16 @@
+LOGIN FORM
+
+<p> <input  name="login" type="text" 
+        placeholder="Введите email *" 
+        [(ngModel)]="PostData.login"
+        required
+        />
+</p>
+
+<p> <input name="pass" type="password" 
+        placeholder="Введите пароль *" 
+        [(ngModel)]="PostData.password"
+        required/>
+</p>
+
+<button  name="btn_login" (click)="onClick()">Войти</button>

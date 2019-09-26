@@ -49,6 +49,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -68,9 +71,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -169,17 +169,20 @@
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\DBHelper\IServiceUserDBHelper.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
+    <Compile Include="Models\JSONHelper\JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Client\e2e\protractor.conf.js" />
     <Content Include="Client\karma.conf.js" />
-    <Content Include="Client\src\app\app.component.css" />
     <Content Include="Client\src\app\app.component.html" />
+    <Content Include="Client\src\app\login\login.component.css" />
+    <Content Include="Client\src\app\login\login.component.html" />
+    <Content Include="Client\src\app\registration\registration.component.css" />
+    <Content Include="Client\src\app\registration\registration.component.html" />
     <Content Include="Client\src\favicon.ico" />
     <Content Include="Client\src\index.html" />
-    <Content Include="Client\src\styles.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -227,9 +230,9 @@
     <Content Include="Scripts\Client\styles-es5.js.map" />
     <Content Include="Scripts\Client\vendor-es2015.js.map" />
     <Content Include="Scripts\Client\vendor-es5.js.map" />
+    <Content Include="Client\src\app\app.component.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Client\favicon.ico" />
-    <Content Include="Scripts\Client\index.html" />
     <Content Include="Scripts\Client\main-es2015.js" />
     <Content Include="Scripts\Client\main-es5.js" />
     <Content Include="Scripts\Client\polyfills-es2015.js" />
@@ -294,9 +297,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="Client\e2e\src\app.e2e-spec.ts" />
     <TypeScriptCompile Include="Client\e2e\src\app.po.ts" />
-    <TypeScriptCompile Include="Client\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="Client\src\app\app.component.ts" />
     <TypeScriptCompile Include="Client\src\app\app.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\login\login.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\registration\registration.component.ts" />
     <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="Client\src\environments\environment.ts" />
     <TypeScriptCompile Include="Client\src\main.ts" />

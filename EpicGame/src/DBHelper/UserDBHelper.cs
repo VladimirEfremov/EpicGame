@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using EpicGame.src.Models;
-    using System.Linq;
 
     class UserDBHelper : System.IDisposable
     {
@@ -28,35 +27,8 @@
             var userIndex = FindUserByEmail(user.Nickname);
             if (userIndex == -1)
             {
-                //var sb = new System.Text.StringBuilder();
-                //{
-                //    var usersToAdd = m_UserContext.UserTable.ToList();
-                //    for (var i = 0; i < usersToAdd.Count; i++)
-                //    {
-                //        sb.Append($"{usersToAdd[i].Id} ");
-                //    }
-                //}
-
                 m_UserContext.UserTable.Add(user);
                 UserContextTrySave();
-                //user.Id = FindUserByEmail(user.Email);
-                
-                //var array = m_UserRelationContext.UserRelationTable.ToArray();
-                //for (var i = 0; i < array.Length; i++)
-                //{
-                //    if (array[i].Relation == (System.Int32)RelationType.None)
-                //    {
-                //        array[i].List += $"{user.Id} ";
-                //    }
-                //}
-                //var newAttribute = new UserRelationTable()
-                //{
-                //    UserId = user.Id,
-                //    Relation = (System.Int32)RelationType.None,
-                //    List = sb.ToString()
-                //};
-                //m_UserRelationContext.UserRelationTable.Add(newAttribute);
-                //UserRelationContextTrySave();
                 return true;
             }
             else

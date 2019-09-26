@@ -8,7 +8,7 @@ describe('workspace-project App', () => {
     });
     it('should display welcome message', () => {
         page.navigateTo();
-        expect(page.getTitleText()).toEqual('myapp app is running!');
+        expect(page.getTitleText()).toEqual('Client app is running!');
     });
     afterEach(() => tslib_1.__awaiter(this, void 0, void 0, function* () {
         // Assert that there are no errors emitted from the browser

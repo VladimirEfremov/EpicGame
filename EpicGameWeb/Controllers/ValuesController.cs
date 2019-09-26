@@ -9,6 +9,7 @@ using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
 {
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -32,6 +33,7 @@ namespace EpicGameWeb.Controllers
         }
 
         // POST api/values
+        [Route("post")]
         public void Post([FromBody]string value)
         {
         }

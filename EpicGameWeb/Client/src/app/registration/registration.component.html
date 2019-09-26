@@ -1,0 +1,43 @@
+<br/>
+<br/>
+REGISTRATION FORM
+
+<p> <input name="firstName" type="text" 
+        placeholder="Введите имя *" 
+        [(ngModel)]="PostData.firstName"
+        required
+        />
+</p>
+
+<p> <input  name="login" type="text" 
+        placeholder="Введите фамилию *" 
+        [(ngModel)]="PostData.secondName"
+        required
+        />
+</p>
+
+<p> <input name="pass" type="password" 
+        placeholder="Введите пароль *" 
+        [(ngModel)]="PostData.passwordHash"
+        required/>
+</p>
+
+<p> <input  name="login" type="text" 
+        placeholder="Введите никнейм *" 
+        [(ngModel)]="PostData.nickname"
+        required
+        />
+</p>
+
+<p> <input  name="login" type="text" 
+        placeholder="Введите email *" 
+        [(ngModel)]="PostData.email"
+        required
+        />
+</p>
+
+
+
+<button  name="btn_Registration" (click)="onClick()">
+        Зарегестрироваться
+</button>
