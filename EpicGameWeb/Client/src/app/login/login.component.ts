@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 
 //https://github.com/angular/angular/tree/master/packages/common/http/src
 
@@ -28,10 +28,9 @@ export class LoginComponent implements OnInit
   onClick() : void
   {
     console.log('login: onClick()');
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.httpClient.post<HttpPostData>(
       "http://localhost:6430/api/values/post", //"http://localhost:6430/Account/Login", 
-      this.PostData).subscribe(data => {
-        console.log(data.login, data.password)
-      });
+      this.PostData, {headers: headers});
   }
 }

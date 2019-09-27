@@ -1,5 +1,6 @@
 import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 let LoginComponent = class LoginComponent {
     constructor(httpClient) {
         this.httpClient = httpClient;
@@ -11,12 +12,9 @@ let LoginComponent = class LoginComponent {
     ngOnInit() { }
     onClick() {
         console.log('login: onClick()');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
         this.httpClient.post("http://localhost:6430/api/values/post", //"http://localhost:6430/Account/Login", 
-        this.PostData).toPromise().then(function (apiResponse) {
-            console.log("success!");
-        }, function (apiError) {
-            console.log("api operation failed!");
-        });
+        this.PostData, { headers: headers });
     }
 };
 LoginComponent = tslib_1.__decorate([

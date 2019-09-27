@@ -426,12 +426,9 @@ let LoginComponent = class LoginComponent {
     ngOnInit() { }
     onClick() {
         console.log('login: onClick()');
+        let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]().set('Content-Type', 'application/json');
         this.httpClient.post("http://localhost:6430/api/values/post", //"http://localhost:6430/Account/Login", 
-        this.PostData).toPromise().then(function (apiResponse) {
-            console.log("success!");
-        }, function (apiError) {
-            console.log("api operation failed!");
-        });
+        this.PostData, { headers: headers });
     }
 };
 LoginComponent.ctorParameters = () => [
