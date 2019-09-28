@@ -1,20 +1,51 @@
-LOGIN FORM
 
-<p> <input  name="login" type="text" 
-        placeholder="Введите email *" 
-        [(ngModel)]="PostData.login"
-        required
-        />
-</p>
+<div class="main_login">
+<div class="background">
+        
+        <form>
+        <h1 class="txt_login">
+        LOGIN FORM
+        </h1>
+        
+        <div class="email">
+        <input  name="login" type="text" 
+                maxlength=30
+                placeholder="Введите email *" 
+                [(ngModel)]="PostData.login"
+                required
+                />
+        </div> 
+        <br />
+        
+        <div class="password">
 
-<p> <input name="pass" type="password" 
-        placeholder="Введите пароль *" 
-        [(ngModel)]="PostData.password"
-        required/>
-</p>
+        <input name="pass" type="password" 
+                maxlength=30
+                placeholder="Введите пароль *" 
+                [(ngModel)]="PostData.password"
+                required/>
+        </div>
+             
+        <br />
+                
+        <div class="link_registration">
+                <a title="Нажми, чтобы создать аккаунт"
+                href="../registration/registration.component.html"> 
+                Еще не зарегистрированы? 
+                </a>
+        </div>
+        
+        <br /> <br />
 
-<p>
-<a href="../registration/registration.component.html"> Еще не зарегистрирован? </a>
-</p>
-
-<button  name="btn_login" (click)="onClick()">Войти</button>
+        <div>
+        <button 
+                name="btn_login" 
+                (click)="onClick()">
+                Войти
+        </button>
+        </div>
+                
+        </form>
+        
+</div>
+</div>

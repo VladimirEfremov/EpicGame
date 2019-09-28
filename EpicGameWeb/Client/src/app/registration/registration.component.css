@@ -1,0 +1,41 @@
+
+.main_registration {
+    display: flex;
+    margin-top:200px;
+    align-items: center;
+    justify-content: center;
+}
+
+.background {
+    background-color: rgb(93, 72, 255);
+    border-radius: 20%;
+    padding: 60px;
+}
+
+.txt_registration {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    font-size: 30px;
+}
+
+.sunname {
+    font-size: 30px;
+}
+
+.password {
+    font-size: 30px;
+}
+
+.nickname {
+    font-size: 30px;
+}
+
+.email {
+    font-size: 30px;
+}
+

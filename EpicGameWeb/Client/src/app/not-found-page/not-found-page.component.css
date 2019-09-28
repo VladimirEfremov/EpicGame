@@ -7,13 +7,13 @@ p {
 }
 
 .time {
-    color: rgb(65, 65, 173);
+    color: rgb(255, 255, 255);
     font-size: 10px;
     text-align: center;
 }
 
 .error {
-    color:white;
+    color: rgb(0, 255, 255);
     font-size: 10px;
     animation-name: errorAnimation;
     animation-duration: 1s;
@@ -24,14 +24,41 @@ p {
 @keyframes errorAnimation {
     from 
     { 
-        color: white;
+        color: rgb(0, 255, 255);
         font-size: 10px; 
+        opacity: 0.1;
     }
     to 
     { 
         transform: rotate(6deg);
-        color: red;
+        color: rgb(255, 251, 0);
         font-size: 15px; 
+        opacity: 1.0;
     }
 }
 
+.error_2 {
+    color:white;
+    font-size: 10px;
+    text-align: right;
+    animation-name: error2Animation;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+}
+
+@keyframes error2Animation {
+    from 
+    { 
+        color: rgb(0, 255, 255);
+        font-size: 10px; 
+        opacity: 0.1;
+    }
+    to 
+    { 
+        transform: rotate(6deg);
+        color: rgb(255, 251, 0);
+        font-size: 15px; 
+        opacity: 1.0;
+    }
+}

@@ -9,5 +9,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 export class AppComponent {
 
   title: string = 'Angular works correctly with nodejs';
-  
+  isRegistered : boolean = false;
+
+
 }

@@ -1,43 +1,74 @@
-<br/>
-<br/>
-REGISTRATION FORM
-
-<p> <input name="firstName" type="text" 
-        placeholder="Введите имя *" 
-        [(ngModel)]="PostData.firstName"
-        required
-        />
-</p>
-
-<p> <input  name="login" type="text" 
-        placeholder="Введите фамилию *" 
-        [(ngModel)]="PostData.secondName"
-        required
-        />
-</p>
-
-<p> <input name="pass" type="password" 
-        placeholder="Введите пароль *" 
-        [(ngModel)]="PostData.passwordHash"
-        required/>
-</p>
-
-<p> <input  name="login" type="text" 
-        placeholder="Введите никнейм *" 
-        [(ngModel)]="PostData.nickname"
-        required
-        />
-</p>
-
-<p> <input  name="login" type="text" 
-        placeholder="Введите email *" 
-        [(ngModel)]="PostData.email"
-        required
-        />
-</p>
 
 
+<div class="main_registration">
+<div class="background">
 
-<button  name="btn_Registration" (click)="onClick()">
-        Зарегестрироваться
-</button>
+<form>
+        <h1 class="txt_registration">
+        REGISTRATION FORM
+        </h1>
+
+        <div class="name">
+        <input name="firstName" type="text" 
+                maxlength=30
+                placeholder="Введите имя *" 
+                [(ngModel)]="PostData.firstName"
+                required
+                />
+        </div>
+
+        <br />
+
+        <div class="sunname">
+        <input  name="login" type="text" 
+                maxlength=30
+                placeholder="Введите фамилию *" 
+                [(ngModel)]="PostData.secondName"
+                required
+                />
+        </div>
+   
+        <br />
+
+        <div class="password">
+        <input name="pass" type="password" 
+                maxlength=30
+                placeholder="Введите пароль *" 
+                [(ngModel)]="PostData.passwordHash"
+                required/>
+        </div>
+   
+        <br />
+
+        <div class="nickname">
+        <input  name="login" type="text" 
+                maxlength=30
+                placeholder="Введите никнейм *" 
+                [(ngModel)]="PostData.nickname"
+                required
+                />
+        </div>
+   
+        <br />
+
+        <div class="email">
+        <input  name="login" type="text" 
+                placeholder="Введите email *" 
+                [(ngModel)]="PostData.email"
+                required
+                />
+        </div>
+   
+        <br />
+
+        <div>
+        <button  name="btn_Registration" 
+                (click)="onClick()">
+                Зарегестрироваться 
+        </button>
+        </div>
+
+</form>
+
+</div>
+</div>

@@ -1,0 +1,53 @@
+
+.main_login {
+    display: flex;
+    margin-top:200px;
+    align-items: center;
+    justify-content: center;
+}
+
+.background {
+    background-color: rgb(93, 72, 255);
+    border-radius: 20%;
+    padding: 60px;
+}
+
+.txt_login {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+input {
+    padding: 5px;
+    font-size: 30px;
+}
+
+button {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.link_registration { 
+    color:white;
+    margin-top:3px; 
+    margin-bottom:25px; 
+    font-weight:bold; 
+    float:left; 
+}
+a:link { 
+    color:white;
+}
+a:visited { 
+    color:white;
+}
+a:hover { 
+    color:rgb(0, 47, 255);
+}
+a:active { 
+    color:rgb(111, 0, 255);
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-main',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+
+  readonly base_url : string = ''; 
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+  }
+
+  onClick() : void
+  {
+      alert('button clicked!');
+
   }
 
 }
