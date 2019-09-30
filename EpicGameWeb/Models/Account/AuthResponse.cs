@@ -5,13 +5,11 @@ namespace EpicGameWeb.Models.Account
 {
     public struct AuthResponse
     {
-        public bool IsAuthorized { get; set; }
-        public string Email { get; set; }
+        public bool IsCorrect { get; set; }
 
-        public AuthResponse(bool isAuthorized, string email)
+        public AuthResponse(bool isCorrect)
         {
-            IsAuthorized = isAuthorized;
-            Email = email;
+            IsCorrect = isCorrect;
         }
     }
 }

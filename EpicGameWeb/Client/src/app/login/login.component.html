@@ -7,11 +7,11 @@
         LOGIN FORM
         </h1>
         
-        <div class="email">
-        <input  name="email" type="text" 
+        <div class="nickname">
+        <input  name="nickname" type="text" 
                 maxlength=30
-                placeholder="Введите email *" 
-                [(ngModel)]="PostData.Email"
+                placeholder="Введите nickname *" 
+                [(ngModel)]="LoginPostData.Nickname"
                 required
                 />
         </div> 
@@ -19,10 +19,10 @@
         
         <div class="password">
 
-        <input name="passwordHash" type="password" 
+        <input name="PasswordHash" type="password" 
                 maxlength=30
                 placeholder="Введите пароль *" 
-                [(ngModel)]="PostData.PasswordHash"
+                [(ngModel)]="LoginPostData.PasswordHash"
                 required/>
         </div>
              

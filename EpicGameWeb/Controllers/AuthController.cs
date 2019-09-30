@@ -11,8 +11,8 @@ namespace EpicGameWeb.Controllers
        origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class AuthController : ApiController
     {
-        [Route("post")]
-        public string PostAuthResponse([FromBody]object value)
+        [Route("login")]
+        public string PostLoginResponse([FromBody]object value)
         {
             LoginModel model =
                 value.ToString().FromJson<LoginModel>(); ;
@@ -20,24 +20,67 @@ namespace EpicGameWeb.Controllers
             {
                 if (RemoteProcedureCallClass
                     .GetRemoteChannel()
-                    .IsRegisteredUser(model.Email, model.PasswordHash))
+                    .IsRegisteredUser(model.Nickname, model.PasswordHash))
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, true);
+                    FormsAuthentication.SetAuthCookie(model.Nickname, true);
                     
-                    return new AuthResponse(true, User.Identity.Name).ToJson();
+                    return new AuthResponse(true).ToJson();
                 }
                 else
                 {
-                    return "";
+                    return "error: user is not registered!";
                 }
             }
             else
             {
-                return "";
+                return "error: model not valid!";
             }
-
         }
 
+        [Route("registration")]
+        public string PostRegistrationResponse([FromBody]object value)
+        {
+            RegistrationModel model =
+                value.ToString().FromJson<RegistrationModel>(); ;
+            if (ModelState.IsValid)
+            {
+                if (!RemoteProcedureCallClass
+                    .GetRemoteChannel()
+                    .IsRegisteredUser(model.Nickname, model.PasswordHash))
+                {
+                    if (RemoteProcedureCallClass
+                        .GetRemoteChannel()
+                        .RegisterUserToTable(model.FirstName, 
+                            model.SecondName, model.PasswordHash, 
+                            model.Nickname, model.Email))
+                    {
+                        FormsAuthentication.SetAuthCookie(model.Nickname, true);
+                        return new AuthResponse(true).ToJson();
+                    }
+                    return "error: ";
+                }
+                else
+                {
+                    return "error: user already registered!";
+                }
+            }
+            else
+            {
+                return "error: model not valid!";
+            }
+        }
+
+        [Route("isauth")]
+        public bool IsAuthenticated()
+        {
+            return User.Identity.IsAuthenticated;
+        }
+
+        [Route("logout")]
+        public void Logout()
+        {
+            FormsAuthentication.SignOut();
+        }
 
     }
 }

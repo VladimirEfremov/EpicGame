@@ -52,15 +52,16 @@
             });
         }
 
-        public bool IsRegisteredUser(string email, string passwordHash)
+        public bool IsRegisteredUser(string nickname, string passwordHash)
         {
-            string temail = email.Trim(' ');
+            string tnickname = nickname.Trim(' ');
             string tpasswordHash = passwordHash.Trim(' ');
 
             var array = m_UserContext.UserTable.ToArray();
             for (var i = 0; i < array.Length; i++)
             {
-                if (array[i].Email.Trim(' ').Equals(temail) && array[i].PasswordHash.Trim(' ').Equals(tpasswordHash))
+                if (array[i].Nickname.Trim(' ').Equals(tnickname) && 
+                    array[i].PasswordHash.Trim(' ').Equals(tpasswordHash))
                 {
                     return true;
                 }

@@ -9,7 +9,7 @@ namespace EpicGameWeb.Models.Account
     {
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        public string PassswordHash { get; set; }
+        public string PasswordHash { get; set; }
         public string Nickname { get; set; }
         public string Email { get; set; }
     }

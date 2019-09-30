@@ -10,12 +10,13 @@ import { RegistrationComponent } from './registration/registration.component';
 import { MainComponent } from './main/main.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { GameComponent } from './game/game.component';
+import { GameGuard } from './shared/GameGuard';
 
 const appRoutes: Routes = [
    { path: '', component: MainComponent },
    { path: 'login', component: LoginComponent },
    { path: 'registration', component: RegistrationComponent },
-   { path: 'game', component: GameComponent },
+   { path: 'game', component: GameComponent, canActivate: [GameGuard]},
    { path: '**', component: NotFoundPageComponent }
 ];
 
@@ -34,7 +35,9 @@ const appRoutes: Routes = [
       HttpClientModule,
       FormsModule
    ],
-   providers: [],
+   providers: [
+      GameGuard
+   ],
    bootstrap: [
       AppComponent
    ]

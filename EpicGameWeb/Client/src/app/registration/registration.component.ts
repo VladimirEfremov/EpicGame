@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
+import { HttpRegistrationPostData } from '../shared/HttpRegistrationData';
+import { HttpAuthService } from '../shared/HttpAuth.service';
 
 export interface HttpPostData {
-  firstName: string;
-  secondName: string;
-  passwordHash: string;
-  nickname: string;
-  email: string;
+  FirstName: string;
+  SecondName: string;
+  PasswordHash: string;
+  Nickname: string;
+  Email: string;
 }
 
 @Component({
@@ -16,43 +18,24 @@ export interface HttpPostData {
 })
 export class RegistrationComponent implements OnInit 
 {
-  public PostData: HttpPostData = {
-    firstName: '',
-    secondName: '',
-    passwordHash: '',
-    nickname: '',
-    email: ''
+  public PostData: HttpRegistrationPostData = {
+    FirstName: '',
+    SecondName: '',
+    PasswordHash: '',
+    Nickname: '',
+    Email: ''
   };
 
-  url: string = 
-    //"http://httpbin.org/post"; 
-    "http://localhost:6430/api/home/index";
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpAuth: HttpAuthService) 
+  { }
 
   ngOnInit() {
   }
 
   onClick() 
   {
-      console.log('registration: onClick()');
-      let oprions = {
-        headers: new HttpHeaders({ 
-          'Content-Type': 
-            'application/json' })
-      }
-  
-      this.httpClient.post<HttpPostData>(
-        this.url, JSON.stringify(this.PostData), oprions)
-        .subscribe(
-          data => {
-            console.log(
-              "success: " + 
-              `${data.json.firstName} ${data.json.secondName} ${data.json.passwordHash} ${data.json.nickname} ${data.json.email}`)
-          },
-          error => console.log(error)
-        );
-
+      this.httpAuth.registration(this.PostData);
   }
 
 
