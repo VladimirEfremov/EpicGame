@@ -5,12 +5,6 @@ import { Router } from '@angular/router';
 import { HttpLoginPostData } from '../shared/HttpLoginPostData';
 import { HttpAuthService } from '../shared/HttpAuth.service';
 
-
-export interface HttpPostData {
-  Nickname: string;
-  PasswordHash: string;
-}
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

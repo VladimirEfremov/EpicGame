@@ -3,18 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { HttpRegistrationPostData } from '../shared/HttpRegistrationData';
 import { HttpAuthService } from '../shared/HttpAuth.service';
 
-export interface HttpPostData {
-  FirstName: string;
-  SecondName: string;
-  PasswordHash: string;
-  Nickname: string;
-  Email: string;
-}
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
+  providers: [HttpAuthService]
 })
 export class RegistrationComponent implements OnInit 
 {
