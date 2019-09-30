@@ -207,7 +207,7 @@ namespace EpicGame
 
         static void Main(string[] args)
         {
-#if FALSE
+#if TRUE
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
             Type contract = typeof(IServiceUserDBHelper);

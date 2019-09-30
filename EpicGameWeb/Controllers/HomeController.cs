@@ -7,10 +7,12 @@ using System.Web.Http;
 namespace EpicGameWeb.Controllers
 {
     [RoutePrefix("api/home")]
+    [System.Web.Http.Cors.EnableCors(
+        origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class HomeController : ApiController
     {
-        [Route("post")]
-        public void Index([FromBody]string value)
+        [Route("index")]
+        public void PostIndex([FromBody]object value)
         {
             //ViewBag.Title = "Home Page";
             //
@@ -22,6 +24,8 @@ namespace EpicGameWeb.Controllers
             //
             //return result;
             //return View();
+
         }
+
     }
 }

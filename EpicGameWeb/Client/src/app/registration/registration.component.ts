@@ -16,7 +16,6 @@ export interface HttpPostData {
 })
 export class RegistrationComponent implements OnInit 
 {
-
   public PostData: HttpPostData = {
     firstName: '',
     secondName: '',
@@ -25,15 +24,37 @@ export class RegistrationComponent implements OnInit
     email: ''
   };
 
+  url: string = 
+    //"http://httpbin.org/post"; 
+    "http://localhost:6430/api/home/index";
+
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
   }
 
-  onClick() {
-    alert('on click function works!')
-    this.httpClient.post(
-      "http://localhost:6430/Account/Registration", 
-      this.PostData);
+  onClick() 
+  {
+      console.log('registration: onClick()');
+      let oprions = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 
+            'application/json' })
+      }
+  
+      this.httpClient.post<HttpPostData>(
+        this.url, JSON.stringify(this.PostData), oprions)
+        .subscribe(
+          data => {
+            console.log(
+              "success: " + 
+              `${data.json.firstName} ${data.json.secondName} ${data.json.passwordHash} ${data.json.nickname} ${data.json.email}`)
+          },
+          error => console.log(error)
+        );
+
   }
+
+
+  
 }
