@@ -8,6 +8,7 @@ namespace EpicGame
 {
     class EntryPoint
     {
+
         static Random rand = new Random();
 
         private static void TestUserDB()
@@ -93,7 +94,7 @@ namespace EpicGame
                                 {
                                     if (Int32.TryParse(thisIdString, out thisIdInt))
                                     {
-                                        Console.Write("Write userid [whom want to remove]: ");
+                                        Console.Write("Write userid [whom want to add]: ");
                                         string idToAddString = Console.ReadLine();
                                         if (idToAddString.Length > 0)
                                         {
@@ -198,31 +199,29 @@ namespace EpicGame
             }
         }
 
-        class MStruct
-        {
-            int id;
-            int relation;
-            string list;
-        }
-
         static void Main(string[] args)
         {
+            var logger = NLog.LogManager.GetCurrentClassLogger();
 #if TRUE
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
             Type contract = typeof(IServiceUserDBHelper);
-            ServiceHost host = new ServiceHost(typeof(ServiceUserDBHelper));
-            host.AddServiceEndpoint(contract, binding, address);
-            host.Open();
+            using (ServiceHost host = new ServiceHost(typeof(ServiceUserDBHelper)))
+            {
+                host.AddServiceEndpoint(contract, binding, address);
+                host.Open();
 
-            Console.WriteLine("Service is open!");
-            Console.ReadKey();
+                logger.Info("Service is open!");
+                Console.ReadKey();
 
+                host.Close();
+            }
 #else
+            
             TestUserDB();
 
 #endif
-            Console.WriteLine("Press any key to continue ...");
+            logger.Info("Press any key to continue ...");
             Console.ReadKey();
         }
     }

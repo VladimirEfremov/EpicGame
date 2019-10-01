@@ -176,6 +176,7 @@
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\DBHelper\IServiceUserDBHelper.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
+    <Compile Include="Models\Game\AccountData.cs" />
     <Compile Include="Models\JSONHelper\JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

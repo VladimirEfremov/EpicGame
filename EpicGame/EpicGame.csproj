@@ -42,12 +42,18 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.3.0-rc1-19458-04\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -115,24 +121,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFriendsTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserRelationTable.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UserRelationTable.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="src\Models\UserRelationTable.cs">
-      <DependentUpon>UserRelationTable.tt</DependentUpon>
-    </Compile>
-    <Compile Include="src\Models\UserRelationTable.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UserRelationTable.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Models\UserRelationTable1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UserRelationTable.tt</DependentUpon>
-    </Compile>
     <Compile Include="src\Models\UserTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,14 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <EntityDeploy Include="src\Models\UserTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserTable.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="src\Models\UserRelationTable.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>UserRelationTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <EntityDeploy Include="src\Models\UserFriendsTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -185,9 +175,6 @@
     </None>
     <None Include="src\Models\UserFriendsTable.edmx.diagram">
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
-    </None>
-    <None Include="src\Models\UserRelationTable.edmx.diagram">
-      <DependentUpon>UserRelationTable.edmx</DependentUpon>
     </None>
     <None Include="src\Models\UserTable.edmx.diagram">
       <DependentUpon>UserTable.edmx</DependentUpon>
@@ -226,16 +213,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
       <LastGenOutput>UserFriendsTable1.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\UserRelationTable.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UserRelationTable.edmx</DependentUpon>
-      <LastGenOutput>UserRelationTable.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\UserRelationTable.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UserRelationTable.edmx</DependentUpon>
-      <LastGenOutput>UserRelationTable1.cs</LastGenOutput>
     </Content>
     <Content Include="src\Models\UserTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

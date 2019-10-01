@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 import { HttpLoginPostData } from '../shared/HttpLoginPostData';
 import { HttpAuthService } from '../shared/HttpAuth.service';
@@ -21,7 +20,9 @@ export class LoginComponent implements OnInit
 
   constructor(private httpAuth: HttpAuthService) { }
   
-  ngOnInit() { }
+  ngOnInit() 
+  { 
+  }
 
   onClick() : void
   {

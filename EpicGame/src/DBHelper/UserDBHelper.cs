@@ -1,10 +1,13 @@
 ﻿namespace EpicGame.src.DBHelper
 {
+    using NLog;
     using System.Linq;
     using EpicGame.src.Models;
 
     class UserDBHelper : System.IDisposable
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private readonly UserTableEntity m_UserContext = new UserTableEntity();
         private readonly UserFriendsTableEntity  m_UserFriendsContext = new UserFriendsTableEntity();
         private readonly UserFollowersTableEntity m_UserFollowersContext = new UserFollowersTableEntity();
@@ -12,10 +15,15 @@
 
         public UserDBHelper()
         {
+            logger.Info("Create UserDBHelper instance");
         }
 
         public void Dispose()
         {
+            logger.Info("Disposing context.");
+            
+            NLog.LogManager.Shutdown();
+
             m_UserContext.Dispose();
             m_UserFriendsContext.Dispose();
             m_UserFollowersContext.Dispose();
@@ -24,6 +32,9 @@
 
         private bool RegisterUserToTable(UserTable user)
         {
+            logger.Info($"Register user to table: " +
+                $"{user.Id} {user.FirstName} {user.SecondName}" +
+                $"{user.PasswordHash} {user.Nickname} {user.Email}");
             var userIndex = FindUserByEmail(user.Nickname);
             if (userIndex == -1)
             {
@@ -33,7 +44,7 @@
             }
             else
             {
-                //Log.Warn: $"This user's nickname already exists in db! [id = {index + 1}]"
+                logger.Warn($"This user's nickname already exists in db! [id = {userIndex + 1}]");
                 return false;
             }
         }
@@ -56,16 +67,18 @@
         {
             string tnickname = nickname.Trim(' ');
             string tpasswordHash = passwordHash.Trim(' ');
-
+            logger.Info($"check if user registered: {tnickname} {passwordHash}");
             var array = m_UserContext.UserTable.ToArray();
             for (var i = 0; i < array.Length; i++)
             {
                 if (array[i].Nickname.Trim(' ').Equals(tnickname) && 
                     array[i].PasswordHash.Trim(' ').Equals(tpasswordHash))
                 {
+                    logger.Info($"user {nickname} is found");
                     return true;
                 }
             }
+            logger.Info($"user {nickname} isn't found");
             return false;
         }
 
@@ -74,6 +87,7 @@
             var user = m_UserContext.UserTable.Find(id);
             if (user != null)
             {
+                logger.Info($"remove user [id: {user.Id}] from db");
                 m_UserContext.UserTable.Remove(user);
                 UserContextTrySave();
             }
@@ -87,6 +101,7 @@
             {
                 if (array[i].Email.Equals(email))
                 {
+                    logger.Info($"user [email: {email}] was found");
                     return array[i].Id;
                 }
             }
@@ -100,6 +115,7 @@
         /// <param name="idToAdd">Кого добавляют в друзья (кидают инвайт)</param>
         public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
         {
+            logger.Info($"user [id: {thisId}] add [id: {idToAdd}] to friends");
             var arrayFriends = from   friends in m_UserFriendsContext.UserFriendsTable
                                where  friends.UserId   == thisId
                                where  friends.FriendId == idToAdd
@@ -194,6 +210,7 @@
         /// <param name="idToRemove">Кого удаляют из друзей</param>
         public void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove)
         {
+            logger.Info($"user [id: {thisId}] remove [id: {idToRemove}] from friends");
             var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
                                where friends.UserId == thisId
                                where friends.FriendId == idToRemove
@@ -316,11 +333,11 @@
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
@@ -337,11 +354,11 @@
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
@@ -358,11 +375,11 @@
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
@@ -379,11 +396,11 @@
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    System.Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        System.Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }

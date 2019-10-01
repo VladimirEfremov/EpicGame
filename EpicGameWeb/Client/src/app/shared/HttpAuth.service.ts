@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HttpLoginPostData } from './HttpLoginPostData';
 import { HttpRegistrationPostData } from './HttpRegistrationData';
 
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Injectable()
-export class HttpAuthService 
+export class HttpAuthService
 {
     loginUrl: string = 
         //"http://httpbin.org/post"; 
@@ -14,8 +15,7 @@ export class HttpAuthService
 
     registrationUrl: string = 
         "http://localhost:6430/api/auth/registration";
-    
-
+     
     constructor(
         private httpClient: HttpClient,
         private router: Router) 
@@ -23,6 +23,10 @@ export class HttpAuthService
 
     login(loginPostData: HttpLoginPostData) : void 
     {
+        loginPostData.PasswordHash = 
+            Md5.hashStr(loginPostData.PasswordHash)
+            .toString();
+
         console.log('login');
         let oprions = {
         headers: new HttpHeaders({ 
@@ -56,6 +60,10 @@ export class HttpAuthService
 
     registration(registrationPostData: HttpRegistrationPostData)
     {
+        registrationPostData.PasswordHash = 
+            Md5.hashStr(registrationPostData.PasswordHash)
+            .toString();
+
         console.log('registration');
         let oprions = {
             headers: new HttpHeaders({ 

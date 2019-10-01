@@ -2,20 +2,21 @@
 using System.Web.Security;
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
+using EpicGameWeb.Models.Game;
 using EpicGameWeb.Models.JSONHelper;
 
 namespace EpicGameWeb.Controllers
 {
     [RoutePrefix("api/auth")]
     [System.Web.Http.Cors.EnableCors(
-       origins: "http://localhost:4200", headers: "*", methods: "*")]
+       origins: "*", headers: "*", methods: "*")]
     public class AuthController : ApiController
     {
         [Route("login")]
         public string PostLoginResponse([FromBody]object value)
         {
             LoginModel model =
-                value.ToString().FromJson<LoginModel>(); ;
+                value.ToString().FromJson<LoginModel>();
             if (ModelState.IsValid)
             {
                 if (RemoteProcedureCallClass
@@ -71,9 +72,14 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("isauth")]
-        public bool IsAuthenticated()
+        public string IsAuthenticated()
         {
-            return User.Identity.IsAuthenticated;
+            AccountData accountData;
+            accountData.IsAuthorized = User.Identity.IsAuthenticated;
+            accountData.Nickname = User.Identity.Name;
+            accountData.FriendList = new string[0];
+            string result = accountData.ToJson();
+            return result;
         }
 
         [Route("logout")]
