@@ -199,10 +199,15 @@ namespace EpicGame
             }
         }
 
+        private static void TestGameDB()
+        {
+
+        }
+
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if TRUE
+#if FALSE
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
             Type contract = typeof(IServiceUserDBHelper);
@@ -218,7 +223,9 @@ namespace EpicGame
             }
 #else
             
-            TestUserDB();
+            //TestUserDB();
+
+
 
 #endif
             logger.Info("Press any key to continue ...");

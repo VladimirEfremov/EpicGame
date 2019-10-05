@@ -22,15 +22,16 @@ export class GameService
             "http://localhost:6430/api/auth/isauth")
             .subscribe(
                 data => {
-                    console.log("success")
+                    console.log("success");
+                    return data;
                 },
                 error => {
                     console.log("error: " + error)
                 }
         ).toString();
-        console.log("httpResponse: " + httpResponse.json);
+        console.log("httpResponse: " + httpResponse);
         var convertedResponse : AccountData = 
-            JSON.parse(httpResponse.json);
+            JSON.parse(httpResponse);
         return convertedResponse;
     }
 

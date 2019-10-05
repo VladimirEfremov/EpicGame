@@ -27,7 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -182,6 +182,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Client\e2e\protractor.conf.js" />
+    <Content Include="Client\karma.conf.js" />
+    <Content Include="Client\src\app\app.component.css" />
+    <Content Include="Client\src\app\app.component.html" />
+    <Content Include="Client\src\app\game\game.component.css" />
+    <Content Include="Client\src\app\game\game.component.html" />
+    <Content Include="Client\src\app\game\main-menu\main-menu.component.css" />
+    <Content Include="Client\src\app\game\main-menu\main-menu.component.html" />
+    <Content Include="Client\src\app\login\login.component.css" />
+    <Content Include="Client\src\app\login\login.component.html" />
+    <Content Include="Client\src\app\main\main.component.css" />
+    <Content Include="Client\src\app\main\main.component.html" />
+    <Content Include="Client\src\app\not-found-page\not-found-page.component.css" />
+    <Content Include="Client\src\app\not-found-page\not-found-page.component.html" />
+    <Content Include="Client\src\app\registration\registration.component.css" />
+    <Content Include="Client\src\app\registration\registration.component.html" />
+    <Content Include="Client\src\assets\cat1.jpg" />
+    <Content Include="Client\src\favicon.ico" />
+    <Content Include="Client\src\index.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -220,6 +239,19 @@
     <Content Include="Scripts\Client\styles-es5.js.map" />
     <Content Include="Scripts\Client\vendor-es2015.js.map" />
     <Content Include="Scripts\Client\vendor-es5.js.map" />
+    <Content Include="Client\src\.vscode\settings.json" />
+    <Content Include="Client\src\assets\.gitkeep" />
+    <Content Include="Client\src\styles.scss" />
+    <Content Include="Client\.editorconfig" />
+    <Content Include="Client\angular.json" />
+    <Content Include="Client\browserslist" />
+    <Content Include="Client\package-lock.json" />
+    <Content Include="Client\package.json" />
+    <Content Include="Client\tsconfig.app.json" />
+    <Content Include="Client\tsconfig.json" />
+    <Content Include="Client\tsconfig.spec.json" />
+    <Content Include="Client\tslint.json" />
+    <Content Include="Client\e2e\tsconfig.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Client\favicon.ico" />
     <Content Include="Scripts\Client\main-es2015.js" />
@@ -250,9 +282,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Registration.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Client\src\app\learning\" />
     <Folder Include="Views\Game\" />
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +321,29 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\e2e\src\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="Client\e2e\src\app.po.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\game\game.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\game\main-menu\main-menu.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\login\login.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\main\main.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\not-found-page\not-found-page.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\registration\registration.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\AccountData.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\Game.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\GameGuard.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\HttpAuth.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\HttpLoginPostData.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\HttpRegistrationData.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.ts" />
+    <TypeScriptCompile Include="Client\src\main.ts" />
+    <TypeScriptCompile Include="Client\src\polyfills.ts" />
+    <TypeScriptCompile Include="Client\src\test.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

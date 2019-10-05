@@ -14,4 +14,88 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="UserId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="3bc11043-9c78-47d3-bda8-8cfaa3732b8c" ChangeDateTime="10/05/2019 14:12:23">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fce502ab-a316-40a9-abf3-b9111021b251" ChangeDateTime="10/05/2019 14:20:19">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[И]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1f45a932-f7f6-459d-a949-70076389e883" ChangeDateTime="10/05/2019 14:21:02">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[GameBuildingId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BuildingId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0c9264c0-2848-47e3-a7a6-f7ca09caa589" ChangeDateTime="10/05/2019 14:21:04">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[GameBuildingType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BuildingType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ad0fa1fe-cf1f-42f1-9276-94b34b4bf9e2" ChangeDateTime="10/05/2019 14:21:09">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[Game]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Building" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="30020eb1-4e03-40f8-be76-70fb4286325f" ChangeDateTime="10/05/2019 14:21:15">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[BuildingId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0b9aabd9-a79f-41c8-a9d1-eca6cef9734c" ChangeDateTime="10/05/2019 14:21:19">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[BuildingType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="70d977c2-b89e-40f9-ac54-22d35d9991cc" ChangeDateTime="10/05/2019 14:21:25">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsTable].[Building]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingHP" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9e43f094-8f2b-4ae9-bc35-69eaa3520cbe" ChangeDateTime="10/05/2019 14:34:14">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingsType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingsType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7270cabf-d392-4924-b0bb-1cd75bd02645" ChangeDateTime="10/05/2019 14:47:05">
+    <Property Name="ElementName" Value="[dbo].[GameBuildingProductionTable].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameBuildingProductionTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameBuildingProductionTableId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c60371fb-6261-4500-a060-ee46b7bf0741" ChangeDateTime="10/05/2019 14:49:04">
+    <Property Name="ElementName" Value="[dbo].[GameUnitTable].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameUnitTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameUnitId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e2530fc4-d8a2-4b56-9e9d-21830d062849" ChangeDateTime="10/05/2019 19:04:07">
+    <Property Name="ElementName" Value="[dbo].[GameUnitTypeTable].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GameUnitTypeTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GameUnitTypeId" />
+  </Operation>
 </Operations>
