@@ -7,15 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models
+namespace EpicGame.src.Models.Game
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserFollowingTable
+    public partial class GameUnitsTable
     {
-        public int UserFollowingId { get; set; }
-        public int UserId { get; set; }
-        public int FollowingId { get; set; }
+        public int GameUnitId { get; set; }
+        public int GameUnitType { get; set; }
+        public string GameUnitName { get; set; }
+        public int GameUnitHP { get; set; }
+        public int GameUnitAttack { get; set; }
+        public int GameUnitDefence { get; set; }
+        public int GameUnitGoldIncome { get; set; }
+        public int GameUnitGoldOutcome { get; set; }
     }
 }

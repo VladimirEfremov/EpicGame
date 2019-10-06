@@ -7,15 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models
+namespace EpicGame.src.Models.User
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserFriendsTable
+    public partial class UserFollowingTable
     {
-        public int UserFriendId { get; set; }
+        public int UserFollowingId { get; set; }
         public int UserId { get; set; }
-        public int FriendId { get; set; }
+        public int FollowingId { get; set; }
     }
 }

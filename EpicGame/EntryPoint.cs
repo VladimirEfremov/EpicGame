@@ -1,11 +1,65 @@
 ﻿using System;
 using System.ServiceModel;
-using EpicGame.src.DBHelper;
 using EpicGame.src.Services;
 using System.Web.Services.Description;
 
+using EpicGame.src.DBHelper;
+using EpicGame.src.GameDB;
+using System.Collections.Generic;
+
 namespace EpicGame
 {
+
+    public class GameEngine
+    {
+
+        public GameEngine()
+        {
+            //
+        }
+
+        // 0 - attackers win
+        // 1 - defenders win
+        public static int Battle(
+            List<src.Models.Game.GameUnitsTable> attackers, 
+            List<src.Models.Game.GameUnitsTable> defenders)
+        {
+            while (
+                attackers.Count != 0 || 
+                defenders.Count != 0)
+            {
+                foreach (var attacker in attackers)
+                {
+                    if (defenders.Count <= 0) { return 0; }
+                    
+                    defenders[0].GameUnitHP -= 
+                        attacker.GameUnitAttack * (100 - defenders[0].GameUnitDefence);
+                    if (defenders[0].GameUnitHP <= 0)
+                    {
+                        defenders.RemoveAt(0);
+                        Console.WriteLine($"Delete defender[0]: [hp: {defenders[0].GameUnitHP}]");
+                    }
+                }
+
+                foreach (var defender in defenders)
+                {
+                    if (attackers.Count <= 0) { return 1; }
+
+                    attackers[0].GameUnitHP -=
+                        defender.GameUnitAttack * (100 - attackers[0].GameUnitDefence);
+                    if (attackers[0].GameUnitHP <= 0)
+                    {
+                        attackers.RemoveAt(0);
+                        Console.WriteLine($"Delete attacker[0]: [hp: {attackers[0].GameUnitHP}]");
+                    }
+                }
+            }
+            return -1;
+        }
+
+    }
+
+
     class EntryPoint
     {
 
@@ -201,7 +255,111 @@ namespace EpicGame
 
         private static void TestGameDB()
         {
+            using (var db = new GameDBHelper())
+            {
+                bool run = true;
+                while (run)
+                {
+                    Console.WriteLine(
+                        "1. Show all\n" +
+                        "2. Show battle\n" + 
+                        "3. Show all Core\n"
+                        );
+                    var key = Console.ReadKey().Key;
+                    Console.WriteLine();
+                    switch (key)
+                    {
+                        case ConsoleKey.D1:
+                            {
+                                Console.WriteLine();
+                                var unitsList = db.GetAllGameUnitsList();
+                                Console.WriteLine("units:");
+                                foreach (var el in unitsList)
+                                {
+                                    Console.WriteLine($"id: {el.GameUnitId} name: {el.GameUnitName}");
+                                }
 
+                                var unitsTypeList = db.GetAllGameUnitsTypeList();
+                                Console.WriteLine("unit types:");
+                                foreach (var el in unitsTypeList)
+                                {
+                                    Console.WriteLine($"id: {el.GameUnitTypeId} name: {el.GameUnitTypeName}");
+                                }
+
+                                var buildingsList = db.GetAllGameBuildingsList();
+                                Console.WriteLine("buildings list:");
+                                foreach (var el in buildingsList)
+                                {
+                                    Console.WriteLine($"id: {el.GameBuildingId} name: {el.GameBuildingName}");
+                                }
+
+                                var buildingsTypeList = db.GetAllGameBuildingsTypeList();
+                                Console.WriteLine("buildings list:");
+                                foreach (var el in buildingsTypeList)
+                                {
+                                    Console.WriteLine($"id: {el.GameBuildingTypeId} name: {el.GameBuildingTypeName}");
+                                }
+
+                                var buildingsProdList = db.GetAllGameBuildingProductionList();
+                                Console.WriteLine("buildings list:");
+                                foreach (var el in buildingsProdList)
+                                {
+                                    Console.WriteLine($"id: {el.GameBuildingId} " +
+                                        $"building id: {el.GameBuildingProductionTableId} " +
+                                        $"unit to produce: {el.GameUnitId}");
+                                }
+                                break;
+                            }
+                        case ConsoleKey.D2:
+                            {
+                                Console.WriteLine();
+
+
+                                Console.WriteLine("Battle begins");
+                                List<src.Models.Game.GameUnitsTable> attackers =
+                                    new List<src.Models.Game.GameUnitsTable>();
+                                List<src.Models.Game.GameUnitsTable> defenders =
+                                    new List<src.Models.Game.GameUnitsTable>();
+
+                                var result = GameEngine.Battle(attackers, defenders);
+                                Console.WriteLine(result == 0 ? 
+                                    "Attackers won the battle!" : 
+                                    "Defenders won the battle!");
+                                break;
+                            }
+                        case ConsoleKey.D3:
+                            {
+                                
+                                break;
+                            }
+                        case ConsoleKey.D4:
+                            {
+
+                                Console.Write("Write userid [who want to remove]: ");
+                                
+                                break;
+                            }
+                        case ConsoleKey.D5:
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Users:");
+                                
+                                break;
+                            }
+                        case ConsoleKey.D6:
+                            {
+                                Console.Clear();
+                                Console.WriteLine("\nRelations:");
+                                
+                                Console.WriteLine();
+                                break;
+                            }
+                        case ConsoleKey.C: { Console.Clear(); break; }
+                        case ConsoleKey.Escape: { run = false; break; }
+                        default: { break; }
+                    }
+                }
+            }
         }
 
         static void Main(string[] args)
@@ -222,10 +380,10 @@ namespace EpicGame
                 host.Close();
             }
 #else
-            
+
             //TestUserDB();
 
-
+            TestGameDB();
 
 #endif
             logger.Info("Press any key to continue ...");

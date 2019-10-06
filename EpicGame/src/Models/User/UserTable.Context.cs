@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models
+namespace EpicGame.src.Models.User
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UserFollowingTableEntity : DbContext
+    public partial class UserTableEntity : DbContext
     {
-        public UserFollowingTableEntity()
-            : base("name=UserFollowingTableEntity")
+        public UserTableEntity()
+            : base("name=UserTableEntity")
         {
         }
     
@@ -25,6 +25,6 @@ namespace EpicGame.src.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<UserFollowingTable> UserFollowingTable { get; set; }
+        public virtual DbSet<UserTable> UserTable { get; set; }
     }
 }

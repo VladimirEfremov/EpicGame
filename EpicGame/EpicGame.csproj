@@ -65,76 +65,165 @@
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\DBHelper\GameDBHelper.cs" />
-    <Compile Include="src\DBHelper\RelationType.cs" />
     <Compile Include="src\DBHelper\UserDBHelper.cs" />
-    <Compile Include="src\Models\UserFollowersTable.Context.cs">
+    <Compile Include="src\Models\Game\GameBuildingProductionTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingProductionTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingProductionTable.cs">
+      <DependentUpon>GameBuildingProductionTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingProductionTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingProductionTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingProductionTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTable.cs">
+      <DependentUpon>GameBuildingsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTypeTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTypeTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTypeTable.cs">
+      <DependentUpon>GameBuildingsTypeTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTypeTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameBuildingsTypeTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameBuildingsTypeTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTable.cs">
+      <DependentUpon>GameUnitsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTypeTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTypeTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTypeTable.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTypeTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitsTypeTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Game\GameUnitTypeTable.cs">
+      <DependentUpon>GameUnitsTypeTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\User\UserFollowersTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowersTable.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowersTable.cs">
+    <Compile Include="src\Models\User\UserFollowersTable.cs">
       <DependentUpon>UserFollowersTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowersTable.Designer.cs">
+    <Compile Include="src\Models\User\UserFollowersTable.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowersTable1.cs">
+    <Compile Include="src\Models\User\UserFollowersTable1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowersTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowingTable.Context.cs">
+    <Compile Include="src\Models\User\UserFollowingTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowingTable.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowingTable.cs">
+    <Compile Include="src\Models\User\UserFollowingTable.cs">
       <DependentUpon>UserFollowingTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowingTable.Designer.cs">
+    <Compile Include="src\Models\User\UserFollowingTable.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowingTable.edmx</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFollowingTable1.cs">
+    <Compile Include="src\Models\User\UserFollowingTable1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFollowingTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFriendsTable.Context.cs">
+    <Compile Include="src\Models\User\UserFriendsTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFriendsTable.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFriendsTable.cs">
+    <Compile Include="src\Models\User\UserFriendsTable.cs">
       <DependentUpon>UserFriendsTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFriendsTable.Designer.cs">
+    <Compile Include="src\Models\User\UserFriendsTable.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserFriendsTable1.cs">
+    <Compile Include="src\Models\User\UserFriendsTable1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserFriendsTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserTable.Context.cs">
+    <Compile Include="src\Models\User\UserTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTable.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserTable.cs">
+    <Compile Include="src\Models\User\UserTable.cs">
       <DependentUpon>UserTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserTable.Designer.cs">
+    <Compile Include="src\Models\User\UserTable.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTable.edmx</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\UserTable1.cs">
+    <Compile Include="src\Models\User\UserTable1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTable.tt</DependentUpon>
@@ -151,32 +240,67 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <EntityDeploy Include="src\Models\UserTable.edmx">
+    <EntityDeploy Include="src\Models\User\UserTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="src\Models\UserFriendsTable.edmx">
+    <EntityDeploy Include="src\Models\User\UserFriendsTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserFriendsTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="src\Models\UserFollowersTable.edmx">
+    <EntityDeploy Include="src\Models\User\UserFollowersTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserFollowersTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="src\Models\UserFollowersTable.edmx.diagram">
+    <EntityDeploy Include="src\Models\Game\GameUnitsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameUnitsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="src\Models\Game\GameBuildingsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameBuildingsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="src\Models\Game\GameBuildingProductionTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameBuildingProductionTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Game\GameBuildingProductionTable.edmx.diagram">
+      <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\Game\GameBuildingsTable.edmx.diagram">
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="src\Models\Game\GameBuildingsTypeTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameBuildingsTypeTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Game\GameBuildingsTypeTable.edmx.diagram">
+      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\Game\GameUnitsTable.edmx.diagram">
+      <DependentUpon>GameUnitsTable.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="src\Models\Game\GameUnitsTypeTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameUnitsTypeTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Game\GameUnitsTypeTable.edmx.diagram">
+      <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\User\UserFollowersTable.edmx.diagram">
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="src\Models\UserFollowingTable.edmx">
+    <EntityDeploy Include="src\Models\User\UserFollowingTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserFollowingTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="src\Models\UserFollowingTable.edmx.diagram">
+    <None Include="src\Models\User\UserFollowingTable.edmx.diagram">
       <DependentUpon>UserFollowingTable.edmx</DependentUpon>
     </None>
-    <None Include="src\Models\UserFriendsTable.edmx.diagram">
+    <None Include="src\Models\User\UserFriendsTable.edmx.diagram">
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
     </None>
-    <None Include="src\Models\UserTable.edmx.diagram">
+    <None Include="src\Models\User\UserTable.edmx.diagram">
       <DependentUpon>UserTable.edmx</DependentUpon>
     </None>
   </ItemGroup>
@@ -184,47 +308,98 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\Models\UserFollowersTable.Context.tt">
+    <Content Include="src\Models\Game\GameBuildingProductionTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingProductionTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingProductionTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingProductionTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingsTypeTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTypeTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingsTypeTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTypeTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameUnitsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GameUnitsTable.Context.cs</LastGenOutput>
+      <DependentUpon>GameUnitsTable.edmx</DependentUpon>
+    </Content>
+    <Content Include="src\Models\Game\GameUnitsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameUnitsTable.edmx</DependentUpon>
+      <LastGenOutput>GameUnitsTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameUnitsTypeTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameUnitsTypeTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameUnitsTypeTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameUnitsTypeTable.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\User\UserFollowersTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
       <LastGenOutput>UserFollowersTable.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserFollowersTable.tt">
+    <Content Include="src\Models\User\UserFollowersTable.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
       <LastGenOutput>UserFollowersTable1.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserFollowingTable.Context.tt">
+    <Content Include="src\Models\User\UserFollowingTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowingTable.edmx</DependentUpon>
       <LastGenOutput>UserFollowingTable.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserFollowingTable.tt">
+    <Content Include="src\Models\User\UserFollowingTable.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowingTable.edmx</DependentUpon>
       <LastGenOutput>UserFollowingTable1.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserFriendsTable.Context.tt">
+    <Content Include="src\Models\User\UserFriendsTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
       <LastGenOutput>UserFriendsTable.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserFriendsTable.tt">
+    <Content Include="src\Models\User\UserFriendsTable.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
       <LastGenOutput>UserFriendsTable1.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserTable.Context.tt">
+    <Content Include="src\Models\User\UserTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserTable.edmx</DependentUpon>
       <LastGenOutput>UserTable.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="src\Models\UserTable.tt">
+    <Content Include="src\Models\User\UserTable.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserTable.edmx</DependentUpon>
       <LastGenOutput>UserTable1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

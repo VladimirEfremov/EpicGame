@@ -7,19 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models
+namespace EpicGame.src.Models.Game
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserTable
+    public partial class GameBuildingsTypeTable
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public string FullName { get; set; }
-        public string PasswordHash { get; set; }
-        public string Nickname { get; set; }
-        public string Email { get; set; }
+        public int GameBuildingTypeId { get; set; }
+        public string GameBuildingTypeName { get; set; }
     }
 }

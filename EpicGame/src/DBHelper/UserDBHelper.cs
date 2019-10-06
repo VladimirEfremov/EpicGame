@@ -2,7 +2,7 @@
 {
     using NLog;
     using System.Linq;
-    using EpicGame.src.Models;
+    using EpicGame.src.Models.User;
 
     class UserDBHelper : System.IDisposable
     {

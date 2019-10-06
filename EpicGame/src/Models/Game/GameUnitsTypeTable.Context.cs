@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models
+namespace EpicGame.src.Models.Game
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UserFriendsTableEntity : DbContext
+    public partial class GameUnitsTypeEntity : DbContext
     {
-        public UserFriendsTableEntity()
-            : base("name=UserFriendsTableEntity")
+        public GameUnitsTypeEntity()
+            : base("name=GameUnitsTypeEntity")
         {
         }
     
@@ -25,6 +25,6 @@ namespace EpicGame.src.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<UserFriendsTable> UserFriendsTable { get; set; }
+        public virtual DbSet<GameUnitTypeTable> GameUnitTypeTable { get; set; }
     }
 }
