@@ -7,6 +7,6 @@
     [GameUnitAttack] INT NOT NULL, 
     [GameUnitDefence] INT NOT NULL, 
     [GameUnitGoldIncome] INT NOT NULL, 
-    [GameUnitGoldOutcome] INT NOT NULL
+    [GameUnitGoldOutcome] INT NOT NULL,
 	CONSTRAINT [FK_GameUnitsTable_GameUnitTypeTable] FOREIGN KEY ([GameUnitType]) REFERENCES [GameUnitTypeTable]([GameUnitTypeId])
 )

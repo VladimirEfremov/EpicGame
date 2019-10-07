@@ -67,23 +67,21 @@
     <Build Include="dbo\Tables\Game\GameBuildingProductionTable.sql" />
     <Build Include="dbo\Tables\Game\GameBuildingsTable.sql" />
     <Build Include="dbo\Tables\Game\GameUnitTypeTable.sql" />
-    <Build Include="dbo\Tables\Game\GameCoresTable.sql" />
     <Build Include="dbo\Tables\Session\SessionCoresTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionMapTable.sql" />
+    <Build Include="dbo\Tables\Game\GameBuildingsTypeTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EpicGameDataBase.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EpicGameDataBase.publish.xml" />
-    <None Include="EpicGameDataBase_1.publish.xml" />
-    <None Include="EpicGameDataBase_1_Local.publish.xml" />
     <None Include="EpicGameDataBaseLocal.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Account\UserFollowersTable.sql" />
     <Build Include="dbo\Tables\Account\UserFollowingTable.sql" />
     <Build Include="dbo\Tables\Account\UserFriendsTable.sql" />
-    <Build Include="dbo\Tables\Game\GameBuildingsType.sql" />
     <Build Include="dbo\Tables\Game\GameUnitsTable.sql" />
   </ItemGroup>
 </Project>

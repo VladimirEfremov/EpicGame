@@ -105,4 +105,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="GameCoreId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c2a653f0-feeb-46f4-81d8-986c64cacace" ChangeDateTime="10/07/2019 11:05:02">
+    <Property Name="ElementName" Value="[dbo].[SessionMap].[SessionCoreId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SessionMap]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SessionMapId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="31eb79b7-ad77-4b35-83b7-fa6a2809a57f" ChangeDateTime="10/07/2019 11:38:21">
+    <Property Name="ElementName" Value="[dbo].[SessionCoresTable].[Warriors]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SessionCoresTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WarriorsNumber" />
+  </Operation>
 </Operations>
