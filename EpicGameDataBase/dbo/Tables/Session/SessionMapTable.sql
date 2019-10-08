@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[SessionMapTable]
 (
 	[SessionMapId] INT NOT NULL PRIMARY KEY IDENTITY,
-	[XCoord] INT NOT NULL,
-	[YCoord] INT NOT NULL
+	[XCoord] DECIMAL(18, 2) NOT NULL,
+	[YCoord] DECIMAL(18, 2) NOT NULL
 )

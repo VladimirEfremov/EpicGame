@@ -33,9 +33,9 @@
         private bool RegisterUserToTable(UserTable user)
         {
             logger.Info($"Register user to table: " +
-                $"{user.Id} {user.FirstName} {user.SecondName}" +
+                $"{user.UserId} {user.FirstName} {user.SecondName}" +
                 $"{user.PasswordHash} {user.Nickname} {user.Email}");
-            var userIndex = FindUserByEmail(user.Nickname);
+            var userIndex = FindUserByNickname(user.Nickname);
             if (userIndex == -1)
             {
                 m_UserContext.UserTable.Add(user);
@@ -87,7 +87,7 @@
             var user = m_UserContext.UserTable.Find(id);
             if (user != null)
             {
-                logger.Info($"remove user [id: {user.Id}] from db");
+                logger.Info($"remove user [id: {user.UserId}] from db");
                 m_UserContext.UserTable.Remove(user);
                 UserContextTrySave();
             }
@@ -102,9 +102,25 @@
                 if (array[i].Email.Equals(email))
                 {
                     logger.Info($"user [email: {email}] was found");
-                    return array[i].Id;
+                    return array[i].UserId;
                 }
             }
+            return -1;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(256)]
+        public System.Int32 FindUserByNickname(string nick)
+        {
+            var array = m_UserContext.UserTable.ToArray();
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (array[i].Nickname.Equals(nick))
+                {
+                    logger.Info($"user [nick: {nick}] was found!");
+                    return array[i].UserId;
+                }
+            }
+            logger.Info($"user [nick: {nick}] not found found!");
             return -1;
         }
 

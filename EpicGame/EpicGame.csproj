@@ -156,6 +156,42 @@
     <Compile Include="src\Models\Game\GameUnitTypeTable.cs">
       <DependentUpon>GameUnitsTypeTable.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\Models\Session\SessionCoresTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCoresTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCoresTable.cs">
+      <DependentUpon>SessionCoresTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCoresTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCoresTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCoresTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCoresTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionMapTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionMapTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionMapTable.cs">
+      <DependentUpon>SessionMapTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionMapTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionMapTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionMapTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionMapTable.tt</DependentUpon>
+    </Compile>
     <Compile Include="src\Models\User\UserFollowersTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -232,6 +268,26 @@
     <Compile Include="src\Services\ServiceUserDBHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\Models\Session\SessionCoresTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionCoresTable.edmx</DependentUpon>
+      <LastGenOutput>SessionCoresTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionCoresTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionCoresTable.edmx</DependentUpon>
+      <LastGenOutput>SessionCoresTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\User\UserTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserTable.edmx</DependentUpon>
+      <LastGenOutput>UserTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\User\UserTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UserTable.edmx</DependentUpon>
+      <LastGenOutput>UserTable1.cs</LastGenOutput>
+    </Content>
     <None Include="App.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -240,10 +296,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <EntityDeploy Include="src\Models\User\UserTable.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>UserTable.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="src\Models\User\UserFriendsTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserFriendsTable.Designer.cs</LastGenOutput>
@@ -287,6 +339,20 @@
     <None Include="src\Models\Game\GameUnitsTypeTable.edmx.diagram">
       <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="src\Models\Session\SessionMapTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionMapTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="src\Models\Session\SessionCoresTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionCoresTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Session\SessionCoresTable.edmx.diagram">
+      <DependentUpon>SessionCoresTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\Session\SessionMapTable.edmx.diagram">
+      <DependentUpon>SessionMapTable.edmx</DependentUpon>
+    </None>
     <None Include="src\Models\User\UserFollowersTable.edmx.diagram">
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
     </None>
@@ -300,6 +366,10 @@
     <None Include="src\Models\User\UserFriendsTable.edmx.diagram">
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="src\Models\User\UserTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="src\Models\User\UserTable.edmx.diagram">
       <DependentUpon>UserTable.edmx</DependentUpon>
     </None>
@@ -358,6 +428,16 @@
       <DependentUpon>GameUnitsTypeTable.edmx</DependentUpon>
       <LastGenOutput>GameUnitsTypeTable.cs</LastGenOutput>
     </Content>
+    <Content Include="src\Models\Session\SessionMapTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionMapTable.edmx</DependentUpon>
+      <LastGenOutput>SessionMapTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionMapTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionMapTable.edmx</DependentUpon>
+      <LastGenOutput>SessionMapTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\User\UserFollowersTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
@@ -387,16 +467,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFriendsTable.edmx</DependentUpon>
       <LastGenOutput>UserFriendsTable1.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\User\UserTable.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UserTable.edmx</DependentUpon>
-      <LastGenOutput>UserTable.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\User\UserTable.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UserTable.edmx</DependentUpon>
-      <LastGenOutput>UserTable1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup />

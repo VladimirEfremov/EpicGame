@@ -7,19 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models.User
+namespace EpicGame.src.Models.Session
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserTable
+    public partial class SessionCoresTable
     {
+        public int SessionCoreId { get; set; }
         public int UserId { get; set; }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public string FullName { get; set; }
-        public string PasswordHash { get; set; }
-        public string Nickname { get; set; }
-        public string Email { get; set; }
+        public int CoreMapId { get; set; }
+        public int Money { get; set; }
+        public int HPUpgrade { get; set; }
+        public int AttackUpgrade { get; set; }
+        public int DefenceUpgrade { get; set; }
+        public int CapacityUpgrade { get; set; }
+        public int WarriorsNumber { get; set; }
+        public int AttackAircraftNumber { get; set; }
+        public int WorkerNumber { get; set; }
     }
 }
