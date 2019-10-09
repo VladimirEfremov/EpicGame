@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using System.ServiceModel;
 using EpicGame.src.Services;
 using System.Web.Services.Description;
 
 using EpicGame.src.DBHelper;
 using EpicGame.src.GameDB;
-using System.Collections.Generic;
+using EpicGame.src.Models.Game;
 
 namespace EpicGame
 {
@@ -21,40 +23,82 @@ namespace EpicGame
         // 0 - attackers win
         // 1 - defenders win
         public static int Battle(
-            List<src.Models.Game.GameUnitsTable> attackers, 
-            List<src.Models.Game.GameUnitsTable> defenders)
+            List<GameUnitsTable> attackers, 
+            List<GameUnitsTable> defenders)
         {
-            while (
-                attackers.Count != 0 || 
-                defenders.Count != 0)
+            void lShowArmy(
+                string name,
+                List<GameUnitsTable> army)
             {
+                int index = 0;
+                Console.WriteLine($"Show {name} army:");
+                foreach (var unit in army)
+                {
+                    Console.WriteLine($"{index}. {unit.GameUnitName.Trim(' ')} " +
+                        $"[attack: {unit.GameUnitAttack}, " +
+                        $"hp: {unit.GameUnitHP}]");
+                    ++index;
+                }
+            }
+
+            lShowArmy("attackers", attackers);
+            lShowArmy("defenders", defenders);
+
+            while (true)
+            {
+                if (defenders.Count <= 0 && attackers.Count > 0) { return 0; }
+                if (attackers.Count <= 0 && defenders.Count > 0) { return 1; }
+                if (attackers.Count <= 0 && defenders.Count <= 0) { return -1; }
+
                 foreach (var attacker in attackers)
                 {
-                    if (defenders.Count <= 0) { return 0; }
-                    
-                    defenders[0].GameUnitHP -= 
-                        attacker.GameUnitAttack * (100 - defenders[0].GameUnitDefence);
+                    var tempDamage = attacker.GameUnitAttack * (100 - defenders[0].GameUnitDefence) / 100;
+                    defenders[0].GameUnitHP -= tempDamage;
                     if (defenders[0].GameUnitHP <= 0)
                     {
+                        Console.WriteLine(
+                            $"Defender {defenders[0].GameUnitName.Trim(' ')} " +
+                            $"[hp:{defenders[0].GameUnitHP}] was destroyed!");
+
                         defenders.RemoveAt(0);
-                        Console.WriteLine($"Delete defender[0]: [hp: {defenders[0].GameUnitHP}]");
+                        if (defenders.Count <= 0 && attackers.Count > 0) 
+                        {
+                            Console.WriteLine("Defenders been fully destroyed!");
+                            return 0; 
+                        }
+                    }
+                    else
+                    {
+                        //Console.WriteLine($"defender been attacked ({tempDamage})");
                     }
                 }
 
                 foreach (var defender in defenders)
                 {
-                    if (attackers.Count <= 0) { return 1; }
-
-                    attackers[0].GameUnitHP -=
-                        defender.GameUnitAttack * (100 - attackers[0].GameUnitDefence);
+                    var tempDamage = defender.GameUnitAttack * (100 - attackers[0].GameUnitDefence) / 100;
+                    attackers[0].GameUnitHP -= tempDamage;
                     if (attackers[0].GameUnitHP <= 0)
                     {
+                        Console.WriteLine(
+                            $"Attacker {attackers[0].GameUnitName.Trim(' ')} " +
+                            $"[hp:{attackers[0].GameUnitHP}] was destroyed!");
+                        
                         attackers.RemoveAt(0);
-                        Console.WriteLine($"Delete attacker[0]: [hp: {attackers[0].GameUnitHP}]");
+                        if (attackers.Count <= 0 && defenders.Count > 0) 
+                        {
+                            Console.WriteLine("Attackers been fully destroyed!");
+                            return 1; 
+                        }
+                    }
+                    else
+                    {
+                        //Console.WriteLine($"attacker been attacked ({tempDamage})");
                     }
                 }
+
+                lShowArmy("attackers", attackers);
+                lShowArmy("defenders", defenders);
             }
-            return -1;
         }
 
     }
@@ -256,6 +300,49 @@ namespace EpicGame
         {
             using (var gamedb = new GameDBHelper())
             {
+                List<GameUnitsTable> GetCoreArmy(int coreId)
+                {
+                    var result = new List<GameUnitsTable>();
+
+                    var warriorUnit = gamedb.GetUnitProperty("Warrior");
+                    var attackAircraftUnit = gamedb.GetUnitProperty("AttackAircraft");
+
+                    var numberWarriors = gamedb.GetNumberOfCoreWarriors(coreId);
+                    var numberAttackAircraft = gamedb.GetNumberOfCoreAttackAircraft(coreId);
+
+                    for (int i = 0; i < numberWarriors; i++)
+                    {
+                        result.Add(
+                            new GameUnitsTable()
+                            {
+                                GameUnitId = warriorUnit.GameUnitId,
+                                GameUnitType = warriorUnit.GameUnitType,
+                                GameUnitName = warriorUnit.GameUnitName,
+                                GameUnitHP = warriorUnit.GameUnitHP,
+                                GameUnitAttack = warriorUnit.GameUnitAttack,
+                                GameUnitDefence = warriorUnit.GameUnitDefence,
+                                GameUnitGoldIncome = warriorUnit.GameUnitGoldIncome,
+                                GameUnitGoldOutcome = warriorUnit.GameUnitGoldOutcome
+                            });
+                    }
+                    for (int i = 0; i < numberAttackAircraft; i++)
+                    {
+                        result.Add(new GameUnitsTable()
+                        {
+                            GameUnitId = attackAircraftUnit.GameUnitId,
+                            GameUnitType = attackAircraftUnit.GameUnitType,
+                            GameUnitName = attackAircraftUnit.GameUnitName,
+                            GameUnitHP = attackAircraftUnit.GameUnitHP,
+                            GameUnitAttack = attackAircraftUnit.GameUnitAttack,
+                            GameUnitDefence = attackAircraftUnit.GameUnitDefence,
+                            GameUnitGoldIncome = attackAircraftUnit.GameUnitGoldIncome,
+                            GameUnitGoldOutcome = attackAircraftUnit.GameUnitGoldOutcome
+                        });
+                    }
+
+                    return result;
+                }
+
                 bool run = true;
                 while (run)
                 {
@@ -312,21 +399,19 @@ namespace EpicGame
                                 }
                         case ConsoleKey.D2:
                             {
-                                    Console.WriteLine();
+                                Console.WriteLine();
 
+                                Console.WriteLine("Battle begins");
 
-                                    Console.WriteLine("Battle begins");
-                                    List<src.Models.Game.GameUnitsTable> attackers =
-                                        new List<src.Models.Game.GameUnitsTable>();
-                                    List<src.Models.Game.GameUnitsTable> defenders =
-                                        new List<src.Models.Game.GameUnitsTable>();
+                                List<GameUnitsTable> attackers = GetCoreArmy(1);
+                                List<GameUnitsTable> defenders = GetCoreArmy(2);
 
-                                    var result = GameEngine.Battle(attackers, defenders);
-                                    Console.WriteLine(result == 0 ? 
-                                        "Attackers won the battle!" : 
-                                        "Defenders won the battle!");
-                                    break;
-                                }
+                                var result = GameEngine.Battle(attackers, defenders);
+                                Console.WriteLine(result == 0 ? 
+                                    "Attackers won the battle!" : 
+                                    "Defenders won the battle!");
+                                break;
+                            }
                         case ConsoleKey.D3:
                             {
                                 using (var userdb = new UserDBHelper())
@@ -348,7 +433,7 @@ namespace EpicGame
                                     var elmap = gamedb.FindCoreMapByMapId(el.CoreMapId);
                                     Console.WriteLine(
                                         $"userid: {el.UserId} " +
-                                        $"mapid: {el.CoreMapId}" +
+                                        $"mapid: {el.CoreMapId} " +
                                         $"map [{elmap.XCoord}, {elmap.YCoord}]");
                                 }
                                 break;
@@ -379,7 +464,8 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if FALSE
+#if TRUE
+#if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
             Type contract = typeof(IServiceUserDBHelper);
@@ -393,6 +479,22 @@ namespace EpicGame
 
                 host.Close();
             }
+#endif
+
+            Uri address = new Uri("http://127.0.0.1:2001/IServiceBase");
+            BasicHttpBinding binding = new BasicHttpBinding();
+            Type contract = typeof(IServiceBase);
+            using (ServiceHost host = new ServiceHost(typeof(ServiceBase)))
+            {
+                host.AddServiceEndpoint(contract, binding, address);
+                host.Open();
+
+                logger.Info("Service is open!");
+                Console.ReadKey();
+
+                host.Close();
+            }
+
 #else
 
             //TestUserDB();
@@ -403,5 +505,6 @@ namespace EpicGame
             logger.Info("Press any key to continue ...");
             Console.ReadKey();
         }
+
     }
 }

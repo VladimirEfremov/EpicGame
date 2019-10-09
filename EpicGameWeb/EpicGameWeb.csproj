@@ -174,6 +174,8 @@
     <Compile Include="Models\Account\AuthResponse.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegistrationModel.cs" />
+    <Compile Include="Models\DBHelper\IServiceBase.cs" />
+    <Compile Include="Models\DBHelper\IServiceGameDBHelper.cs" />
     <Compile Include="Models\DBHelper\IServiceUserDBHelper.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
     <Compile Include="Models\Game\AccountData.cs" />

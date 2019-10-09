@@ -1,4 +1,4 @@
-﻿namespace EpicGame.src.GameDB
+﻿namespace EpicGame.src.DBHelper
 {
     using System.Linq;
     using System.Collections.Generic;
@@ -14,7 +14,7 @@
         private readonly GameUnitsEntity m_GameUnitsEntity = new GameUnitsEntity();
         private readonly GameUnitsTypeEntity m_GameUnitsTypeEntity = new GameUnitsTypeEntity();
         private readonly GameBuildingsEntity m_GameBuildingsEntity = new GameBuildingsEntity();
-        private readonly GameBuildingsTypeEntity m_GameBuildingsTypeEntity = new GameBuildingsTypeEntity();
+        private readonly GameBuildingTypeEntity m_GameBuildingsTypeEntity = new GameBuildingTypeEntity();
         private readonly GameBuildingProductionEntity m_GameBuildingProductionEntity = new GameBuildingProductionEntity();
 
         private static readonly SessionMapEntity m_SessionMapEntity = new SessionMapEntity();
@@ -40,34 +40,67 @@
             m_SessionCoreEntity.Dispose();
         }
 
-        public List<GameUnitsTable> GetAllGameUnitsList()
+        private List<GameUnitsTable> GetAllGameUnitsList()
         {
             return m_GameUnitsEntity.GameUnitsTable.ToList();
         }
 
-        public List<GameUnitTypeTable> GetAllGameUnitsTypeList()
+        private List<GameUnitTypeTable> GetAllGameUnitsTypeList()
         {
             return m_GameUnitsTypeEntity.GameUnitTypeTable.ToList();
         }
 
-        public List<GameBuildingsTable> GetAllGameBuildingsList()
+        private List<GameBuildingsTable> GetAllGameBuildingsList()
         {
             return m_GameBuildingsEntity.GameBuildingsTable.ToList();
         }
 
-        public List<GameBuildingsTypeTable> GetAllGameBuildingsTypeList()
+        private List<GameBuildingTypeTable> GetAllGameBuildingsTypeList()
         {
-            return m_GameBuildingsTypeEntity.GameBuildingsTypeTable.ToList();
+            return m_GameBuildingsTypeEntity.GameBuildingTypeTable.ToList();
         }
-        
-        public List<GameBuildingProductionTable> GetAllGameBuildingProductionList()
+
+        private List<GameBuildingProductionTable> GetAllGameBuildingProductionList()
         {
             return m_GameBuildingProductionEntity.GameBuildingProductionTable.ToList();
         }
 
-        public List<SessionCoresTable> GetAllCores()
+        private List<SessionCoresTable> GetAllCores()
         {
             return m_SessionCoreEntity.SessionCoresTable.ToList();
+        }
+
+        public SessionCoresTable GetCoreById(int coreId)
+        {
+            return m_SessionCoreEntity
+                .SessionCoresTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+        }
+
+        public int GetNumberOfCoreWarriors(int coreId)
+        {
+            return m_SessionCoreEntity
+                .SessionCoresTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .Select(obj => obj.WarriorsNumber)
+                .FirstOrDefault();
+        }
+        public int GetNumberOfCoreAttackAircraft(int coreId)
+        {
+            return m_SessionCoreEntity
+                .SessionCoresTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .Select(obj => obj.AttackAircraftNumber)
+                .FirstOrDefault();
+        }
+
+        public GameUnitsTable GetUnitProperty(string unitName)
+        {
+            return m_GameUnitsEntity
+                .GameUnitsTable
+                .Where(obj => obj.GameUnitName.Equals(unitName))
+                .FirstOrDefault();
         }
 
         public SessionMapTable FindCoreMapByMapId(int mapId)
@@ -120,7 +153,10 @@
                     CapacityUpgrade = 0,
                     WarriorsNumber = 0,
                     AttackAircraftNumber = 0,
-                    WorkerNumber = 3
+                    WorkerNumber = 3,
+                    Casern = 0,
+                    DefenceTower = 0,
+                    GoldMining = 0
                 };
                 m_SessionCoreEntity.SessionCoresTable.Add(core);
 
@@ -132,6 +168,9 @@
                 logger.Error("can't find added coord!");
             }
         }
+
+
+
 
     }
 }

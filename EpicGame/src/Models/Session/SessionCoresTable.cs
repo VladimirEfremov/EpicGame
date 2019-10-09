@@ -25,5 +25,8 @@ namespace EpicGame.src.Models.Session
         public int WarriorsNumber { get; set; }
         public int AttackAircraftNumber { get; set; }
         public int WorkerNumber { get; set; }
+        public int Casern { get; set; }
+        public int DefenceTower { get; set; }
+        public int GoldMining { get; set; }
     }
 }

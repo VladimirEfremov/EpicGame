@@ -20,6 +20,9 @@
           <Property Name="WarriorsNumber" Type="int" Nullable="false" />
           <Property Name="AttackAircraftNumber" Type="int" Nullable="false" />
           <Property Name="WorkerNumber" Type="int" Nullable="false" />
+          <Property Name="Casern" Type="int" Nullable="false" />
+          <Property Name="DefenceTower" Type="int" Nullable="false" />
+          <Property Name="GoldMining" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="Хранилище SessionCoresTableContainer">
           <EntitySet Name="SessionCoresTable" EntityType="Self.SessionCoresTable" Schema="dbo" store:Type="Tables" />
@@ -44,6 +47,9 @@
           <Property Name="WarriorsNumber" Type="Int32" Nullable="false" />
           <Property Name="AttackAircraftNumber" Type="Int32" Nullable="false" />
           <Property Name="WorkerNumber" Type="Int32" Nullable="false" />
+          <Property Name="Casern" Type="Int32" Nullable="false" />
+          <Property Name="DefenceTower" Type="Int32" Nullable="false" />
+          <Property Name="GoldMining" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="SessionCoresEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="SessionCoresTable" EntityType="Self.SessionCoresTable" />
@@ -68,6 +74,9 @@
                 <ScalarProperty Name="WarriorsNumber" ColumnName="WarriorsNumber" />
                 <ScalarProperty Name="AttackAircraftNumber" ColumnName="AttackAircraftNumber" />
                 <ScalarProperty Name="WorkerNumber" ColumnName="WorkerNumber" />
+                <ScalarProperty Name="Casern" ColumnName="Casern" />
+                <ScalarProperty Name="DefenceTower" ColumnName="DefenceTower" />
+                <ScalarProperty Name="GoldMining" ColumnName="GoldMining" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

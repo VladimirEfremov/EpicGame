@@ -4,41 +4,41 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище GameBuildingsTypeTable" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="GameBuildingsTypeTable">
+      <Schema Namespace="Хранилище GameBuildingTypeTable" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GameBuildingTypeTable">
           <Key>
             <PropertyRef Name="GameBuildingTypeId" />
           </Key>
           <Property Name="GameBuildingTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GameBuildingTypeName" Type="nchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="Хранилище GameBuildingsTypeTableContainer">
-          <EntitySet Name="GameBuildingsTypeTable" EntityType="Self.GameBuildingsTypeTable" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="Хранилище GameBuildingTypeTableContainer">
+          <EntitySet Name="GameBuildingTypeTable" EntityType="Self.GameBuildingTypeTable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GameBuildingsTypeTable" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="GameBuildingsTypeTable">
+      <Schema Namespace="GameBuildingTypeTable" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GameBuildingTypeTable">
           <Key>
             <PropertyRef Name="GameBuildingTypeId" />
           </Key>
           <Property Name="GameBuildingTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GameBuildingTypeName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="GameBuildingsTypeEntity" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="GameBuildingsTypeTable" EntityType="Self.GameBuildingsTypeTable" />
+        <EntityContainer Name="GameBuildingTypeEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GameBuildingTypeTable" EntityType="Self.GameBuildingTypeTable" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище GameBuildingsTypeTableContainer" CdmEntityContainer="GameBuildingsTypeEntity">
-          <EntitySetMapping Name="GameBuildingsTypeTable">
-            <EntityTypeMapping TypeName="GameBuildingsTypeTable.GameBuildingsTypeTable">
-              <MappingFragment StoreEntitySet="GameBuildingsTypeTable">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GameBuildingTypeTableContainer" CdmEntityContainer="GameBuildingTypeEntity">
+          <EntitySetMapping Name="GameBuildingTypeTable">
+            <EntityTypeMapping TypeName="GameBuildingTypeTable.GameBuildingTypeTable">
+              <MappingFragment StoreEntitySet="GameBuildingTypeTable">
                 <ScalarProperty Name="GameBuildingTypeId" ColumnName="GameBuildingTypeId" />
                 <ScalarProperty Name="GameBuildingTypeName" ColumnName="GameBuildingTypeName" />
               </MappingFragment>

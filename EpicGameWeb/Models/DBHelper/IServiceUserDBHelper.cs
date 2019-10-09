@@ -1,6 +1,8 @@
 ﻿using System.ServiceModel;
+
 namespace EpicGameWeb.Models.DBHelper
 {
+    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени интерфейса "IServiceLogin" в коде и файле конфигурации.
     [ServiceContract]
     public interface IServiceUserDBHelper
     {

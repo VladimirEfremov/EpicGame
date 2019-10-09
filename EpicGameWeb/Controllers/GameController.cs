@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
 {
@@ -8,8 +9,12 @@ namespace EpicGameWeb.Controllers
     public class GameController : ApiController
     {
         [Route("dosomething")]
-        public void PostLoginResponse([FromBody]object value)
+        //   /api/game/dosomething
+        public void GetLoginResponse()
         {
+            RemoteProcedureCallClass.GetGameChannel().Gameplay();
         }
+
+
     }
 }

@@ -102,23 +102,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GameBuildingsTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\Game\GameBuildingsTypeTable.Context.cs">
+    <Compile Include="src\Models\Game\GameBuildingTypeTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GameBuildingsTypeTable.Context.tt</DependentUpon>
+      <DependentUpon>GameBuildingTypeTable.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\Game\GameBuildingsTypeTable.cs">
-      <DependentUpon>GameBuildingsTypeTable.tt</DependentUpon>
+    <Compile Include="src\Models\Game\GameBuildingTypeTable.cs">
+      <DependentUpon>GameBuildingTypeTable.tt</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\Game\GameBuildingsTypeTable.Designer.cs">
+    <Compile Include="src\Models\Game\GameBuildingTypeTable.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+      <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\Game\GameBuildingsTypeTable1.cs">
+    <Compile Include="src\Models\Game\GameBuildingTypeTable1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GameBuildingsTypeTable.tt</DependentUpon>
+      <DependentUpon>GameBuildingTypeTable.tt</DependentUpon>
     </Compile>
     <Compile Include="src\Models\Game\GameUnitsTable.Context.cs">
       <AutoGen>True</AutoGen>
@@ -264,10 +264,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTable.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\Services\ServiceBase.cs" />
+    <Compile Include="src\Services\IServiceBase.cs" />
+    <Compile Include="src\Services\IServiceGameDBHelper.cs" />
     <Compile Include="src\Services\IServiceUserDBHelper.cs" />
+    <Compile Include="src\Services\ServiceGameDBHelper.cs" />
     <Compile Include="src\Services\ServiceUserDBHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\Models\Game\GameBuildingsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingsTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingTypeTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingTypeTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Game\GameBuildingTypeTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
+      <LastGenOutput>GameBuildingTypeTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\Session\SessionCoresTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SessionCoresTable.edmx</DependentUpon>
@@ -308,10 +332,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>GameUnitsTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="src\Models\Game\GameBuildingsTable.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GameBuildingsTable.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="src\Models\Game\GameBuildingProductionTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>GameBuildingProductionTable.Designer.cs</LastGenOutput>
@@ -319,15 +339,19 @@
     <None Include="src\Models\Game\GameBuildingProductionTable.edmx.diagram">
       <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="src\Models\Game\GameBuildingsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameBuildingsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="src\Models\Game\GameBuildingsTable.edmx.diagram">
       <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="src\Models\Game\GameBuildingsTypeTable.edmx">
+    <EntityDeploy Include="src\Models\Game\GameBuildingTypeTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GameBuildingsTypeTable.Designer.cs</LastGenOutput>
+      <LastGenOutput>GameBuildingTypeTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="src\Models\Game\GameBuildingsTypeTable.edmx.diagram">
-      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
+    <None Include="src\Models\Game\GameBuildingTypeTable.edmx.diagram">
+      <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
     </None>
     <None Include="src\Models\Game\GameUnitsTable.edmx.diagram">
       <DependentUpon>GameUnitsTable.edmx</DependentUpon>
@@ -387,26 +411,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
       <LastGenOutput>GameBuildingProductionTable1.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\Game\GameBuildingsTable.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
-      <LastGenOutput>GameBuildingsTable.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\Game\GameBuildingsTable.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
-      <LastGenOutput>GameBuildingsTable1.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\Game\GameBuildingsTypeTable.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
-      <LastGenOutput>GameBuildingsTypeTable.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="src\Models\Game\GameBuildingsTypeTable.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GameBuildingsTypeTable.edmx</DependentUpon>
-      <LastGenOutput>GameBuildingsTypeTable1.cs</LastGenOutput>
     </Content>
     <Content Include="src\Models\Game\GameUnitsTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

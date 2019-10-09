@@ -10,7 +10,10 @@
     [CapacityUpgrade] INT NOT NULL,
 	[WarriorsNumber] INT NOT NULL, 
     [AttackAircraftNumber] INT NOT NULL, 
-    [WorkerNumber] INT NOT NULL, 
+    [WorkerNumber] INT NOT NULL,
+	[Casern] INT NOT NULL,
+	[DefenceTower] INT NOT NULL,
+	[GoldMining] INT NOT NULL,
 	CONSTRAINT [FK_SessionCoresTable_UserTable] FOREIGN KEY ([UserId]) REFERENCES [UserTable]([UserId]),
     CONSTRAINT [FK_SessionCoresTable_SessionMapTable] FOREIGN KEY ([CoreMapId]) REFERENCES [SessionMapTable]([SessionMapId]) 
 )

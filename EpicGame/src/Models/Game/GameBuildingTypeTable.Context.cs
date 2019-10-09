@@ -13,10 +13,10 @@ namespace EpicGame.src.Models.Game
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class GameBuildingsTypeEntity : DbContext
+    public partial class GameBuildingTypeEntity : DbContext
     {
-        public GameBuildingsTypeEntity()
-            : base("name=GameBuildingsTypeEntity")
+        public GameBuildingTypeEntity()
+            : base("name=GameBuildingTypeEntity")
         {
         }
     
@@ -25,6 +25,6 @@ namespace EpicGame.src.Models.Game
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<GameBuildingsTypeTable> GameBuildingsTypeTable { get; set; }
+        public virtual DbSet<GameBuildingTypeTable> GameBuildingTypeTable { get; set; }
     }
 }
