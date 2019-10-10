@@ -12,7 +12,6 @@ import { nextTick } from 'q';
 export class GameComponent implements OnInit {
 
   accountData : AccountData = {
-    IsAuthorized: false,
     Nickname: "",
     FriendList: []
   }; 
@@ -21,8 +20,16 @@ export class GameComponent implements OnInit {
 
   ngOnInit() 
   {
-      this.accountData = 
-        this.gameService.isAuthorized();
+      let accountData : AccountData = this.gameService.GetAccountData();
+      if (accountData != null)
+      {
+          console.log("Nickname: " + accountData.Nickname);
+          this.accountData = accountData;
+      }
+      else 
+      {
+        console.log("Account data == null")
+      }
   }
 
 }

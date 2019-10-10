@@ -30,32 +30,34 @@ export class HttpAuthService
         console.log('login');
         let oprions = {
         headers: new HttpHeaders({ 
-            'Content-Type': 
-            'application/json' })
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + loginPostData.Nickname})
         }
 
         this.httpClient.post<HttpLoginPostData>(
-        this.loginUrl, 
-        JSON.stringify(loginPostData), 
-        oprions)
-        .subscribe(
-            data => {
-                if (data.toString().length > 0)
-                {
-                    console.log("success");
-                    let obj = JSON.parse(data.toString());
-                    if (obj.IsCorrect)
+            this.loginUrl, 
+            JSON.stringify(loginPostData), 
+            oprions)
+            .subscribe(
+                data => {
+                    if (data.toString().length > 0)
                     {
-                        this.router.navigate(['/game']);
+                        console.log("get response");
+                        console.log("response: " + data.toString());
+                        if (data.toString() === "true")
+                        {
+                            console.log("routing to a game");
+                            this.router.navigate(['/game-menu']);
+                        }
+                        else 
+                        {
+                            console.log("obj isnt correct [routing to a login]");
+                            this.router.navigate(['/login']);
+                        }
                     }
-                    else 
-                    {
-                        this.router.navigate(['/login']);
-                    }
-                }
-            },
-            error => console.log(error)
-        );
+                },
+                error => console.log(error)
+            );
     }
 
     registration(registrationPostData: HttpRegistrationPostData)
@@ -78,11 +80,11 @@ export class HttpAuthService
                 data => {
                 if (data.toString().length > 0)
                 {
-                    console.log("success");
+                    console.log("registration success");
                     let obj = JSON.parse(data.toString());
                     if (obj.IsCorrect)
                     {
-                        this.router.navigate(['/game']);
+                        this.router.navigate(['/game-menu']);
                     }
                     else 
                     {
@@ -96,7 +98,6 @@ export class HttpAuthService
 
     isAuthorized() : boolean
     {
-        console.log('registration: onClick()');
         let oprions = {
             headers: new HttpHeaders({ 
             'Content-Type': 

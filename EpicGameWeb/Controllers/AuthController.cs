@@ -1,40 +1,43 @@
-﻿using System.Web.Http;
+﻿using System.Threading;
+using System.Web.Http;
 using System.Web.Security;
+
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
-using EpicGameWeb.Models.Game;
 using EpicGameWeb.Models.JSONHelper;
 
 namespace EpicGameWeb.Controllers
 {
     [RoutePrefix("api/auth")]
-    [System.Web.Http.Cors.EnableCors(
-       origins: "*", headers: "*", methods: "*")]
+    [System.Web.Http.Cors
+        .EnableCors(
+        origins: "*", headers: "*", methods: "*")]
     public class AuthController : ApiController
     {
-        [Route("login")]
-        public string PostLoginResponse([FromBody]object value)
+        [HttpPost, AllowAnonymous, Route("login")]
+        public string PostLogin([FromBody]object value)
         {
             LoginModel model =
                 value.ToString().FromJson<LoginModel>();
             if (ModelState.IsValid)
             {
                 if (RemoteProcedureCallClass
-                    .GetRemoteChannel()
+                    .GetUserChannel()
                     .IsRegisteredUser(model.Nickname, model.PasswordHash))
                 {
                     FormsAuthentication.SetAuthCookie(model.Nickname, true);
-                    
-                    return new AuthResponse(true).ToJson();
+                    return true.ToJson();
                 }
                 else
                 {
-                    return "error: user is not registered!";
+                    ModelState.AddModelError("", "error: user is not registered!");
+                    return "";
                 }
             }
             else
             {
-                return "error: model not valid!";
+                ModelState.AddModelError("", "error: model not valid!");
+                return "";
             }
         }
 
@@ -46,17 +49,17 @@ namespace EpicGameWeb.Controllers
             if (ModelState.IsValid)
             {
                 if (!RemoteProcedureCallClass
-                    .GetRemoteChannel()
+                    .GetUserChannel()
                     .IsRegisteredUser(model.Nickname, model.PasswordHash))
                 {
                     if (RemoteProcedureCallClass
-                        .GetRemoteChannel()
+                        .GetUserChannel()
                         .RegisterUserToTable(model.FirstName, 
                             model.SecondName, model.PasswordHash, 
                             model.Nickname, model.Email))
                     {
                         FormsAuthentication.SetAuthCookie(model.Nickname, true);
-                        return new AuthResponse(true).ToJson();
+                        return true.ToJson();
                     }
                     return "error: ";
                 }
@@ -71,18 +74,14 @@ namespace EpicGameWeb.Controllers
             }
         }
 
-        [Route("isauth")]
-        public string IsAuthenticated()
+        [Route("get_account_data")]
+        public string GetAccountData()
         {
-            AccountData accountData;
-            accountData.IsAuthorized = User.Identity.IsAuthenticated;
-            accountData.Nickname = User.Identity.Name;
-            accountData.FriendList = new string[0];
-            string result = accountData.ToJson();
-            return result;
+            AccountData result = new AccountData(Thread.CurrentPrincipal.Identity.Name);
+            return result.ToJson();
         }
 
-        [Route("logout")]
+        [HttpPost, Route("logout")]
         public void Logout()
         {
             FormsAuthentication.SignOut();

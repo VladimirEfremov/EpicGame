@@ -32,7 +32,20 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<router-outlet></router-outlet>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<router-outlet></router-outlet>");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/game/game-menu/game-menu.component.html":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/game/game-menu/game-menu.component.html ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<p>\n  game-menu works!\n</p>\n\n<div>\n  <button name=\"btn_play\" (click)=\"OnBtnPlayClick()\">\n    Play  \n  </button>\n  <button name=\"btn_account\" (click)=\"OnBtnAccountClick()\">\n    Account\n  </button>\n  <button name=\"btn_people\" (click)=\"OnBtnPeopleClick()\">\n    People\n  </button>\n</div>");
 
 /***/ }),
 
@@ -45,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<p>\n  game works!\n\n  [AccountData]\n  IsAuthorized: {{accountData.IsAuthorized}}\n  Nickname:     {{accountData.Nickname}}\n  FriendsList:  {{accountData.FriendList}}\n\n</p>\n\n<div>\n    <input [(ngModel)]=\"accountData.IsAuthorized\"/>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<p>\n  game works!\n</p>\n<p>\n  [AccountData]\n</p>\n\n<div>\n  Nickname:     {{accountData.Nickname}}\n</div>\n\n<div>\n  FriendsList:  {{accountData.FriendList}}\n</div>\n\n\n<div>\n    <input [(ngModel)]=\"accountData.Nickname\"/>\n    <input [(ngModel)]=\"accountData.FriendList\"/>\n</div>\n");
 
 /***/ }),
 
@@ -58,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<div class=\"main_login\">\n<div class=\"background\">\n        \n        <form>\n        <h1 class=\"txt_login\">\n        LOGIN FORM\n        </h1>\n        \n        <div class=\"nickname\">\n        <input  name=\"nickname\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите nickname *\" \n                [(ngModel)]=\"LoginPostData.Nickname\"\n                required\n                />\n        </div> \n        <br />\n        \n        <div class=\"password\">\n\n        <input name=\"PasswordHash\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"LoginPostData.PasswordHash\"\n                required/>\n        </div>\n             \n        <br />\n                \n        <div class=\"link_registration\">\n                <a title=\"Нажми, чтобы создать аккаунт\"\n                href=\"../registration/registration.component.html\"> \n                Еще не зарегистрированы? \n                </a>\n        </div>\n        \n        <br /> <br />\n\n        <div>\n        <button \n                name=\"btn_login\" \n                (click)=\"onClick()\">\n                Войти\n        </button>\n        </div>\n                \n        </form>\n        \n</div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<div class=\"main_login\">\n<div class=\"background\">\n        \n        <form>\n        <h1 class=\"txt_login\">\n        LOGIN FORM\n        </h1>\n        \n        <div class=\"nickname\">\n        <input  name=\"nickname\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите nickname *\" \n                [(ngModel)]=\"LoginPostData.Nickname\"\n                required\n                />\n        </div> \n        <br />\n        \n        <div class=\"password\">\n\n        <input name=\"PasswordHash\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"LoginPostData.PasswordHash\"\n                required/>\n        </div>\n             \n        <br />\n                \n        <div class=\"link_registration\">\n                <a title=\"Нажми, чтобы создать аккаунт\"\n                href=\"/registration\"> \n                Еще не зарегистрированы? \n                </a>\n        </div>\n        \n        <br /> <br />\n\n        <div>\n        <button \n                name=\"btn_login\" \n                (click)=\"onClick()\">\n                Войти\n        </button>\n        </div>\n                \n        </form>\n        \n</div>\n</div>");
 
 /***/ }),
 
@@ -362,6 +375,9 @@ let AppComponent = class AppComponent {
         this.title = 'Angular works correctly with nodejs';
         this.isRegistered = false;
     }
+    ngOnInit() {
+        console.log("App-root init");
+    }
 };
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -399,6 +415,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _not_found_page_not_found_page_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./not-found-page/not-found-page.component */ "./src/app/not-found-page/not-found-page.component.ts");
 /* harmony import */ var _game_game_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./game/game.component */ "./src/app/game/game.component.ts");
 /* harmony import */ var _shared_GameGuard__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shared/GameGuard */ "./src/app/shared/GameGuard.ts");
+/* harmony import */ var _game_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./game/game-menu/game-menu.component */ "./src/app/game/game-menu/game-menu.component.ts");
+
 
 
 
@@ -417,6 +435,7 @@ const appRoutes = [
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
     { path: 'registration', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_8__["RegistrationComponent"] },
     { path: 'game', component: _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"], canActivate: [_shared_GameGuard__WEBPACK_IMPORTED_MODULE_12__["GameGuard"]] },
+    { path: 'game-menu', component: _game_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_13__["GameMenuComponent"], canActivate: [_shared_GameGuard__WEBPACK_IMPORTED_MODULE_12__["GameGuard"]] },
     { path: '**', component: _not_found_page_not_found_page_component__WEBPACK_IMPORTED_MODULE_10__["NotFoundPageComponent"] }
 ];
 let AppModule = class AppModule {
@@ -426,10 +445,9 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         declarations: [
             _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
             _main_main_component__WEBPACK_IMPORTED_MODULE_9__["MainComponent"],
-            _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"],
-            _registration_registration_component__WEBPACK_IMPORTED_MODULE_8__["RegistrationComponent"],
+            _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"], _registration_registration_component__WEBPACK_IMPORTED_MODULE_8__["RegistrationComponent"],
             _not_found_page_not_found_page_component__WEBPACK_IMPORTED_MODULE_10__["NotFoundPageComponent"],
-            _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"]
+            _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"], _game_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_13__["GameMenuComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -445,6 +463,67 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         ]
     })
 ], AppModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/game/game-menu/game-menu.component.css":
+/*!********************************************************!*\
+  !*** ./src/app/game/game-menu/game-menu.component.css ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2dhbWUvZ2FtZS1tZW51L2dhbWUtbWVudS5jb21wb25lbnQuY3NzIn0= */");
+
+/***/ }),
+
+/***/ "./src/app/game/game-menu/game-menu.component.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/game/game-menu/game-menu.component.ts ***!
+  \*******************************************************/
+/*! exports provided: GameMenuComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameMenuComponent", function() { return GameMenuComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _shared_Game_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/Game.service */ "./src/app/shared/Game.service.ts");
+
+
+
+let GameMenuComponent = class GameMenuComponent {
+    constructor(gameService) {
+        this.gameService = gameService;
+    }
+    ngOnInit() {
+    }
+    OnBtnPlayClick() {
+        this.gameService.SwitchToGame();
+    }
+    OnBtnAccountClick() {
+        //
+    }
+    OnBtnPeopleClick() {
+        //
+    }
+};
+GameMenuComponent.ctorParameters = () => [
+    { type: _shared_Game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
+];
+GameMenuComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-game-menu',
+        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./game-menu.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/game/game-menu/game-menu.component.html")).default,
+        providers: [_shared_Game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"]],
+        styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./game-menu.component.css */ "./src/app/game/game-menu/game-menu.component.css")).default]
+    })
+], GameMenuComponent);
 
 
 
@@ -483,14 +562,19 @@ let GameComponent = class GameComponent {
     constructor(gameService) {
         this.gameService = gameService;
         this.accountData = {
-            IsAuthorized: false,
             Nickname: "",
             FriendList: []
         };
     }
     ngOnInit() {
-        this.accountData =
-            this.gameService.isAuthorized();
+        let accountData = this.gameService.GetAccountData();
+        if (accountData != null) {
+            console.log("Nickname: " + accountData.Nickname);
+            this.accountData = accountData;
+        }
+        else {
+            console.log("Account data == null");
+        }
     }
 };
 GameComponent.ctorParameters = () => [
@@ -593,23 +677,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainComponent", function() { return MainComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+
 
 
 
 let MainComponent = class MainComponent {
-    constructor(http) {
+    constructor(http, router) {
         this.http = http;
+        this.router = router;
         this.base_url = '';
     }
     ngOnInit() {
     }
     onClick() {
-        alert('button clicked!');
+        this.router.navigate(['/login']);
     }
 };
 MainComponent.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] }
 ];
 MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -758,18 +846,14 @@ let GameService = class GameService {
         this.httpClient = httpClient;
         this.router = router;
     }
-    isAuthorized() {
-        console.log('registration: onClick()');
-        let httpResponse = this.httpClient.get("http://localhost:6430/api/auth/isauth")
-            .subscribe(data => {
-            console.log("success");
-            return data;
-        }, error => {
-            console.log("error: " + error);
-        }).toString();
-        console.log("httpResponse: " + httpResponse);
-        var convertedResponse = JSON.parse(httpResponse);
-        return convertedResponse;
+    SwitchToGame() {
+        this.router.navigate(["/game"]);
+    }
+    GetAccountData() {
+        let response = this.httpClient.get("http://localhost:6430/api/auth/get_account_data")
+            .subscribe(data => { console.log("succes [get account data]: " + data); return data; }, error => { console.log("error [get account data]: " + error); }).toString();
+        //let result : AccountData = JSON.parse(response);
+        return null;
     }
 };
 GameService.ctorParameters = () => [
@@ -799,7 +883,7 @@ __webpack_require__.r(__webpack_exports__);
 class GameGuard {
     constructor() { }
     canActivate(route, state) {
-        return confirm('Wanna go?');
+        return true; //confirm('Wanna go?');
     }
 }
 
@@ -843,18 +927,21 @@ let HttpAuthService = class HttpAuthService {
         console.log('login');
         let oprions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + loginPostData.Nickname
             })
         };
         this.httpClient.post(this.loginUrl, JSON.stringify(loginPostData), oprions)
             .subscribe(data => {
             if (data.toString().length > 0) {
-                console.log("success");
-                let obj = JSON.parse(data.toString());
-                if (obj.IsCorrect) {
-                    this.router.navigate(['/game']);
+                console.log("get response");
+                console.log("response: " + data.toString());
+                if (data.toString() === "true") {
+                    console.log("routing to a game");
+                    this.router.navigate(['/game-menu']);
                 }
                 else {
+                    console.log("obj isnt correct [routing to a login]");
                     this.router.navigate(['/login']);
                 }
             }
@@ -873,10 +960,10 @@ let HttpAuthService = class HttpAuthService {
         this.httpClient.post(this.registrationUrl, JSON.stringify(registrationPostData), oprions)
             .subscribe(data => {
             if (data.toString().length > 0) {
-                console.log("success");
+                console.log("registration success");
                 let obj = JSON.parse(data.toString());
                 if (obj.IsCorrect) {
-                    this.router.navigate(['/game']);
+                    this.router.navigate(['/game-menu']);
                 }
                 else {
                     this.router.navigate(['/login']);
@@ -885,7 +972,6 @@ let HttpAuthService = class HttpAuthService {
         }, error => console.log(error));
     }
     isAuthorized() {
-        console.log('registration: onClick()');
         let oprions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json'

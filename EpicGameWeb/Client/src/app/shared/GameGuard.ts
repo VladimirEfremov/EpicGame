@@ -15,6 +15,6 @@ export class GameGuard implements CanActivate
         state: RouterStateSnapshot) 
         : Observable<boolean> | boolean
     {
-        return confirm('Wanna go?');
+        return true;//confirm('Wanna go?');
     }
 }

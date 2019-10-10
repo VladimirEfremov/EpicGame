@@ -14,25 +14,22 @@ export class GameService
     {
     }
 
-    isAuthorized() : AccountData
+    SwitchToGame() : void 
     {
-        console.log('registration: onClick()');
-        let httpResponse : string = 
-        this.httpClient.get<string>(
-            "http://localhost:6430/api/auth/isauth")
+        this.router.navigate(["/game"]);
+    }
+
+    GetAccountData() : AccountData
+    {
+        let response : string = 
+            this.httpClient.get<string>(
+            "http://localhost:6430/api/auth/get_account_data")
             .subscribe(
-                data => {
-                    console.log("success");
-                    return data;
-                },
-                error => {
-                    console.log("error: " + error)
-                }
-        ).toString();
-        console.log("httpResponse: " + httpResponse);
-        var convertedResponse : AccountData = 
-            JSON.parse(httpResponse);
-        return convertedResponse;
+                data => { console.log("succes [get account data]: " + data); return data; },
+                error => { console.log("error [get account data]: " + error) }
+            ).toString();
+        //let result : AccountData = JSON.parse(response);
+        return null;
     }
 
 }

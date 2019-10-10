@@ -12,7 +12,7 @@ namespace EpicGameWeb.Models.DBHelper
             new ChannelFactory<IServiceBase>(s_Binding, s_EndPoint);
         static IServiceBase s_RemoteChannel = s_Factory.CreateChannel();
 
-        public static IServiceBase GetRemoteChannel()
+        public static IServiceUserDBHelper GetUserChannel()
         {
             return s_RemoteChannel;
         }

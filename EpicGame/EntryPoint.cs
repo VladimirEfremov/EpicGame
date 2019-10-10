@@ -6,7 +6,6 @@ using EpicGame.src.Services;
 using System.Web.Services.Description;
 
 using EpicGame.src.DBHelper;
-using EpicGame.src.GameDB;
 using EpicGame.src.Models.Game;
 
 namespace EpicGame
@@ -358,43 +357,43 @@ namespace EpicGame
                     {
                         case ConsoleKey.D1:
                             {
-                                    Console.WriteLine();
-                                    var unitsList = gamedb.GetAllGameUnitsList();
-                                    Console.WriteLine("units:");
-                                    foreach (var el in unitsList)
-                                    {
-                                        Console.WriteLine($"id: {el.GameUnitId} name: {el.GameUnitName}");
-                                    }
-
-                                    var unitsTypeList = gamedb.GetAllGameUnitsTypeList();
-                                    Console.WriteLine("unit types:");
-                                    foreach (var el in unitsTypeList)
-                                    {
-                                        Console.WriteLine($"id: {el.GameUnitTypeId} name: {el.GameUnitTypeName}");
-                                    }
-
-                                    var buildingsList = gamedb.GetAllGameBuildingsList();
-                                    Console.WriteLine("buildings list:");
-                                    foreach (var el in buildingsList)
-                                    {
-                                        Console.WriteLine($"id: {el.GameBuildingId} name: {el.GameBuildingName}");
-                                    }
-
-                                    var buildingsTypeList = gamedb.GetAllGameBuildingsTypeList();
-                                    Console.WriteLine("buildings list:");
-                                    foreach (var el in buildingsTypeList)
-                                    {
-                                        Console.WriteLine($"id: {el.GameBuildingTypeId} name: {el.GameBuildingTypeName}");
-                                    }
-
-                                    var buildingsProdList = gamedb.GetAllGameBuildingProductionList();
-                                    Console.WriteLine("buildings list:");
-                                    foreach (var el in buildingsProdList)
-                                    {
-                                        Console.WriteLine($"id: {el.GameBuildingId} " +
-                                            $"building id: {el.GameBuildingProductionTableId} " +
-                                            $"unit to produce: {el.GameUnitId}");
-                                    }
+                                    //Console.WriteLine();
+                                    //var unitsList = gamedb.GetAllGameUnitsList();
+                                    //Console.WriteLine("units:");
+                                    //foreach (var el in unitsList)
+                                    //{
+                                    //    Console.WriteLine($"id: {el.GameUnitId} name: {el.GameUnitName}");
+                                    //}
+                                    //
+                                    //var unitsTypeList = gamedb.GetAllGameUnitsTypeList();
+                                    //Console.WriteLine("unit types:");
+                                    //foreach (var el in unitsTypeList)
+                                    //{
+                                    //    Console.WriteLine($"id: {el.GameUnitTypeId} name: {el.GameUnitTypeName}");
+                                    //}
+                                    //
+                                    //var buildingsList = gamedb.GetAllGameBuildingsList();
+                                    //Console.WriteLine("buildings list:");
+                                    //foreach (var el in buildingsList)
+                                    //{
+                                    //    Console.WriteLine($"id: {el.GameBuildingId} name: {el.GameBuildingName}");
+                                    //}
+                                    //
+                                    //var buildingsTypeList = gamedb.GetAllGameBuildingsTypeList();
+                                    //Console.WriteLine("buildings list:");
+                                    //foreach (var el in buildingsTypeList)
+                                    //{
+                                    //    Console.WriteLine($"id: {el.GameBuildingTypeId} name: {el.GameBuildingTypeName}");
+                                    //}
+                                    //
+                                    //var buildingsProdList = gamedb.GetAllGameBuildingProductionList();
+                                    //Console.WriteLine("buildings list:");
+                                    //foreach (var el in buildingsProdList)
+                                    //{
+                                    //    Console.WriteLine($"id: {el.GameBuildingId} " +
+                                    //        $"building id: {el.GameBuildingProductionTableId} " +
+                                    //        $"unit to produce: {el.GameUnitId}");
+                                    //}
                                     break;
                                 }
                         case ConsoleKey.D2:

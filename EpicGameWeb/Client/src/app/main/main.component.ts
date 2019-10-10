@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http'
 
 @Component({
@@ -11,15 +12,16 @@ export class MainComponent implements OnInit {
 
   readonly base_url : string = ''; 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
   onClick() : void
   {
-      alert('button clicked!');
-
+      this.router.navigate(['/login']);
   }
 
 }

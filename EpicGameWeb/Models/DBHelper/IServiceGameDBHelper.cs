@@ -6,6 +6,12 @@ namespace EpicGameWeb.Models.DBHelper
     public interface IServiceGameDBHelper
     {
         [OperationContract]
-        void Gameplay();
+        SessionCoresTable GetCoreById(int coreId);
+
+        [OperationContract]
+        int GetNumberOfCoreWarriors(int coreId);
+
+        [OperationContract]
+        int GetNumberOfCoreAttackAircraft(int coreId);
     }
 }

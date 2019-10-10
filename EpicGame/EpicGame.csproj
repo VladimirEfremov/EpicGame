@@ -268,8 +268,6 @@
     <Compile Include="src\Services\IServiceBase.cs" />
     <Compile Include="src\Services\IServiceGameDBHelper.cs" />
     <Compile Include="src\Services\IServiceUserDBHelper.cs" />
-    <Compile Include="src\Services\ServiceGameDBHelper.cs" />
-    <Compile Include="src\Services\ServiceUserDBHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\Models\Game\GameBuildingsTable.Context.tt">

@@ -65,7 +65,7 @@
             return m_GameBuildingProductionEntity.GameBuildingProductionTable.ToList();
         }
 
-        private List<SessionCoresTable> GetAllCores()
+        public List<SessionCoresTable> GetAllCores()
         {
             return m_SessionCoreEntity.SessionCoresTable.ToList();
         }

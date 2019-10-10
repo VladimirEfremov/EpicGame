@@ -12,7 +12,6 @@ namespace EpicGameWeb.Controllers
         //   /api/game/dosomething
         public void GetLoginResponse()
         {
-            RemoteProcedureCallClass.GetGameChannel().Gameplay();
         }
 
 

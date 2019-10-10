@@ -11,12 +11,14 @@ import { MainComponent } from './main/main.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { GameComponent } from './game/game.component';
 import { GameGuard } from './shared/GameGuard';
+import { GameMenuComponent } from "./game/game-menu/game-menu.component";
 
 const appRoutes: Routes = [
    { path: '', component: MainComponent },
    { path: 'login', component: LoginComponent },
    { path: 'registration', component: RegistrationComponent },
    { path: 'game', component: GameComponent, canActivate: [GameGuard]},
+   { path: 'game-menu', component: GameMenuComponent, canActivate: [GameGuard]},
    { path: '**', component: NotFoundPageComponent }
 ];
 
@@ -24,10 +26,9 @@ const appRoutes: Routes = [
    declarations: [
       AppComponent,
       MainComponent,
-      LoginComponent,
-      RegistrationComponent,
+      LoginComponent,RegistrationComponent,
       NotFoundPageComponent,
-      GameComponent
+      GameComponent, GameMenuComponent
    ],
    imports: [
       BrowserModule,
