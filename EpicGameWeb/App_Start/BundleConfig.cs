@@ -7,14 +7,19 @@ namespace EpicGameWeb
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/Script/Bundle")
+            bundles.Add(
+                new Bundle("~/Bundles/Angular")
                 .Include(
-                "~/Scripts/Client/runtime.*",
-                "~/Scripts/Client/polyfills.*",
-                "~/Scripts/Client/styles.*",
-                "~/Scripts/Client/vendor.*",
-                "~/Scripts/Client/scripts.*",
-                "~/Scripts/Client/main.*"));
+                    "~/Scripts/Client/polyfills-es5.js",
+                    "~/Scripts/Client/polyfills-es2015.js",
+                    "~/Scripts/Client/scripts.js",
+                    "~/Scripts/Client/runtime-es2015.js",
+                    "~/Scripts/Client/vendor-es2015.js",
+                    "~/Scripts/Client/main-es2015.js",
+                    "~/Scripts/Client/runtime-es5.js",
+                    "~/Scripts/Client/vendor-es5.js",
+                    "~/Scripts/Client/main-es5.js"
+                ));
         }
     }
 }
