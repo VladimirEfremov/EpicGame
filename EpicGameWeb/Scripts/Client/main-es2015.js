@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<p>\n  game works!\n</p>\n<p>\n  [AccountData]\n</p>\n\n<div>\n  Nickname:     {{accountData.Nickname}}\n</div>\n\n<div>\n  FriendsList:  {{accountData.FriendList}}\n</div>\n\n\n<div>\n    <input [(ngModel)]=\"accountData.Nickname\"/>\n    <input [(ngModel)]=\"accountData.FriendList\"/>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<p>\n  game works!\n</p>\n<p>\n  [AccountData]\n</p>\n<div>\n  Nickname:     {{accountData.Nickname}}\n  \n</div>\n<div>\n  FriendsList:  {{accountData.FriendList}}\n</div>\n\n");
 
 /***/ }),
 
@@ -375,9 +375,6 @@ let AppComponent = class AppComponent {
         this.title = 'Angular works correctly with nodejs';
         this.isRegistered = false;
     }
-    ngOnInit() {
-        console.log("App-root init");
-    }
 };
 AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -447,7 +444,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _main_main_component__WEBPACK_IMPORTED_MODULE_9__["MainComponent"],
             _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"], _registration_registration_component__WEBPACK_IMPORTED_MODULE_8__["RegistrationComponent"],
             _not_found_page_not_found_page_component__WEBPACK_IMPORTED_MODULE_10__["NotFoundPageComponent"],
-            _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"], _game_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_13__["GameMenuComponent"]
+            _game_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_13__["GameMenuComponent"], _game_game_component__WEBPACK_IMPORTED_MODULE_11__["GameComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -567,13 +564,21 @@ let GameComponent = class GameComponent {
         };
     }
     ngOnInit() {
-        let accountData = this.gameService.GetAccountData();
-        if (accountData != null) {
-            console.log("Nickname: " + accountData.Nickname);
-            this.accountData = accountData;
+        console.log("NG on init()");
+        this.SetAccountData();
+    }
+    SetAccountData() {
+        let response = this.gameService.GetAccountData();
+        if (response != null) {
+            console.log("Get account data " +
+                "[Nickname: " + this.accountData.Nickname +
+                " Friend list: " + this.accountData.FriendList + "]");
+            this.accountData = response;
         }
         else {
             console.log("Account data == null");
+            this.accountData.Nickname = "null";
+            this.accountData.FriendList = ["null"];
         }
     }
 };
@@ -633,6 +638,9 @@ let LoginComponent = class LoginComponent {
     ngOnInit() {
     }
     onClick() {
+        console.log("LOGIN COMPONENT: " +
+            "nickname: " + this.LoginPostData.Nickname +
+            " pass: " + this.LoginPostData.PasswordHash);
         this.httpAuth.login(this.LoginPostData);
     }
 };
@@ -850,10 +858,18 @@ let GameService = class GameService {
         this.router.navigate(["/game"]);
     }
     GetAccountData() {
-        let response = this.httpClient.get("http://localhost:6430/api/auth/get_account_data")
-            .subscribe(data => { console.log("succes [get account data]: " + data); return data; }, error => { console.log("error [get account data]: " + error); }).toString();
-        //let result : AccountData = JSON.parse(response);
-        return null;
+        return this.httpClient.get("http://localhost:6430/Auth/GetAccountData")[0];
+        //.subscribe(
+        //    data  => { 
+        //        return data;
+        //    },
+        //    error => { 
+        //        console.log("error [GetAccountData]: " + error); 
+        //    }
+        //);
+        //console.log("result [GetAccountData]: " + 
+        //        result.Nickname + " " + result.FriendList); 
+        //return result;
     }
 };
 GameService.ctorParameters = () => [
@@ -917,8 +933,8 @@ let HttpAuthService = class HttpAuthService {
         this.router = router;
         this.loginUrl = 
         //"http://httpbin.org/post"; 
-        "http://localhost:6430/api/auth/login";
-        this.registrationUrl = "http://localhost:6430/api/auth/registration";
+        "http://localhost:6430/Auth/Login";
+        this.registrationUrl = "http://localhost:6430/Auth/Registration";
     }
     login(loginPostData) {
         loginPostData.PasswordHash =
@@ -927,15 +943,19 @@ let HttpAuthService = class HttpAuthService {
         console.log('login');
         let oprions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + loginPostData.Nickname
+                'Content-Type': 'application/json'
             })
         };
-        this.httpClient.post(this.loginUrl, JSON.stringify(loginPostData), oprions)
+        console.log("login [post]: " +
+            loginPostData.Nickname
+            + " " +
+            loginPostData.PasswordHash);
+        let dataToPost = JSON.stringify(loginPostData);
+        console.log("data to post: " + dataToPost);
+        this.httpClient.post(this.loginUrl, dataToPost, oprions)
             .subscribe(data => {
             if (data.toString().length > 0) {
-                console.log("get response");
-                console.log("response: " + data.toString());
+                console.log("login success [response: " + data.toString() + "]");
                 if (data.toString() === "true") {
                     console.log("routing to a game");
                     this.router.navigate(['/game-menu']);
@@ -957,35 +977,20 @@ let HttpAuthService = class HttpAuthService {
                 'Content-Type': 'application/json'
             })
         };
-        this.httpClient.post(this.registrationUrl, JSON.stringify(registrationPostData), oprions)
+        let dataToPost = JSON.stringify(registrationPostData);
+        console.log("data to post: " + dataToPost);
+        this.httpClient.post(this.registrationUrl, dataToPost, oprions)
             .subscribe(data => {
             if (data.toString().length > 0) {
-                console.log("registration success");
-                let obj = JSON.parse(data.toString());
-                if (obj.IsCorrect) {
+                console.log("registration success [response: " + data.toString() + "]");
+                if (data.toString() === "true") {
                     this.router.navigate(['/game-menu']);
                 }
                 else {
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/registration']);
                 }
             }
         }, error => console.log(error));
-    }
-    isAuthorized() {
-        let oprions = {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json'
-            })
-        };
-        this.httpClient.get("http://localhost:6430/api/auth/isauth")
-            .subscribe(data => {
-            console.log('success');
-            return true;
-        }, error => {
-            console.log("error: " + error);
-            return false;
-        });
-        return false;
     }
 };
 HttpAuthService.ctorParameters = () => [

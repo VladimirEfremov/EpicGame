@@ -28,7 +28,7 @@ const appRoutes: Routes = [
       MainComponent,
       LoginComponent,RegistrationComponent,
       NotFoundPageComponent,
-      GameComponent, GameMenuComponent
+      GameMenuComponent, GameComponent
    ],
    imports: [
       BrowserModule,

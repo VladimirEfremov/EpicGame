@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,14 +6,9 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   title: string = 'Angular works correctly with nodejs';
   isRegistered : boolean = false;
-
-  ngOnInit()
-  {
-      console.log("App-root init");
-  }
 
 }

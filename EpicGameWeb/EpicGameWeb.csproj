@@ -297,7 +297,6 @@
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
     <Compile Include="Models\DBHelper\SessionCoresTable.cs" />
     <Compile Include="Models\JSONHelper\JsonHelper.cs" />
-    <Compile Include="Models\Web_Auth\BasicAuthMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -501,7 +500,7 @@
   <Target Name="AfterBuild">
   </Target> -->
   <Target Name="NgDebug" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-    <Exec WorkingDirectory="$(ProjectDir)Client" Command="ng build --extract-css" />
+    <Exec WorkingDirectory="$(ProjectDir)Client" Command="ng build" />
   </Target>
   <Target Name="NgRelease" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <Exec WorkingDirectory="$(ProjectDir)Client" Command="ng build --prod" />

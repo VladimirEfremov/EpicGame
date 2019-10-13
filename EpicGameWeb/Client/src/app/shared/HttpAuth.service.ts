@@ -11,10 +11,10 @@ export class HttpAuthService
 {
     loginUrl: string = 
         //"http://httpbin.org/post"; 
-        "http://localhost:6430/api/auth/login";
+        "http://localhost:6430/Auth/Login";
 
     registrationUrl: string = 
-        "http://localhost:6430/api/auth/registration";
+        "http://localhost:6430/Auth/Registration";
      
     constructor(
         private httpClient: HttpClient,
@@ -30,20 +30,26 @@ export class HttpAuthService
         console.log('login');
         let oprions = {
         headers: new HttpHeaders({ 
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + loginPostData.Nickname})
+            'Content-Type': 'application/json'})
         }
+
+        console.log("login [post]: " + 
+            loginPostData.Nickname 
+            + " " + 
+            loginPostData.PasswordHash);
+
+        let dataToPost = JSON.stringify(loginPostData);
+        console.log("data to post: " + dataToPost);
 
         this.httpClient.post<HttpLoginPostData>(
             this.loginUrl, 
-            JSON.stringify(loginPostData), 
+            dataToPost, 
             oprions)
             .subscribe(
                 data => {
                     if (data.toString().length > 0)
                     {
-                        console.log("get response");
-                        console.log("response: " + data.toString());
+                        console.log("login success [response: "+data.toString()+"]");
                         if (data.toString() === "true")
                         {
                             console.log("routing to a game");
@@ -73,49 +79,28 @@ export class HttpAuthService
                 'application/json' })
         }
         
+        let dataToPost = JSON.stringify(registrationPostData);
+        console.log("data to post: " + dataToPost);
+
         this.httpClient.post<HttpRegistrationPostData>(
             this.registrationUrl, 
-            JSON.stringify(registrationPostData), oprions)
+            dataToPost, oprions)
             .subscribe(
                 data => {
                 if (data.toString().length > 0)
                 {
-                    console.log("registration success");
-                    let obj = JSON.parse(data.toString());
-                    if (obj.IsCorrect)
+                    console.log("registration success [response: "+data.toString()+"]");
+                    if (data.toString() === "true")
                     {
                         this.router.navigate(['/game-menu']);
                     }
                     else 
                     {
-                        this.router.navigate(['/login']);
+                        this.router.navigate(['/registration']);
                     }
                 }
                 },
                 error => console.log(error)
             );
     }
-
-    isAuthorized() : boolean
-    {
-        let oprions = {
-            headers: new HttpHeaders({ 
-            'Content-Type': 
-                'application/json' })
-        }
-        this.httpClient.get<boolean>(
-        "http://localhost:6430/api/auth/isauth")
-        .subscribe(
-            data => {
-                console.log('success')
-                return true;
-            },
-            error => {
-                console.log("error: " + error)
-                return false;
-            }
-        );
-        return false;
-    }
-
 }

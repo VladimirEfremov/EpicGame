@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit
 
   onClick() : void
   {
+      console.log("LOGIN COMPONENT: " +
+        "nickname: " + this.LoginPostData.Nickname + 
+        " pass: " + this.LoginPostData.PasswordHash);
       this.httpAuth.login(this.LoginPostData);
   }
 }

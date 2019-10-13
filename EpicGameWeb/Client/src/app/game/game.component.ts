@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AccountData } from '../shared/AccountData';
 import { GameService } from '../shared/Game.service';
-import { nextTick } from 'q';
 
 @Component({
   selector: 'app-game',
@@ -20,15 +19,25 @@ export class GameComponent implements OnInit {
 
   ngOnInit() 
   {
-      let accountData : AccountData = this.gameService.GetAccountData();
-      if (accountData != null)
+      console.log("NG on init()")
+      this.SetAccountData();
+  }
+
+  SetAccountData() : void 
+  {
+      let response : AccountData = this.gameService.GetAccountData();
+      if (response != null)
       {
-          console.log("Nickname: " + accountData.Nickname);
-          this.accountData = accountData;
+          console.log("Get account data " +
+          "[Nickname: " + this.accountData.Nickname + 
+          " Friend list: " + this.accountData.FriendList + "]");
+          this.accountData = response;
       }
       else 
       {
-        console.log("Account data == null")
+          console.log("Account data == null");
+          this.accountData.Nickname = "null";
+          this.accountData.FriendList = [ "null" ];
       }
   }
 
