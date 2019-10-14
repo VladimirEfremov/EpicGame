@@ -1,32 +1,95 @@
 
-<div>game works!</div>
-<br>
-<div>[AccountData]</div>
-<div>
-  Nickname:     {{accountData.Nickname}}
-</div>
-<div>
-  FriendsList:  {{accountData.FriendList}}
-</div>
+<table class="globalTable">
+  
+<tr>
+    <td>
+      <div class="GameTxt" > 
+        Ogame2.0 Nickname:{{accountData.Nickname}}
+      </div>
+    </td>
+    <td>
+    Nickname:{{accountData.Nickname}}
+    </td>
+</tr>
 
-<button (click)="OnBtnCoreClick()">Core</button>
-<button (click)="OnBtnCasernClick()">Casern</button>
 
-
-<ng-template [ngIf]="IsCoreActivated">
-  <div>Hp: {{hp}}</div> 
-  <div>Workers: {{workers}}</div>
-  <div>Type: {{type}}</div>
-  <button>Produce worker</button>
-
-</ng-template>
-
-<ng-template [ngIf]="IsCasernActivated">
-
-    <div>Warriors: {{warriorsCount}}</div>
-    <div>AttackAircraft: {{attackAircraftsCount}}</div>
-
-    <button>Produce warrior</button> <br/>
-    <button>Produce attackAircraft</button>
+<tr>
+  <td>
+  <table class="CoreTable" align="left"> 
+    <tr>
+      <td></td>
+      <td>
+        <h3> Money: {{money}} gold Defence power: {{defencePower}} </h3>
+        <button (click)="OnBtnCoreClick()">Core</button>
+        <button (click)="OnBtnCasernClick()">Casern</button> 
+      </td>
+    </tr>      
     
-</ng-template>
+    <tr>
+      <td></td>
+      <td>
+        <ng-template [ngIf]="IsCoreActivated">
+          <td>
+            <div>Hp: {{coreHp}}</div> 
+            <div>Workers: {{coreWorkersCount}}</div>
+            <div>Type: {{coreType}}</div>
+          </td>
+          <td>
+            <button>Produce worker</button>
+          </td>
+        </ng-template>
+        <ng-template [ngIf]="IsCasernActivated">
+          <td>  
+            <div>Hp: {{casernHp}}</div> 
+            <div>Warriors: {{casernWarriorsCount}}</div>
+            <div>AttackAircraft: {{casernAttackAircraftsCount}}</div>
+            <div>Type: {{casernType}}</div>
+          </td>
+          <td>
+            <button>Produce warrior</button> <br/>
+            <button>Produce attackAircraft</button>
+          </td>
+        </ng-template>
+      </td>
+    </tr>
+    
+  </table>
+  </td>
+  
+  <td>
+    <table class="CommunicationTable" align="left">
+      <tr align="center">FriendsList</tr>
+      <tr>
+        <td>
+          <tr>
+            <button class="cmnBtn" (click)="OnAllBtnClick()">All</button>
+          </tr>
+          <tr>
+            <button class="cmnBtn" (click)="OnFriendsBtnClick()">Friends</button>
+          </tr>
+          <tr>
+            <button class="cmnBtn" (click)="OnFollowersBtnClick()">Followers</button>
+          </tr>
+          <tr>
+            <button class="cmnBtn" (click)="OnFollowingsBtnClick()">Followings</button>
+          </tr>
+        </td>
+        
+        <td>
+          <div 
+          *ngFor=
+          "let selectedNickname of selectedNicknames">
+          <button (ng-click)="OnUserBtnClick(selectedNickname)">
+            {{selectedNickname}}
+          </button>
+          </div> 
+        </td>
+      </tr>
+    </table>
+  </td>
+  
+</tr>
+
+</table>
+
+

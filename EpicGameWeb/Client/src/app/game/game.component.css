@@ -1,0 +1,38 @@
+
+
+td
+{
+    text-align: left;
+}
+
+.globalTable
+{
+    width: 100%;
+    height: 100%;
+}
+
+.CoreTable
+{
+    width: 70rem;
+    border: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.GameTxt
+{
+    text-align: center;
+    font-size: 34px;
+    vertical-align: text-top;
+}
+
+.CommunicationTable
+{
+    width: 250px;
+    border: 1px solid black;
+    margin-right: 5%;
+}
+
+.cmnBtn
+{
+    width: 100px;
+}

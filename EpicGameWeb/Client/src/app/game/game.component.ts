@@ -10,20 +10,39 @@ import { GameService } from '../shared/Game.service';
 })
 export class GameComponent implements OnInit 
 {
-  IsCoreActivated : boolean = true;
-  IsCasernActivated : boolean;
-
+  
+  //Info account
   accountData : AccountData = {
     Nickname: "",
     FriendList: []
   }; 
+  
+  //Base info
+  money: number = 0;
+  defencePower: number = 0;
 
-  hp: number = 1500;
-  workers: number = 3;
-  type: string = "Core";
+  //Flags info core
+  IsCoreActivated : boolean = true;
+  IsCasernActivated : boolean;
+  //Info core
+  coreHp: number = 1500;
+  coreWorkersCount: number = 3;
+  coreType: string = "Core";
 
-  warriorsCount: number = 0;
-  attackAircraftsCount: number = 0;
+  //Info casern
+  casernHp: number = 750;
+  casernType: string = "AttackProduction";
+  casernWarriorsCount: number = 0;
+  casernAttackAircraftsCount: number = 0;
+
+  //Communication 
+  //list [All, Friends, Followers, Followings]
+  selectedNicknames : string[] = [];
+  all : string[] = ["none1", "none2"];
+  friends : string[] = ["Friend1", "Friend2"];
+  followers : string[] = ["Follower1", "Follower2"];
+  followings : string[] = ["Followings1", "Followings2"];
+
 
   constructor(private gameService: GameService) { }
 
@@ -56,6 +75,36 @@ export class GameComponent implements OnInit
   {
       this.IsCasernActivated = true;
       this.IsCoreActivated = false;
+  }
+
+
+  OnAllBtnClick() : void
+  {
+      //GetAllUsers
+      this.selectedNicknames = this.all;
+    }
+    
+    OnFriendsBtnClick() : void
+    {
+      //GetAllFriends
+      this.selectedNicknames = this.friends;
+    }
+    
+    OnFollowersBtnClick() : void
+    {
+      //GetAllFollowers
+      this.selectedNicknames = this.followers;
+    }
+    
+    OnFollowingsBtnClick() : void
+    {
+      //GetAllFollowings
+      this.selectedNicknames = this.followings;
+  }
+
+  OnUserBtnClick(selectedNickname : string) : void
+  {
+
   }
 
 }
