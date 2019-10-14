@@ -1,15 +1,32 @@
 
-<p>
-  game works!
-</p>
-<p>
-  [AccountData]
-</p>
+<div>game works!</div>
+<br>
+<div>[AccountData]</div>
 <div>
   Nickname:     {{accountData.Nickname}}
-  
 </div>
 <div>
   FriendsList:  {{accountData.FriendList}}
 </div>
 
+<button (click)="OnBtnCoreClick()">Core</button>
+<button (click)="OnBtnCasernClick()">Casern</button>
+
+
+<ng-template [ngIf]="IsCoreActivated">
+  <div>Hp: {{hp}}</div> 
+  <div>Workers: {{workers}}</div>
+  <div>Type: {{type}}</div>
+  <button>Produce worker</button>
+
+</ng-template>
+
+<ng-template [ngIf]="IsCasernActivated">
+
+    <div>Warriors: {{warriorsCount}}</div>
+    <div>AttackAircraft: {{attackAircraftsCount}}</div>
+
+    <button>Produce warrior</button> <br/>
+    <button>Produce attackAircraft</button>
+    
+</ng-template>

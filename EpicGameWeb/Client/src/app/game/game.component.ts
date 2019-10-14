@@ -8,23 +8,28 @@ import { GameService } from '../shared/Game.service';
   styleUrls: ['./game.component.css'],
   providers: [GameService]
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit 
+{
+  IsCoreActivated : boolean = true;
+  IsCasernActivated : boolean;
 
   accountData : AccountData = {
     Nickname: "",
     FriendList: []
   }; 
 
+  hp: number = 1500;
+  workers: number = 3;
+  type: string = "Core";
+
+  warriorsCount: number = 0;
+  attackAircraftsCount: number = 0;
+
   constructor(private gameService: GameService) { }
 
   ngOnInit() 
   {
       console.log("NG on init()")
-      this.SetAccountData();
-  }
-
-  SetAccountData() : void 
-  {
       let response : AccountData = this.gameService.GetAccountData();
       if (response != null)
       {
@@ -39,6 +44,18 @@ export class GameComponent implements OnInit {
           this.accountData.Nickname = "null";
           this.accountData.FriendList = [ "null" ];
       }
+  }
+
+  OnBtnCoreClick() : void
+  {
+      this.IsCoreActivated = true;
+      this.IsCasernActivated = false;
+  }
+
+  OnBtnCasernClick() : void
+  {
+      this.IsCasernActivated = true;
+      this.IsCoreActivated = false;
   }
 
 }
