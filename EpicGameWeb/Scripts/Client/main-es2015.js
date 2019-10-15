@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<p>\n  game works!\n</p>\n<p>\n  [AccountData]\n</p>\n<div>\n  Nickname:     {{accountData.Nickname}}\n  \n</div>\n<div>\n  FriendsList:  {{accountData.FriendList}}\n</div>\n\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0 Nickname:{{accountData.Nickname}}\n      </div>\n    </td>\n    <td>\n    Nickname:{{accountData.Nickname}}\n    </td>\n</tr>\n\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{money}} gold Defence power: {{defencePower}} </h3>\n        <button disabled=\"true\" (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"IsCasernActive\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"IsDefenceTowerActive\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"IsGoldMiningActive\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"!IsCasernActive\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!IsDefenceTowerActive\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!IsGoldMiningActive\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <td>\n        <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.CoreHp}}</div> \n            <div>Attack: {{coreInfo.CoreAttack}}</div> \n            <div>Defence: {{coreInfo.CoreDefence}}</div>\n            <div>Workers: {{coreInfo.CoreWorkersCount}}/{{coreInfo.CoreCapacity}}</div>\n            <div>Type: {{coreInfo.CoreType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.CoreIncome}}</div> \n              <div>Outcome: {{coreInfo.CoreOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{casernInfo.CasernHp}}</div> \n            <div>Attack: {{casernInfo.CasernAttack}}</div> \n            <div>Defence: {{casernInfo.CasernDefence}}</div>\n            <div>Warriors: {{casernInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{casernInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{casernInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{defenceTowerInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{defenceTowerInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{defenceTowerInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{defenceTowerInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n          <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n              <td>  \n                  <div>Hp: {{goldMiningInfo.GoldMiningHp}}</div> \n                  <div>Attack: {{goldMiningInfo.GoldMiningAttack}}</div> \n                  <div>Defence: {{goldMiningInfo.GoldMiningDefence}}</div>\n                  <div>Type: {{goldMiningInfo.GoldMiningType}}</div>\n                </td>\n                <td>\n                    <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> \n                    <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>\n                </td>\n              <td>\n                <button title=\"Добавит нового рабочего на производственную линию\"\n                        (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n              </td>\n            </ng-template>\n      </td>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\" align=\"left\">\n      <tr align=\"center\">FriendsList</tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n          <div *ngFor=\n          \"let selectedNickname of selectedNicknames\">\n            <button class=\"btnList\" \n            (click)=\"OnUserBtnClick(selectedNickname)\">\n              {{selectedNickname}}\n            </button>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n\n");
 
 /***/ }),
 
@@ -535,7 +535,7 @@ GameMenuComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2dhbWUvZ2FtZS5jb21wb25lbnQuY3NzIn0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\ntd\r\n{\r\n    text-align: left;\r\n    padding: 0.5rem;\r\n}\r\n\r\n.globalTable\r\n{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n.CoreTable\r\n{\r\n    width: 70rem;\r\n    border: 1px solid black;\r\n    border-left: 1px solid black;\r\n}\r\n\r\n.GameTxt\r\n{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    vertical-align: text-top;\r\n}\r\n\r\n.CommunicationTable\r\n{\r\n    width: 250px;\r\n    border: 1px solid black;\r\n    margin-right: 5%;\r\n}\r\n\r\n.DiactivatedButton\r\n{\r\n    background-color: gray;\r\n}\r\n\r\n.cmnBtn\r\n{\r\n    width: 100px;\r\n}\r\n\r\n.btnList\r\n{\r\n    width: 100px;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsWUFBWTtBQUNoQjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLDRCQUE0QjtBQUNoQzs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLHdCQUF3QjtBQUM1Qjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGdCQUFnQjtBQUNwQjs7QUFFQTs7SUFFSSxzQkFBc0I7QUFDMUI7O0FBRUE7O0lBRUksWUFBWTtBQUNoQjs7QUFFQTs7SUFFSSxZQUFZO0FBQ2hCIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcclxuXHJcbnRkXHJcbntcclxuICAgIHRleHQtYWxpZ246IGxlZnQ7XHJcbiAgICBwYWRkaW5nOiAwLjVyZW07XHJcbn1cclxuXHJcbi5nbG9iYWxUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogMTAwJTtcclxufVxyXG5cclxuLkNvcmVUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogNzByZW07XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuICAgIGJvcmRlci1sZWZ0OiAxcHggc29saWQgYmxhY2s7XHJcbn1cclxuXHJcbi5HYW1lVHh0XHJcbntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtc2l6ZTogMzRweDtcclxuICAgIHZlcnRpY2FsLWFsaWduOiB0ZXh0LXRvcDtcclxufVxyXG5cclxuLkNvbW11bmljYXRpb25UYWJsZVxyXG57XHJcbiAgICB3aWR0aDogMjUwcHg7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuICAgIG1hcmdpbi1yaWdodDogNSU7XHJcbn1cclxuXHJcbi5EaWFjdGl2YXRlZEJ1dHRvblxyXG57XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBncmF5O1xyXG59XHJcblxyXG4uY21uQnRuXHJcbntcclxuICAgIHdpZHRoOiAxMDBweDtcclxufVxyXG5cclxuLmJ0bkxpc3Rcclxue1xyXG4gICAgd2lkdGg6IDEwMHB4O1xyXG59Il19 */");
 
 /***/ }),
 
@@ -551,45 +551,165 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameComponent", function() { return GameComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _shared_Game_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/Game.service */ "./src/app/shared/Game.service.ts");
+/* harmony import */ var _shared_HttpAuth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/HttpAuth.service */ "./src/app/shared/HttpAuth.service.ts");
+/* harmony import */ var _shared_Game_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/Game.service */ "./src/app/shared/Game.service.ts");
+
 
 
 
 let GameComponent = class GameComponent {
-    constructor(gameService) {
+    constructor(gameService, httpAuthService) {
         this.gameService = gameService;
+        this.httpAuthService = httpAuthService;
+        //Info account
         this.accountData = {
             Nickname: "",
-            FriendList: []
+            FriendsList: [],
+            FollowersList: [],
+            FollowingsList: []
         };
+        //Flags info core
+        this.IsCoreInfoActivated = true;
+        this.IsCasernActive = true;
+        this.IsDefenceTowerActive = true;
+        this.IsGoldMiningActive = true;
+        //Base info
+        this.money = 0;
+        this.defencePower = 0;
+        //Info core
+        this.coreInfo = {
+            CoreHp: 10000,
+            CoreAttack: 0,
+            CoreDefence: 20,
+            CoreWorkersCount: 3,
+            CoreCapacity: 10,
+            CoreIncome: 0,
+            CoreOutcome: 10,
+            CoreType: "Core"
+        };
+        this.casernInfo = {
+            CasernHp: 7500,
+            CasernAttack: 0,
+            CasernDefence: 15,
+            CasernIncome: 0,
+            CasernOutcome: 10,
+            CasernType: "ProductionAttack",
+            CasernWarriorsCount: 0,
+            CasernAttackAircraftsCount: 0,
+            CasernCapacity: 0
+        };
+        //Info DefenceTower
+        this.defenceTowerInfo = {
+            DefenceTowerHp: 12500,
+            DefenceTowerAttack: 200,
+            DefenceTowerDefence: 15,
+            DefenceTowerIncome: 0,
+            DefenceTowerOutcome: 10,
+            DefenceTowerType: "Defence",
+            DefenceTowerWorkersCount: 0
+        };
+        //Info GoldMining
+        this.goldMiningInfo = {
+            GoldMiningHp: 2500,
+            GoldMiningAttack: 0,
+            GoldMiningDefence: 0,
+            GoldMiningIncome: 0,
+            GoldMiningOutcome: 0,
+            GoldMiningType: "Production",
+            GoldMiningWorkersCount: 0,
+            GoldMiningCapacity: 0
+        };
+        //Communication 
+        //list [All, Friends, Followers, Followings]
+        this.selectedNicknames = [];
+        this.all = ["none1", "none2"];
+        this.friends = ["Friend1", "Friend2"];
+        this.followers = ["Follower1", "Follower2"];
+        this.followings = ["Followings1", "Followings2"];
     }
     ngOnInit() {
         console.log("NG on init()");
-        this.SetAccountData();
-    }
-    SetAccountData() {
-        let response = this.gameService.GetAccountData();
+        let response = this.httpAuthService.GetAccountData();
         if (response != null) {
             console.log("Get account data " +
                 "[Nickname: " + this.accountData.Nickname +
-                " Friend list: " + this.accountData.FriendList + "]");
+                " Friends list: " + this.accountData.FriendsList + "]");
             this.accountData = response;
         }
         else {
             console.log("Account data == null");
             this.accountData.Nickname = "null";
-            this.accountData.FriendList = ["null"];
+            this.accountData.FriendsList = ["null"];
         }
+    }
+    OnCoreBtnClick() {
+        this.IsCoreInfoActivated = true;
+        this.IsCasernInfoActivated = false;
+        this.IsDefenceTowerInfoActivated = false;
+        this.IsGoldMiningInfoActivated = false;
+    }
+    OnBuildCasernBtnClick() {
+    }
+    OnBuildGoldMiningBtnClick() {
+    }
+    OnBuildDefenceTowerBtnClick() {
+    }
+    OnProduceWorkerBtnClick() {
+    }
+    OnCasernBtnClick() {
+        this.IsCoreInfoActivated = false;
+        this.IsCasernInfoActivated = true;
+        this.IsDefenceTowerInfoActivated = false;
+        this.IsGoldMiningInfoActivated = false;
+    }
+    OnProduceWarriorBtnClick() {
+    }
+    OnProduceAttackAircraftBtnClick() {
+    }
+    OnGoldMiningBtnClick() {
+        this.IsCoreInfoActivated = false;
+        this.IsCasernInfoActivated = false;
+        this.IsDefenceTowerInfoActivated = false;
+        this.IsGoldMiningInfoActivated = true;
+    }
+    OnAddWorkerToMineBtnClick() {
+    }
+    OnDefenceTowerBtnClick() {
+        this.IsCasernInfoActivated = false;
+        this.IsCoreInfoActivated = false;
+        this.IsDefenceTowerInfoActivated = true;
+        this.IsGoldMiningInfoActivated = false;
+    }
+    OnAllBtnClick() {
+        //GetAllUsers
+        //this.all = this.gameService.GetAllUsers();
+        this.selectedNicknames = this.all;
+    }
+    OnFriendsBtnClick() {
+        //GetAllFriends
+        this.selectedNicknames = this.friends;
+    }
+    OnFollowersBtnClick() {
+        //GetAllFollowers
+        this.selectedNicknames = this.followers;
+    }
+    OnFollowingsBtnClick() {
+        //GetAllFollowings
+        this.selectedNicknames = this.followings;
+    }
+    OnUserBtnClick(selectedNickname) {
+        console.log("OnUserBtnClick: " + selectedNickname);
     }
 };
 GameComponent.ctorParameters = () => [
-    { type: _shared_Game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
+    { type: _shared_Game_service__WEBPACK_IMPORTED_MODULE_3__["GameService"] },
+    { type: _shared_HttpAuth_service__WEBPACK_IMPORTED_MODULE_2__["HttpAuthService"] }
 ];
 GameComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-game',
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./game.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/game/game.component.html")).default,
-        providers: [_shared_Game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"]],
+        providers: [_shared_Game_service__WEBPACK_IMPORTED_MODULE_3__["GameService"], _shared_HttpAuth_service__WEBPACK_IMPORTED_MODULE_2__["HttpAuthService"]],
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./game.component.css */ "./src/app/game/game.component.css")).default]
     })
 ], GameComponent);
@@ -857,20 +977,6 @@ let GameService = class GameService {
     SwitchToGame() {
         this.router.navigate(["/game"]);
     }
-    GetAccountData() {
-        return this.httpClient.get("http://localhost:6430/Auth/GetAccountData")[0];
-        //.subscribe(
-        //    data  => { 
-        //        return data;
-        //    },
-        //    error => { 
-        //        console.log("error [GetAccountData]: " + error); 
-        //    }
-        //);
-        //console.log("result [GetAccountData]: " + 
-        //        result.Nickname + " " + result.FriendList); 
-        //return result;
-    }
 };
 GameService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
@@ -991,6 +1097,17 @@ let HttpAuthService = class HttpAuthService {
                 }
             }
         }, error => console.log(error));
+    }
+    GetAccountData() {
+        let response;
+        this.httpClient.get("http://localhost:6430/Auth/GetAccountData")
+            .subscribe((data) => {
+            console.log("data: " + data.toString());
+            response = data;
+        });
+        console.log("response [GetAccountData]: " +
+            response.Nickname + " " + response.FriendsList);
+        return response;
     }
 };
 HttpAuthService.ctorParameters = () => [

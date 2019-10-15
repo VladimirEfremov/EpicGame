@@ -20,36 +20,104 @@
       <td></td>
       <td>
         <h3> Money: {{money}} gold Defence power: {{defencePower}} </h3>
-        <button (click)="OnBtnCoreClick()">Core</button>
-        <button (click)="OnBtnCasernClick()">Casern</button> 
+        <button disabled="true" (click)="OnCoreBtnClick()">Core</button>
+
+        <ng-template [ngIf]="IsCasernActive">
+          <button (click)="OnCasernBtnClick()">Casern</button> 
+        </ng-template>
+        <ng-template [ngIf]="IsDefenceTowerActive">
+          <button (click)="OnGoldMiningBtnClick()">GoldMining</button> 
+        </ng-template>
+        <ng-template [ngIf]="IsGoldMiningActive">
+          <button (click)="OnDefenceTowerBtnClick()">DefenceTower</button> 
+        </ng-template>
+
+        <ng-template [ngIf]="!IsCasernActive">
+            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Casern</button> 
+        </ng-template>
+        <ng-template [ngIf]="!IsDefenceTowerActive">
+            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">GoldMining</button> 
+        </ng-template>
+        <ng-template [ngIf]="!IsGoldMiningActive">
+            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">DefenceTower</button> 
+        </ng-template>
+
       </td>
     </tr>      
     
     <tr>
       <td></td>
       <td>
-        <ng-template [ngIf]="IsCoreActivated">
+        <ng-template [ngIf]="IsCoreInfoActivated">
           <td>
-            <div>Hp: {{coreHp}}</div> 
-            <div>Workers: {{coreWorkersCount}}</div>
-            <div>Type: {{coreType}}</div>
+            <div>Hp: {{coreInfo.CoreHp}}</div> 
+            <div>Attack: {{coreInfo.CoreAttack}}</div> 
+            <div>Defence: {{coreInfo.CoreDefence}}</div>
+            <div>Workers: {{coreInfo.CoreWorkersCount}}/{{coreInfo.CoreCapacity}}</div>
+            <div>Type: {{coreInfo.CoreType}}</div>
           </td>
           <td>
-            <button>Produce worker</button>
+              <div>Income: {{coreInfo.CoreIncome}}</div> 
+              <div>Outcome: {{coreInfo.CoreOutcome}}</div>
+          </td>
+          <td>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBuildCasernBtnClick()">Build Casern</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBuildGoldMiningBtnClick()">Build GoldMining</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBuildDefenceTowerBtnClick()">Build DefenceTower</button></tr>
+          </td>
+          <td>
+            <button title="Стоимость: 1000 gold" (click)="OnProduceWorkerBtnClick()">Produce worker</button>
           </td>
         </ng-template>
-        <ng-template [ngIf]="IsCasernActivated">
+        
+        <ng-template [ngIf]="IsCasernInfoActivated">
           <td>  
-            <div>Hp: {{casernHp}}</div> 
-            <div>Warriors: {{casernWarriorsCount}}</div>
-            <div>AttackAircraft: {{casernAttackAircraftsCount}}</div>
-            <div>Type: {{casernType}}</div>
+            <div>Hp: {{casernInfo.CasernHp}}</div> 
+            <div>Attack: {{casernInfo.CasernAttack}}</div> 
+            <div>Defence: {{casernInfo.CasernDefence}}</div>
+            <div>Warriors: {{casernInfo.CasernWarriorsCount}}</div>
+            <div>AttackAircraft: {{casernInfo.CasernAttackAircraftsCount}}</div>
+            <div>Type: {{casernInfo.CasernType}}</div>
           </td>
           <td>
-            <button>Produce warrior</button> <br/>
-            <button>Produce attackAircraft</button>
+              <div>Income: {{casernInfo.CasernIncome}}</div> 
+              <div>Outcome: {{casernInfo.CasernOutcome}}</div>
+          </td>
+          <td>
+            <button title="Стоимость: 1000 gold" (click)="OnProduceWarriorBtnClick()">Produce warrior</button> <br/>
+            <button title="Стоимость: 1000 gold" (click)="OnProduceAttackAircraftBtnClick()">Produce attackAircraft</button>
           </td>
         </ng-template>
+        
+        <ng-template [ngIf]="IsDefenceTowerInfoActivated">
+            <td>  
+              <div>Hp: {{defenceTowerInfo.DefenceTowerHp}}</div> 
+              <div>Attack: {{defenceTowerInfo.DefenceTowerAttack}}</div> 
+              <div>Defence: {{defenceTowerInfo.DefenceTowerDefence}}</div>
+              <div>Type: {{defenceTowerInfo.DefenceTowerType}}</div>
+            </td>
+            <td>
+                <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> 
+                <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>
+            </td>
+          </ng-template>
+        
+          <ng-template [ngIf]="IsGoldMiningInfoActivated">
+              <td>  
+                  <div>Hp: {{goldMiningInfo.GoldMiningHp}}</div> 
+                  <div>Attack: {{goldMiningInfo.GoldMiningAttack}}</div> 
+                  <div>Defence: {{goldMiningInfo.GoldMiningDefence}}</div>
+                  <div>Type: {{goldMiningInfo.GoldMiningType}}</div>
+                </td>
+                <td>
+                    <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> 
+                    <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>
+                </td>
+              <td>
+                <button title="Добавит нового рабочего на производственную линию"
+                        (click)="OnAddWorkerToMineBtnClick()">Add worker</button> <br/>
+              </td>
+            </ng-template>
       </td>
     </tr>
     
@@ -75,14 +143,14 @@
           </tr>
         </td>
         
-        <td>
-          <div 
-          *ngFor=
+        <td >
+          <div *ngFor=
           "let selectedNickname of selectedNicknames">
-          <button (ng-click)="OnUserBtnClick(selectedNickname)">
-            {{selectedNickname}}
-          </button>
-          </div> 
+            <button class="btnList" 
+            (click)="OnUserBtnClick(selectedNickname)">
+              {{selectedNickname}}
+            </button>
+          </div>
         </td>
       </tr>
     </table>

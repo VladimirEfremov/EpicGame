@@ -1,12 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AccountData } from '../shared/AccountData';
+
+import { HttpAuthService } from '../shared/HttpAuth.service';
 import { GameService } from '../shared/Game.service';
+
+import { CoreInfo } from './game-structures/CoreInfo';
+import { CasernInfo } from './game-structures/CasernInfo';
+import { DefenceTowerInfo } from './game-structures/DefenceTowerInfo';
+import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  providers: [GameService]
+  providers: [GameService, HttpAuthService]
 })
 export class GameComponent implements OnInit 
 {
@@ -14,26 +21,75 @@ export class GameComponent implements OnInit
   //Info account
   accountData : AccountData = {
     Nickname: "",
-    FriendList: []
+    FriendsList: [],
+    FollowersList: [],
+    FollowingsList: []
   }; 
+  
+  //Flags info core
+  IsCoreInfoActivated : boolean = true;
+  IsCasernInfoActivated : boolean;
+  IsDefenceTowerInfoActivated: boolean;
+  IsGoldMiningInfoActivated: boolean;
+  
+  IsCasernActive: boolean = true;
+  IsDefenceTowerActive: boolean = true;
+  IsGoldMiningActive: boolean = true;
   
   //Base info
   money: number = 0;
   defencePower: number = 0;
 
-  //Flags info core
-  IsCoreActivated : boolean = true;
-  IsCasernActivated : boolean;
   //Info core
-  coreHp: number = 1500;
-  coreWorkersCount: number = 3;
-  coreType: string = "Core";
+  coreInfo: CoreInfo =
+  {
+    CoreHp: 10000,
+    CoreAttack: 0,
+    CoreDefence: 20,
+    CoreWorkersCount: 3,
+    CoreCapacity: 10,
+    CoreIncome: 0,
+    CoreOutcome: 10,
+    CoreType: "Core"
+  };
 
-  //Info casern
-  casernHp: number = 750;
-  casernType: string = "AttackProduction";
-  casernWarriorsCount: number = 0;
-  casernAttackAircraftsCount: number = 0;
+  casernInfo: CasernInfo =
+  {
+      CasernHp: 7500,
+      CasernAttack: 0,
+      CasernDefence: 15,
+      CasernIncome: 0,
+      CasernOutcome: 10,
+      CasernType: "ProductionAttack",
+      CasernWarriorsCount: 0,
+      CasernAttackAircraftsCount: 0,
+      CasernCapacity: 0
+  };
+
+  //Info DefenceTower
+  defenceTowerInfo: DefenceTowerInfo =
+  {
+      DefenceTowerHp: 12500,
+      DefenceTowerAttack: 200,
+      DefenceTowerDefence: 15,
+      DefenceTowerIncome: 0,
+      DefenceTowerOutcome: 10,
+      DefenceTowerType: "Defence",
+      DefenceTowerWorkersCount: 0
+  };
+
+  //Info GoldMining
+  goldMiningInfo: GoldMiningInfo =
+  {
+      GoldMiningHp: 2500,
+      GoldMiningAttack: 0,
+      GoldMiningDefence: 0,
+      GoldMiningIncome: 0,
+      GoldMiningOutcome: 0,
+      GoldMiningType: "Production",
+      GoldMiningWorkersCount: 0,
+      GoldMiningCapacity: 0
+  };
 
   //Communication 
   //list [All, Friends, Followers, Followings]
@@ -44,67 +100,123 @@ export class GameComponent implements OnInit
   followings : string[] = ["Followings1", "Followings2"];
 
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService,
+      private httpAuthService: HttpAuthService) { }
 
   ngOnInit() 
   {
       console.log("NG on init()")
-      let response : AccountData = this.gameService.GetAccountData();
+      let response : AccountData = this.httpAuthService.GetAccountData();
       if (response != null)
       {
           console.log("Get account data " +
           "[Nickname: " + this.accountData.Nickname + 
-          " Friend list: " + this.accountData.FriendList + "]");
+          " Friends list: " + this.accountData.FriendsList + "]");
           this.accountData = response;
       }
       else 
       {
           console.log("Account data == null");
           this.accountData.Nickname = "null";
-          this.accountData.FriendList = [ "null" ];
+          this.accountData.FriendsList = [ "null" ];
       }
   }
 
-  OnBtnCoreClick() : void
+  OnCoreBtnClick() : void
   {
-      this.IsCoreActivated = true;
-      this.IsCasernActivated = false;
+      this.IsCoreInfoActivated = true;
+      this.IsCasernInfoActivated = false;
+      this.IsDefenceTowerInfoActivated = false;
+      this.IsGoldMiningInfoActivated = false;
   }
 
-  OnBtnCasernClick() : void
+  OnBuildCasernBtnClick() : void
   {
-      this.IsCasernActivated = true;
-      this.IsCoreActivated = false;
+     
   }
 
+  OnBuildGoldMiningBtnClick() : void
+  {
+    
+  }
+
+  OnBuildDefenceTowerBtnClick() : void
+  {
+     
+  }
+
+  OnProduceWorkerBtnClick() : void
+  {
+     
+  }
+
+  OnCasernBtnClick() : void
+  {
+      this.IsCoreInfoActivated = false;
+      this.IsCasernInfoActivated = true;
+      this.IsDefenceTowerInfoActivated = false;
+      this.IsGoldMiningInfoActivated = false;
+  }
+
+  OnProduceWarriorBtnClick() : void 
+  {
+    
+  }
+
+  OnProduceAttackAircraftBtnClick() : void 
+  {
+    
+  }
+
+  OnGoldMiningBtnClick() : void
+  {
+      this.IsCoreInfoActivated = false;
+      this.IsCasernInfoActivated = false;
+      this.IsDefenceTowerInfoActivated = false;
+      this.IsGoldMiningInfoActivated = true;
+  }
+
+  OnAddWorkerToMineBtnClick() : void
+  {
+
+  }
+
+  OnDefenceTowerBtnClick() : void
+  {
+      this.IsCasernInfoActivated = false;
+      this.IsCoreInfoActivated = false;
+      this.IsDefenceTowerInfoActivated = true;
+      this.IsGoldMiningInfoActivated = false;
+  }
 
   OnAllBtnClick() : void
   {
       //GetAllUsers
+      //this.all = this.gameService.GetAllUsers();
       this.selectedNicknames = this.all;
-    }
+  }
     
-    OnFriendsBtnClick() : void
-    {
+  OnFriendsBtnClick() : void
+  {
       //GetAllFriends
       this.selectedNicknames = this.friends;
-    }
-    
-    OnFollowersBtnClick() : void
-    {
+  }
+  
+  OnFollowersBtnClick() : void
+  {
       //GetAllFollowers
       this.selectedNicknames = this.followers;
-    }
-    
-    OnFollowingsBtnClick() : void
-    {
-      //GetAllFollowings
-      this.selectedNicknames = this.followings;
+  }
+  
+  OnFollowingsBtnClick() : void
+  {
+    //GetAllFollowings
+    this.selectedNicknames = this.followings;
   }
 
   OnUserBtnClick(selectedNickname : string) : void
   {
-
+      console.log("OnUserBtnClick: " + selectedNickname);
   }
 
 }

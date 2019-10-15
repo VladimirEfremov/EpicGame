@@ -3,6 +3,7 @@
 td
 {
     text-align: left;
+    padding: 0.5rem;
 }
 
 .globalTable
@@ -32,7 +33,17 @@ td
     margin-right: 5%;
 }
 
+.DiactivatedButton
+{
+    background-color: gray;
+}
+
 .cmnBtn
+{
+    width: 100px;
+}
+
+.btnList
 {
     width: 100px;
 }

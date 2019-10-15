@@ -1,5 +1,7 @@
 export interface AccountData 
 {
     Nickname : string;
-    FriendList : string[];
+    FriendsList : string[];
+    FollowersList : string[];
+    FollowingsList : string[];
 }

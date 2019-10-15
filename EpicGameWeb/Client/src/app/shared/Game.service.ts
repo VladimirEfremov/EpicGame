@@ -19,22 +19,4 @@ export class GameService
     {
         this.router.navigate(["/game"]);
     }
-
-    GetAccountData() : AccountData
-    {
-        return this.httpClient.get<AccountData>(
-            "http://localhost:6430/Auth/GetAccountData")[0];
-            //.subscribe(
-            //    data  => { 
-            //        return data;
-            //    },
-            //    error => { 
-            //        console.log("error [GetAccountData]: " + error); 
-            //    }
-            //);
-        //console.log("result [GetAccountData]: " + 
-        //        result.Nickname + " " + result.FriendList); 
-        //return result;
-    }
-
 }

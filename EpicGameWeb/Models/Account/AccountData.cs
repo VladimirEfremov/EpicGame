@@ -6,12 +6,16 @@ namespace EpicGameWeb.Models.Account
     public struct AccountData
     {
         public string Nickname { get; set; }
-        public string[] FriendList { get; set; }
+        public string[] FriendsList { get; set; }
+        public string[] FollowersList { get; set; }
+        public string[] FollowingsList { get; set; }
 
-        public AccountData( string nickname)
+        public AccountData(string nickname)
         {
             Nickname = nickname;
-            FriendList = new string[] { "Nobody is ur friend!" };
+            FriendsList = new string[] { "fr1" };
+            FollowersList = new string[] { "fo2" };
+            FollowingsList = new string[] { "fol3" };
         }
     }
 }

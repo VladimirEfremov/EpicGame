@@ -5,6 +5,8 @@ import { HttpLoginPostData } from './HttpLoginPostData';
 import { HttpRegistrationPostData } from './HttpRegistrationData';
 
 import { Md5 } from 'ts-md5/dist/md5';
+import { AccountData } from './AccountData';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class HttpAuthService
@@ -103,4 +105,24 @@ export class HttpAuthService
                 error => console.log(error)
             );
     }
+
+    GetAccountData() : AccountData
+    {
+        let response : AccountData; 
+        this.httpClient.get<AccountData>(
+            "http://localhost:6430/Auth/GetAccountData")
+            .subscribe(
+                (data: AccountData) => {
+                    console.log("data: " + data.toString());
+                    response = data;
+                }
+            );
+        console.log("response [GetAccountData]: " + 
+            response.Nickname + " " + response.FriendsList); 
+        return response;
+
+    }
+
+
+
 }

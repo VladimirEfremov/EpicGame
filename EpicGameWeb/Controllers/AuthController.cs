@@ -76,10 +76,10 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpGet]
-        public string GetAccountData()
+        public AccountData GetAccountData()
         {
             AccountData result = new AccountData(User.Identity.Name);
-            return result.ToJson();
+            return result;
         }
 
         public void Logout()
