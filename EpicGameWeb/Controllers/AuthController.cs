@@ -82,6 +82,54 @@ namespace EpicGameWeb.Controllers
             return result;
         }
 
+        [HttpPost]
+        public void AddUserToFriends(int thisId, int idToAdd)
+        {
+            RemoteProcedureCallClass
+                .GetUserChannel()
+                .AddUserToFriends(thisId, idToAdd);
+        }
+
+        [HttpPost]
+        public void RemoveUserFromFriends(int thisId, int idToRemove)
+        {
+            RemoteProcedureCallClass
+                .GetUserChannel()
+                .RemoveUserFromFriends(thisId, idToRemove);
+        }
+
+        [HttpPost]
+        public System.Collections.Generic.List<UserTable> GetAllUsers()
+        {
+            return RemoteProcedureCallClass
+                .GetUserChannel()
+                .GetAllUsers();
+        }
+
+        [HttpPost]
+        public System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId)
+        {
+            return RemoteProcedureCallClass
+                .GetUserChannel()
+                .GetUsersFriendsTable(userId);
+        }
+
+        [HttpPost]
+        public System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId)
+        {
+            return RemoteProcedureCallClass
+                .GetUserChannel()
+                .GetUsersFollowersTable(userId);
+        }
+
+        [HttpPost]
+        public System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId)
+        {
+            return RemoteProcedureCallClass
+                .GetUserChannel()
+                .GetUsersFollowingsTable(userId);
+        }
+
         public void Logout()
         {
             FormsAuthentication.SignOut();

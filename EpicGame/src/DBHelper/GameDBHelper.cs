@@ -97,7 +97,7 @@
                 .FirstOrDefault();
         }
 
-        public int GetNumberOfCoreWarriors(int coreId)
+        public int CasernGetNumberOfWarriors(int coreId)
         {
             return m_SessionCasernsEntity
                 .SessionCasernsTable
@@ -106,7 +106,7 @@
                 .Select(obj => obj.WarriorsNumber)
                 .FirstOrDefault();
         }
-        public int GetNumberOfCoreAttackAircraft(int coreId)
+        public int CasernGetNumberOfAttackAircraft(int coreId)
         {
             return m_SessionCasernsEntity
                 .SessionCasernsTable

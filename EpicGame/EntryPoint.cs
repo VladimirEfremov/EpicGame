@@ -264,21 +264,21 @@ namespace EpicGame
                             {
                                 Console.Clear();
                                 Console.WriteLine("\nRelations:");
-                                var friends = db.GetUsersFriendsTable();
+                                var friends = db.GetUsersFriendsTable(1);
                                 Console.WriteLine("Frineds: ");
                                 foreach (var friend in friends)
                                 {
                                     Console.WriteLine($"{friend.UserId} - {friend.FriendId}");
                                 }
 
-                                var followers = db.GetListOfUserFollowersTable();
+                                var followers = db.GetUsersFollowersTable(1);
                                 Console.WriteLine("Followers: ");
                                 foreach (var follower in followers)
                                 {
                                     Console.WriteLine($"{follower.UserId} - {follower.FollowerId}");
                                 }
 
-                                var followings = db.GetListOfUserFollowingsTable();
+                                var followings = db.GetUsersFollowingsTable(1);
                                 Console.WriteLine("Followings: ");
                                 foreach (var following in followings)
                                 {
@@ -306,8 +306,8 @@ namespace EpicGame
                     var warriorUnit = gamedb.GetUnitProperty("Warrior");
                     var attackAircraftUnit = gamedb.GetUnitProperty("AttackAircraft");
 
-                    var numberWarriors = gamedb.GetNumberOfCoreWarriors(coreId);
-                    var numberAttackAircraft = gamedb.GetNumberOfCoreAttackAircraft(coreId);
+                    var numberWarriors = gamedb.CasernGetNumberOfWarriors(coreId);
+                    var numberAttackAircraft = gamedb.CasernGetNumberOfAttackAircraft(coreId);
 
                     for (int i = 0; i < numberWarriors; i++)
                     {
@@ -465,7 +465,7 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if FALSE
+#if TRUE
 #if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();

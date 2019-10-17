@@ -321,7 +321,7 @@
 
         public System.Collections.Generic.List<UserTable> GetAllUsers()
         {
-            return m_UserContext.UserTable.ToList();
+            return m_UserContext.UserTable.AsNoTracking().ToList();
         }
 
         public System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId)

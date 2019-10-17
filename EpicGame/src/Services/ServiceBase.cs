@@ -1,7 +1,8 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 
 using EpicGame.src.Models.Session;
-
+using EpicGame.src.Models.User;
 
 namespace EpicGame.src.Services
 {
@@ -11,20 +12,62 @@ namespace EpicGame.src.Services
         DBHelper.UserDBHelper m_UserDBHelper = new DBHelper.UserDBHelper();
         DBHelper.GameDBHelper m_GameDBHelper = new DBHelper.GameDBHelper();
         
+        //Game
         public SessionCoresTable GetCoreById(int coreId)
         {
             return m_GameDBHelper.GetCoreById(coreId);
         }
 
-        public int GetNumberOfCoreWarriors(int coreId)
+        public int CasernGetNumberOfWarriors(int coreId)
         {
-            return m_GameDBHelper.GetNumberOfCoreWarriors(coreId);
+            return m_GameDBHelper.CasernGetNumberOfWarriors(coreId);
         }
-        public int GetNumberOfCoreAttackAircraft(int coreId)
+        public int CasernGetNumberOfAttackAircraft(int coreId)
         {
-            return m_GameDBHelper.GetNumberOfCoreAttackAircraft(coreId);
+            return m_GameDBHelper.CasernGetNumberOfAttackAircraft(coreId);
         }
 
+        public SessionMapTable FindCoreMapByMapId(int mapId)
+        {
+            return m_GameDBHelper.FindCoreMapByMapId(mapId);
+        }
+
+        public void CoreBuildCasern(int coreId)
+        {
+            m_GameDBHelper.CoreBuildCasern(coreId);
+        }
+
+        public void CoreBuildGoldMining(int coreId)
+        {
+            m_GameDBHelper.CoreBuildGoldMining(coreId);
+        }
+
+        public void CoreBuildDefenceTower(int coreId)
+        {
+            m_GameDBHelper.CoreBuildDefenceTower(coreId);
+        }
+
+        public void BaseProduceWorker(int coreId)
+        {
+            m_GameDBHelper.BaseProduceWorker(coreId);
+        }
+
+        public void CasernProduceWarrior(int coreId)
+        {
+            m_GameDBHelper.CasernProduceWarrior(coreId);
+        }
+
+        public void CasernProduceAttackAircraft(int coreId)
+        {
+            m_GameDBHelper.CasernProduceAttackAircraft(coreId);
+        }
+
+        public void GoldMiningAddWorker(int coreId)
+        {
+            m_GameDBHelper.GoldMiningAddWorker(coreId);
+        }
+
+        //USER
         public void AddUserToFriends(int thisId, int idToAdd)
         {
             m_UserDBHelper.AddUserToFriends(thisId, idToAdd);
@@ -43,6 +86,26 @@ namespace EpicGame.src.Services
         public void RemoveUserFromFriends(int thisId, int idToRemove)
         {
             m_UserDBHelper.RemoveUserFromFriends(thisId, idToRemove);
+        }
+
+        public List<UserTable> GetAllUsers()
+        {
+            return m_UserDBHelper.GetAllUsers();
+        }
+
+        public List<UserFriendsTable> GetUsersFriendsTable(int userId)
+        {
+            return m_UserDBHelper.GetUsersFriendsTable(userId);
+        }
+
+        public List<UserFollowersTable> GetUsersFollowersTable(int userId)
+        {
+            return m_UserDBHelper.GetUsersFollowersTable(userId);
+        }
+
+        public List<UserFollowingTable> GetUsersFollowingsTable(int userId)
+        {
+            return m_UserDBHelper.GetUsersFollowingsTable(userId);
         }
     }
 }

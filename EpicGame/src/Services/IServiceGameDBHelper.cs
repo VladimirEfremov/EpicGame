@@ -10,9 +10,31 @@ namespace EpicGame.src.Services
         SessionCoresTable GetCoreById(int coreId);
 
         [OperationContract]
-        int GetNumberOfCoreWarriors(int coreId);
+        int CasernGetNumberOfWarriors(int coreId);
 
         [OperationContract]
-        int GetNumberOfCoreAttackAircraft(int coreId);
+        int CasernGetNumberOfAttackAircraft(int coreId);
+
+        [OperationContract]
+        void CoreBuildCasern(int coreId);
+
+        [OperationContract]
+        void CoreBuildGoldMining(int coreId);
+
+        [OperationContract]
+        void CoreBuildDefenceTower(int coreId);
+
+        [OperationContract]
+        void BaseProduceWorker(int coreId);
+
+        [OperationContract]
+        void CasernProduceWarrior(int coreId);
+
+        [OperationContract]
+        void CasernProduceAttackAircraft(int coreId);
+
+        [OperationContract]
+        void GoldMiningAddWorker(int coreId);
+
     }
 }

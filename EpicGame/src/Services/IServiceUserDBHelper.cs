@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using EpicGame.src.Models.User;
+using System.ServiceModel;
 
 namespace EpicGame.src.Services
 {
@@ -16,5 +17,17 @@ namespace EpicGame.src.Services
         void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd);
         [OperationContract]
         void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove);
+
+        [OperationContract]
+        System.Collections.Generic.List<UserTable> GetAllUsers();
+
+        [OperationContract]
+        System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId);
+
+        [OperationContract]
+        System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId);
+
+        [OperationContract]
+        System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId);
     }
 }
