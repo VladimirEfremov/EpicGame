@@ -319,24 +319,36 @@
             }
         }
 
-        public System.Collections.Generic.List<UserTable> GetListOfUsers()
+        public System.Collections.Generic.List<UserTable> GetAllUsers()
         {
             return m_UserContext.UserTable.ToList();
         }
 
-        public System.Collections.Generic.List<UserFriendsTable> GetListOfUserFriendsTable()
+        public System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId)
         {
-            return m_UserFriendsContext.UserFriendsTable.OrderBy(user => user.UserId).ToList();
+            return m_UserFriendsContext
+                .UserFriendsTable
+                .AsNoTracking()
+                .Where(obj => obj.UserId == userId)
+                .ToList();
         }
 
-        public System.Collections.Generic.List<UserFollowersTable> GetListOfUserFollowersTable()
+        public System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId)
         {
-            return m_UserFollowersContext.UserFollowersTable.OrderBy(user => user.UserId).ToList();
+            return m_UserFollowersContext
+                .UserFollowersTable
+                .AsNoTracking()
+                .Where(obj => obj.UserId == userId)
+                .ToList();
         }
 
-        public System.Collections.Generic.List<UserFollowingTable> GetListOfUserFollowingsTable()
+        public System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId)
         {
-            return m_UserFollowingContext.UserFollowingTable.OrderBy(user => user.UserId).ToList();
+            return m_UserFollowingContext
+                .UserFollowingTable
+                .AsNoTracking()
+                .Where(obj => obj.UserId == userId)
+                .ToList();
         }
 
         public void UserContextTrySave()

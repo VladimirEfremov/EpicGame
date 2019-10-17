@@ -70,6 +70,10 @@
     <Build Include="dbo\Tables\Session\SessionCoresTable.sql" />
     <Build Include="dbo\Tables\Session\SessionMapTable.sql" />
     <Build Include="dbo\Tables\Game\GameBuildingTypeTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionCasernsTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionGoldMiningsTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionDefenceTowersTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionBasesTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EpicGameDataBase.refactorlog" />

@@ -13,16 +13,6 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="CoreMapId" Type="int" Nullable="false" />
           <Property Name="Money" Type="int" Nullable="false" />
-          <Property Name="HPUpgrade" Type="int" Nullable="false" />
-          <Property Name="AttackUpgrade" Type="int" Nullable="false" />
-          <Property Name="DefenceUpgrade" Type="int" Nullable="false" />
-          <Property Name="CapacityUpgrade" Type="int" Nullable="false" />
-          <Property Name="WarriorsNumber" Type="int" Nullable="false" />
-          <Property Name="AttackAircraftNumber" Type="int" Nullable="false" />
-          <Property Name="WorkerNumber" Type="int" Nullable="false" />
-          <Property Name="Casern" Type="int" Nullable="false" />
-          <Property Name="DefenceTower" Type="int" Nullable="false" />
-          <Property Name="GoldMining" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="Хранилище SessionCoresTableContainer">
           <EntitySet Name="SessionCoresTable" EntityType="Self.SessionCoresTable" Schema="dbo" store:Type="Tables" />
@@ -40,16 +30,6 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="CoreMapId" Type="Int32" Nullable="false" />
           <Property Name="Money" Type="Int32" Nullable="false" />
-          <Property Name="HPUpgrade" Type="Int32" Nullable="false" />
-          <Property Name="AttackUpgrade" Type="Int32" Nullable="false" />
-          <Property Name="DefenceUpgrade" Type="Int32" Nullable="false" />
-          <Property Name="CapacityUpgrade" Type="Int32" Nullable="false" />
-          <Property Name="WarriorsNumber" Type="Int32" Nullable="false" />
-          <Property Name="AttackAircraftNumber" Type="Int32" Nullable="false" />
-          <Property Name="WorkerNumber" Type="Int32" Nullable="false" />
-          <Property Name="Casern" Type="Int32" Nullable="false" />
-          <Property Name="DefenceTower" Type="Int32" Nullable="false" />
-          <Property Name="GoldMining" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="SessionCoresEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="SessionCoresTable" EntityType="Self.SessionCoresTable" />
@@ -67,16 +47,6 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CoreMapId" ColumnName="CoreMapId" />
                 <ScalarProperty Name="Money" ColumnName="Money" />
-                <ScalarProperty Name="HPUpgrade" ColumnName="HPUpgrade" />
-                <ScalarProperty Name="AttackUpgrade" ColumnName="AttackUpgrade" />
-                <ScalarProperty Name="DefenceUpgrade" ColumnName="DefenceUpgrade" />
-                <ScalarProperty Name="CapacityUpgrade" ColumnName="CapacityUpgrade" />
-                <ScalarProperty Name="WarriorsNumber" ColumnName="WarriorsNumber" />
-                <ScalarProperty Name="AttackAircraftNumber" ColumnName="AttackAircraftNumber" />
-                <ScalarProperty Name="WorkerNumber" ColumnName="WorkerNumber" />
-                <ScalarProperty Name="Casern" ColumnName="Casern" />
-                <ScalarProperty Name="DefenceTower" ColumnName="DefenceTower" />
-                <ScalarProperty Name="GoldMining" ColumnName="GoldMining" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

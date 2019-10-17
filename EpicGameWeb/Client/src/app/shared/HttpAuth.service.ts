@@ -114,12 +114,12 @@ export class HttpAuthService
             .subscribe(
                 (data: AccountData) => {
                     console.log("data: " + data.toString());
-                    response = data;
+                    response = <AccountData>data;
                 }
             );
         console.log("response [GetAccountData]: " + 
             response.Nickname + " " + response.FriendsList); 
-        return response;
+        return <AccountData>response;
 
     }
 

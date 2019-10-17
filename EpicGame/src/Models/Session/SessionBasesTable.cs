@@ -7,21 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGame.src.Models.Game
+namespace EpicGame.src.Models.Session
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class GameBuildingsTable
+    public partial class SessionBasesTable
     {
-        public int GameBuildingId { get; set; }
-        public int GameBuildingType { get; set; }
-        public string GameBuildingName { get; set; }
-        public int GameBuildingHP { get; set; }
-        public int GameBuildingAttack { get; set; }
-        public int GameBuildingDefence { get; set; }
-        public int GameBuildingGoldIncome { get; set; }
-        public int GameBuildingGoldOutcome { get; set; }
-        public int Capacity { get; set; }
+        public int SessionBaseId { get; set; }
+        public int SessionCoreId { get; set; }
+        public int BuildingLevel { get; set; }
+        public int WorkersNumber { get; set; }
+        public int UniqueUpgrade { get; set; }
+        public int AttackUpgrade { get; set; }
+        public int DefenceUpgrade { get; set; }
+        public int CapacityUpgrade { get; set; }
     }
 }

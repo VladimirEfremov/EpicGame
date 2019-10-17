@@ -17,7 +17,7 @@
           <Property Name="GameBuildingDefence" Type="int" Nullable="false" />
           <Property Name="GameBuildingGoldIncome" Type="int" Nullable="false" />
           <Property Name="GameBuildingGoldOutcome" Type="int" Nullable="false" />
-          <Property Name="Capcatity" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="Хранилище GameBuildingsTableContainer">
           <EntitySet Name="GameBuildingsTable" EntityType="Self.GameBuildingsTable" Schema="dbo" store:Type="Tables" />
@@ -39,7 +39,7 @@
           <Property Name="GameBuildingDefence" Type="Int32" Nullable="false" />
           <Property Name="GameBuildingGoldIncome" Type="Int32" Nullable="false" />
           <Property Name="GameBuildingGoldOutcome" Type="Int32" Nullable="false" />
-          <Property Name="Capcatity" Type="Int32" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="GameBuildingsEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="GameBuildingsTable" EntityType="Self.GameBuildingsTable" />
@@ -61,7 +61,7 @@
                 <ScalarProperty Name="GameBuildingDefence" ColumnName="GameBuildingDefence" />
                 <ScalarProperty Name="GameBuildingGoldIncome" ColumnName="GameBuildingGoldIncome" />
                 <ScalarProperty Name="GameBuildingGoldOutcome" ColumnName="GameBuildingGoldOutcome" />
-                <ScalarProperty Name="Capcatity" ColumnName="Capcatity" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

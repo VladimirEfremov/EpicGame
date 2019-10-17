@@ -253,7 +253,7 @@ namespace EpicGame
                             {
                                 Console.Clear();
                                 Console.WriteLine("Users:");
-                                var usersList = db.GetListOfUsers();
+                                var usersList = db.GetAllUsers();
                                 foreach (var el in usersList)
                                 {
                                     Console.WriteLine($"{el.UserId} {el.FullName} {el.Nickname} {el.Email}");
@@ -264,7 +264,7 @@ namespace EpicGame
                             {
                                 Console.Clear();
                                 Console.WriteLine("\nRelations:");
-                                var friends = db.GetListOfUserFriendsTable();
+                                var friends = db.GetUsersFriendsTable();
                                 Console.WriteLine("Frineds: ");
                                 foreach (var friend in friends)
                                 {
@@ -349,7 +349,8 @@ namespace EpicGame
                         "1. Show all\n" +
                         "2. Show battle\n" + 
                         "3. Random registration\n" +
-                        "4. Show all cores\n"
+                        "4. Show all cores\n" + 
+                        "5. Build casern test\n"
                         );
                     var key = Console.ReadKey().Key;
                     Console.WriteLine();
@@ -440,8 +441,9 @@ namespace EpicGame
                         case ConsoleKey.D5:
                             {
                                 Console.Clear();
-                                Console.WriteLine("Users:");
-                            
+                                Console.WriteLine("Build casern");
+                                gamedb.CoreBuildCasern(1);
+                                Console.Read();
                                 break;
                             }
                         case ConsoleKey.D6:
@@ -463,7 +465,7 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if TRUE
+#if FALSE
 #if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();

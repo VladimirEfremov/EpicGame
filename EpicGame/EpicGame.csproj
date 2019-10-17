@@ -337,6 +337,10 @@
     <None Include="src\Models\Game\GameBuildingProductionTable.edmx.diagram">
       <DependentUpon>GameBuildingProductionTable.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="src\Models\Game\GameBuildingTypeTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GameBuildingTypeTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <EntityDeploy Include="src\Models\Game\GameBuildingsTable.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>GameBuildingsTable.Designer.cs</LastGenOutput>
@@ -344,10 +348,6 @@
     <None Include="src\Models\Game\GameBuildingsTable.edmx.diagram">
       <DependentUpon>GameBuildingsTable.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="src\Models\Game\GameBuildingTypeTable.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GameBuildingTypeTable.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="src\Models\Game\GameBuildingTypeTable.edmx.diagram">
       <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
     </None>
