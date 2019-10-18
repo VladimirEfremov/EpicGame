@@ -156,6 +156,42 @@
     <Compile Include="src\Models\Game\GameUnitTypeTable.cs">
       <DependentUpon>GameUnitsTypeTable.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\Models\Session\SessionBasesTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionBasesTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionBasesTable.cs">
+      <DependentUpon>SessionBasesTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionBasesTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionBasesTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionBasesTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionBasesTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCasernsTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCasernsTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCasernsTable.cs">
+      <DependentUpon>SessionCasernsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCasernsTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCasernsTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionCasernsTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionCasernsTable.tt</DependentUpon>
+    </Compile>
     <Compile Include="src\Models\Session\SessionCoresTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -173,6 +209,42 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SessionCoresTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionDefenceTowersTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDefenceTowersTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionDefenceTowersTable.cs">
+      <DependentUpon>SessionDefenceTowersTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionDefenceTowersTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDefenceTowersTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionDefenceTowersTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDefenceTowersTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionGoldMiningsTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionGoldMiningsTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionGoldMiningsTable.cs">
+      <DependentUpon>SessionGoldMiningsTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionGoldMiningsTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionGoldMiningsTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionGoldMiningsTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionGoldMiningsTable.tt</DependentUpon>
     </Compile>
     <Compile Include="src\Models\Session\SessionMapTable.Context.cs">
       <AutoGen>True</AutoGen>
@@ -290,6 +362,26 @@
       <DependentUpon>GameBuildingTypeTable.edmx</DependentUpon>
       <LastGenOutput>GameBuildingTypeTable1.cs</LastGenOutput>
     </Content>
+    <Content Include="src\Models\Session\SessionBasesTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionBasesTable.edmx</DependentUpon>
+      <LastGenOutput>SessionBasesTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionBasesTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionBasesTable.edmx</DependentUpon>
+      <LastGenOutput>SessionBasesTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionCasernsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionCasernsTable.edmx</DependentUpon>
+      <LastGenOutput>SessionCasernsTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionCasernsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionCasernsTable.edmx</DependentUpon>
+      <LastGenOutput>SessionCasernsTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\Session\SessionCoresTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SessionCoresTable.edmx</DependentUpon>
@@ -299,6 +391,26 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SessionCoresTable.edmx</DependentUpon>
       <LastGenOutput>SessionCoresTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionDefenceTowersTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionDefenceTowersTable.edmx</DependentUpon>
+      <LastGenOutput>SessionDefenceTowersTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionDefenceTowersTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionDefenceTowersTable.edmx</DependentUpon>
+      <LastGenOutput>SessionDefenceTowersTable1.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionGoldMiningsTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionGoldMiningsTable.edmx</DependentUpon>
+      <LastGenOutput>SessionGoldMiningsTable.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="src\Models\Session\SessionGoldMiningsTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionGoldMiningsTable.edmx</DependentUpon>
+      <LastGenOutput>SessionGoldMiningsTable1.cs</LastGenOutput>
     </Content>
     <Content Include="src\Models\User\UserTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -369,8 +481,36 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SessionCoresTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="src\Models\Session\SessionCasernsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionCasernsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="src\Models\Session\SessionBasesTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionBasesTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Session\SessionBasesTable.edmx.diagram">
+      <DependentUpon>SessionBasesTable.edmx</DependentUpon>
+    </None>
+    <None Include="src\Models\Session\SessionCasernsTable.edmx.diagram">
+      <DependentUpon>SessionCasernsTable.edmx</DependentUpon>
+    </None>
     <None Include="src\Models\Session\SessionCoresTable.edmx.diagram">
       <DependentUpon>SessionCoresTable.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="src\Models\Session\SessionDefenceTowersTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionDefenceTowersTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Session\SessionDefenceTowersTable.edmx.diagram">
+      <DependentUpon>SessionDefenceTowersTable.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="src\Models\Session\SessionGoldMiningsTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionGoldMiningsTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Session\SessionGoldMiningsTable.edmx.diagram">
+      <DependentUpon>SessionGoldMiningsTable.edmx</DependentUpon>
     </None>
     <None Include="src\Models\Session\SessionMapTable.edmx.diagram">
       <DependentUpon>SessionMapTable.edmx</DependentUpon>

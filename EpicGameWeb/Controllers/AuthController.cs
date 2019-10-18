@@ -130,6 +130,7 @@ namespace EpicGameWeb.Controllers
                 .GetUsersFollowingsTable(userId);
         }
 
+        [HttpPost]
         public void Logout()
         {
             FormsAuthentication.SignOut();

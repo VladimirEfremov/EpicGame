@@ -1,12 +1,16 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { HttpLoginPostData } from './HttpLoginPostData';
-import { HttpRegistrationPostData } from './HttpRegistrationData';
-
 import { Md5 } from 'ts-md5/dist/md5';
 import { AccountData } from './AccountData';
 import { Observable } from 'rxjs';
+
+import { HttpLoginPostData } from './HttpLoginPostData';
+import { HttpRegistrationPostData } from './HttpRegistrationData';
+import { UserTable } from './UserTable';
+import { UserFriendsTable } from './UserFriendsTable';
+import { UserFollowersTable } from './UserFollowersTable';
+import { UserFollowingTable } from './UserFollowingTable';
 
 @Injectable()
 export class HttpAuthService
@@ -123,6 +127,44 @@ export class HttpAuthService
 
     }
 
+    public AddUserToFriends(thisId:number, idToAdd:number):void
+    {
+        //http post
+    }
+
+    public RemoveUserFromFriends(thisId:number, idToRemove:number):void
+    {
+        //http post
+    }
+
+    public GetAllUsers():UserTable[]
+    {
+        //http get
+        return null;
+    }
+
+    public GetUsersFriendsTable(userId:number):UserFriendsTable[]
+    {
+        //http get
+        return null;
+    }
+
+    public GetUsersFollowersTable(userId:number):UserFollowersTable[]
+    {
+        //http get
+        return null;
+    }
+
+    public GetUsersFollowingsTable(userId:number):UserFollowingTable[]
+    {
+        //http get
+        return null;
+    }
+
+    public Logout() : void
+    {
+        //http post
+    }
 
 
 }

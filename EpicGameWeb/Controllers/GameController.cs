@@ -7,14 +7,14 @@ namespace EpicGameWeb.Controllers
     public class GameController : ApiController
     {
         [Route("GetCoreById")]
-        public SessionCoresTable GetCoreById(int coreId)
+        public SessionCoresTable GetCoreById([FromBody]int coreId)
         {
             return RemoteProcedureCallClass
                 .GetGameChannel().GetCoreById(coreId);
         }
 
         [Route("CasernGetNumberOfWarriors")]
-        public int CasernGetNumberOfWarriors(int coreId)
+        public int CasernGetNumberOfWarriors([FromBody]int coreId)
         {
             return RemoteProcedureCallClass
                 .GetGameChannel()
@@ -22,7 +22,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CasernGetNumberOfAttackAircraft")]
-        public int CasernGetNumberOfAttackAircraft(int coreId)
+        public int CasernGetNumberOfAttackAircraft([FromBody]int coreId)
         {
             return RemoteProcedureCallClass
                 .GetGameChannel()
@@ -30,7 +30,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CoreBuildCasern")]
-        public void CoreBuildCasern(int coreId)
+        public void CoreBuildCasern([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -38,7 +38,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CoreBuildGoldMining")]
-        public void CoreBuildGoldMining(int coreId)
+        public void CoreBuildGoldMining([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -46,7 +46,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CoreBuildDefenceTower")]
-        public void CoreBuildDefenceTower(int coreId)
+        public void CoreBuildDefenceTower([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -54,7 +54,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("BaseProduceWorker")]
-        public void BaseProduceWorker(int coreId)
+        public void BaseProduceWorker([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -62,7 +62,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CasernProduceWarrior")]
-        public void CasernProduceWarrior(int coreId)
+        public void CasernProduceWarrior([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -70,7 +70,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("CasernProduceAttackAircraft")]
-        public void CasernProduceAttackAircraft(int coreId)
+        public void CasernProduceAttackAircraft([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
@@ -78,7 +78,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [Route("GoldMiningAddWorker")]
-        public void GoldMiningAddWorker(int coreId)
+        public void GoldMiningAddWorker([FromBody]int coreId)
         {
             RemoteProcedureCallClass
                 .GetGameChannel()
