@@ -8,7 +8,9 @@ export class Logger {
     {
         let date = new Date();
         let dataToLog :DataToLog= new DataToLog();
-        dataToLog.message = data + " " + 
+        dataToLog.message = 
+            "[Default] " +
+            data + " " + 
             date.getUTCHours() + ":" +
             date.getMinutes() + ":" +
             date.getSeconds() +
@@ -25,7 +27,9 @@ export class Logger {
     {
         let date = new Date();
         let dataToLog :DataToLog= new DataToLog();
-        dataToLog.message = data + " " + 
+        dataToLog.message = 
+            "[Build] " +
+            data + " " + 
             date.getUTCHours() + ":" +
             date.getMinutes() + ":" +
             date.getSeconds() +
@@ -42,7 +46,9 @@ export class Logger {
     {
         let date = new Date();
         let dataToLog :DataToLog= new DataToLog();
-        dataToLog.message = data + " " + 
+        dataToLog.message = 
+            "[War] " +
+            data + " " + 
             date.getUTCHours() + ":" +
             date.getMinutes() + ":" +
             date.getSeconds() +
@@ -59,7 +65,9 @@ export class Logger {
     {
         let date = new Date();
         let dataToLog :DataToLog= new DataToLog();
-        dataToLog.message = data + " " + 
+        dataToLog.message = 
+            "[Communication] " +
+            data + " " + 
             date.getUTCHours() + ":" +
             date.getMinutes() + ":" +
             date.getSeconds() +

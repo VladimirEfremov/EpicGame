@@ -10,6 +10,7 @@ import { DefenceTowerInfo } from './game-structures/DefenceTowerInfo';
 import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
 import {Logger} from './Logger';
+import {Map} from './Map';
 
 @Component({
   selector: 'app-game',
@@ -112,12 +113,22 @@ export class GameComponent implements OnInit
   //Log
   loggedData:Logger = new Logger();
 
+  //Map
+  canvas;
+  context;
+  map:Map = new Map();
+
   constructor(private gameService: GameService,
       private httpAuthService: HttpAuthService) { }
 
   ngOnInit() 
   {
-      console.log("NG on init()")
+      console.log("NG on init()");
+      this.map.Init();
+      this.map.DrawWorld();
+      //window.setInterval(this.map.DrawWorld, 1000);
+      window.requestAnimationFrame(this.map.DrawWorld);
+
       let response : AccountData = 
         this
         .httpAuthService
@@ -147,22 +158,22 @@ export class GameComponent implements OnInit
 
   OnBuildCasernBtnClick() : void
   {
-    this.loggedData.PushBuildingMsg("Начали строить казарму");
+    this.loggedData.PushBuildingMsg("Строится казарма");
   }
 
   OnBuildGoldMiningBtnClick() : void
   {
-    
+    this.loggedData.PushBuildingMsg("Строится шахта для добывания золото");
   }
 
   OnBuildDefenceTowerBtnClick() : void
   {
-     
+    this.loggedData.PushBuildingMsg("Строится защитное сооружение");
   }
 
   OnProduceWorkerBtnClick() : void
   {
-     
+    this.loggedData.PushBuildingMsg("Создается unit рабочий");
   }
 
   OnCasernBtnClick() : void
@@ -175,12 +186,12 @@ export class GameComponent implements OnInit
 
   OnProduceWarriorBtnClick() : void 
   {
-    
+    this.loggedData.PushBuildingMsg("Создается unit воин");
   }
 
   OnProduceAttackAircraftBtnClick() : void 
   {
-    
+    this.loggedData.PushBuildingMsg("Создается unit AttackAircraft");
   }
 
   OnGoldMiningBtnClick() : void
@@ -193,7 +204,7 @@ export class GameComponent implements OnInit
 
   OnAddWorkerToMineBtnClick() : void
   {
-
+    this.loggedData.PushBuildingMsg("Добавлен рабочий к руднику");
   }
 
   OnDefenceTowerBtnClick() : void
