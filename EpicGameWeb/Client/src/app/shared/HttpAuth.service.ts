@@ -21,7 +21,10 @@ export class HttpAuthService
 
     registrationUrl: string = 
         "http://localhost:6430/Auth/Registration";
-     
+    
+    getAccountUrl: string = 
+        "http://localhost:6430/Auth/GetAccountData";    
+
     constructor(
         private httpClient: HttpClient,
         private router: Router) 
@@ -53,7 +56,7 @@ export class HttpAuthService
             oprions)
             .subscribe(
                 data => {
-                    if (data.toString().length > 0)
+                    if (data.toString() === "true")
                     {
                         console.log("login success [response: "+data.toString()+"]");
                         if (data.toString() === "true")
@@ -68,7 +71,7 @@ export class HttpAuthService
                         }
                     }
                 },
-                error => console.log(error)
+                error => console.log("error: "+error)
             );
     }
 
@@ -112,19 +115,32 @@ export class HttpAuthService
 
     GetAccountData() : AccountData
     {
-        let response : AccountData; 
-        this.httpClient.get<AccountData>(
-            "http://localhost:6430/Auth/GetAccountData")
+        console.log('GetAccountData:');
+        let oprions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json'})
+        }
+        let result: AccountData;
+        this.httpClient.post<string>(
+            this.getAccountUrl, 
+            "", 
+            oprions)
             .subscribe(
-                (data: AccountData) => {
-                    console.log("data: " + data.toString());
-                    response = <AccountData>data;
-                }
+                data => {
+                    if (data != null)
+                    {
+                    console.log("GetAccountData success [response: "+data+"]");
+                    result = JSON.parse(data);
+                    console.log("[data] Nickname: "+
+                    result.Nickname);
+                    }
+                    else {
+                        console.log("[GetAccountData:]data == null");
+                    }
+                },
+                error => console.log("GetAccountData error: " + error)
             );
-        console.log("response [GetAccountData]: " + 
-            response.Nickname + " " + response.FriendsList); 
-        return <AccountData>response;
-
+        return result;
     }
 
     public AddUserToFriends(thisId:number, idToAdd:number):void

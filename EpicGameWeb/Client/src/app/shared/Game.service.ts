@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { pipe } from 'rxjs'; 
 
 import { AccountData } from './AccountData';
+import { SessionCoresTable } from './SessionCoresTable';
 
 @Injectable()
 export class GameService 

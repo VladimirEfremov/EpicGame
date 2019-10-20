@@ -75,11 +75,12 @@ namespace EpicGameWeb.Controllers
             }
         }
 
-        [HttpGet]
-        public AccountData GetAccountData()
+        [HttpPost]
+        public string GetAccountData(string data)
         {
             AccountData result = new AccountData(User.Identity.Name);
-            return result;
+            string resultToJson = result.ToJson();
+            return resultToJson;
         }
 
         [HttpPost]

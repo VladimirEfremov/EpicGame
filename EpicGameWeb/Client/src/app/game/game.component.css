@@ -29,6 +29,7 @@ td
 .CommunicationTable
 {
     width: 250px;
+    height:200px;
     border: 1px solid black;
     margin-right: 5%;
 }
@@ -46,4 +47,41 @@ td
 .btnList
 {
     width: 100px;
+}
+
+.Logger {
+    margin-left:25px;
+    background-color: #0f0d53;
+    height:350px;
+    width:650px;
+    padding:0.1rem;
+    padding-left:1.1rem;
+    overflow-y: scroll;
+}
+
+.LoggerContent
+{
+    margin-left:1px;
+    margin-top:5px;
+    font-size:14px;
+}
+
+.LoggerDefaultContent
+{
+    color: #ffffff;
+}
+
+.LoggerBuildContent
+{
+    color: #f1ee12;
+}
+
+.LoggerWarContent
+{
+    color: #ff0000;
+}
+
+.LoggerCommunicationContent
+{
+    color: #09ff00;
 }

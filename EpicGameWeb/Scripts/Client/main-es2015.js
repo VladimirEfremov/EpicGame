@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<div class=\"main_login\">\n<div class=\"background\">\n        \n        <form>\n        <h1 class=\"txt_login\">\n        LOGIN FORM\n        </h1>\n        \n        <div class=\"nickname\">\n        <input  name=\"nickname\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите nickname *\" \n                [(ngModel)]=\"LoginPostData.Nickname\"\n                required\n                />\n        </div> \n        <br />\n        \n        <div class=\"password\">\n\n        <input name=\"PasswordHash\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"LoginPostData.PasswordHash\"\n                required/>\n        </div>\n             \n        <br />\n                \n        <div class=\"link_registration\">\n                <a title=\"Нажми, чтобы создать аккаунт\"\n                href=\"/registration\"> \n                Еще не зарегистрированы? \n                </a>\n        </div>\n        \n        <br /> <br />\n\n        <div>\n        <button \n                name=\"btn_login\" \n                (click)=\"onClick()\">\n                Войти\n        </button>\n        </div>\n                \n        </form>\n        \n</div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<div class=\"main_login\">\n<div class=\"background\">\n        \n        <form>\n        <h1 class=\"txt_login\">\n        LOGIN FORM\n        </h1>\n        \n        <div class=\"nickname\">\n        <input  name=\"nickname\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите nickname *\" \n                [(ngModel)]=\"LoginPostData.Nickname\"\n                required\n                />\n        </div> \n        <br />\n        \n        <div class=\"password\">\n\n        <input name=\"PasswordHash\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"LoginPostData.PasswordHash\"\n                required/>\n        </div>\n             \n        <br />\n                \n        <div class=\"link_registration\">\n                <a \n                title=\"Нажми, чтобы создать аккаунт\"\n                routerLink=\"/registration\">\n                        Еще не зарегистрированы? \n                </a>\n        </div>\n        \n        <br /> <br />\n\n        <div>\n        <button \n                name=\"btn_login\" \n                (click)=\"onClick()\">\n                Войти\n        </button>\n        </div>\n                \n        </form>\n        \n</div>\n</div>");
 
 /***/ }),
 
@@ -629,7 +629,9 @@ let GameComponent = class GameComponent {
     }
     ngOnInit() {
         console.log("NG on init()");
-        let response = this.httpAuthService.GetAccountData();
+        let response = this
+            .httpAuthService
+            .GetAccountData();
         if (response != null) {
             console.log("Get account data " +
                 "[Nickname: " + this.accountData.Nickname +
@@ -977,6 +979,36 @@ let GameService = class GameService {
     SwitchToGame() {
         this.router.navigate(["/game"]);
     }
+    GetCoreById(coreId) {
+        return null;
+    }
+    CasernGetNumberOfWarriors(coreId) {
+        return 0;
+    }
+    CasernGetNumberOfAttackAircraft(coreId) {
+        return 0;
+    }
+    CoreBuildCasern(coreId) {
+        //post
+    }
+    CoreBuildGoldMining(coreId) {
+        //post
+    }
+    CoreBuildDefenceTower(coreId) {
+        //post
+    }
+    BaseProduceWorker(coreId) {
+        //post
+    }
+    CasernProduceWarrior(coreId) {
+        //post
+    }
+    CasernProduceAttackAircraft(coreId) {
+        //post
+    }
+    GoldMiningAddWorker(coreId) {
+        //post
+    }
 };
 GameService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
@@ -1041,6 +1073,7 @@ let HttpAuthService = class HttpAuthService {
         //"http://httpbin.org/post"; 
         "http://localhost:6430/Auth/Login";
         this.registrationUrl = "http://localhost:6430/Auth/Registration";
+        this.getAccountUrl = "http://localhost:6430/Auth/GetAccountData";
     }
     login(loginPostData) {
         loginPostData.PasswordHash =
@@ -1060,7 +1093,7 @@ let HttpAuthService = class HttpAuthService {
         console.log("data to post: " + dataToPost);
         this.httpClient.post(this.loginUrl, dataToPost, oprions)
             .subscribe(data => {
-            if (data.toString().length > 0) {
+            if (data.toString() === "true") {
                 console.log("login success [response: " + data.toString() + "]");
                 if (data.toString() === "true") {
                     console.log("routing to a game");
@@ -1071,7 +1104,7 @@ let HttpAuthService = class HttpAuthService {
                     this.router.navigate(['/login']);
                 }
             }
-        }, error => console.log(error));
+        }, error => console.log("error: " + error));
     }
     registration(registrationPostData) {
         registrationPostData.PasswordHash =
@@ -1099,15 +1132,51 @@ let HttpAuthService = class HttpAuthService {
         }, error => console.log(error));
     }
     GetAccountData() {
-        let response;
-        this.httpClient.get("http://localhost:6430/Auth/GetAccountData")
-            .subscribe((data) => {
-            console.log("data: " + data.toString());
-            response = data;
-        });
-        console.log("response [GetAccountData]: " +
-            response.Nickname + " " + response.FriendsList);
-        return response;
+        console.log('GetAccountData:');
+        let oprions = {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+                'Content-Type': 'application/json'
+            })
+        };
+        let result;
+        this.httpClient.post(this.getAccountUrl, "", oprions)
+            .subscribe(data => {
+            if (data != null) {
+                console.log("GetAccountData success [response: " + data + "]");
+                result = JSON.parse(data);
+                console.log("[data] Nickname: " +
+                    result.Nickname);
+            }
+            else {
+                console.log("[GetAccountData:]data == null");
+            }
+        }, error => console.log("GetAccountData error: " + error));
+        return result;
+    }
+    AddUserToFriends(thisId, idToAdd) {
+        //http post
+    }
+    RemoveUserFromFriends(thisId, idToRemove) {
+        //http post
+    }
+    GetAllUsers() {
+        //http get
+        return null;
+    }
+    GetUsersFriendsTable(userId) {
+        //http get
+        return null;
+    }
+    GetUsersFollowersTable(userId) {
+        //http get
+        return null;
+    }
+    GetUsersFollowingsTable(userId) {
+        //http get
+        return null;
+    }
+    Logout() {
+        //http post
     }
 };
 HttpAuthService.ctorParameters = () => [

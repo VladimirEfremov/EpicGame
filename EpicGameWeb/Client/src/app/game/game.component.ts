@@ -9,6 +9,8 @@ import { CasernInfo } from './game-structures/CasernInfo';
 import { DefenceTowerInfo } from './game-structures/DefenceTowerInfo';
 import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
+import {Logger} from './Logger';
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -92,13 +94,23 @@ export class GameComponent implements OnInit
   };
 
   //Communication 
+  //0-All, 1-Friends, 2-Followers, 3-Followings
+  numberOfSelectedList:number=0;
+  numberOfPage:number=0;
+  pageStep:number=4;
   //list [All, Friends, Followers, Followings]
   selectedNicknames : string[] = [];
   all : string[] = ["none1", "none2"];
   friends : string[] = ["Friend1", "Friend2"];
-  followers : string[] = ["Follower1", "Follower2"];
+  followers : string[] = [
+      "Fol0","Fol1", "Fol2","Fol3","Fol4",
+      "Fol5","Fol6","Fol7","Fol8","Fol9",
+      "Fol10","Fol11","Fol12"
+    ];
   followings : string[] = ["Followings1", "Followings2"];
 
+  //Log
+  loggedData:Logger = new Logger();
 
   constructor(private gameService: GameService,
       private httpAuthService: HttpAuthService) { }
@@ -106,7 +118,10 @@ export class GameComponent implements OnInit
   ngOnInit() 
   {
       console.log("NG on init()")
-      let response : AccountData = this.httpAuthService.GetAccountData();
+      let response : AccountData = 
+        this
+        .httpAuthService
+        .GetAccountData();
       if (response != null)
       {
           console.log("Get account data " +
@@ -132,7 +147,7 @@ export class GameComponent implements OnInit
 
   OnBuildCasernBtnClick() : void
   {
-     
+    this.loggedData.PushBuildingMsg("Начали строить казарму");
   }
 
   OnBuildGoldMiningBtnClick() : void
@@ -189,29 +204,124 @@ export class GameComponent implements OnInit
       this.IsGoldMiningInfoActivated = false;
   }
 
+  OnLessBtnClick():void
+  {
+      if (this.numberOfPage > 0)
+      {
+        if (this.numberOfSelectedList == 0)
+        {
+            --this.numberOfPage;
+            this.selectedNicknames = 
+            this.all
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage +this.pageStep);
+        }
+        else if (this.numberOfSelectedList == 1)
+        {
+            --this.numberOfPage;
+            this.selectedNicknames = 
+            this.friends
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep);
+        }
+        else if (this.numberOfSelectedList == 2)
+        {
+            --this.numberOfPage;
+            this.selectedNicknames = 
+            this.followers
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep);
+        }
+        else if (this.numberOfSelectedList == 3)
+        {
+            --this.numberOfPage;
+            this.selectedNicknames = 
+            this.followings
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep);
+        }
+      }
+  }
+
+  OnGreaterBtnClick():void
+  {
+    if (this.numberOfSelectedList == 0)
+    {
+        if (this.pageStep*(this.numberOfPage+1) < this.all.length)
+        {
+            ++this.numberOfPage;
+            this.selectedNicknames = 
+            this.all
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep-1);
+        }
+    }
+    else if (this.numberOfSelectedList == 1)
+    {
+        if (this.pageStep*(this.numberOfPage+1) < this.friends.length)
+        {
+            ++this.numberOfPage;
+            this.selectedNicknames = 
+            this.friends
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep-1);
+        }
+    }
+    else if (this.numberOfSelectedList == 2)
+    {
+        if (this.pageStep*(this.numberOfPage+1) < this.followers.length)
+        {
+            ++this.numberOfPage;
+            this.selectedNicknames = 
+            this.followers
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep);
+        }
+    }
+    else if (this.numberOfSelectedList == 3)
+    {
+        if (this.pageStep*(this.numberOfPage+1) < this.followings.length)
+        {
+            ++this.numberOfPage;
+            this.selectedNicknames = 
+            this.followings
+            .slice(this.pageStep*this.numberOfPage,
+                this.pageStep*this.numberOfPage + this.pageStep-1);
+        }
+    }
+  }
+
   OnAllBtnClick() : void
   {
       //GetAllUsers
       //this.all = this.gameService.GetAllUsers();
-      this.selectedNicknames = this.all;
+      this.selectedNicknames = this.all.slice(0, this.pageStep);
+      this.numberOfPage = 0;
+      this.numberOfSelectedList = 0;
   }
     
   OnFriendsBtnClick() : void
   {
       //GetAllFriends
-      this.selectedNicknames = this.friends;
+      this.selectedNicknames = this.friends.slice(0, this.pageStep);
+      this.numberOfPage = 0;
+      this.numberOfSelectedList = 1;
   }
   
   OnFollowersBtnClick() : void
   {
       //GetAllFollowers
-      this.selectedNicknames = this.followers;
+      this.selectedNicknames = this.followers.slice(0, this.pageStep);
+      this.numberOfPage = 0;
+      this.numberOfSelectedList = 2;
   }
   
   OnFollowingsBtnClick() : void
   {
     //GetAllFollowings
-    this.selectedNicknames = this.followings;
+    this.selectedNicknames = this.followings.slice(0, this.pageStep);
+    this.numberOfPage = 0;
+    this.numberOfSelectedList = 3;
   }
 
   OnUserBtnClick(selectedNickname : string) : void

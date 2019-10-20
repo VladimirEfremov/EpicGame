@@ -1,7 +1,7 @@
 export interface SessionCoresTable 
 {
-    SessionCoreId: number;
-    UserId:        number;
-    CoreMapId:     number;
-    Money:         number;
+    SessionCoreId : number;
+    UserId : number;
+    CoreMapId : number;
+    Money : number;
 }
