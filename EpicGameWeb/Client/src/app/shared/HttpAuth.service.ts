@@ -25,6 +25,21 @@ export class HttpAuthService
     getAccountUrl: string = 
         "http://localhost:6430/Auth/GetAccountData";    
 
+    getAllUsersUrl:string =
+        "http://localhost:6430/Auth/GetAllUsers"; 
+
+    getUsersFriendsUrl:string =
+        "http://localhost:6430/Auth/GetUsersFriendsTable"; 
+
+    getUsersFollowersUrl:string =
+        "http://localhost:6430/Auth/GetUsersFollowersTable"; 
+
+    getUsersFollowingsUrl:string =
+        "http://localhost:6430/Auth/GetUsersFollowingsTable"; 
+
+    signOutUrl: string = 
+        "http://localhost:6430/Auth/SignOut"; 
+
     constructor(
         private httpClient: HttpClient,
         private router: Router) 
@@ -55,7 +70,7 @@ export class HttpAuthService
             dataToPost, 
             oprions)
             .subscribe(
-                data => {
+                (data) => {
                     if (data.toString() === "true")
                     {
                         console.log("login success [response: "+data.toString()+"]");
@@ -113,39 +128,16 @@ export class HttpAuthService
             );
     }
 
-    GetAccountData() : AccountData
+    GetAccountData() : Observable<AccountData>
     {
         console.log('GetAccountData:');
-        let oprions = {
-        headers: new HttpHeaders({ 
-            'Content-Type': 'application/json'})
-        }
-        let result: AccountData;
-        this.httpClient.post<string>(
-            this.getAccountUrl, 
-            "", 
-            oprions)
-            .subscribe(
-                data => {
-                    if (data != null)
-                    {
-                    console.log("GetAccountData success [response: "+data+"]");
-                    result = JSON.parse(data);
-                    console.log("[data] Nickname: "+
-                    result.Nickname);
-                    }
-                    else {
-                        console.log("[GetAccountData:]data == null");
-                    }
-                },
-                error => console.log("GetAccountData error: " + error)
-            );
-        return result;
+        return this.httpClient.get<AccountData>(this.getAccountUrl);
     }
 
     public AddUserToFriends(thisId:number, idToAdd:number):void
     {
         //http post
+        //this.httpClient.post()
     }
 
     public RemoveUserFromFriends(thisId:number, idToRemove:number):void
@@ -153,33 +145,38 @@ export class HttpAuthService
         //http post
     }
 
-    public GetAllUsers():UserTable[]
+    public GetAllUsers():Observable<UserTable[]>
     {
-        //http get
-        return null;
+        return this.httpClient
+            .get<UserTable[]>(
+                this.getAllUsersUrl);
     }
 
-    public GetUsersFriendsTable(userId:number):UserFriendsTable[]
+    public GetUsersFriendsTable(userId:number):Observable<UserFriendsTable[]>
     {
-        //http get
-        return null;
+        return this.httpClient
+            .get<UserFriendsTable[]>(
+            this.getUsersFriendsUrl);
     }
 
-    public GetUsersFollowersTable(userId:number):UserFollowersTable[]
+    public GetUsersFollowersTable(userId:number):Observable<UserFollowersTable[]>
     {
-        //http get
-        return null;
+        return this.httpClient
+        .get<UserFollowersTable[]>(
+            this.getUsersFollowersUrl);
     }
 
-    public GetUsersFollowingsTable(userId:number):UserFollowingTable[]
+    public GetUsersFollowingsTable(userId:number):Observable<UserFollowingTable[]>
     {
-        //http get
-        return null;
+       return this.httpClient
+        .get<UserFollowingTable[]>(
+        this.getUsersFollowingsUrl);
     }
 
-    public Logout() : void
+    public SignOut() : void
     {
         //http post
+        this.httpClient.post(this.signOutUrl, "");
     }
 
 

@@ -10,12 +10,5 @@ namespace EpicGameWeb.Models.Account
         public string[] FollowersList { get; set; }
         public string[] FollowingsList { get; set; }
 
-        public AccountData(string nickname)
-        {
-            Nickname = nickname;
-            FriendsList = new string[] { "fr1" };
-            FollowersList = new string[] { "fo2" };
-            FollowingsList = new string[] { "fol3" };
-        }
     }
 }

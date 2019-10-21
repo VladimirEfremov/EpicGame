@@ -3,6 +3,8 @@
     using NLog;
     using System.Linq;
     using EpicGame.src.Models.User;
+    using System.Collections.Generic;
+    using EpicGame.src.Models;
 
     class UserDBHelper : System.IDisposable
     {
@@ -319,12 +321,12 @@
             }
         }
 
-        public System.Collections.Generic.List<UserTable> GetAllUsers()
+        public List<UserTable> GetAllUsers()
         {
             return m_UserContext.UserTable.AsNoTracking().ToList();
         }
 
-        public System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId)
+        public List<UserFriendsTable> GetUsersFriendsTable(int userId)
         {
             return m_UserFriendsContext
                 .UserFriendsTable
@@ -333,7 +335,7 @@
                 .ToList();
         }
 
-        public System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId)
+        public List<UserFollowersTable> GetUsersFollowersTable(int userId)
         {
             return m_UserFollowersContext
                 .UserFollowersTable
@@ -342,13 +344,27 @@
                 .ToList();
         }
 
-        public System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId)
+        public List<UserFollowingTable> GetUsersFollowingsTable(int userId)
         {
             return m_UserFollowingContext
                 .UserFollowingTable
                 .AsNoTracking()
                 .Where(obj => obj.UserId == userId)
                 .ToList();
+        }
+
+        public UserInfo[] GetAllUsersInfo()
+        {
+            var allUsers = GetAllUsers();
+            var result = new List<UserInfo>();
+            foreach(var user in allUsers)
+            {
+                result.Add(new UserInfo() { 
+                    Nickname = user.Nickname,
+                    UserId = user.UserId
+                });
+            }
+            return null;
         }
 
         public void UserContextTrySave()

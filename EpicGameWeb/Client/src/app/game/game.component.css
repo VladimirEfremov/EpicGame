@@ -86,3 +86,14 @@ td
 {
     color: #09ff00;
 }
+
+.CanvasDiv{
+    position:absolute;
+    left: 0px;
+    right: 0px;
+}
+
+#map{
+
+    border:1px solid black;
+}

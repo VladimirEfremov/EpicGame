@@ -158,13 +158,50 @@
         </td>
         
         <td >
-          <div *ngFor=
-          "let selectedNickname of selectedNicknames">
-            <button class="btnList" 
-            (click)="OnUserBtnClick(selectedNickname)">
-              {{selectedNickname}}
-            </button>
+
+          <div [ngSwitch]="numberOfSelectedList">
+              <ng-template ngSwitchCase="0">
+                  <div *ngFor=
+                    "let user of selectedAll">
+                    <button class="btnList" 
+                    (click)="OnUserBtnClick(user.Nickname)">
+                      {{user.Nickname}}
+                    </button>
+                  </div>
+              </ng-template>
+
+              <ng-template ngSwitchCase="2"> 
+                  <div *ngFor=
+                  "let user of friendsUsers">
+                  <button class="btnList" 
+                  (click)="OnUserBtnClick(user.UserId)">
+                  {{user.UserId}}
+                  </button>
+                </div>
+              </ng-template>
+
+              <ng-template ngSwitchCase="3">
+                  <div *ngFor=
+                  "let user of followersUsers">
+                  <button class="btnList" 
+                  (click)="OnUserBtnClick(user.UserId)">
+                    {{user.UserId}}
+                  </button>
+                </div>
+              </ng-template>
+
+              <ng-template ngSwitchDefault>
+                  <div *ngFor=
+                  "let user of followingsUsers">
+                  <button class="btnList" 
+                  (click)="OnUserBtnClick(user.UserId)">
+                    {{user.UserId}}
+                  </button>
+                </div>
+              </ng-template>
+
           </div>
+
         </td>
       </tr>
 
@@ -185,9 +222,16 @@
           <ng-template ngSwitchCase="2"> <div class="LoggerWarContent">{{log.message}}</div></ng-template>
           <ng-template ngSwitchCase="3"><div class="LoggerCommunicationContent">{{log.message}}</div></ng-template>
           <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.message}}</div></ng-template>
-        </div>
+      </div>
     </div>
   </div>
+
+<div class="CanvasDiv">
+  <button>
+    CLICK ON ME
+  </button>
+
+</div>
 
  <canvas id="map" width=600 height=600>
     Canvas not supported

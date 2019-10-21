@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -55,7 +56,7 @@ namespace EpicGameWeb.Controllers
                                 model.Nickname, model.Email))
                         {
                             FormsAuthentication.SetAuthCookie(model.Nickname, true);
-                            return true.ToJson();
+                            return model.ToJson();
                         }
                         return "";
                     }
@@ -75,12 +76,15 @@ namespace EpicGameWeb.Controllers
             }
         }
 
-        [HttpPost]
-        public string GetAccountData(string data)
+        [HttpGet]
+        public string GetAccountData()
         {
-            AccountData result = new AccountData(User.Identity.Name);
-            string resultToJson = result.ToJson();
-            return resultToJson;
+            AccountData result = new AccountData();
+            result.Nickname = User.Identity.Name;
+            result.FriendsList = new string[] { "fr1" };
+            result.FollowersList = new string[] { "fo2" };
+            result.FollowingsList = new string[] { "fol3" };
+            return result.ToJson();
         }
 
         [HttpPost]
@@ -99,40 +103,41 @@ namespace EpicGameWeb.Controllers
                 .RemoveUserFromFriends(thisId, idToRemove);
         }
 
-        [HttpPost]
-        public System.Collections.Generic.List<UserTable> GetAllUsers()
+        [HttpGet]
+        public string GetAllUsers()
         {
-            return RemoteProcedureCallClass
+            var allUsers = RemoteProcedureCallClass
                 .GetUserChannel()
                 .GetAllUsers();
+            return allUsers.ToJson();
         }
 
-        [HttpPost]
-        public System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId)
+        [HttpGet]
+        public UserFriendsTable[] GetUsersFriendsTable(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFriendsTable(userId);
+                .GetUsersFriendsTable(userId).ToArray();
         }
 
-        [HttpPost]
-        public System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId)
+        [HttpGet]
+        public UserFollowersTable[] GetUsersFollowersTable(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFollowersTable(userId);
+                .GetUsersFollowersTable(userId).ToArray();
         }
 
-        [HttpPost]
-        public System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId)
+        [HttpGet]
+        public UserFollowingTable[] GetUsersFollowingsTable(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFollowingsTable(userId);
+                .GetUsersFollowingsTable(userId).ToArray();
         }
 
         [HttpPost]
-        public void Logout()
+        public void SignOut(string signOut)
         {
             FormsAuthentication.SignOut();
         }

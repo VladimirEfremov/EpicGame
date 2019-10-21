@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AccountData } from '../shared/AccountData';
+import { Observable } from 'rxjs';
 
 import { HttpAuthService } from '../shared/HttpAuth.service';
 import { GameService } from '../shared/Game.service';
@@ -9,8 +9,13 @@ import { CasernInfo } from './game-structures/CasernInfo';
 import { DefenceTowerInfo } from './game-structures/DefenceTowerInfo';
 import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
+import {AccountData} from '../shared/AccountData';
+import {UserTable} from '../shared/UserTable';
 import {Logger} from './Logger';
 import {Map} from './Map';
+import { UserFollowersTable } from '../shared/UserFollowersTable';
+import { UserFollowingTable } from '../shared/UserFollowingTable';
+import { UserFriendsTable } from '../shared/UserFriendsTable';
 
 @Component({
   selector: 'app-game',
@@ -110,12 +115,20 @@ export class GameComponent implements OnInit
     ];
   followings : string[] = ["Followings1", "Followings2"];
 
+  allUsers:UserTable[] = [];
+  friendsUsers:UserFriendsTable[] = [];
+  followersUsers:UserFollowersTable[] = [];
+  followingsUsers:UserFollowingTable[] = [];
+
+  selectedAll:UserTable[] = [];
+  selectedFriends:UserFriendsTable[] = [];
+  selectedFollowers:UserFollowersTable[] = [];
+  selectedFollowings:UserFollowingTable[] = [];
+
   //Log
   loggedData:Logger = new Logger();
 
   //Map
-  canvas;
-  context;
   map:Map = new Map();
 
   constructor(private gameService: GameService,
@@ -126,26 +139,82 @@ export class GameComponent implements OnInit
       console.log("NG on init()");
       this.map.Init();
       this.map.DrawWorld();
-      //window.setInterval(this.map.DrawWorld, 1000);
       window.requestAnimationFrame(this.map.DrawWorld);
+      
+      this.GetAccountData();
+  }
 
-      let response : AccountData = 
-        this
-        .httpAuthService
-        .GetAccountData();
-      if (response != null)
-      {
-          console.log("Get account data " +
-          "[Nickname: " + this.accountData.Nickname + 
-          " Friends list: " + this.accountData.FriendsList + "]");
-          this.accountData = response;
+  GetAccountData():void
+  {
+    this.httpAuthService.GetAccountData()
+        .subscribe(
+          res => {
+            this.accountData = res;
+            console.log("Get account data " +
+            "[Nickname: " + this.accountData.Nickname + 
+            " Friends list: " + this.accountData.FriendsList + "]");
+          },
+          err => {
+            console.log("GetAccountData error: " + err);
+            this.accountData.Nickname = "null";
+            this.accountData.FriendsList = [ "null" ];
+          });
+  }
+
+  GetAllUsers()
+  {
+    this.httpAuthService.GetAllUsers()
+    .subscribe(
+      res=>{
+        console.log("get all users");
+        this.allUsers = res;
+      },
+      err=>{
+        console.log("[error] get all users");
       }
-      else 
-      {
-          console.log("Account data == null");
-          this.accountData.Nickname = "null";
-          this.accountData.FriendsList = [ "null" ];
+    );
+  }
+
+  GetUsersFriendsTable(userId:number)
+  {
+    this.httpAuthService.GetUsersFriendsTable(userId)
+    .subscribe(
+      res=>{
+        console.log("get user friends");
+        this.friendsUsers = res;
+      },
+      err=>{
+        console.log("[error] get user friends");
       }
+    );
+  }
+
+  GetUsersFollowersTable(userId:number)
+  {
+    this.httpAuthService.GetUsersFollowersTable(userId)
+    .subscribe(
+      res=>{
+        console.log("get user followers");
+        this.followersUsers = res;
+      },
+      err=>{
+        console.log("[error] get user followers");
+      }
+    );
+  }
+
+  GetUsersFollowingsTable(userId:number)
+  {
+    this.httpAuthService.GetUsersFollowingsTable(userId)
+    .subscribe(
+      res=>{
+        console.log("get user followings");
+        this.followingsUsers = res;
+      },
+      err=>{
+        console.log("[error] get user followings");
+      }
+    );
   }
 
   OnCoreBtnClick() : void
@@ -222,32 +291,32 @@ export class GameComponent implements OnInit
         if (this.numberOfSelectedList == 0)
         {
             --this.numberOfPage;
-            this.selectedNicknames = 
-            this.all
+            this.selectedAll = 
+            this.allUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage +this.pageStep);
         }
         else if (this.numberOfSelectedList == 1)
         {
             --this.numberOfPage;
-            this.selectedNicknames = 
-            this.friends
+            this.selectedFriends = 
+            this.friendsUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep);
         }
         else if (this.numberOfSelectedList == 2)
         {
             --this.numberOfPage;
-            this.selectedNicknames = 
-            this.followers
+            this.selectedFollowers = 
+            this.followersUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep);
         }
         else if (this.numberOfSelectedList == 3)
         {
             --this.numberOfPage;
-            this.selectedNicknames = 
-            this.followings
+            this.selectedFollowings = 
+            this.followingsUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep);
         }
@@ -258,44 +327,44 @@ export class GameComponent implements OnInit
   {
     if (this.numberOfSelectedList == 0)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.all.length)
+        if (this.pageStep*(this.numberOfPage+1) < this.allUsers.length)
         {
             ++this.numberOfPage;
-            this.selectedNicknames = 
-            this.all
+            this.selectedAll = 
+            this.allUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep-1);
         }
     }
     else if (this.numberOfSelectedList == 1)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.friends.length)
+        if (this.pageStep*(this.numberOfPage+1) < this.friendsUsers.length)
         {
             ++this.numberOfPage;
-            this.selectedNicknames = 
-            this.friends
+            this.selectedFriends = 
+            this.friendsUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep-1);
         }
     }
     else if (this.numberOfSelectedList == 2)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.followers.length)
+        if (this.pageStep*(this.numberOfPage+1) < this.followersUsers.length)
         {
             ++this.numberOfPage;
-            this.selectedNicknames = 
-            this.followers
+            this.selectedFollowers = 
+            this.followersUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep);
         }
     }
     else if (this.numberOfSelectedList == 3)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.followings.length)
+        if (this.pageStep*(this.numberOfPage+1) < this.followingsUsers.length)
         {
             ++this.numberOfPage;
-            this.selectedNicknames = 
-            this.followings
+            this.selectedFollowings = 
+            this.followingsUsers
             .slice(this.pageStep*this.numberOfPage,
                 this.pageStep*this.numberOfPage + this.pageStep-1);
         }
@@ -305,8 +374,10 @@ export class GameComponent implements OnInit
   OnAllBtnClick() : void
   {
       //GetAllUsers
-      //this.all = this.gameService.GetAllUsers();
-      this.selectedNicknames = this.all.slice(0, this.pageStep);
+      this.GetAllUsers();
+      this.selectedAll = 
+        this.allUsers.slice(0, this.pageStep);
+      
       this.numberOfPage = 0;
       this.numberOfSelectedList = 0;
   }

@@ -264,6 +264,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SessionMapTable.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\Models\UserInfo.cs" />
     <Compile Include="src\Models\User\UserFollowersTable.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

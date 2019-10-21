@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace EpicGameWeb.Models.DBHelper
 {
@@ -17,15 +18,15 @@ namespace EpicGameWeb.Models.DBHelper
         void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove);
 
         [OperationContract]
-        System.Collections.Generic.List<UserTable> GetAllUsers();
+        List<UserTable> GetAllUsers();
 
         [OperationContract]
-        System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId);
+        List<UserFriendsTable> GetUsersFriendsTable(int userId);
 
         [OperationContract]
-        System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId);
+        List<UserFollowersTable> GetUsersFollowersTable(int userId);
 
         [OperationContract]
-        System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId);
+        List<UserFollowingTable> GetUsersFollowingsTable(int userId);
     }
 }
