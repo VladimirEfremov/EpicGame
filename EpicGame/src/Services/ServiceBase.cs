@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
-
+using EpicGame.src.Models;
 using EpicGame.src.Models.Session;
 using EpicGame.src.Models.User;
 
@@ -88,24 +88,25 @@ namespace EpicGame.src.Services
             m_UserDBHelper.RemoveUserFromFriends(thisId, idToRemove);
         }
 
-        public List<UserTable> GetAllUsers()
+        public UserInfo[] GetAllUsersInfo()
         {
-            return m_UserDBHelper.GetAllUsers();
+            var usersInfo = m_UserDBHelper.GetAllUsersInfo();
+            return usersInfo;
         }
 
-        public List<UserFriendsTable> GetUsersFriendsTable(int userId)
+        public UserInfo[] GetUsersFriendsInfo(int userId)
         {
-            return m_UserDBHelper.GetUsersFriendsTable(userId);
+            return m_UserDBHelper.GetUsersFriendsInfo(userId);
         }
 
-        public List<UserFollowersTable> GetUsersFollowersTable(int userId)
+        public UserInfo[] GetUsersFollowersInfo(int userId)
         {
-            return m_UserDBHelper.GetUsersFollowersTable(userId);
+            return m_UserDBHelper.GetUsersFollowersInfo(userId);
         }
 
-        public List<UserFollowingTable> GetUsersFollowingsTable(int userId)
+        public UserInfo[] GetUsersFollowingsInfo(int userId)
         {
-            return m_UserDBHelper.GetUsersFollowingsTable(userId);
+            return m_UserDBHelper.GetUsersFollowingsInfo(userId);
         }
     }
 }

@@ -1389,10 +1389,10 @@ let HttpAuthService = class HttpAuthService {
         "http://localhost:6430/Auth/Login";
         this.registrationUrl = "http://localhost:6430/Auth/Registration";
         this.getAccountUrl = "http://localhost:6430/Auth/GetAccountData";
-        this.getAllUsersUrl = "http://localhost:6430/Auth/GetAllUsers";
-        this.getUsersFriendsUrl = "http://localhost:6430/Auth/GetUsersFriendsTable";
-        this.getUsersFollowersUrl = "http://localhost:6430/Auth/GetUsersFollowersTable";
-        this.getUsersFollowingsUrl = "http://localhost:6430/Auth/GetUsersFollowingsTable";
+        this.getAllUsersUrl = "http://localhost:6430/Auth/GetAllUsersInfo";
+        this.getUsersFriendsUrl = "http://localhost:6430/Auth/GetUsersFriendsInfo";
+        this.getUsersFollowersUrl = "http://localhost:6430/Auth/GetUsersFollowersInfo";
+        this.getUsersFollowingsUrl = "http://localhost:6430/Auth/GetUsersFollowingsInfo";
         this.signOutUrl = "http://localhost:6430/Auth/SignOut";
     }
     login(loginPostData) {
@@ -1446,7 +1446,8 @@ let HttpAuthService = class HttpAuthService {
                     this.router.navigate(['/game-menu']);
                 }
                 else {
-                    this.router.navigate(['/registration']);
+                    this.router.navigate(['/game-menu']);
+                    //this.router.navigate(['/registration']);
                 }
             }
         }, error => console.log(error));
@@ -1463,6 +1464,7 @@ let HttpAuthService = class HttpAuthService {
         //http post
     }
     GetAllUsers() {
+        console.log("GetAllUserInfo");
         return this.httpClient
             .get(this.getAllUsersUrl);
     }

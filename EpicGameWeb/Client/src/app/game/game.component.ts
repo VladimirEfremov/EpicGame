@@ -13,6 +13,7 @@ import {AccountData} from '../shared/AccountData';
 import {UserTable} from '../shared/UserTable';
 import {Logger} from './Logger';
 import {Map} from './Map';
+import {UserInfo} from '../game/UserInfo';
 import { UserFollowersTable } from '../shared/UserFollowersTable';
 import { UserFollowingTable } from '../shared/UserFollowingTable';
 import { UserFriendsTable } from '../shared/UserFriendsTable';
@@ -115,12 +116,12 @@ export class GameComponent implements OnInit
     ];
   followings : string[] = ["Followings1", "Followings2"];
 
-  allUsers:UserTable[] = [];
+  allUsers:UserInfo[] = [];
   friendsUsers:UserFriendsTable[] = [];
   followersUsers:UserFollowersTable[] = [];
   followingsUsers:UserFollowingTable[] = [];
 
-  selectedAll:UserTable[] = [];
+  selectedAll:UserInfo[] = [];
   selectedFriends:UserFriendsTable[] = [];
   selectedFollowers:UserFollowersTable[] = [];
   selectedFollowings:UserFollowingTable[] = [];

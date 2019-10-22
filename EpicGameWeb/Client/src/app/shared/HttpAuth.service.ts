@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 
 import { HttpLoginPostData } from './HttpLoginPostData';
 import { HttpRegistrationPostData } from './HttpRegistrationData';
+import {UserInfo} from '../game/UserInfo';
+
 import { UserTable } from './UserTable';
 import { UserFriendsTable } from './UserFriendsTable';
 import { UserFollowersTable } from './UserFollowersTable';
@@ -26,16 +28,16 @@ export class HttpAuthService
         "http://localhost:6430/Auth/GetAccountData";    
 
     getAllUsersUrl:string =
-        "http://localhost:6430/Auth/GetAllUsers"; 
+        "http://localhost:6430/Auth/GetAllUsersInfo"; 
 
     getUsersFriendsUrl:string =
-        "http://localhost:6430/Auth/GetUsersFriendsTable"; 
+        "http://localhost:6430/Auth/GetUsersFriendsInfo"; 
 
     getUsersFollowersUrl:string =
-        "http://localhost:6430/Auth/GetUsersFollowersTable"; 
+        "http://localhost:6430/Auth/GetUsersFollowersInfo"; 
 
     getUsersFollowingsUrl:string =
-        "http://localhost:6430/Auth/GetUsersFollowingsTable"; 
+        "http://localhost:6430/Auth/GetUsersFollowingsInfo"; 
 
     signOutUrl: string = 
         "http://localhost:6430/Auth/SignOut"; 
@@ -120,7 +122,8 @@ export class HttpAuthService
                     }
                     else 
                     {
-                        this.router.navigate(['/registration']);
+                        this.router.navigate(['/game-menu']);
+                        //this.router.navigate(['/registration']);
                     }
                 }
                 },
@@ -145,10 +148,11 @@ export class HttpAuthService
         //http post
     }
 
-    public GetAllUsers():Observable<UserTable[]>
+    public GetAllUsers():Observable<UserInfo[]>
     {
+        console.log("GetAllUserInfo");
         return this.httpClient
-            .get<UserTable[]>(
+            .get<UserInfo[]>(
                 this.getAllUsersUrl);
     }
 

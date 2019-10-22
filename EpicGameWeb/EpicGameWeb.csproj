@@ -299,6 +299,7 @@
     <Compile Include="Models\DBHelper\UserFollowersTable.cs" />
     <Compile Include="Models\DBHelper\UserFollowingTable.cs" />
     <Compile Include="Models\DBHelper\UserfriendsTable.cs" />
+    <Compile Include="Models\DBHelper\UserInfo.cs" />
     <Compile Include="Models\DBHelper\UserTable.cs" />
     <Compile Include="Models\JSONHelper\JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

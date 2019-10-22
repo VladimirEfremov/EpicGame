@@ -13,20 +13,21 @@ namespace EpicGameWeb.Models.DBHelper
         bool IsRegisteredUser(string email, string passwordHash);
 
         [OperationContract]
-        void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd);
-        [OperationContract]
-        void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove);
+        void AddUserToFriends(int thisId, int idToAdd);
 
         [OperationContract]
-        List<UserTable> GetAllUsers();
+        void RemoveUserFromFriends(int thisId, int idToRemove);
 
         [OperationContract]
-        List<UserFriendsTable> GetUsersFriendsTable(int userId);
+        UserInfo[] GetAllUsersInfo();
 
         [OperationContract]
-        List<UserFollowersTable> GetUsersFollowersTable(int userId);
+        UserInfo[] GetUsersFriendsInfo(int userId);
 
         [OperationContract]
-        List<UserFollowingTable> GetUsersFollowingsTable(int userId);
+        UserInfo[] GetUsersFollowersInfo(int userId);
+
+        [OperationContract]
+        UserInfo[] GetUsersFollowingsInfo(int userId);
     }
 }

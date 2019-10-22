@@ -1,4 +1,4 @@
-﻿namespace EpicGame.src.Models
+﻿namespace EpicGameWeb.Models.DBHelper
 {
     public class UserInfo
     {

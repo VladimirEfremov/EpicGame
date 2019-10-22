@@ -104,36 +104,36 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpGet]
-        public string GetAllUsers()
+        public UserInfo[] GetAllUsersInfo()
         {
             var allUsers = RemoteProcedureCallClass
-                .GetUserChannel()
-                .GetAllUsers();
-            return allUsers.ToJson();
+                .GetBaseChannel()
+                .GetAllUsersInfo();
+            return allUsers;
         }
 
         [HttpGet]
-        public UserFriendsTable[] GetUsersFriendsTable(int userId)
+        public UserInfo[] GetUsersFriendsInfo(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFriendsTable(userId).ToArray();
+                .GetUsersFriendsInfo(userId);
         }
 
         [HttpGet]
-        public UserFollowersTable[] GetUsersFollowersTable(int userId)
+        public UserInfo[] GetUsersFollowersInfo(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFollowersTable(userId).ToArray();
+                .GetUsersFollowersInfo(userId);
         }
 
         [HttpGet]
-        public UserFollowingTable[] GetUsersFollowingsTable(int userId)
+        public UserInfo[] GetUsersFollowingsInfo(int userId)
         {
             return RemoteProcedureCallClass
                 .GetUserChannel()
-                .GetUsersFollowingsTable(userId).ToArray();
+                .GetUsersFollowingsInfo(userId);
         }
 
         [HttpPost]

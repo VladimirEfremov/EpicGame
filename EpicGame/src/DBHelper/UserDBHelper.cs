@@ -5,6 +5,7 @@
     using EpicGame.src.Models.User;
     using System.Collections.Generic;
     using EpicGame.src.Models;
+    using EpicGame.src.Models.Session;
 
     class UserDBHelper : System.IDisposable
     {
@@ -14,6 +15,8 @@
         private readonly UserFriendsTableEntity  m_UserFriendsContext = new UserFriendsTableEntity();
         private readonly UserFollowersTableEntity m_UserFollowersContext = new UserFollowersTableEntity();
         private readonly UserFollowingTableEntity m_UserFollowingContext = new UserFollowingTableEntity();
+
+        private static readonly SessionCoresEntity m_SessionCoreEntity = new SessionCoresEntity();
 
         public UserDBHelper()
         {
@@ -42,6 +45,7 @@
             {
                 m_UserContext.UserTable.Add(user);
                 UserContextTrySave();
+                GameDBHelper.GenerateCoreForUser(user.UserId);
                 return true;
             }
             else
@@ -321,6 +325,21 @@
             }
         }
 
+        public static int GetCoreIdByUserId(int userId)
+        {
+            var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .Where(obj => obj.UserId == userId)
+                .FirstOrDefault();
+            if (core != null)
+            {
+                return core.SessionCoreId;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public List<UserTable> GetAllUsers()
         {
             return m_UserContext.UserTable.AsNoTracking().ToList();
@@ -359,12 +378,98 @@
             var result = new List<UserInfo>();
             foreach(var user in allUsers)
             {
-                result.Add(new UserInfo() { 
-                    Nickname = user.Nickname,
-                    UserId = user.UserId
+                var core = m_SessionCoreEntity.SessionCoresTable
+                            .AsNoTracking()
+                            .Where(obj => obj.UserId == user.UserId)
+                            .FirstOrDefault();
+                result.Add(new UserInfo() {
+                    Nickname = user.Nickname.Trim(),
+                    UserId = user.UserId,
+                    CoreId = (core == null) ? 0 : core.SessionCoreId
                 });
             }
-            return null;
+            return result.ToArray();
+        }
+
+        public UserInfo[] GetUsersFriendsInfo(int userId)
+        {
+            var friendsList = m_UserFriendsContext
+               .UserFriendsTable
+               .AsNoTracking()
+               .Where(obj => obj.UserId == userId)
+               .ToList();
+            var result = new List<UserInfo>();
+            foreach (var user in friendsList)
+            {
+                var userTableInfo = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == user.UserId)
+                    .FirstOrDefault();
+                var core = m_SessionCoreEntity.SessionCoresTable
+                            .AsNoTracking()
+                            .Where(obj => obj.UserId == user.UserId)
+                            .FirstOrDefault();
+                result.Add(new UserInfo()
+                {
+                    Nickname = userTableInfo.Nickname.Trim(),
+                    UserId = userTableInfo.UserId,
+                    CoreId = (core == null) ? 0 : core.SessionCoreId
+                });
+            }
+            return result.ToArray();
+        }
+
+        public UserInfo[] GetUsersFollowersInfo(int userId)
+        {
+            var followersList = m_UserFollowersContext
+               .UserFollowersTable
+               .AsNoTracking()
+               .Where(obj => obj.UserId == userId)
+               .ToList();
+            var result = new List<UserInfo>();
+            foreach (var user in followersList)
+            {
+                var userTableInfo = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == user.UserId)
+                    .FirstOrDefault();
+                var core = m_SessionCoreEntity.SessionCoresTable
+                            .AsNoTracking()
+                            .Where(obj => obj.UserId == user.UserId)
+                            .FirstOrDefault();
+                result.Add(new UserInfo()
+                {
+                    Nickname = userTableInfo.Nickname.Trim(),
+                    UserId = userTableInfo.UserId,
+                    CoreId = (core == null) ? 0 : core.SessionCoreId
+                });
+            }
+            return result.ToArray();
+        }
+
+        public UserInfo[] GetUsersFollowingsInfo(int userId)
+        {
+            var followingsList = m_UserFollowingContext
+               .UserFollowingTable
+               .AsNoTracking()
+               .Where(obj => obj.UserId == userId)
+               .ToList();
+            var result = new List<UserInfo>();
+            foreach (var user in followingsList)
+            {
+                var userTableInfo = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == user.UserId)
+                    .FirstOrDefault();
+                var core = m_SessionCoreEntity.SessionCoresTable
+                            .AsNoTracking()
+                            .Where(obj => obj.UserId == user.UserId)
+                            .FirstOrDefault();
+                result.Add(new UserInfo()
+                {
+                    Nickname = userTableInfo.Nickname.Trim(),
+                    UserId = userTableInfo.UserId,
+                    CoreId = (core == null) ? 0 : core.SessionCoreId
+                });
+            }
+            return result.ToArray();
         }
 
         public void UserContextTrySave()

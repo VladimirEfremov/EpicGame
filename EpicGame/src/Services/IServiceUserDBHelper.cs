@@ -1,4 +1,5 @@
-﻿using EpicGame.src.Models.User;
+﻿using EpicGame.src.Models;
+using EpicGame.src.Models.User;
 using System.ServiceModel;
 
 namespace EpicGame.src.Services
@@ -14,20 +15,22 @@ namespace EpicGame.src.Services
         bool IsRegisteredUser(string email, string passwordHash);
 
         [OperationContract]
-        void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd);
-        [OperationContract]
-        void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove);
+        void AddUserToFriends(int thisId, int idToAdd);
 
         [OperationContract]
-        System.Collections.Generic.List<UserTable> GetAllUsers();
+        void RemoveUserFromFriends(int thisId, int idToRemove);
 
         [OperationContract]
-        System.Collections.Generic.List<UserFriendsTable> GetUsersFriendsTable(int userId);
+        UserInfo[] GetAllUsersInfo();
 
         [OperationContract]
-        System.Collections.Generic.List<UserFollowersTable> GetUsersFollowersTable(int userId);
+        UserInfo[] GetUsersFriendsInfo(int userId);
 
         [OperationContract]
-        System.Collections.Generic.List<UserFollowingTable> GetUsersFollowingsTable(int userId);
+        UserInfo[] GetUsersFollowersInfo(int userId);
+
+        [OperationContract]
+        UserInfo[] GetUsersFollowingsInfo(int userId);
+
     }
 }

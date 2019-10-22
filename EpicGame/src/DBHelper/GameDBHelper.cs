@@ -8,6 +8,7 @@
     using EpicGame.src.Models.Session;
     using System.Threading;
     using System.Diagnostics;
+    using EpicGame.src.Models;
 
     class GameDBHelper : System.IDisposable
     {
@@ -406,5 +407,48 @@
             }
         }
 
+        public CoreInfo GetCoreInfoById(int coreId)
+        {
+            var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            var casern = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            var @base = m_SessionBasesEntity.SessionBasesTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            var goldMining = m_SessionGoldMiningsEntity.SessionGoldMiningsTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            CoreInfo coreInfo = new CoreInfo()
+            {
+                CoreId = coreId,
+                CoreMapId = core.CoreMapId,
+                Money = core.Money,
+
+                CasernLevel = (casern != null) ? casern.BuildingLevel : 0,
+                GoldMiningLevel = (goldMining != null) ? goldMining.BuildingLevel : 0,
+                DefenceTowerLevel = (defenceTower != null) ? defenceTower.BuildingLevel : 0,
+
+                BaseCapacity = 10 * (@base.CapacityUpgrade + 1),
+                CasernCapacity = (casern != null) ? (10 * (casern.CapacityUpgrade + 1)) : 0,
+                GoldMiningCapacity = (goldMining != null) ? (10 * (goldMining.CapacityUpgrade + 1)) : 0,
+
+                //BUildings
+                Casern = (casern != null),
+                GoldMining = (goldMining != null),
+                DefenceTower = (defenceTower != null),
+                NumberOfDefenceTower = (defenceTower != null) ? 1 : 0,
+                NumberOfWorkersInBase = @base.WorkersNumber,
+                NumberOfWorkersInGoldMining = (goldMining != null) ? goldMining.WorkersNumber : 0,
+                NumberOfWarriors = (casern != null) ? casern.WarriorsNumber : 0,
+                NumberOfAttackAircraft = (casern != null) ? casern.AttackAircraftNumber : 0
+            };
+            return coreInfo;
+        }
     }
 }

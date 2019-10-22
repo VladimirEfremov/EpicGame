@@ -156,7 +156,9 @@ namespace EpicGame
                         "2. Remove user by id\n" +
                         "3. Add to friends\n" +
                         "4. Remove from friends\n" +
-                        "5. Print users\n6. Print relations");
+                        "5. Print users\n" +
+                        "6. Print relations\n" + 
+                        "7. Print user info");
                     var key = Console.ReadKey().Key;
                     Console.WriteLine();
                     switch (key)
@@ -287,6 +289,16 @@ namespace EpicGame
                                 Console.WriteLine();
                                 break;
                             }
+                        case ConsoleKey.D7:
+                            {
+                                var usersInfo = db.GetAllUsersInfo();
+                                foreach (var user in usersInfo)
+                                {
+                                    Console.WriteLine($"{user.Nickname} {user.UserId} {user.CoreId}");
+                                }
+                                break;
+                            }
+                        
                         case ConsoleKey.C: { Console.Clear(); break; }
                         case ConsoleKey.Escape: { run = false; break; }
                         default: {  break; }
@@ -350,7 +362,8 @@ namespace EpicGame
                         "2. Show battle\n" + 
                         "3. Random registration\n" +
                         "4. Show all cores\n" + 
-                        "5. Build casern test\n"
+                        "5. Build casern test\n" + 
+                        "6. Core info\n"
                         );
                     var key = Console.ReadKey().Key;
                     Console.WriteLine();
@@ -449,9 +462,30 @@ namespace EpicGame
                         case ConsoleKey.D6:
                             {
                                 Console.Clear();
-                                Console.WriteLine("\nRelations:");
-                            
-                                Console.WriteLine();
+                                Console.WriteLine("Core info");
+                                using (var context = new UserDBHelper())
+                                {
+                                    
+                                    var list = context.GetAllUsers();
+                                    foreach (var el in list)
+                                    {
+                                        var coreId = UserDBHelper.GetCoreIdByUserId(el.UserId);
+                                        if (coreId != -1)
+                                        {
+                                            var coreInfo = gamedb.GetCoreInfoById(coreId);
+                                            Console.WriteLine($"Core info [UserId={el.UserId}]");
+                                            Console.WriteLine($"coreid: {coreInfo.CoreId} " +
+                                                $"money: {coreInfo.Money}" +
+                                                $"base capacity: {coreInfo.BaseCapacity}");
+                                        }
+                                        else
+                                        {
+                                            Console
+                                                .WriteLine($"Can not find core id for userid: {el.UserId}");
+                                        }
+                                    }
+                                    Console.WriteLine();
+                                }
                                 break;
                             }
                         case ConsoleKey.C: { Console.Clear(); break; }
@@ -465,7 +499,8 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if TRUE
+#if TRUE //TRUE FALSE
+
 #if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
             BasicHttpBinding binding = new BasicHttpBinding();
@@ -498,9 +533,9 @@ namespace EpicGame
 
 #else
 
-            //TestUserDB();
+            TestUserDB();
 
-            TestGameDB();
+            //TestGameDB();
 
 #endif
             logger.Info("Press any key to continue ...");
