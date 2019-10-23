@@ -9,14 +9,12 @@ import { CasernInfo } from './game-structures/CasernInfo';
 import { DefenceTowerInfo } from './game-structures/DefenceTowerInfo';
 import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
-import {AccountData} from '../shared/AccountData';
-import {UserTable} from '../shared/UserTable';
-import {Logger} from './Logger';
-import {Map} from './Map';
-import {UserInfo} from '../game/UserInfo';
-import { UserFollowersTable } from '../shared/UserFollowersTable';
-import { UserFollowingTable } from '../shared/UserFollowingTable';
-import { UserFriendsTable } from '../shared/UserFriendsTable';
+import { AccountData } from '../shared/AccountData';
+import { UserTable } from '../shared/UserTable';
+import { Logger } from './Logger';
+import { Map } from './Map';
+import { UserInfo } from '../game/UserInfo';
+import { TwoUsers } from '../game/TwoUsers';
 
 @Component({
   selector: 'app-game',
@@ -29,6 +27,7 @@ export class GameComponent implements OnInit
   
   //Info account
   accountData : AccountData = {
+    UserId: -1,
     Nickname: "",
     FriendsList: [],
     FollowersList: [],
@@ -102,7 +101,7 @@ export class GameComponent implements OnInit
 
   //Communication 
   //0-All, 1-Friends, 2-Followers, 3-Followings
-  numberOfSelectedList:number=0;
+  numberOfSelectedList:number=-1;
   numberOfPage:number=0;
   pageStep:number=4;
   //list [All, Friends, Followers, Followings]
@@ -115,16 +114,20 @@ export class GameComponent implements OnInit
       "Fol10","Fol11","Fol12"
     ];
   followings : string[] = ["Followings1", "Followings2"];
-
+  
+  //Users stuff
   allUsers:UserInfo[] = [];
-  friendsUsers:UserFriendsTable[] = [];
-  followersUsers:UserFollowersTable[] = [];
-  followingsUsers:UserFollowingTable[] = [];
+  friendsUsers:UserInfo[] = [];
+  followersUsers:UserInfo[] = [];
+  followingsUsers:UserInfo[] = [];
 
   selectedAll:UserInfo[] = [];
-  selectedFriends:UserFriendsTable[] = [];
-  selectedFollowers:UserFollowersTable[] = [];
-  selectedFollowings:UserFollowingTable[] = [];
+  selectedFriends:UserInfo[] = [];
+  selectedFollowers:UserInfo[] = [];
+  selectedFollowings:UserInfo[] = [];
+
+  isUserActionsWindowVisible = true;
+  selectedUser : UserInfo;
 
   //Log
   loggedData:Logger = new Logger();
@@ -178,7 +181,7 @@ export class GameComponent implements OnInit
 
   GetUsersFriendsTable(userId:number)
   {
-    this.httpAuthService.GetUsersFriendsTable(userId)
+    this.httpAuthService.GetUsersFriendsInfo(userId)
     .subscribe(
       res=>{
         console.log("get user friends");
@@ -192,7 +195,7 @@ export class GameComponent implements OnInit
 
   GetUsersFollowersTable(userId:number)
   {
-    this.httpAuthService.GetUsersFollowersTable(userId)
+    this.httpAuthService.GetUsersFollowersInfo(userId)
     .subscribe(
       res=>{
         console.log("get user followers");
@@ -206,7 +209,7 @@ export class GameComponent implements OnInit
 
   GetUsersFollowingsTable(userId:number)
   {
-    this.httpAuthService.GetUsersFollowingsTable(userId)
+    this.httpAuthService.GetUsersFollowingsInfo(userId)
     .subscribe(
       res=>{
         console.log("get user followings");
@@ -407,9 +410,46 @@ export class GameComponent implements OnInit
     this.numberOfSelectedList = 3;
   }
 
-  OnUserBtnClick(selectedNickname : string) : void
+  OnUserBtnClick(userInfo : UserInfo) : void
   {
-      console.log("OnUserBtnClick: " + selectedNickname);
+      this.isUserActionsWindowVisible = true;
+      console.log("OnUserBtnClick: " + userInfo.Nickname);
+      this.selectedUser = userInfo;
+  }
+
+  IsUserFriend(nick:string) : boolean
+  {
+      for (var i = 0; i < this.friendsUsers.length; i++)
+      {
+          if (this.friendsUsers[i].Nickname == nick)
+          {
+            return true;
+          }
+      }
+      return false;
+  }
+
+  AddUserToFriends() : void
+  {
+    let users : TwoUsers = {
+      FirstId: this.accountData.UserId,
+      SecondId: this.selectedUser.UserId
+    };
+    this.httpAuthService.AddUserToFriends(users);
+  }
+  
+  RemoveUserFromFriends() : void
+  {
+    let users : TwoUsers = {
+      FirstId: this.accountData.UserId,
+      SecondId: this.selectedUser.UserId
+    };
+    this.httpAuthService.RemoveUserFromFriends(users);
+  }
+
+  OnExitBtnClick():void
+  {
+    this.isUserActionsWindowVisible=false;
   }
 
 }

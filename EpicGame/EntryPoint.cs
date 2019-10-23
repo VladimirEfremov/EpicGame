@@ -292,10 +292,10 @@ namespace EpicGame
                         case ConsoleKey.D7:
                             {
                                 var usersInfo = db.GetAllUsersInfo();
-                                foreach (var user in usersInfo)
-                                {
-                                    Console.WriteLine($"{user.Nickname} {user.UserId} {user.CoreId}");
-                                }
+                                //foreach (var user in usersInfo)
+                                //{
+                                //    Console.WriteLine($"{user.Nickname} {user.UserId} {user.CoreId}");
+                                //}
                                 break;
                             }
                         

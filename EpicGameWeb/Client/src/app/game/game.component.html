@@ -164,7 +164,7 @@
                   <div *ngFor=
                     "let user of selectedAll">
                     <button class="btnList" 
-                    (click)="OnUserBtnClick(user.Nickname)">
+                    (click)="OnUserBtnClick(user)">
                       {{user.Nickname}}
                     </button>
                   </div>
@@ -174,8 +174,8 @@
                   <div *ngFor=
                   "let user of friendsUsers">
                   <button class="btnList" 
-                  (click)="OnUserBtnClick(user.UserId)">
-                  {{user.UserId}}
+                  (click)="OnUserBtnClick(user)">
+                    {{user.Nickname}}
                   </button>
                 </div>
               </ng-template>
@@ -184,8 +184,8 @@
                   <div *ngFor=
                   "let user of followersUsers">
                   <button class="btnList" 
-                  (click)="OnUserBtnClick(user.UserId)">
-                    {{user.UserId}}
+                  (click)="OnUserBtnClick(user)">
+                    {{user.Nickname}}
                   </button>
                 </div>
               </ng-template>
@@ -194,8 +194,8 @@
                   <div *ngFor=
                   "let user of followingsUsers">
                   <button class="btnList" 
-                  (click)="OnUserBtnClick(user.UserId)">
-                    {{user.UserId}}
+                  (click)="OnUserBtnClick(user)">
+                    {{user.Nickname}}
                   </button>
                 </div>
               </ng-template>
@@ -211,6 +211,72 @@
 </tr>
 
 </table>
+
+<div class="UsersActionWindowBox">
+  <ng-template [ngIf]="isUserActionsWindowVisible">
+    
+    <div class="UsersActionWindow" 
+      [ngSwitch]="numberOfSelectedList">
+      <div class="RoundedExitBtnBox">
+        <button class="RoundedExitBtn"
+                (click)="OnExitBtnClick()">&#215;</button>
+      </div>
+      
+      <br/> 
+      <br/>
+
+      <div class="UserInfo">
+        User info
+        <br/> 
+        Nickname: {{selectedUser.Nickname}}
+        <br/> 
+        <br/> 
+        Core info 
+        <br/> 
+      </div>
+      
+      
+
+      <br/> 
+       <ng-template ngSwitchCase="0">
+         <ng-template *ngIf="IsUserFriend(); else not">
+           <button class="btnUserAction" 
+           (click)="RemoveUserFromFriends()">
+           Удалить из друзей
+          </button>
+        </ng-template>
+        <ng-template #not>
+            <button class="btnUserAction" 
+            (click)="AddUserToFriends()">
+            Добавить в друзья
+           </button>
+        </ng-template>
+       </ng-template>
+
+       <ng-template ngSwitchCase="1"> 
+          <button class="btnUserAction" 
+          (click)="RemoveUserFromFriends()">
+            Удалить из друзей
+          </button>
+       </ng-template>
+
+       <ng-template ngSwitchCase="3">
+          <button class="btnUserAction" 
+          (click)="RemoveUserFromFriends()">
+          Отменить подписку
+          </button>
+       </ng-template>
+
+       <ng-template ngSwitchDefault>
+        <button class="btnUserAction">
+          Default
+        </button>
+       </ng-template>
+      
+       {{selectedUser.Nickname}}
+    </div>
+  </ng-template>
+</div>
 
 
 <div class="Logger" onload="this.scrollTop = 9999;"> 

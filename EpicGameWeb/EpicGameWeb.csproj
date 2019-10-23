@@ -296,6 +296,7 @@
     <Compile Include="Models\DBHelper\IServiceUserDBHelper.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
     <Compile Include="Models\DBHelper\SessionCoresTable.cs" />
+    <Compile Include="Models\DBHelper\TwoUsers.cs" />
     <Compile Include="Models\DBHelper\UserFollowersTable.cs" />
     <Compile Include="Models\DBHelper\UserFollowingTable.cs" />
     <Compile Include="Models\DBHelper\UserfriendsTable.cs" />

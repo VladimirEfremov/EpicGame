@@ -68,14 +68,24 @@ namespace EpicGame.src.Services
         }
 
         //USER
-        public void AddUserToFriends(int thisId, int idToAdd)
+        public void AddUserToFriends(TwoUsers users)
         {
-            m_UserDBHelper.AddUserToFriends(thisId, idToAdd);
+            m_UserDBHelper.AddUserToFriends(users.FirstId, users.SecondId);
         }
 
-        public bool IsRegisteredUser(string email, string passwordHash)
+        public void RemoveUserFromFriends(TwoUsers users)
         {
-            return m_UserDBHelper.IsRegisteredUser(email, passwordHash);
+            m_UserDBHelper.RemoveUserFromFriends(users.FirstId, users.SecondId);
+        }
+
+        public bool IsRegisteredUser(string nickname, string passwordHash)
+        {
+            return m_UserDBHelper.IsRegisteredUser(nickname, passwordHash);
+        }
+
+        public int GetUserIdByNickname(string nickname)
+        {
+            return m_UserDBHelper.GetUserIdByNickname(nickname);
         }
 
         public bool RegisterUserToTable(string firstName, string secondName, string passswordHash, string nickname, string email)
@@ -83,28 +93,23 @@ namespace EpicGame.src.Services
             return m_UserDBHelper.RegisterUserToTable(firstName, secondName, passswordHash, nickname, email);
         }
 
-        public void RemoveUserFromFriends(int thisId, int idToRemove)
-        {
-            m_UserDBHelper.RemoveUserFromFriends(thisId, idToRemove);
-        }
-
-        public UserInfo[] GetAllUsersInfo()
+        public string GetAllUsersInfo()
         {
             var usersInfo = m_UserDBHelper.GetAllUsersInfo();
             return usersInfo;
         }
 
-        public UserInfo[] GetUsersFriendsInfo(int userId)
+        public string GetUsersFriendsInfo(int userId)
         {
             return m_UserDBHelper.GetUsersFriendsInfo(userId);
         }
 
-        public UserInfo[] GetUsersFollowersInfo(int userId)
+        public string GetUsersFollowersInfo(int userId)
         {
             return m_UserDBHelper.GetUsersFollowersInfo(userId);
         }
 
-        public UserInfo[] GetUsersFollowingsInfo(int userId)
+        public string GetUsersFollowingsInfo(int userId)
         {
             return m_UserDBHelper.GetUsersFollowingsInfo(userId);
         }

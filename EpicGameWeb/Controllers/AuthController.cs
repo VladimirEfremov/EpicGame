@@ -79,7 +79,11 @@ namespace EpicGameWeb.Controllers
         [HttpGet]
         public string GetAccountData()
         {
+            int userId = RemoteProcedureCallClass.GetUserChannel()
+                .GetUserIdByNickname(User.Identity.Name);
+
             AccountData result = new AccountData();
+            result.UserId = userId;
             result.Nickname = User.Identity.Name;
             result.FriendsList = new string[] { "fr1" };
             result.FollowersList = new string[] { "fo2" };
@@ -88,52 +92,59 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpPost]
-        public void AddUserToFriends(int thisId, int idToAdd)
+        public void AddUserToFriends(TwoUsers users)
         {
             RemoteProcedureCallClass
                 .GetUserChannel()
-                .AddUserToFriends(thisId, idToAdd);
+                .AddUserToFriends(users);
         }
 
         [HttpPost]
-        public void RemoveUserFromFriends(int thisId, int idToRemove)
+        public void RemoveUserFromFriends(TwoUsers users)
         {
             RemoteProcedureCallClass
                 .GetUserChannel()
-                .RemoveUserFromFriends(thisId, idToRemove);
+                .RemoveUserFromFriends(users);
         }
 
         [HttpGet]
-        public UserInfo[] GetAllUsersInfo()
+        public string GetAllUsersInfo()
         {
-            var allUsers = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .GetAllUsersInfo();
-            return allUsers;
+            var channel = RemoteProcedureCallClass
+                .GetUserChannel();
+            var allUsersJson = channel.GetAllUsersInfo();
+            var allUsers = allUsersJson.FromJson<UserInfo[]>();
+            return allUsers.ToJson();
         }
 
         [HttpGet]
         public UserInfo[] GetUsersFriendsInfo(int userId)
         {
-            return RemoteProcedureCallClass
-                .GetUserChannel()
-                .GetUsersFriendsInfo(userId);
+            var channel = RemoteProcedureCallClass
+                .GetUserChannel();
+            var friendsUsersJson = channel.GetUsersFriendsInfo(userId);
+            var friendsUsers = friendsUsersJson.FromJson<UserInfo[]>();
+            return friendsUsers;
         }
 
         [HttpGet]
         public UserInfo[] GetUsersFollowersInfo(int userId)
         {
-            return RemoteProcedureCallClass
-                .GetUserChannel()
-                .GetUsersFollowersInfo(userId);
+            var channel = RemoteProcedureCallClass
+                .GetUserChannel();
+            var followersUsersJson = channel.GetUsersFollowersInfo(userId);
+            var followersUsers = followersUsersJson.FromJson<UserInfo[]>();
+            return followersUsers;
         }
 
         [HttpGet]
         public UserInfo[] GetUsersFollowingsInfo(int userId)
         {
-            return RemoteProcedureCallClass
-                .GetUserChannel()
-                .GetUsersFollowingsInfo(userId);
+            var channel = RemoteProcedureCallClass
+                .GetUserChannel();
+            var followingsUsersJson = channel.GetUsersFollowingsInfo(userId);
+            var followingsUsers = followingsUsersJson.FromJson<UserInfo[]>();
+            return followingsUsers;
         }
 
         [HttpPost]

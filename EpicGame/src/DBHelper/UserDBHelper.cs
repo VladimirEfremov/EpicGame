@@ -88,6 +88,13 @@
             return false;
         }
 
+        public int GetUserIdByNickname(string nickname)
+        {
+            return m_UserContext.UserTable.AsNoTracking()
+                .Where(obj => obj.Nickname == nickname)
+                .FirstOrDefault().UserId;
+        }
+
         public void RemoveUserByIdFromTable(System.Int32 id)
         {
             var user = m_UserContext.UserTable.Find(id);
@@ -372,7 +379,7 @@
                 .ToList();
         }
 
-        public UserInfo[] GetAllUsersInfo()
+        public string GetAllUsersInfo()
         {
             var allUsers = GetAllUsers();
             var result = new List<UserInfo>();
@@ -388,10 +395,10 @@
                     CoreId = (core == null) ? 0 : core.SessionCoreId
                 });
             }
-            return result.ToArray();
+            return result.ToArray().ToJson();
         }
 
-        public UserInfo[] GetUsersFriendsInfo(int userId)
+        public string GetUsersFriendsInfo(int userId)
         {
             var friendsList = m_UserFriendsContext
                .UserFriendsTable
@@ -415,10 +422,10 @@
                     CoreId = (core == null) ? 0 : core.SessionCoreId
                 });
             }
-            return result.ToArray();
+            return result.ToArray().ToJson();
         }
 
-        public UserInfo[] GetUsersFollowersInfo(int userId)
+        public string GetUsersFollowersInfo(int userId)
         {
             var followersList = m_UserFollowersContext
                .UserFollowersTable
@@ -442,10 +449,10 @@
                     CoreId = (core == null) ? 0 : core.SessionCoreId
                 });
             }
-            return result.ToArray();
+            return result.ToArray().ToJson();
         }
 
-        public UserInfo[] GetUsersFollowingsInfo(int userId)
+        public string GetUsersFollowingsInfo(int userId)
         {
             var followingsList = m_UserFollowingContext
                .UserFollowingTable
@@ -469,7 +476,7 @@
                     CoreId = (core == null) ? 0 : core.SessionCoreId
                 });
             }
-            return result.ToArray();
+            return result.ToArray().ToJson();
         }
 
         public void UserContextTrySave()

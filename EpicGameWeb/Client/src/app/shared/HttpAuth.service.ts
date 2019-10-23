@@ -7,12 +7,8 @@ import { Observable } from 'rxjs';
 
 import { HttpLoginPostData } from './HttpLoginPostData';
 import { HttpRegistrationPostData } from './HttpRegistrationData';
-import {UserInfo} from '../game/UserInfo';
-
-import { UserTable } from './UserTable';
-import { UserFriendsTable } from './UserFriendsTable';
-import { UserFollowersTable } from './UserFollowersTable';
-import { UserFollowingTable } from './UserFollowingTable';
+import { UserInfo } from '../game/UserInfo';
+import { TwoUsers } from '../game/TwoUsers';
 
 @Injectable()
 export class HttpAuthService
@@ -26,6 +22,12 @@ export class HttpAuthService
     
     getAccountUrl: string = 
         "http://localhost:6430/Auth/GetAccountData";    
+
+    addUserToFriendsUrl:string =
+        "http://localhost:6430/Auth/AddUserToFriends";
+    removeUserFromFriendsUrl:string =
+        "http://localhost:6430/Auth/RemoveUserFromFriends";
+
 
     getAllUsersUrl:string =
         "http://localhost:6430/Auth/GetAllUsersInfo"; 
@@ -137,43 +139,55 @@ export class HttpAuthService
         return this.httpClient.get<AccountData>(this.getAccountUrl);
     }
 
-    public AddUserToFriends(thisId:number, idToAdd:number):void
+    public AddUserToFriends(users:TwoUsers):void
     {
-        //http post
-        //this.httpClient.post()
+        this.httpClient.post<TwoUsers>(
+            this.addUserToFriendsUrl, 
+            users)
+        .subscribe(
+            data => console.log("success"),
+            error => console.log("error"+error)
+        );;
     }
-
-    public RemoveUserFromFriends(thisId:number, idToRemove:number):void
+    
+    public RemoveUserFromFriends(users:TwoUsers):void
     {
-        //http post
+        this.httpClient.post<TwoUsers>(this.removeUserFromFriendsUrl, users);
     }
 
     public GetAllUsers():Observable<UserInfo[]>
     {
         console.log("GetAllUserInfo");
-        return this.httpClient
-            .get<UserInfo[]>(
-                this.getAllUsersUrl);
+        let result = this.httpClient.get<UserInfo[]>(
+            this.getAllUsersUrl);
+        result.forEach(element => {
+            for (var i=0; i < element.length; i++)
+            {
+                console.log("user nick: "+element[i].Nickname);
+            }
+        });
+
+        return result;
     }
 
-    public GetUsersFriendsTable(userId:number):Observable<UserFriendsTable[]>
+    public GetUsersFriendsInfo(userId:number):Observable<UserInfo[]>
     {
         return this.httpClient
-            .get<UserFriendsTable[]>(
+            .get<UserInfo[]>(
             this.getUsersFriendsUrl);
     }
 
-    public GetUsersFollowersTable(userId:number):Observable<UserFollowersTable[]>
+    public GetUsersFollowersInfo(userId:number):Observable<UserInfo[]>
     {
         return this.httpClient
-        .get<UserFollowersTable[]>(
+        .get<UserInfo[]>(
             this.getUsersFollowersUrl);
     }
 
-    public GetUsersFollowingsTable(userId:number):Observable<UserFollowingTable[]>
+    public GetUsersFollowingsInfo(userId:number):Observable<UserInfo[]>
     {
        return this.httpClient
-        .get<UserFollowingTable[]>(
+        .get<UserInfo[]>(
         this.getUsersFollowingsUrl);
     }
 
