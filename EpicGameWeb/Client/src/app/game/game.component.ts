@@ -126,7 +126,7 @@ export class GameComponent implements OnInit
   selectedFollowers:UserInfo[] = [];
   selectedFollowings:UserInfo[] = [];
 
-  isUserActionsWindowVisible = true;
+  isUserActionsWindowVisible = false;
   selectedUser : UserInfo;
 
   //Log
@@ -179,9 +179,9 @@ export class GameComponent implements OnInit
     );
   }
 
-  GetUsersFriendsTable(userId:number)
+  GetUsersFriends()
   {
-    this.httpAuthService.GetUsersFriendsInfo(userId)
+    this.httpAuthService.GetUsersFriendsInfo()
     .subscribe(
       res=>{
         console.log("get user friends");
@@ -193,9 +193,9 @@ export class GameComponent implements OnInit
     );
   }
 
-  GetUsersFollowersTable(userId:number)
+  GetUsersFollowers()
   {
-    this.httpAuthService.GetUsersFollowersInfo(userId)
+    this.httpAuthService.GetUsersFollowersInfo()
     .subscribe(
       res=>{
         console.log("get user followers");
@@ -207,9 +207,9 @@ export class GameComponent implements OnInit
     );
   }
 
-  GetUsersFollowingsTable(userId:number)
+  GetUsersFollowings()
   {
-    this.httpAuthService.GetUsersFollowingsInfo(userId)
+    this.httpAuthService.GetUsersFollowingsInfo()
     .subscribe(
       res=>{
         console.log("get user followings");
@@ -389,7 +389,11 @@ export class GameComponent implements OnInit
   OnFriendsBtnClick() : void
   {
       //GetAllFriends
-      this.selectedNicknames = this.friends.slice(0, this.pageStep);
+      this.GetUsersFriends();
+
+      this.selectedNicknames = 
+        this.friends.slice(0, this.pageStep);
+
       this.numberOfPage = 0;
       this.numberOfSelectedList = 1;
   }
@@ -397,7 +401,11 @@ export class GameComponent implements OnInit
   OnFollowersBtnClick() : void
   {
       //GetAllFollowers
-      this.selectedNicknames = this.followers.slice(0, this.pageStep);
+      this.GetUsersFollowers();
+
+      this.selectedNicknames = 
+        this.followers.slice(0, this.pageStep);
+
       this.numberOfPage = 0;
       this.numberOfSelectedList = 2;
   }
@@ -405,7 +413,11 @@ export class GameComponent implements OnInit
   OnFollowingsBtnClick() : void
   {
     //GetAllFollowings
-    this.selectedNicknames = this.followings.slice(0, this.pageStep);
+    this.GetUsersFollowings();
+
+    this.selectedNicknames = 
+      this.followings.slice(0, this.pageStep);
+
     this.numberOfPage = 0;
     this.numberOfSelectedList = 3;
   }
@@ -436,6 +448,7 @@ export class GameComponent implements OnInit
       SecondId: this.selectedUser.UserId
     };
     this.httpAuthService.AddUserToFriends(users);
+    this.isUserActionsWindowVisible = false;
   }
   
   RemoveUserFromFriends() : void
@@ -445,6 +458,22 @@ export class GameComponent implements OnInit
       SecondId: this.selectedUser.UserId
     };
     this.httpAuthService.RemoveUserFromFriends(users);
+    this.isUserActionsWindowVisible = false;
+    if (this.numberOfSelectedList == 1)
+    {
+      console.log("this.numberOfSelectedList == 1");
+      this.OnFriendsBtnClick();
+    }
+    else if (this.numberOfSelectedList == 2)
+    {
+      console.log("this.numberOfSelectedList == 2");
+      this.OnFollowersBtnClick();
+    }
+    else if (this.numberOfSelectedList == 3)
+    {
+      console.log("this.numberOfSelectedList == 3");
+      this.OnFollowingsBtnClick();
+    }
   }
 
   OnExitBtnClick():void

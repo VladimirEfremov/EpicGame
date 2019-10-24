@@ -13,10 +13,10 @@ namespace EpicGameWeb.Models.DBHelper
         bool IsRegisteredUser(string nickname, string passwordHash);
 
         [OperationContract]
-        void AddUserToFriends(TwoUsers users);
+        void AddUserToFriends(string users);
 
         [OperationContract]
-        void RemoveUserFromFriends(TwoUsers users);
+        void RemoveUserFromFriends(string users);
 
         [OperationContract]
         int GetUserIdByNickname(string nickname);

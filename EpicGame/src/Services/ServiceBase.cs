@@ -68,14 +68,16 @@ namespace EpicGame.src.Services
         }
 
         //USER
-        public void AddUserToFriends(TwoUsers users)
+        public void AddUserToFriends(string users)
         {
-            m_UserDBHelper.AddUserToFriends(users.FirstId, users.SecondId);
+            TwoUsers twoUsers = users?.FromJson<TwoUsers>();
+            m_UserDBHelper.AddUserToFriends(twoUsers.FirstId, twoUsers.SecondId);
         }
 
-        public void RemoveUserFromFriends(TwoUsers users)
+        public void RemoveUserFromFriends(string users)
         {
-            m_UserDBHelper.RemoveUserFromFriends(users.FirstId, users.SecondId);
+            TwoUsers twoUsers = users?.FromJson<TwoUsers>();
+            m_UserDBHelper.RemoveUserFromFriends(twoUsers.FirstId, twoUsers.SecondId);
         }
 
         public bool IsRegisteredUser(string nickname, string passwordHash)

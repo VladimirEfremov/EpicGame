@@ -427,10 +427,10 @@
 
         public string GetUsersFollowersInfo(int userId)
         {
-            var followersList = m_UserFollowersContext
-               .UserFollowersTable
+            var followersList = m_UserFollowingContext
+               .UserFollowingTable
                .AsNoTracking()
-               .Where(obj => obj.UserId == userId)
+               .Where(obj => obj.FollowingId == userId)
                .ToList();
             var result = new List<UserInfo>();
             foreach (var user in followersList)
@@ -454,10 +454,10 @@
 
         public string GetUsersFollowingsInfo(int userId)
         {
-            var followingsList = m_UserFollowingContext
-               .UserFollowingTable
+            var followingsList = m_UserFollowersContext
+               .UserFollowersTable
                .AsNoTracking()
-               .Where(obj => obj.UserId == userId)
+               .Where(obj => obj.FollowerId == userId)
                .ToList();
             var result = new List<UserInfo>();
             foreach (var user in followingsList)

@@ -30,16 +30,16 @@ export class HttpAuthService
 
 
     getAllUsersUrl:string =
-        "http://localhost:6430/Auth/GetAllUsersInfo"; 
+        "http://localhost:6430/Auth/AllUsersInfo"; 
 
     getUsersFriendsUrl:string =
-        "http://localhost:6430/Auth/GetUsersFriendsInfo"; 
+        "http://localhost:6430/Auth/UsersFriendsInfo"; 
 
     getUsersFollowersUrl:string =
-        "http://localhost:6430/Auth/GetUsersFollowersInfo"; 
+        "http://localhost:6430/Auth/UsersFollowersInfo"; 
 
     getUsersFollowingsUrl:string =
-        "http://localhost:6430/Auth/GetUsersFollowingsInfo"; 
+        "http://localhost:6430/Auth/UsersFollowingsInfo"; 
 
     signOutUrl: string = 
         "http://localhost:6430/Auth/SignOut"; 
@@ -141,54 +141,63 @@ export class HttpAuthService
 
     public AddUserToFriends(users:TwoUsers):void
     {
+        console.log(`firstId: ${users.FirstId}
+         secondId: ${users.SecondId}`);
         this.httpClient.post<TwoUsers>(
             this.addUserToFriendsUrl, 
             users)
         .subscribe(
             data => console.log("success"),
             error => console.log("error"+error)
-        );;
+        );
     }
     
     public RemoveUserFromFriends(users:TwoUsers):void
     {
-        this.httpClient.post<TwoUsers>(this.removeUserFromFriendsUrl, users);
+        console.log(`firstId: ${users.FirstId}
+                     secondId: ${users.SecondId}`);
+        this.httpClient
+            .post<TwoUsers>(this.removeUserFromFriendsUrl, users)
+            .subscribe(
+                data => console.log("success"),
+                error => console.log("error"+error)
+            );
     }
 
     public GetAllUsers():Observable<UserInfo[]>
     {
         console.log("GetAllUserInfo");
-        let result = this.httpClient.get<UserInfo[]>(
+        let result = this.httpClient
+            .get<UserInfo[]>(
             this.getAllUsersUrl);
-        result.forEach(element => {
-            for (var i=0; i < element.length; i++)
-            {
-                console.log("user nick: "+element[i].Nickname);
-            }
-        });
-
         return result;
     }
 
-    public GetUsersFriendsInfo(userId:number):Observable<UserInfo[]>
+    public GetUsersFriendsInfo():Observable<UserInfo[]>
     {
-        return this.httpClient
-            .get<UserInfo[]>(
-            this.getUsersFriendsUrl);
+        console.log("GetUsersFriendsInfo");
+        let result = this.httpClient
+                .get<UserInfo[]>(
+                this.getUsersFriendsUrl);
+        return result;
     }
 
-    public GetUsersFollowersInfo(userId:number):Observable<UserInfo[]>
+    public GetUsersFollowersInfo():Observable<UserInfo[]>
     {
-        return this.httpClient
-        .get<UserInfo[]>(
-            this.getUsersFollowersUrl);
+        console.log("GetUsersFollowersInfo");
+        let result = this.httpClient
+                .get<UserInfo[]>(
+                this.getUsersFollowersUrl);
+        return result;
     }
 
-    public GetUsersFollowingsInfo(userId:number):Observable<UserInfo[]>
+    public GetUsersFollowingsInfo():Observable<UserInfo[]>
     {
-       return this.httpClient
-        .get<UserInfo[]>(
-        this.getUsersFollowingsUrl);
+        console.log("GetUsersFollowingsInfo");
+        let result = this.httpClient
+                .get<UserInfo[]>(
+                this.getUsersFollowingsUrl);
+                return result;
     }
 
     public SignOut() : void
