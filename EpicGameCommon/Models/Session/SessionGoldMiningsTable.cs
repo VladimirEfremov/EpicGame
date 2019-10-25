@@ -1,4 +1,4 @@
-namespace EpicGameCommon
+namespace EpicGameCommon.Models.Session
 {
     using System;
     using System.Collections.Generic;

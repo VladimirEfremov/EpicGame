@@ -9,6 +9,9 @@
 
 namespace EpicGame.src.Models.User
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class UserTable
     {
         public int UserId { get; set; }

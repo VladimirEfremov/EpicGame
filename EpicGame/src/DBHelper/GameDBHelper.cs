@@ -6,8 +6,8 @@
     using System.Diagnostics;
     using System.Collections.Generic;
 
-    using EpicGameCommon.Models.Game;
-    using EpicGameCommon.Models.Session;
+    using EpicGame.src.Models.Game;
+    using EpicGame.src.Models.Session;
 
     class GameDBHelper : System.IDisposable
     {

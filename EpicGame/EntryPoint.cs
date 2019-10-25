@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using EpicGame.src.Models.Game;
 using EpicGame.src.Services;
 using EpicGameCommon;
 

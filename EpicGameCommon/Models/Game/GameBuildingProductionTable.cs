@@ -1,4 +1,4 @@
-namespace EpicGameCommon
+namespace EpicGameCommon.Models.Game
 {
     public partial class GameBuildingProductionTable
     {

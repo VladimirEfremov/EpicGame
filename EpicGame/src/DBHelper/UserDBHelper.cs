@@ -2,9 +2,9 @@
 {
     using NLog;
     using System.Linq;
-    using EpicGameCommon.Models.Session;
-    using EpicGameCommon.Models.User;
     using System.Collections.Generic;
+    using EpicGame.src.Models.User;
+    using EpicGame.src.Models.Session;
 
     class UserDBHelper : System.IDisposable
     {

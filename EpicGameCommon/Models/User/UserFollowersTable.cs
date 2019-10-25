@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EpicGameCommon
+namespace EpicGameCommon.Models.User
 {
     using System;
     using System.Collections.Generic;

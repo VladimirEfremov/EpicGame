@@ -13,10 +13,10 @@ namespace EpicGame.src.Models.User
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UserTableEntity : DbContext
+    public partial class UserEntity : DbContext
     {
-        public UserTableEntity()
-            : base("name=UserTableEntity")
+        public UserEntity()
+            : base("name=UserEntity")
         {
         }
     
