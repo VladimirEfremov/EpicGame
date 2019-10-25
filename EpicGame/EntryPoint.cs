@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.ServiceModel;
 using EpicGame.src.Services;
-using System.Web.Services.Description;
-
-using EpicGame.src.DBHelper;
-using EpicGame.src.Models.Game;
+using EpicGameCommon;
 
 namespace EpicGame
 {
@@ -431,7 +427,7 @@ namespace EpicGame
                                 {
                                     var nick = RandomUserRegistration(userdb.RegisterUserToTable);
                                     var id = userdb.FindUserByNickname(nick);
-                                    GameDBHelper.GenerateCoreForUser(id);
+                                    //GameDBHelper.GenerateCoreForUser(id);
                                 }
                                 break;
                             }
@@ -446,8 +442,9 @@ namespace EpicGame
                                     var elmap = gamedb.FindCoreMapByMapId(el.CoreMapId);
                                     Console.WriteLine(
                                         $"userid: {el.UserId} " +
-                                        $"mapid: {el.CoreMapId} " +
-                                        $"map [{elmap.XCoord}, {elmap.YCoord}]");
+                                        $"mapid: {el.CoreMapId} " 
+                                        //+$"map [{elmap.XCoord}, {elmap.YCoord}]"
+                                        );
                                 }
                                 break;
                             }
@@ -472,7 +469,9 @@ namespace EpicGame
                                         var coreId = UserDBHelper.GetCoreIdByUserId(el.UserId);
                                         if (coreId != -1)
                                         {
-                                            var coreInfo = gamedb.GetCoreInfoById(coreId);
+                                            var coreInfo = gamedb
+                                                .GetCoreInfoById(coreId)
+                                                .FromJson<CoreInfo>();
                                             Console.WriteLine($"Core info [UserId={el.UserId}]");
                                             Console.WriteLine($"coreid: {coreInfo.CoreId} " +
                                                 $"money: {coreInfo.Money}" +
@@ -499,7 +498,7 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if TRUE //TRUE FALSE
+#if FALSE //TRUE FALSE
 
 #if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
@@ -532,7 +531,7 @@ namespace EpicGame
             }
 
 #else
-
+            //([system.reflection.assembly]::loadfile("E:\General\Programming\C_Sharp\EpamPractice\EpicGame\EpicGame\EpicGameCommon\bin\Debug\EpicGameCommon.dll")).FullName
             TestUserDB();
 
             //TestGameDB();

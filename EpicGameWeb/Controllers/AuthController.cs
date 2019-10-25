@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-
+using EpicGameCommon;
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
-using EpicGameWeb.Models.JSONHelper;
 
 namespace EpicGameWeb.Controllers
 {
     public class AuthController : Controller
     {
         private static int UserId;
+        private static int CoreId;
 
         public string Login(LoginModel loginModel)
         {
@@ -83,11 +81,14 @@ namespace EpicGameWeb.Controllers
         {
             int userId = RemoteProcedureCallClass.GetUserChannel()
                 .GetUserIdByNickname(User.Identity.Name);
-
             UserId = userId;
+
+            var core = RemoteProcedureCallClass.GetGameChannel()
+                .GetCoreByUserId(UserId).FromJson<SessionCoresTable>();
 
             AccountData result = new AccountData();
             result.UserId = userId;
+            result.CoreId = (core != null) ? core.SessionCoreId : 0;
             result.Nickname = User.Identity.Name;
             result.FriendsList = new string[] { "fr1" };
             result.FollowersList = new string[] { "fo2" };

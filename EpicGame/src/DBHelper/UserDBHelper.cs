@@ -1,17 +1,16 @@
-﻿namespace EpicGame.src.DBHelper
+﻿namespace EpicGameCommon
 {
     using NLog;
     using System.Linq;
-    using EpicGame.src.Models.User;
+    using EpicGameCommon.Models.Session;
+    using EpicGameCommon.Models.User;
     using System.Collections.Generic;
-    using EpicGame.src.Models;
-    using EpicGame.src.Models.Session;
 
     class UserDBHelper : System.IDisposable
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private readonly UserTableEntity m_UserContext = new UserTableEntity();
+        private readonly UserEntity m_UserContext = new UserEntity();
         private readonly UserFriendsTableEntity  m_UserFriendsContext = new UserFriendsTableEntity();
         private readonly UserFollowersTableEntity m_UserFollowersContext = new UserFollowersTableEntity();
         private readonly UserFollowingTableEntity m_UserFollowingContext = new UserFollowingTableEntity();
@@ -45,7 +44,10 @@
             {
                 m_UserContext.UserTable.Add(user);
                 UserContextTrySave();
-                GameDBHelper.GenerateCoreForUser(user.UserId);
+                using (var gameDbHelper = new GameDBHelper())
+                {
+                    gameDbHelper.GenerateCoreForUser(user.UserId);
+                }
                 return true;
             }
             else
@@ -107,7 +109,7 @@
         }
 
         [System.Runtime.CompilerServices.MethodImpl(256)]
-        private System.Int32 FindUserByEmail(string email)
+        private int FindUserByEmail(string email)
         {
             var array = m_UserContext.UserTable.ToArray();
             for (var i = 0; i < array.Length; i++)
@@ -122,7 +124,7 @@
         }
 
         [System.Runtime.CompilerServices.MethodImpl(256)]
-        public System.Int32 FindUserByNickname(string nick)
+        public int FindUserByNickname(string nick)
         {
             var array = m_UserContext.UserTable.ToArray();
             for (var i = 0; i < array.Length; i++)

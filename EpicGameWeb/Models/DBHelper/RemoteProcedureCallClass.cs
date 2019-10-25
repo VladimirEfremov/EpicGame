@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EpicGameCommon;
+using System;
 using System.ServiceModel;
 
 namespace EpicGameWeb.Models.DBHelper

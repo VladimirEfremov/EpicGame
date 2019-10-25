@@ -1,14 +1,13 @@
-﻿namespace EpicGame.src.DBHelper
+﻿namespace EpicGameCommon
 {
-    using System.Linq;
-    using System.Collections.Generic;
-
     using NLog;
-    using EpicGame.src.Models.Game;
-    using EpicGame.src.Models.Session;
+    using System.Linq;
     using System.Threading;
     using System.Diagnostics;
-    using EpicGame.src.Models;
+    using System.Collections.Generic;
+
+    using EpicGameCommon.Models.Game;
+    using EpicGameCommon.Models.Session;
 
     class GameDBHelper : System.IDisposable
     {
@@ -82,20 +81,22 @@
             return m_SessionCoreEntity.SessionCoresTable.AsNoTracking().ToList();
         }
 
-        private static SessionCoresTable GetCoreByUserId(int userId)
+        public string GetCoreByUserId(int userId)
         {
             return m_SessionCoreEntity.SessionCoresTable
                 .AsNoTracking()
                 .Where(obj => obj.UserId == userId)
-                .FirstOrDefault();
+                .FirstOrDefault()
+                .ToJson();
         }
 
-        public SessionCoresTable GetCoreById(int coreId)
+        public string GetCoreById(int coreId)
         {
             return m_SessionCoreEntity
                 .SessionCoresTable
                 .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault()
+                .ToJson();
         }
 
         public int CasernGetNumberOfWarriors(int coreId)
@@ -126,13 +127,14 @@
                 .FirstOrDefault();
         }
 
-        public SessionMapTable FindCoreMapByMapId(int mapId)
+        public string FindCoreMapByMapId(int mapId)
         {
             return m_SessionMapEntity
                 .SessionMapTable
                 .AsNoTracking()
                 .Where(obj => obj.SessionMapId == mapId)
-                .FirstOrDefault();
+                .FirstOrDefault()
+                .ToJson();
         }
 
         private static SessionMapTable m_PrevPosition = new SessionMapTable()
@@ -142,7 +144,7 @@
         };
 
         //work in progress
-        public static void GenerateCoreForUser(int userId)
+        public void GenerateCoreForUser(int userId)
         {
             //Map {0, 0} - center of universe
             //1 EGM == 100m
@@ -163,7 +165,7 @@
             logger.Info($"core was placed for user [id: {userId}]");
 
             var addedCoord = 
-                m_SessionMapEntity.SessionMapTable
+                m_SessionMapEntity.SessionMapTable.AsNoTracking()
                 .Where(obj => obj.XCoord == coreCoord.XCoord)
                 .Where(obj => obj.YCoord == coreCoord.YCoord)
                 .FirstOrDefault();
@@ -181,7 +183,7 @@
 
                 SessionBasesTable @base = new SessionBasesTable()
                 {
-                    SessionCoreId = GetCoreByUserId(userId).SessionCoreId,
+                    SessionCoreId = GetCoreByUserId(userId).FromJson<SessionCoresTable>().SessionCoreId,
                     UniqueUpgrade = 0,
                     WorkersNumber = 3,
                     BuildingLevel = 1,
@@ -308,7 +310,7 @@
                 .FirstOrDefault();
             if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * baseBuilding.Capacity)
             {
-                while (seconds < 1 * 15)
+                while (seconds < 1 * 1)
                 {
                     Thread.Sleep(1000);
                     seconds++;
@@ -407,48 +409,97 @@
             }
         }
 
-        public CoreInfo GetCoreInfoById(int coreId)
+        public string GetCoreInfoById(int coreId)
         {
-            var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+            var coreSession = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var casern = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
+
+            var baseSession = m_SessionBasesEntity.SessionBasesTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var @base = m_SessionBasesEntity.SessionBasesTable.AsNoTracking()
+            var baseGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                .Where(obj => obj.GameBuildingName == "Base")
+                .FirstOrDefault();
+
+            var casernSession = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var goldMining = m_SessionGoldMiningsEntity.SessionGoldMiningsTable.AsNoTracking()
+            var casernGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                .Where(obj => obj.GameBuildingName == "Casern")
+                .FirstOrDefault();
+
+            var goldMiningSession = m_SessionGoldMiningsEntity.SessionGoldMiningsTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable.AsNoTracking()
+            var goldMiningGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                .Where(obj => obj.GameBuildingName == "GoldMining")
+                .FirstOrDefault();
+
+            var defenceTowerSession = m_SessionDefenceTowersEntity.SessionDefenceTowersTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
+            var defenceTowerGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                .Where(obj => obj.GameBuildingName == "DefenceTower")
+                .FirstOrDefault();
+
             CoreInfo coreInfo = new CoreInfo()
             {
-                CoreId = coreId,
-                CoreMapId = core.CoreMapId,
-                Money = core.Money,
-
-                CasernLevel = (casern != null) ? casern.BuildingLevel : 0,
-                GoldMiningLevel = (goldMining != null) ? goldMining.BuildingLevel : 0,
-                DefenceTowerLevel = (defenceTower != null) ? defenceTower.BuildingLevel : 0,
-
-                BaseCapacity = 10 * (@base.CapacityUpgrade + 1),
-                CasernCapacity = (casern != null) ? (10 * (casern.CapacityUpgrade + 1)) : 0,
-                GoldMiningCapacity = (goldMining != null) ? (10 * (goldMining.CapacityUpgrade + 1)) : 0,
-
                 //BUildings
-                Casern = (casern != null),
-                GoldMining = (goldMining != null),
-                DefenceTower = (defenceTower != null),
-                NumberOfDefenceTower = (defenceTower != null) ? 1 : 0,
-                NumberOfWorkersInBase = @base.WorkersNumber,
-                NumberOfWorkersInGoldMining = (goldMining != null) ? goldMining.WorkersNumber : 0,
-                NumberOfWarriors = (casern != null) ? casern.WarriorsNumber : 0,
-                NumberOfAttackAircraft = (casern != null) ? casern.AttackAircraftNumber : 0
+                Money = coreSession.Money,
+
+                CoreId = coreId,
+                CoreMapId = coreSession.CoreMapId,
+
+                BaseHp = baseGame.GameBuildingHP,
+                BaseLevel = (baseSession != null) ? baseSession.BuildingLevel : 0,
+                BaseCapacity = 10 * (baseSession.CapacityUpgrade + 1),
+                BaseAttack =  baseSession.AttackUpgrade,
+                BaseDefence = baseGame.GameBuildingDefence,
+                BaseWorkersCount = (baseSession != null)?baseSession.WorkersNumber:0,
+                BaseType = baseGame.GameBuildingType,
+                BaseIncome = baseGame.GameBuildingGoldIncome,
+                BaseOutcome = baseGame.GameBuildingGoldOutcome,
+                NumberOfWorkersInBase = baseSession.WorkersNumber,
+
+                Casern = (casernSession != null),
+                GoldMining = (goldMiningSession != null),
+                DefenceTower = (defenceTowerSession != null),
+
+                CasernLevel = (casernSession != null) ? casernSession.BuildingLevel : 0,
+                CasernCapacity = (casernSession != null) ? (10 * (casernSession.CapacityUpgrade + 1)) : 0,
+                CasernHp = (casernSession != null) ? (10 * (casernGame.GameBuildingHP + 1)) : 0,
+                CasernAttack = casernGame.GameBuildingAttack,
+                CasernDefence = casernGame.GameBuildingDefence,
+                NumberOfWarriors = (casernSession != null) ? casernSession.WarriorsNumber : 0,
+                NumberOfAttackAircraft = (casernSession != null) ? casernSession.AttackAircraftNumber : 0,
+                CasernType = casernGame.GameBuildingType,
+                CasernIncome = casernGame.GameBuildingGoldIncome,
+                CasernOutcome = casernGame.GameBuildingGoldOutcome,
+
+                DefenceTowerLevel = (defenceTowerSession != null) ? 
+                    defenceTowerSession.BuildingLevel : 0,
+                DefenceTowerCapacity = (defenceTowerSession != null) ?
+                    defenceTowerSession.BuildingLevel : 0,
+                DefenceTowerHp = defenceTowerGame.GameBuildingHP,
+                DefenceTowerAttack = defenceTowerGame.GameBuildingAttack,
+                DefenceTowerDefence = defenceTowerGame.GameBuildingDefence,
+                DefenceTowerType = defenceTowerGame.GameBuildingType,
+                NumberOfDefenceTower = (defenceTowerSession!=null)?1:0,
+
+                GoldMiningLevel = (goldMiningSession != null) ? goldMiningSession.BuildingLevel : 0,
+                GoldMiningCapacity = (goldMiningSession != null) ? 
+                    (goldMiningGame.Capacity * (casernSession.CapacityUpgrade + 1)) : goldMiningGame.Capacity,
+                GoldMiningHp = goldMiningGame.GameBuildingHP,
+                GoldMiningAttack = goldMiningGame.GameBuildingAttack,
+                GoldMiningDefence = goldMiningGame.GameBuildingDefence,
+                GoldMiningType = goldMiningGame.GameBuildingType,
+                GoldMiningIncome = goldMiningGame.GameBuildingGoldIncome,
+                GoldMiningOutcome = goldMiningGame.GameBuildingGoldOutcome,
+                NumberOfWorkersInGoldMining = (goldMiningSession != null)?goldMiningSession.WorkersNumber:0
             };
-            return coreInfo;
+            
+            return coreInfo.ToJson();
         }
     }
 }

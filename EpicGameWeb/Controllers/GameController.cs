@@ -1,16 +1,17 @@
 ﻿using System.Web.Http;
+using EpicGameCommon;
 using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
 {
-    [RoutePrefix("api/game")]
     public class GameController : ApiController
     {
         [Route("GetCoreById")]
-        public SessionCoresTable GetCoreById([FromBody]int coreId)
+        public string GetCoreById([FromBody]int coreId)
         {
             return RemoteProcedureCallClass
-                .GetGameChannel().GetCoreById(coreId);
+                .GetGameChannel()
+                .GetCoreById(coreId);
         }
 
         [Route("CasernGetNumberOfWarriors")]
@@ -53,6 +54,7 @@ namespace EpicGameWeb.Controllers
                 .CoreBuildDefenceTower(coreId);
         }
 
+        [HttpPost]
         [Route("BaseProduceWorker")]
         public void BaseProduceWorker([FromBody]int coreId)
         {
@@ -85,5 +87,13 @@ namespace EpicGameWeb.Controllers
                 .GoldMiningAddWorker(coreId);
         }
 
+        [HttpPost]
+        [Route("GetCoreInfoById")]
+        public string GetCoreInfoById([FromBody]int coreId)
+        {
+            return RemoteProcedureCallClass
+                .GetGameChannel()
+                .GetCoreInfoById(coreId);
+        }
     }
 }

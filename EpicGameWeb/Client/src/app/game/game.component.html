@@ -23,26 +23,26 @@
     <tr>
       <td></td>
       <td>
-        <h3> Money: {{money}} gold Defence power: {{defencePower}} </h3>
+        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>
         <button (click)="OnCoreBtnClick()">Core</button>
 
-        <ng-template [ngIf]="IsCasernActive">
+        <ng-template [ngIf]="coreInfo.Casern">
           <button (click)="OnCasernBtnClick()">Casern</button> 
         </ng-template>
-        <ng-template [ngIf]="IsDefenceTowerActive">
+        <ng-template [ngIf]="coreInfo.DefenceTower">
           <button (click)="OnGoldMiningBtnClick()">GoldMining</button> 
         </ng-template>
-        <ng-template [ngIf]="IsGoldMiningActive">
+        <ng-template [ngIf]="coreInfo.GoldMining">
           <button (click)="OnDefenceTowerBtnClick()">DefenceTower</button> 
         </ng-template>
 
-        <ng-template [ngIf]="!IsCasernActive">
+        <ng-template [ngIf]="!coreInfo.Casern">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Casern</button> 
         </ng-template>
-        <ng-template [ngIf]="!IsDefenceTowerActive">
+        <ng-template [ngIf]="!coreInfo.DefenceTower">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">GoldMining</button> 
         </ng-template>
-        <ng-template [ngIf]="!IsGoldMiningActive">
+        <ng-template [ngIf]="!coreInfo.GoldMining">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">DefenceTower</button> 
         </ng-template>
 
@@ -54,15 +54,15 @@
       <td>
         <ng-template [ngIf]="IsCoreInfoActivated">
           <td>
-            <div>Hp: {{coreInfo.CoreHp}}</div> 
-            <div>Attack: {{coreInfo.CoreAttack}}</div> 
-            <div>Defence: {{coreInfo.CoreDefence}}</div>
-            <div>Workers: {{coreInfo.CoreWorkersCount}}/{{coreInfo.CoreCapacity}}</div>
-            <div>Type: {{coreInfo.CoreType}}</div>
+            <div>Hp: {{coreInfo.BaseHp}}</div> 
+            <div>Attack: {{coreInfo.BaseAttack}}</div> 
+            <div>Defence: {{coreInfo.BaseDefence}}</div>
+            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>
+            <div>Type: {{coreInfo.BaseType}}</div>
           </td>
           <td>
-              <div>Income: {{coreInfo.CoreIncome}}</div> 
-              <div>Outcome: {{coreInfo.CoreOutcome}}</div>
+              <div>Income: {{coreInfo.BaseIncome}}</div> 
+              <div>Outcome: {{coreInfo.BaseOutcome}}</div>
           </td>
           <td>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildCasernBtnClick()">Build Casern</button></tr>

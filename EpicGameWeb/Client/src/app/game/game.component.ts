@@ -28,38 +28,70 @@ export class GameComponent implements OnInit
   //Info account
   accountData : AccountData = {
     UserId: -1,
+    CoreId: -1,
     Nickname: "",
     FriendsList: [],
     FollowersList: [],
     FollowingsList: []
   }; 
-  
+
+  //Info core
+  coreInfo: CoreInfo =
+  {
+    Money: -1,
+    CoreId: -1,
+    CoreMapId: -1,
+    BaseLevel: -1,
+    BaseCapacity: -1,
+    BaseHp: -1,
+    BaseAttack: -1,
+    BaseDefence: -1,
+    BaseWorkersCount: -1,
+    BaseType: -1,
+    BaseIncome: -1,
+    BaseOutcome: -1,
+    NumberOfWorkersInBase: -1,
+    Casern:false,
+    GoldMining:false,
+    DefenceTower:false,
+    CasernLevel: -1,
+    CasernCapacity: -1,
+    CasernHp: -1,
+    CasernAttack: -1,
+    CasernDefence: -1,
+    CasernWarriorsCount: -1,
+    CasernAttackAircraftsCount: -1,
+    CasernType: -1,
+    CasernIncome: -1,
+    CasernOutcome: -1,
+    NumberOfWarriors: -1,
+    NumberOfAttackAircraft: -1,
+    DefenceTowerLevel: -1,
+    DefenceTowerCapacity: -1,
+    DefenceTowerHp: -1,
+    DefenceTowerAttack: -1,
+    DefenceTowerDefence: -1,
+    DefenceTowerType: -1,
+    NumberOfDefenceTower: -1,
+    GoldMiningLevel: -1,
+    GoldMiningCapacity: -1,
+    GoldMiningHp: -1,
+    GoldMiningAttack: -1,
+    GoldMiningDefence: -1,
+    GoldMiningType: -1,
+    GoldMiningIncome: -1,
+    GoldMiningOutcome: -1,
+    NumberOfWorkersInGoldMining: -1
+  };
+
   //Flags info core
   IsCoreInfoActivated : boolean = true;
   IsCasernInfoActivated : boolean;
   IsDefenceTowerInfoActivated: boolean;
   IsGoldMiningInfoActivated: boolean;
   
-  IsCasernActive: boolean = true;
-  IsDefenceTowerActive: boolean = true;
-  IsGoldMiningActive: boolean = true;
-  
   //Base info
-  money: number = 0;
   defencePower: number = 0;
-
-  //Info core
-  coreInfo: CoreInfo =
-  {
-    CoreHp: 10000,
-    CoreAttack: 0,
-    CoreDefence: 20,
-    CoreWorkersCount: 3,
-    CoreCapacity: 10,
-    CoreIncome: 0,
-    CoreOutcome: 10,
-    CoreType: "Core"
-  };
 
   casernInfo: CasernInfo =
   {
@@ -99,6 +131,9 @@ export class GameComponent implements OnInit
       GoldMiningCapacity: 0
   };
 
+  //Game
+
+
   //Communication 
   //0-All, 1-Friends, 2-Followers, 3-Followings
   numberOfSelectedList:number=-1;
@@ -135,7 +170,7 @@ export class GameComponent implements OnInit
   //Map
   map:Map = new Map();
 
-  constructor(private gameService: GameService,
+  constructor(private httpGameService: GameService,
       private httpAuthService: HttpAuthService) { }
 
   ngOnInit() 
@@ -146,6 +181,7 @@ export class GameComponent implements OnInit
       window.requestAnimationFrame(this.map.DrawWorld);
       
       this.GetAccountData();
+      this.GetCoreInfo();
   }
 
   GetAccountData():void
@@ -247,6 +283,7 @@ export class GameComponent implements OnInit
   OnProduceWorkerBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Создается unit рабочий");
+    this.httpGameService.BaseProduceWorker(this.accountData.CoreId);
   }
 
   OnCasernBtnClick() : void
@@ -479,6 +516,12 @@ export class GameComponent implements OnInit
   OnExitBtnClick():void
   {
     this.isUserActionsWindowVisible=false;
+  }
+
+  GetCoreInfo():void
+  {
+    this.coreInfo = 
+      this.httpGameService.GetCoreById(this.accountData.CoreId);
   }
 
 }

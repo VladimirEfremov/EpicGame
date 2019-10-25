@@ -13,6 +13,7 @@ import { TwoUsers } from '../game/TwoUsers';
 @Injectable()
 export class HttpAuthService
 {
+    //User
     loginUrl: string = 
         //"http://httpbin.org/post"; 
         "http://localhost:6430/Auth/Login";
@@ -203,7 +204,12 @@ export class HttpAuthService
     public SignOut() : void
     {
         //http post
-        this.httpClient.post(this.signOutUrl, "");
+        this.httpClient
+            .post(this.signOutUrl, "")
+            .subscribe(
+                data => console.log("success"),
+                error => console.log("error"+error)
+            );
     }
 
 

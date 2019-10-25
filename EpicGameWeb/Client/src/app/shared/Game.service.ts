@@ -5,10 +5,16 @@ import { pipe } from 'rxjs';
 
 import { AccountData } from './AccountData';
 import { SessionCoresTable } from './SessionCoresTable';
+import { CoreInfo } from '../game/game-structures/CoreInfo';
 
 @Injectable()
 export class GameService 
 {
+    baseProduceWorkerUrl : string =
+        "http://localhost:6430/api/game/BaseProduceWorker";
+    
+    getCoreInfoByIdUrl : string =
+        "http://localhost:6430/api/game/GetCoreInfoById";
 
     constructor(
         private httpClient: HttpClient,
@@ -19,11 +25,6 @@ export class GameService
     SwitchToGame() : void 
     {
         this.router.navigate(["/game"]);
-    }
-
-    public GetCoreById(coreId:number) : SessionCoresTable
-    {
-        return null;
     }
 
     public CasernGetNumberOfWarriors(coreId:number):number
@@ -54,6 +55,12 @@ export class GameService
     public BaseProduceWorker(coreId:number):void
     {
        //post
+       this.httpClient
+        .post(this.baseProduceWorkerUrl, coreId)
+        .subscribe(
+            data => console.log("success"),
+            error => console.log("error"+error)
+        );
     }
 
     public CasernProduceWarrior(coreId:number):void
@@ -69,6 +76,18 @@ export class GameService
     public GoldMiningAddWorker(coreId : number):void
     {
         //post
+    }
+
+    public GetCoreById(coreId:number):CoreInfo
+    {
+        let coreInfo;
+        this.httpClient
+            .post(this.getCoreInfoByIdUrl, coreId)
+            .subscribe(
+                data => { console.log("success"); coreInfo = data },
+                error => console.log("error: "+error)
+            );
+        return coreInfo;
     }
 
 }

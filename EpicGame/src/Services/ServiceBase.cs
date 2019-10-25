@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
-using System.ServiceModel;
-using EpicGame.src.Models;
-using EpicGame.src.Models.Session;
-using EpicGame.src.Models.User;
+﻿using System.ServiceModel;
+using EpicGameCommon;
 
 namespace EpicGame.src.Services
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     class ServiceBase : IServiceBase
     {
-        DBHelper.UserDBHelper m_UserDBHelper = new DBHelper.UserDBHelper();
-        DBHelper.GameDBHelper m_GameDBHelper = new DBHelper.GameDBHelper();
+        UserDBHelper m_UserDBHelper = new UserDBHelper();
+        GameDBHelper m_GameDBHelper = new GameDBHelper();
         
         //Game
-        public SessionCoresTable GetCoreById(int coreId)
+        public string GetCoreById(int coreId)
         {
             return m_GameDBHelper.GetCoreById(coreId);
         }
 
+        public string GetCoreByUserId(int userId)
+        {
+            return m_GameDBHelper.GetCoreByUserId(userId);
+        }
+        
         public int CasernGetNumberOfWarriors(int coreId)
         {
             return m_GameDBHelper.CasernGetNumberOfWarriors(coreId);
@@ -27,7 +29,7 @@ namespace EpicGame.src.Services
             return m_GameDBHelper.CasernGetNumberOfAttackAircraft(coreId);
         }
 
-        public SessionMapTable FindCoreMapByMapId(int mapId)
+        public string FindCoreMapByMapId(int mapId)
         {
             return m_GameDBHelper.FindCoreMapByMapId(mapId);
         }
@@ -115,5 +117,11 @@ namespace EpicGame.src.Services
         {
             return m_UserDBHelper.GetUsersFollowingsInfo(userId);
         }
+
+        public string GetCoreInfoById(int coreId)
+        {
+            return m_GameDBHelper.GetCoreInfoById(coreId);
+        }
+
     }
 }

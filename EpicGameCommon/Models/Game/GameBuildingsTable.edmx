@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище GameBuildingsTable" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GameBuildingsTable">
+          <Key>
+            <PropertyRef Name="GameBuildingId" />
+          </Key>
+          <Property Name="GameBuildingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameBuildingType" Type="int" Nullable="false" />
+          <Property Name="GameBuildingName" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="GameBuildingHP" Type="int" Nullable="false" />
+          <Property Name="GameBuildingAttack" Type="int" Nullable="false" />
+          <Property Name="GameBuildingDefence" Type="int" Nullable="false" />
+          <Property Name="GameBuildingGoldIncome" Type="int" Nullable="false" />
+          <Property Name="GameBuildingGoldOutcome" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Хранилище GameBuildingsTableContainer">
+          <EntitySet Name="GameBuildingsTable" EntityType="Self.GameBuildingsTable" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GameBuildingsTable" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GameBuildingsTable">
+          <Key>
+            <PropertyRef Name="GameBuildingId" />
+          </Key>
+          <Property Name="GameBuildingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameBuildingType" Type="Int32" Nullable="false" />
+          <Property Name="GameBuildingName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="GameBuildingHP" Type="Int32" Nullable="false" />
+          <Property Name="GameBuildingAttack" Type="Int32" Nullable="false" />
+          <Property Name="GameBuildingDefence" Type="Int32" Nullable="false" />
+          <Property Name="GameBuildingGoldIncome" Type="Int32" Nullable="false" />
+          <Property Name="GameBuildingGoldOutcome" Type="Int32" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="GameBuildingsEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GameBuildingsTable" EntityType="Self.GameBuildingsTable" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GameBuildingsTableContainer" CdmEntityContainer="GameBuildingsEntity">
+          <EntitySetMapping Name="GameBuildingsTable">
+            <EntityTypeMapping TypeName="GameBuildingsTable.GameBuildingsTable">
+              <MappingFragment StoreEntitySet="GameBuildingsTable">
+                <ScalarProperty Name="GameBuildingId" ColumnName="GameBuildingId" />
+                <ScalarProperty Name="GameBuildingType" ColumnName="GameBuildingType" />
+                <ScalarProperty Name="GameBuildingName" ColumnName="GameBuildingName" />
+                <ScalarProperty Name="GameBuildingHP" ColumnName="GameBuildingHP" />
+                <ScalarProperty Name="GameBuildingAttack" ColumnName="GameBuildingAttack" />
+                <ScalarProperty Name="GameBuildingDefence" ColumnName="GameBuildingDefence" />
+                <ScalarProperty Name="GameBuildingGoldIncome" ColumnName="GameBuildingGoldIncome" />
+                <ScalarProperty Name="GameBuildingGoldOutcome" ColumnName="GameBuildingGoldOutcome" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
