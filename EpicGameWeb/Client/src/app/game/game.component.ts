@@ -11,10 +11,10 @@ import { GoldMiningInfo } from './game-structures/GoldMiningInfo';
 
 import { AccountData } from '../shared/AccountData';
 import { UserTable } from '../shared/UserTable';
-import { Logger } from './Logger';
-import { Map } from './Map';
-import { UserInfo } from '../game/UserInfo';
-import { TwoUsers } from '../game/TwoUsers';
+import { Logger } from './game-structures/Logger';
+import { Map } from './game-structures/Map';
+import { UserInfo } from '../game/game-structures/UserInfo';
+import { TwoUsers } from '../game/game-structures/TwoUsers';
 
 @Component({
   selector: 'app-game',
@@ -182,6 +182,10 @@ export class GameComponent implements OnInit
       
       this.GetAccountData();
       this.GetCoreInfo();
+
+      this.coreInfo.Casern=true;
+      this.coreInfo.GoldMining=true;
+      this.coreInfo.DefenceTower=true;
   }
 
   GetAccountData():void
@@ -520,8 +524,18 @@ export class GameComponent implements OnInit
 
   GetCoreInfo():void
   {
-    this.coreInfo = 
-      this.httpGameService.GetCoreById(this.accountData.CoreId);
+    let result =
+      this
+      .httpGameService
+      .GetCoreById(this.accountData.CoreId);
+    if (result != null)
+    {
+      this.coreInfo = result;
+    }
+    else
+    {
+      console.warn("can't get coreInfo from server: "+result);
+    }  
   }
 
 }

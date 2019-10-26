@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using EpicGameCommon;
+using EpicGameCommon.Models.Session;
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
 

@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 
 import { HttpLoginPostData } from './HttpLoginPostData';
 import { HttpRegistrationPostData } from './HttpRegistrationData';
-import { UserInfo } from '../game/UserInfo';
-import { TwoUsers } from '../game/TwoUsers';
+import { UserInfo } from '../game/game-structures/UserInfo';
+import { TwoUsers } from '../game/game-structures/TwoUsers';
 
 @Injectable()
 export class HttpAuthService

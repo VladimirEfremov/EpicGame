@@ -16,6 +16,11 @@
         private readonly UserFollowingTableEntity m_UserFollowingContext = new UserFollowingTableEntity();
 
         private static readonly SessionCoresEntity m_SessionCoreEntity = new SessionCoresEntity();
+        private static readonly SessionBasesEntity m_SessionBasesEntity = new SessionBasesEntity();
+        private static readonly SessionCasernsEntity m_SessionCasernsEntity = new SessionCasernsEntity();
+        private static readonly SessionDefenceTowersEntity m_SessionDefenceTowersEntity = new SessionDefenceTowersEntity();
+        private static readonly SessionGoldMiningsEntity m_SessionGoldMiningsEntity = new SessionGoldMiningsEntity();
+        private static readonly SessionMapEntity m_SessionMapEntity = new SessionMapEntity();
 
         public UserDBHelper()
         {
@@ -97,14 +102,114 @@
                 .FirstOrDefault().UserId;
         }
 
-        public void RemoveUserByIdFromTable(System.Int32 id)
+        public void RemoveUserByIdFromTable(int userId)
         {
-            var user = m_UserContext.UserTable.Find(id);
+            var user = m_UserContext.UserTable
+                .Where(obj => obj.UserId == userId)
+                .FirstOrDefault();
             if (user != null)
             {
-                logger.Info($"remove user [id: {user.UserId}] from db");
+                var core = m_SessionCoreEntity.SessionCoresTable
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault();
+                if (core != null)
+                {
+                    var baseSession = m_SessionBasesEntity.SessionBasesTable
+                        .Where(obj => obj.SessionCoreId == core.SessionCoreId)
+                        .FirstOrDefault();
+                    if (baseSession != null)
+                    {
+                        m_SessionBasesEntity.SessionBasesTable.Remove(baseSession);
+                        m_SessionBasesEntity.SaveChanges();
+                        logger.Info($"remove core [id: {core.SessionCoreId}] from session bases table");
+                    }
+
+                    var casernSession = m_SessionCasernsEntity.SessionCasernsTable
+                        .Where(obj => obj.SessionCoreId == core.SessionCoreId)
+                        .FirstOrDefault();
+                    if (casernSession != null)
+                    {
+                        m_SessionCasernsEntity.SessionCasernsTable.Remove(casernSession);
+                        m_SessionCasernsEntity.SaveChanges();
+                        logger.Info($"remove core [id: {core.SessionCoreId}] from session casern table");
+                    }
+
+                    var defenceTowerSession = m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                        .Where(obj => obj.SessionCoreId == core.SessionCoreId)
+                        .FirstOrDefault();
+                    if (defenceTowerSession != null)
+                    {
+                        m_SessionDefenceTowersEntity.SessionDefenceTowersTable.Remove(defenceTowerSession);
+                        m_SessionDefenceTowersEntity.SaveChanges();
+                        logger.Info($"remove core [id: {core.SessionCoreId}] from session def tower table");
+                    }
+
+                    var goldMiningSession = m_SessionGoldMiningsEntity.SessionGoldMiningsTable
+                        .Where(obj => obj.SessionCoreId == core.SessionCoreId)
+                        .FirstOrDefault();
+                    if (goldMiningSession != null)
+                    {
+                        m_SessionGoldMiningsEntity.SessionGoldMiningsTable.Remove(goldMiningSession);
+                        m_SessionGoldMiningsEntity.SaveChanges();
+                        logger.Info($"remove core [id: {core.SessionCoreId}] from gold mining table");
+                    }
+
+                    m_SessionCoreEntity.SessionCoresTable.Remove(core);
+                    m_SessionCoreEntity.SaveChanges();
+                    logger.Info($"remove core [id: {core.SessionCoreId}] from session core table");
+                    var mapSession = m_SessionMapEntity.SessionMapTable
+                        .Where(obj => obj.SessionMapId == core.CoreMapId)
+                        .FirstOrDefault();
+                    if (mapSession != null)
+                    {
+                        m_SessionMapEntity.SessionMapTable.Remove(mapSession);
+                        m_SessionMapEntity.SaveChanges();
+                        logger.Info($"remove core [id: {core.SessionCoreId}] from map table");
+                    }
+
+                }
+                else
+                {
+                    logger.Warn($"can't remove core [id:{core?.SessionCoreId}] from table");
+                }
+
+                var friends = m_UserFriendsContext.UserFriendsTable
+                     .Where(obj => obj.UserId == userId || obj.FriendId == userId)
+                     .FirstOrDefault();
+                if (friends != null)
+                {
+                    m_UserFriendsContext.UserFriendsTable.Remove(friends);
+                    m_UserFriendsContext.SaveChanges();
+                    logger.Info($"remove user [id: {user.UserId}] from friends table");
+                }
+
+                var followers = m_UserFollowersContext.UserFollowersTable
+                    .Where(obj => obj.UserId == userId || obj.FollowerId == userId)
+                    .FirstOrDefault();
+                if (followers != null)
+                {
+                    m_UserFollowersContext.UserFollowersTable.Remove(followers);
+                    m_UserFollowersContext.SaveChanges();
+                    logger.Info($"remove user [id: {user.UserId}] from folllowers table");
+                }
+
+                var followings = m_UserFollowingContext.UserFollowingTable
+                    .Where(obj => obj.UserId == userId || obj.FollowingId == userId)
+                    .FirstOrDefault();
+                if (followings != null)
+                {
+                    m_UserFollowingContext.UserFollowingTable.Remove(followings);
+                    m_UserFollowingContext.SaveChanges();
+                    logger.Info($"remove user [id: {user.UserId}] from folllowings table");
+                }
+                
                 m_UserContext.UserTable.Remove(user);
                 UserContextTrySave();
+                logger.Info($"remove user [id: {user.UserId}] from user table");
+            }
+            else
+            {
+                logger.Warn($"can't remove user [id:{userId}] from table");
             }
         }
 

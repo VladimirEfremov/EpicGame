@@ -84,8 +84,8 @@ export class GameService
         this.httpClient
             .post(this.getCoreInfoByIdUrl, coreId)
             .subscribe(
-                data => { console.log("success"); coreInfo = data },
-                error => console.log("error: "+error)
+                data => { console.log("success[GetCoreById]"); coreInfo = data },
+                error => console.log("error[GetCoreById]: "+error)
             );
         return coreInfo;
     }

@@ -338,9 +338,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="src\Models\User\UserTable1.cs">
-      <DependentUpon>UserTable.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>UserTable.tt</DependentUpon>
     </Compile>
     <Compile Include="src\Services\ServiceBase.cs" />
   </ItemGroup>

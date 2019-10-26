@@ -111,7 +111,8 @@ namespace EpicGame
             var names = new string[]
             {
                 "Vladimir", "Konstantin", "Victor", "Dmitriy",
-                "Aleksei", "Anton", "Alex", "Klim", "Stas", "Ivan"
+                "Aleksei", "Anton", "Alex", "Klim", "Stas", "Ivan", 
+                "Genadiy"
             };
 
             var sunnames = new string[]

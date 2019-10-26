@@ -303,20 +303,27 @@
                 m_SessionBasesEntity.SessionBasesTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var baseBuilding = m_GameBuildingsEntity
-                .GameBuildingsTable
-                .AsNoTracking()
-                .Where(obj => obj.GameBuildingName == "Base")
-                .FirstOrDefault();
-            if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * baseBuilding.Capacity)
+            if (@base != null)
             {
-                while (seconds < 1 * 1)
+                var baseBuilding = m_GameBuildingsEntity
+                    .GameBuildingsTable
+                    .AsNoTracking()
+                    .Where(obj => obj.GameBuildingName == "Base")
+                    .FirstOrDefault();
+                if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * baseBuilding.Capacity)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
+                    while (seconds < 1 * 1)
+                    {
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    ++@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
                 }
-                ++@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
+            }
+            else
+            {
+                logger.Warn($"core [id:{coreId}] is not exist");
             }
         }
         
@@ -327,20 +334,27 @@
                 m_SessionCasernsEntity.SessionCasernsTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var casernBuilding = m_GameBuildingsEntity
+            if (casern != null)
+            {
+                var casernBuilding = m_GameBuildingsEntity
                 .GameBuildingsTable
                 .AsNoTracking()
                 .Where(obj => obj.GameBuildingName == "Casern")
                 .FirstOrDefault();
-            if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
-            {
-                while (seconds < 1 * 15)
+                if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
+                    while (seconds < 1 * 15)
+                    {
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    ++casern.WarriorsNumber;
+                    m_SessionCasernsEntity.SaveChanges();
                 }
-                ++casern.WarriorsNumber;
-                m_SessionCasernsEntity.SaveChanges();
+            }
+            else
+            {
+                logger.Warn($"core [id:{coreId}] is not exist");
             }
         }
 
@@ -351,20 +365,27 @@
                 m_SessionCasernsEntity.SessionCasernsTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var casernBuilding = m_GameBuildingsEntity
+            if (casern != null)
+            {
+                var casernBuilding = m_GameBuildingsEntity
                 .GameBuildingsTable
                 .AsNoTracking()
                 .Where(obj => obj.GameBuildingName == "Casern")
                 .FirstOrDefault();
-            if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
-            {
-                while (seconds < 1 * 15)
+                if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
+                    while (seconds < 1 * 15)
+                    {
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    ++casern.AttackAircraftNumber;
+                    m_SessionCasernsEntity.SaveChanges();
                 }
-                ++casern.AttackAircraftNumber;
-                m_SessionCasernsEntity.SaveChanges();
+            }
+            else
+            {
+                logger.Warn($"core [id:{coreId}] is not exist");
             }
         }
 
@@ -375,37 +396,44 @@
                 m_SessionBasesEntity.SessionBasesTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            var goldMining =
-                m_SessionGoldMiningsEntity.SessionGoldMiningsTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
-            var goldMiningBuilding = m_GameBuildingsEntity
-                .GameBuildingsTable
-                .AsNoTracking()
-                .Where(obj => obj.GameBuildingName == "GoldMining")
-                .FirstOrDefault();
-            if (@base.WorkersNumber > 0)
+            if (@base != null)
             {
-                if (goldMining.WorkersNumber < goldMiningBuilding.Capacity)
+                var goldMining =
+                    m_SessionGoldMiningsEntity.SessionGoldMiningsTable
+                    .Where(obj => obj.SessionCoreId == coreId)
+                    .FirstOrDefault();
+                var goldMiningBuilding = m_GameBuildingsEntity
+                    .GameBuildingsTable
+                    .AsNoTracking()
+                    .Where(obj => obj.GameBuildingName == "GoldMining")
+                    .FirstOrDefault();
+                if (@base.WorkersNumber > 0)
                 {
-                    --@base.WorkersNumber;
-                    while (seconds < 1 * 15)
+                    if (goldMining.WorkersNumber < goldMiningBuilding.Capacity)
                     {
-                        Thread.Sleep(1000);
-                        seconds++;
+                        --@base.WorkersNumber;
+                        while (seconds < 1 * 15)
+                        {
+                            Thread.Sleep(1000);
+                            seconds++;
+                        }
+                        ++goldMining.WorkersNumber;
+                        m_SessionGoldMiningsEntity.SaveChanges();
+                        m_SessionBasesEntity.SaveChanges();
                     }
-                    ++goldMining.WorkersNumber;
-                    m_SessionGoldMiningsEntity.SaveChanges();
-                    m_SessionBasesEntity.SaveChanges();
+                    else
+                    {
+                        logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
+                    }
                 }
                 else
                 {
-                    logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
+                    logger.Warn($"@base.WorkersNumber [coreId: {coreId}] < 0");
                 }
             }
             else
             {
-                logger.Warn($"@base.WorkersNumber [coreId: {coreId}] < 0");
+                logger.Warn($"core [id:{coreId}] is not exist");
             }
         }
 
@@ -414,6 +442,10 @@
             var coreSession = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
+            if (coreSession == null)
+            {
+                logger.Warn($"CoreSession with id: {coreId} doesnt exist");
+            }
 
             var baseSession = m_SessionBasesEntity.SessionBasesTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
