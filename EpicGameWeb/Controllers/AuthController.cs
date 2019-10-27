@@ -9,8 +9,8 @@ namespace EpicGameWeb.Controllers
 {
     public class AuthController : Controller
     {
-        private static int UserId;
-        private static int CoreId;
+        public static int UserId;
+        public static int CoreId;
 
         public string Login(LoginModel loginModel)
         {

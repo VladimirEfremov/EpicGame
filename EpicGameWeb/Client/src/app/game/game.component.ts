@@ -527,7 +527,28 @@ export class GameComponent implements OnInit
     let result =
       this
       .httpGameService
-      .GetCoreById(this.accountData.CoreId);
+      .GetCoreById(this.accountData.CoreId)
+      .subscribe(
+        res=>{
+          console.log("[success] GetCoreById");
+          this.allUsers = res;
+        },
+        err=>{
+          console.log("[error] GetCoreById");
+        }
+      );
+
+      this.httpAuthService.GetAllUsers()
+      .subscribe(
+        res=>{
+          console.log("get all users");
+          this.allUsers = res;
+        },
+        err=>{
+          console.log("[error] get all users");
+        }
+      );
+
     if (result != null)
     {
       this.coreInfo = result;

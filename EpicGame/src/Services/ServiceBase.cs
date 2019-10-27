@@ -1,5 +1,7 @@
 ﻿using System.ServiceModel;
+
 using EpicGameCommon;
+using EpicGame.src.DBHelper;
 
 namespace EpicGame.src.Services
 {
@@ -31,7 +33,7 @@ namespace EpicGame.src.Services
 
         public string FindCoreMapByMapId(int mapId)
         {
-            return m_GameDBHelper.FindCoreMapByMapId(mapId);
+            return m_GameDBHelper.FindCoreMapByMapIdAsNoTracking(mapId);
         }
 
         public void CoreBuildCasern(int coreId)

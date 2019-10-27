@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using EpicGame.src.Models.Game;
-using EpicGame.src.Services;
+
 using EpicGameCommon;
+using System.Collections.Generic;
+using EpicGame.src.DBHelper;
+using EpicGame.src.Models.Game;
+using EpicGame.src.Models.Session;
+using System.ServiceModel;
+using EpicGame.src.Services;
 
 namespace EpicGame
 {
@@ -106,7 +109,12 @@ namespace EpicGame
         static Random rand = new Random();
 
         private delegate bool RegisterationDelegate(string s1, string s2, string s3, string s4, string s5);
-        private static string RandomUserRegistration(RegisterationDelegate registerationDelegate)
+        private delegate void RemoveUserDelegate(int userId);
+        private delegate int FindUserDelegate(string nick);
+        private static string RandomUserRegistration(
+            RegisterationDelegate registerationDelegate,
+            RemoveUserDelegate removeDelegate,
+            FindUserDelegate findDelegate)
         {
             var names = new string[]
             {
@@ -136,7 +144,19 @@ namespace EpicGame
                 + emails[rand.Next(0, 1)];
             var nick =
                 $"{fName}{sName[0]}{sName[rand.Next(1, sName.Length - 2)]}_{rand.Next(0, 2000)}";
-            registerationDelegate(fName, sName, "123", nick, email);
+            if (!registerationDelegate(fName, sName, "123", nick, email))
+            {
+                int userId = findDelegate(nick);
+                if (userId != -1)
+                {
+                    removeDelegate(userId);
+                    Console.WriteLine($"Remove user [{nick}] from user table [can't create core for him]");
+                }
+                else
+                {
+                    Console.WriteLine($"can't find user [{userId}]");
+                }
+            }
             return nick;
         }
 
@@ -144,7 +164,7 @@ namespace EpicGame
         {
             Console.WriteLine("It works!");
 
-            using (var db = new UserDBHelper())
+            var db = new UserDBHelper();
             {
                 bool run = true;
                 while (run)
@@ -164,7 +184,9 @@ namespace EpicGame
                         case ConsoleKey.D1:
                             {
                                 Console.WriteLine();
-                                RandomUserRegistration(db.RegisterUserToTable);
+                                RandomUserRegistration(db.RegisterUserToTable,
+                                    db.RemoveUserByIdFromTable,
+                                    db.FindUserByNickname);
                                 break;
                             }
                         case ConsoleKey.D2:
@@ -307,6 +329,7 @@ namespace EpicGame
 
         private static void TestGameDB()
         {
+            var db = new UserDBHelper();
             using (var gamedb = new GameDBHelper())
             {
                 List<GameUnitsTable> GetCoreArmy(int coreId)
@@ -369,45 +392,8 @@ namespace EpicGame
                     {
                         case ConsoleKey.D1:
                             {
-                                    //Console.WriteLine();
-                                    //var unitsList = gamedb.GetAllGameUnitsList();
-                                    //Console.WriteLine("units:");
-                                    //foreach (var el in unitsList)
-                                    //{
-                                    //    Console.WriteLine($"id: {el.GameUnitId} name: {el.GameUnitName}");
-                                    //}
-                                    //
-                                    //var unitsTypeList = gamedb.GetAllGameUnitsTypeList();
-                                    //Console.WriteLine("unit types:");
-                                    //foreach (var el in unitsTypeList)
-                                    //{
-                                    //    Console.WriteLine($"id: {el.GameUnitTypeId} name: {el.GameUnitTypeName}");
-                                    //}
-                                    //
-                                    //var buildingsList = gamedb.GetAllGameBuildingsList();
-                                    //Console.WriteLine("buildings list:");
-                                    //foreach (var el in buildingsList)
-                                    //{
-                                    //    Console.WriteLine($"id: {el.GameBuildingId} name: {el.GameBuildingName}");
-                                    //}
-                                    //
-                                    //var buildingsTypeList = gamedb.GetAllGameBuildingsTypeList();
-                                    //Console.WriteLine("buildings list:");
-                                    //foreach (var el in buildingsTypeList)
-                                    //{
-                                    //    Console.WriteLine($"id: {el.GameBuildingTypeId} name: {el.GameBuildingTypeName}");
-                                    //}
-                                    //
-                                    //var buildingsProdList = gamedb.GetAllGameBuildingProductionList();
-                                    //Console.WriteLine("buildings list:");
-                                    //foreach (var el in buildingsProdList)
-                                    //{
-                                    //    Console.WriteLine($"id: {el.GameBuildingId} " +
-                                    //        $"building id: {el.GameBuildingProductionTableId} " +
-                                    //        $"unit to produce: {el.GameUnitId}");
-                                    //}
                                     break;
-                                }
+                            }
                         case ConsoleKey.D2:
                             {
                                 Console.WriteLine();
@@ -425,12 +411,11 @@ namespace EpicGame
                             }
                         case ConsoleKey.D3:
                             {
-                                using (var userdb = new UserDBHelper())
-                                {
-                                    var nick = RandomUserRegistration(userdb.RegisterUserToTable);
-                                    var id = userdb.FindUserByNickname(nick);
-                                    //GameDBHelper.GenerateCoreForUser(id);
-                                }
+                                Console.WriteLine();
+                                RandomUserRegistration(
+                                    db.RegisterUserToTable,
+                                    db.RemoveUserByIdFromTable,
+                                    db.FindUserByNickname);
                                 break;
                             }
                         case ConsoleKey.D4:
@@ -438,14 +423,17 @@ namespace EpicGame
                                 Console.WriteLine();
                                 Console.WriteLine("Cores: ");
                                 
-                                var coreList = gamedb.GetAllCores();
+                                var coreList = gamedb.GetAllCores()
+                                    .FromJson<List<SessionCoresTable>>();
                                 foreach (var el in coreList)
                                 {
-                                    var elmap = gamedb.FindCoreMapByMapId(el.CoreMapId);
+                                    var elmap = gamedb
+                                        .FindCoreMapByMapIdAsNoTracking(el.CoreMapId)
+                                        .FromJson<SessionMapTable>();
                                     Console.WriteLine(
                                         $"userid: {el.UserId} " +
                                         $"mapid: {el.CoreMapId} " 
-                                        //+$"map [{elmap.XCoord}, {elmap.YCoord}]"
+                                        +$"map [{elmap.XCoord}, {elmap.YCoord}]"
                                         );
                                 }
                                 break;
@@ -462,31 +450,33 @@ namespace EpicGame
                             {
                                 Console.Clear();
                                 Console.WriteLine("Core info");
-                                using (var context = new UserDBHelper())
+                                var list = db.GetAllUsers();
+                                foreach (var el in list)
                                 {
-                                    
-                                    var list = context.GetAllUsers();
-                                    foreach (var el in list)
+                                    var coreId = UserDBHelper.GetCoreIdByUserId(el.UserId);
+                                    if (coreId != -1)
                                     {
-                                        var coreId = UserDBHelper.GetCoreIdByUserId(el.UserId);
-                                        if (coreId != -1)
-                                        {
-                                            var coreInfo = gamedb
-                                                .GetCoreInfoById(coreId)
-                                                .FromJson<CoreInfo>();
-                                            Console.WriteLine($"Core info [UserId={el.UserId}]");
-                                            Console.WriteLine($"coreid: {coreInfo.CoreId} " +
-                                                $"money: {coreInfo.Money}" +
-                                                $"base capacity: {coreInfo.BaseCapacity}");
-                                        }
-                                        else
-                                        {
-                                            Console
-                                                .WriteLine($"Can not find core id for userid: {el.UserId}");
-                                        }
+                                        var coreInfo = gamedb
+                                            .GetCoreInfoById(coreId)
+                                            .FromJson<CoreInfo>();
+
+                                        var coreMap = gamedb
+                                            .FindCoreMapByMapIdAsNoTracking(coreInfo.CoreMapId)
+                                            .FromJson<SessionMapTable>();
+
+                                        Console.WriteLine($"Core info [UserId={el.UserId}]");
+                                        Console.WriteLine($"coreid: {coreInfo.CoreId} " +
+                                            $"money: {coreInfo.Money} " +
+                                            $"base capacity: {coreInfo.BaseCapacity}"+
+                                            $"map[{coreMap.XCoord}, {coreMap.YCoord}]");
                                     }
-                                    Console.WriteLine();
+                                    else
+                                    {
+                                        Console
+                                            .WriteLine($"Can not find core id for userid: {el.UserId}");
+                                    }
                                 }
+                                Console.WriteLine();
                                 break;
                             }
                         case ConsoleKey.C: { Console.Clear(); break; }
@@ -500,7 +490,7 @@ namespace EpicGame
         static void Main(string[] args)
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
-#if FALSE //TRUE FALSE
+#if TRUE //TRUE FALSE
 
 #if OLD
             Uri address = new Uri("http://127.0.0.1:2001/IServiceUserDBHelper");
@@ -533,7 +523,6 @@ namespace EpicGame
             }
 
 #else
-            //([system.reflection.assembly]::loadfile("E:\General\Programming\C_Sharp\EpamPractice\EpicGame\EpicGame\EpicGameCommon\bin\Debug\EpicGameCommon.dll")).FullName
             TestUserDB();
 
             //TestGameDB();

@@ -1,13 +1,16 @@
-﻿namespace EpicGameCommon
+﻿namespace EpicGame.src.DBHelper
 {
     using NLog;
     using System.Linq;
     using System.Collections.Generic;
+    
+    using EpicGameCommon;
     using EpicGame.src.Models.User;
     using EpicGame.src.Models.Session;
 
     class UserDBHelper : System.IDisposable
     {
+        public bool NeedDispose { get; set; } = false;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly UserEntity m_UserContext = new UserEntity();
@@ -24,19 +27,23 @@
 
         public UserDBHelper()
         {
-            logger.Info("Create UserDBHelper instance");
+            logger.Warn("Create UserDBHelper instance");
         }
 
         public void Dispose()
         {
-            logger.Info("Disposing context.");
+            logger.Warn("Dispose call");
+            if (NeedDispose)
+            {
+                logger.Warn("Disposing context.".ToUpper());
             
-            NLog.LogManager.Shutdown();
+                NLog.LogManager.Shutdown();
 
-            m_UserContext.Dispose();
-            m_UserFriendsContext.Dispose();
-            m_UserFollowersContext.Dispose();
-            m_UserFollowingContext.Dispose();
+                m_UserContext.Dispose();
+                m_UserFriendsContext.Dispose();
+                m_UserFollowersContext.Dispose();
+                m_UserFollowingContext.Dispose();
+            }
         }
 
         private bool RegisterUserToTable(UserTable user)

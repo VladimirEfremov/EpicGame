@@ -6,14 +6,6 @@ namespace EpicGameWeb.Controllers
 {
     public class GameController : ApiController
     {
-        [Route("GetCoreById")]
-        public string GetCoreById([FromBody]int coreId)
-        {
-            return RemoteProcedureCallClass
-                .GetGameChannel()
-                .GetCoreById(coreId);
-        }
-
         [Route("CasernGetNumberOfWarriors")]
         public int CasernGetNumberOfWarriors([FromBody]int coreId)
         {
@@ -87,12 +79,26 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpPost]
+        [Route("GetCoreById")]
+        public string GetCoreById([FromBody]string coreInfo)
+        {
+            CoreInfo core = coreInfo.FromJson<CoreInfo>();
+            if (core != null)
+            {
+                return RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .GetCoreById(core.CoreId);
+            }
+            return new CoreInfo().ToJson();
+        }
+
+        [HttpGet]
         [Route("GetCoreInfoById")]
-        public string GetCoreInfoById([FromBody]int coreId)
+        public string GetCoreInfoById()
         {
             return RemoteProcedureCallClass
                 .GetGameChannel()
-                .GetCoreInfoById(coreId);
+                .GetCoreInfoById(AuthController.CoreId);
         }
     }
 }

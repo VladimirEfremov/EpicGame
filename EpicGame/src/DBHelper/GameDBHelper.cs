@@ -1,4 +1,4 @@
-﻿namespace EpicGameCommon
+﻿namespace EpicGame.src.DBHelper
 {
     using NLog;
     using System.Linq;
@@ -6,11 +6,13 @@
     using System.Diagnostics;
     using System.Collections.Generic;
 
+    using EpicGameCommon;
     using EpicGame.src.Models.Game;
     using EpicGame.src.Models.Session;
 
     class GameDBHelper : System.IDisposable
     {
+        public bool NeedDispose { get; set; } = false;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly GameUnitsEntity m_GameUnitsEntity = new GameUnitsEntity();
@@ -29,26 +31,30 @@
 
         public GameDBHelper()
         {
-            logger.Info("Create GameDBHelper instance");
+            logger.Warn("Create GameDBHelper instance");
         }
 
         public void Dispose()
         {
-            logger.Info("Disposing context.");
-            NLog.LogManager.Shutdown();
+            logger.Warn("Dispose call");
+            if (NeedDispose)
+            {
+                logger.Warn("Disposing context.".ToUpper());
+                NLog.LogManager.Shutdown();
 
-            m_GameUnitsEntity.Dispose();
-            m_GameUnitsTypeEntity.Dispose();
-            m_GameBuildingsEntity.Dispose();
-            m_GameBuildingsTypeEntity.Dispose();
-            m_GameBuildingProductionEntity.Dispose();
+                m_GameUnitsEntity.Dispose();
+                m_GameUnitsTypeEntity.Dispose();
+                m_GameBuildingsEntity.Dispose();
+                m_GameBuildingsTypeEntity.Dispose();
+                m_GameBuildingProductionEntity.Dispose();
 
-            m_SessionMapEntity.Dispose();
-            m_SessionCoreEntity.Dispose();
-            m_SessionBasesEntity.Dispose();
-            m_SessionCasernsEntity.Dispose();
-            m_SessionGoldMiningsEntity.Dispose();
-            m_SessionDefenceTowersEntity.Dispose();
+                m_SessionMapEntity.Dispose();
+                m_SessionCoreEntity.Dispose();
+                m_SessionBasesEntity.Dispose();
+                m_SessionCasernsEntity.Dispose();
+                m_SessionGoldMiningsEntity.Dispose();
+                m_SessionDefenceTowersEntity.Dispose();
+            }
         }
 
         private List<GameUnitsTable> GetAllGameUnitsList()
@@ -76,29 +82,6 @@
             return m_GameBuildingProductionEntity.GameBuildingProductionTable.AsNoTracking().ToList();
         }
 
-        public List<SessionCoresTable> GetAllCores()
-        {
-            return m_SessionCoreEntity.SessionCoresTable.AsNoTracking().ToList();
-        }
-
-        public string GetCoreByUserId(int userId)
-        {
-            return m_SessionCoreEntity.SessionCoresTable
-                .AsNoTracking()
-                .Where(obj => obj.UserId == userId)
-                .FirstOrDefault()
-                .ToJson();
-        }
-
-        public string GetCoreById(int coreId)
-        {
-            return m_SessionCoreEntity
-                .SessionCoresTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault()
-                .ToJson();
-        }
-
         public int CasernGetNumberOfWarriors(int coreId)
         {
             return m_SessionCasernsEntity
@@ -108,6 +91,7 @@
                 .Select(obj => obj.WarriorsNumber)
                 .FirstOrDefault();
         }
+
         public int CasernGetNumberOfAttackAircraft(int coreId)
         {
             return m_SessionCasernsEntity
@@ -127,7 +111,7 @@
                 .FirstOrDefault();
         }
 
-        public string FindCoreMapByMapId(int mapId)
+        public string FindCoreMapByMapIdAsNoTracking(int mapId)
         {
             return m_SessionMapEntity
                 .SessionMapTable
@@ -137,29 +121,37 @@
                 .ToJson();
         }
 
-        private static SessionMapTable m_PrevPosition = new SessionMapTable()
-        {
-            XCoord = (decimal) 500 * 7_000_000,
-            YCoord = (decimal)-500 * 7_000_000
-        };
-
         //work in progress
-        public void GenerateCoreForUser(int userId)
+        public bool GenerateCoreForUser(int userId)
         {
             //Map {0, 0} - center of universe
             //1 EGM == 100m
             //7 000 000 EGM radiuse of sun (ROS)
             //1 2 3 4 of universe
             //4 x > 5 * ROS && y < 5 * -ROS 
-            SessionMapTable coreCoord = new SessionMapTable()
+
+            var maplist = m_SessionMapEntity.SessionMapTable
+                .AsNoTracking().ToList();
+            SessionMapTable coreCoord;
+            if (maplist.Count == 0)
             {
-                XCoord = m_PrevPosition.XCoord,
-                YCoord = m_PrevPosition.YCoord
-            };
-            m_SessionMapEntity.SessionMapTable.Add(coreCoord);
-            coreCoord.XCoord += 2000; // 200 km +
-            coreCoord.YCoord += 2000;
-            m_PrevPosition = coreCoord;
+                coreCoord = new SessionMapTable()
+                {
+                    XCoord = (decimal) 500 * 7_000_000,
+                    YCoord = (decimal)-500 * 7_000_000
+                };
+                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
+            }
+            else
+            {
+                var map = maplist.OrderBy(obj => obj.SessionMapId).LastOrDefault();
+                coreCoord = new SessionMapTable()
+                {
+                    XCoord = map.XCoord + 2000,
+                    YCoord = map.YCoord + 2000
+                };
+                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
+            }
                 
             m_SessionMapEntity.SaveChanges();
             logger.Info($"core was placed for user [id: {userId}]");
@@ -193,10 +185,12 @@
                 m_SessionBasesEntity.SessionBasesTable.Add(@base);
                 m_SessionBasesEntity.SaveChanges();
                 logger.Info($"base was created for user [id: {userId}]");
+                return true;
             }
             else
             {
                 logger.Error("can't find added coord!");
+                return false;
             }
         }
 
@@ -207,28 +201,35 @@
                 m_SessionBasesEntity.SessionBasesTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            if (@base.WorkersNumber > 0)
+            if (@base != null)
             {
-                --@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
-                while (seconds < 1 * 60)
+                if (@base.WorkersNumber > 0)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
-                }
-                m_SessionCasernsEntity.SessionCasernsTable.Add(
-                    new SessionCasernsTable()
+                    --@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                    while (seconds < 1 * 60)
                     {
-                        SessionCoreId = coreId,
-                        WarriorsNumber = 0,
-                        BuildingLevel = 1,
-                        AttackAircraftNumber = 0,
-                        CapacityUpgrade = 0,
-                        UniqueUpgrade = 0
-                    });
-                m_SessionCasernsEntity.SaveChanges();
-                ++@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    m_SessionCasernsEntity.SessionCasernsTable.Add(
+                        new SessionCasernsTable()
+                        {
+                            SessionCoreId = coreId,
+                            WarriorsNumber = 0,
+                            BuildingLevel = 1,
+                            AttackAircraftNumber = 0,
+                            CapacityUpgrade = 0,
+                            UniqueUpgrade = 0
+                        });
+                    m_SessionCasernsEntity.SaveChanges();
+                    ++@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                }
+            }
+            else
+            {
+                logger.Warn("base == null");
             }
         }
 
@@ -239,28 +240,35 @@
                 m_SessionBasesEntity.SessionBasesTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            if (@base.WorkersNumber > 0)
+            if (@base != null)
             {
-                --@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
-                while (seconds < 1 * 60)
+                if (@base.WorkersNumber > 0)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
-                }
-                m_SessionGoldMiningsEntity
-                    .SessionGoldMiningsTable.Add(
-                    new SessionGoldMiningsTable()
+                    --@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                    while (seconds < 1 * 60)
                     {
-                        SessionCoreId = coreId,
-                        WorkersNumber = 0,
-                        BuildingLevel = 1,
-                        CapacityUpgrade = 0,
-                        UniqueUpgrade = 0
-                    });
-                m_SessionGoldMiningsEntity.SaveChanges();
-                ++@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    m_SessionGoldMiningsEntity
+                        .SessionGoldMiningsTable.Add(
+                        new SessionGoldMiningsTable()
+                        {
+                            SessionCoreId = coreId,
+                            WorkersNumber = 0,
+                            BuildingLevel = 1,
+                            CapacityUpgrade = 0,
+                            UniqueUpgrade = 0
+                        });
+                    m_SessionGoldMiningsEntity.SaveChanges();
+                    ++@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                }
+            }
+            else
+            {
+                logger.Warn("base == null");
             }
         }
 
@@ -271,28 +279,35 @@
                 m_SessionBasesEntity.SessionBasesTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            if (@base.WorkersNumber > 0)
+            if (@base != null)
             {
-                --@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
-                while (seconds < 1 * 60)
+                if (@base.WorkersNumber > 0)
                 {
-                    Thread.Sleep(1000);
-                    seconds++;
-                }
-                m_SessionDefenceTowersEntity
-                    .SessionDefenceTowersTable.Add(
-                    new SessionDefenceTowersTable()
+                    --@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                    while (seconds < 1 * 60)
                     {
-                        SessionCoreId = coreId,
-                        BuildingLevel = 1,
-                        AttackUpgrade = 0,
-                        DefenceUpgrade = 0,
-                        UniqueUpgrade = 0
-                    });
-                m_SessionDefenceTowersEntity.SaveChanges();
-                ++@base.WorkersNumber;
-                m_SessionBasesEntity.SaveChanges();
+                        Thread.Sleep(1000);
+                        seconds++;
+                    }
+                    m_SessionDefenceTowersEntity
+                        .SessionDefenceTowersTable.Add(
+                        new SessionDefenceTowersTable()
+                        {
+                            SessionCoreId = coreId,
+                            BuildingLevel = 1,
+                            AttackUpgrade = 0,
+                            DefenceUpgrade = 0,
+                            UniqueUpgrade = 0
+                        });
+                    m_SessionDefenceTowersEntity.SaveChanges();
+                    ++@base.WorkersNumber;
+                    m_SessionBasesEntity.SaveChanges();
+                }
+            }
+            else
+            {
+                logger.Warn("base == null");
             }
         }
 
@@ -533,5 +548,30 @@
             
             return coreInfo.ToJson();
         }
+
+        public string GetAllCores()
+        {
+            return m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .ToList().ToJson();
+        }
+
+        public string GetCoreByUserId(int userId)
+        {
+            return m_SessionCoreEntity.SessionCoresTable
+                .AsNoTracking()
+                .Where(obj => obj.UserId == userId)
+                .FirstOrDefault()
+                .ToJson();
+        }
+
+        public string GetCoreById(int coreId)
+        {
+            return m_SessionCoreEntity
+                .SessionCoresTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault()
+                .ToJson();
+        }
+
     }
 }

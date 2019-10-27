@@ -292,6 +292,7 @@
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
+    <Compile Include="Models\Game\StoredInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -381,7 +382,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Client\src\app\learning\" />
-    <Folder Include="Models\Game\" />
     <Folder Include="Views\Game\" />
   </ItemGroup>
   <ItemGroup>
