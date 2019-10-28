@@ -86,6 +86,8 @@ namespace EpicGameWeb.Controllers
 
             var core = RemoteProcedureCallClass.GetGameChannel()
                 .GetCoreByUserId(UserId).FromJson<SessionCoresTable>();
+            
+            if (core?.SessionCoreId != 0) { CoreId = core.SessionCoreId; }
 
             AccountData result = new AccountData();
             result.UserId = userId;

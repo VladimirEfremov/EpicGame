@@ -175,17 +175,16 @@ export class GameComponent implements OnInit
 
   ngOnInit() 
   {
-      console.log("NG on init()");
+      console.log("OnInit()");
       this.map.Init();
       this.map.DrawWorld();
       window.requestAnimationFrame(this.map.DrawWorld);
       
       this.GetAccountData();
-      this.GetCoreInfo();
 
-      this.coreInfo.Casern=true;
-      this.coreInfo.GoldMining=true;
-      this.coreInfo.DefenceTower=true;
+      //this.coreInfo.Casern=true;
+      //this.coreInfo.GoldMining=true;
+      //this.coreInfo.DefenceTower=true;
   }
 
   GetAccountData():void
@@ -197,12 +196,72 @@ export class GameComponent implements OnInit
             console.log("Get account data " +
             "[Nickname: " + this.accountData.Nickname + 
             " Friends list: " + this.accountData.FriendsList + "]");
+            this.httpGameService.GetCoreById()
+            .subscribe(
+                data => { 
+                    console.log("[success] GetCoreById " +
+                    "{ "+
+                    "CoreId:"+ data.CoreId+"\n"+
+                    " Money:"+ data.Money+"\n"+
+                    " CoreMapId:"+ data.CoreMapId+"\n"+
+                    " BaseLevel:"+ data.BaseLevel+"\n"+
+                    " BaseCapacity:"+ data.BaseCapacity+"\n"+
+                    " BaseHp:"+ data.BaseHp+"\n"+
+                    " BaseAttack:"+ data.BaseAttack+"\n"+
+                    " BaseDefence:"+ data.BaseDefence+"\n"+
+                    " BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
+                    " BaseType:"+ data.BaseType+"\n"+
+                    " BaseIncome:"+ data.BaseIncome+"\n"+
+                    " BaseOutcome:"+ data.BaseOutcome+"\n"+
+                    " NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
+                    //" Casern:"+ data.Casern+"\n"+
+                    //" GoldMining:"+ data.GoldMining+"\n"+
+                    //" DefenceTower:"+ data.DefenceTower+"\n"+
+                    " CasernLevel:"+ data.CasernLevel+"\n"+
+                    " CasernCapacity:"+ data.CasernCapacity+"\n"+
+                    " CasernHp:"+ data.CasernHp+"\n"+
+                    " CasernAttack:"+ data.CasernAttack+"\n"+
+                    " CasernDefence:"+ data.CasernDefence+"\n"+
+                    " CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
+                    " CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
+                    " CasernType:"+ data.CasernWarriorsCount+"\n"+
+                    " CasernIncome:"+ data.CasernIncome+"\n"+
+                    " CasernOutcome:"+ data.CasernOutcome+"\n"+
+                    " NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
+                    " NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
+                    " DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
+                    " DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
+                    " DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
+                    " DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
+                    " DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
+                    " DefenceTowerType:"+ data.DefenceTowerType+"\n"+
+                    " NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
+                    " GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
+                    " GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
+                    " GoldMiningHp:"+ data.GoldMiningHp+"\n"+
+                    " GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
+                    " GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
+                    " GoldMiningType:"+ data.GoldMiningType+"\n"+
+                    " GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
+                    " GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
+                    " NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
+                    "}"
+                    ); 
+                    this.coreInfo = data;
+                },
+                error => console.log("[error] GetCoreById: "+error)
+            );
           },
           err => {
-            console.log("GetAccountData error: " + err);
+            console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
             this.accountData.FriendsList = [ "null" ];
-          });
+        });
+  }
+
+  GetCoreInfo():void
+  {
+      
   }
 
   GetAllUsers()
@@ -522,41 +581,6 @@ export class GameComponent implements OnInit
     this.isUserActionsWindowVisible=false;
   }
 
-  GetCoreInfo():void
-  {
-    let result =
-      this
-      .httpGameService
-      .GetCoreById(this.accountData.CoreId)
-      .subscribe(
-        res=>{
-          console.log("[success] GetCoreById");
-          this.allUsers = res;
-        },
-        err=>{
-          console.log("[error] GetCoreById");
-        }
-      );
-
-      this.httpAuthService.GetAllUsers()
-      .subscribe(
-        res=>{
-          console.log("get all users");
-          this.allUsers = res;
-        },
-        err=>{
-          console.log("[error] get all users");
-        }
-      );
-
-    if (result != null)
-    {
-      this.coreInfo = result;
-    }
-    else
-    {
-      console.warn("can't get coreInfo from server: "+result);
-    }  
-  }
+  
 
 }

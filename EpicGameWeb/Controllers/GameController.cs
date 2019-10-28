@@ -83,7 +83,7 @@ namespace EpicGameWeb.Controllers
         public string GetCoreById([FromBody]string coreInfo)
         {
             CoreInfo core = coreInfo.FromJson<CoreInfo>();
-            if (core != null)
+            if (core.CoreId > 0)
             {
                 return RemoteProcedureCallClass
                     .GetGameChannel()
@@ -93,12 +93,13 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpGet]
-        [Route("GetCoreInfoById")]
         public string GetCoreInfoById()
         {
-            return RemoteProcedureCallClass
+            var s = AuthController.UserId;
+            string coreInfoJson = RemoteProcedureCallClass
                 .GetGameChannel()
-                .GetCoreInfoById(AuthController.CoreId);
+                .GetCoreInfoById(2015);
+            return coreInfoJson;
         }
     }
 }

@@ -56,19 +56,13 @@ export class HttpAuthService
             Md5.hashStr(loginPostData.PasswordHash)
             .toString();
 
-        console.log('login');
         let oprions = {
         headers: new HttpHeaders({ 
             'Content-Type': 'application/json'})
         }
 
-        console.log("login [post]: " + 
-            loginPostData.Nickname 
-            + " " + 
-            loginPostData.PasswordHash);
-
         let dataToPost = JSON.stringify(loginPostData);
-        console.log("data to post: " + dataToPost);
+        console.log("login [data to post]: " + dataToPost);
 
         this.httpClient.post<HttpLoginPostData>(
             this.loginUrl, 
@@ -78,7 +72,7 @@ export class HttpAuthService
                 (data) => {
                     if (data.toString() === "true")
                     {
-                        console.log("login success [response: "+data.toString()+"]");
+                        console.log("[success] login response: "+data.toString()+"]");
                         if (data.toString() === "true")
                         {
                             console.log("routing to a game");
@@ -91,7 +85,7 @@ export class HttpAuthService
                         }
                     }
                 },
-                error => console.log("error: "+error)
+                error => console.log("[error] "+error)
             );
     }
 
