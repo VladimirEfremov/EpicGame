@@ -11,97 +11,7 @@ using EpicGame.src.Services;
 namespace EpicGame
 {
 
-    public class GameEngine
-    {
-
-        public GameEngine()
-        {
-            //
-        }
-
-        // 0 - attackers win
-        // 1 - defenders win
-        public static int Battle(
-            List<GameUnitsTable> attackers, 
-            List<GameUnitsTable> defenders)
-        {
-            void lShowArmy(
-                string name,
-                List<GameUnitsTable> army)
-            {
-                int index = 0;
-                Console.WriteLine($"Show {name} army:");
-                foreach (var unit in army)
-                {
-                    Console.WriteLine($"{index}. {unit.GameUnitName.Trim(' ')} " +
-                        $"[attack: {unit.GameUnitAttack}, " +
-                        $"hp: {unit.GameUnitHP}]");
-                    ++index;
-                }
-            }
-
-            lShowArmy("attackers", attackers);
-            lShowArmy("defenders", defenders);
-
-            while (true)
-            {
-                if (defenders.Count <= 0 && attackers.Count > 0) { return 0; }
-                if (attackers.Count <= 0 && defenders.Count > 0) { return 1; }
-                if (attackers.Count <= 0 && defenders.Count <= 0) { return -1; }
-
-                foreach (var attacker in attackers)
-                {
-                    var tempDamage = attacker.GameUnitAttack * (100 - defenders[0].GameUnitDefence) / 100;
-                    defenders[0].GameUnitHP -= tempDamage;
-                    if (defenders[0].GameUnitHP <= 0)
-                    {
-                        Console.WriteLine(
-                            $"Defender {defenders[0].GameUnitName.Trim(' ')} " +
-                            $"[hp:{defenders[0].GameUnitHP}] was destroyed!");
-
-                        defenders.RemoveAt(0);
-                        if (defenders.Count <= 0 && attackers.Count > 0) 
-                        {
-                            Console.WriteLine("Defenders been fully destroyed!");
-                            return 0; 
-                        }
-                    }
-                    else
-                    {
-                        //Console.WriteLine($"defender been attacked ({tempDamage})");
-                    }
-                }
-
-                foreach (var defender in defenders)
-                {
-                    var tempDamage = defender.GameUnitAttack * (100 - attackers[0].GameUnitDefence) / 100;
-                    attackers[0].GameUnitHP -= tempDamage;
-                    if (attackers[0].GameUnitHP <= 0)
-                    {
-                        Console.WriteLine(
-                            $"Attacker {attackers[0].GameUnitName.Trim(' ')} " +
-                            $"[hp:{attackers[0].GameUnitHP}] was destroyed!");
-                        
-                        attackers.RemoveAt(0);
-                        if (attackers.Count <= 0 && defenders.Count > 0) 
-                        {
-                            Console.WriteLine("Attackers been fully destroyed!");
-                            return 1; 
-                        }
-                    }
-                    else
-                    {
-                        //Console.WriteLine($"attacker been attacked ({tempDamage})");
-                    }
-                }
-
-                lShowArmy("attackers", attackers);
-                lShowArmy("defenders", defenders);
-            }
-        }
-
-    }
-
+    
 
     class EntryPoint
     {
@@ -403,7 +313,7 @@ namespace EpicGame
                                 List<GameUnitsTable> attackers = GetCoreArmy(1);
                                 List<GameUnitsTable> defenders = GetCoreArmy(2);
 
-                                var result = GameEngine.Battle(attackers, defenders);
+                                var result = 0;// GameEngine.Battle(attackers, defenders);
                                 Console.WriteLine(result == 0 ? 
                                     "Attackers won the battle!" : 
                                     "Defenders won the battle!");
@@ -460,15 +370,15 @@ namespace EpicGame
                                             .GetCoreInfoById(coreId)
                                             .FromJson<CoreInfo>();
 
-                                        var coreMap = gamedb
-                                            .FindCoreMapByMapIdAsNoTracking(coreInfo.CoreMapId)
-                                            .FromJson<SessionMapTable>();
-
-                                        Console.WriteLine($"Core info [UserId={el.UserId}]");
-                                        Console.WriteLine($"coreid: {coreInfo.CoreId} " +
-                                            $"money: {coreInfo.Money} " +
-                                            $"base capacity: {coreInfo.BaseCapacity}"+
-                                            $"map[{coreMap.XCoord}, {coreMap.YCoord}]");
+                                        //var coreMap = gamedb
+                                        //    .FindCoreMapByMapIdAsNoTracking(coreInfo.CoreMapId)
+                                        //    .FromJson<SessionMapTable>();
+                                        //
+                                        //Console.WriteLine($"Core info [UserId={el.UserId}]");
+                                        //Console.WriteLine($"coreid: {coreInfo.CoreId} " +
+                                        //    $"money: {coreInfo.Money} " +
+                                        //    $"base capacity: {coreInfo.BaseCapacity}"+
+                                        //    $"map[{coreMap.XCoord}, {coreMap.YCoord}]");
                                     }
                                     else
                                     {

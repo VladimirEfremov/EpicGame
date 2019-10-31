@@ -9,6 +9,7 @@
     using EpicGameCommon;
     using EpicGame.src.Models.Game;
     using EpicGame.src.Models.Session;
+    using EpicGameCommon.Response;
 
     class GameDBHelper : System.IDisposable
     {
@@ -500,67 +501,67 @@
                                     //already checked
                                     Money = coreSession.Money, 
 
-                                    CoreId = coreId,
-                                    CoreMapId = coreSession.CoreMapId,
-
-                                    BaseHp = baseGame.GameBuildingHP,
-                                    BaseLevel = (baseSession != null) ? baseSession.BuildingLevel : 0,
-                                    BaseCapacity = (baseSession != null) ?
-                                       baseGame.Capacity * (baseSession.CapacityUpgrade + 1) :
-                                       baseGame.Capacity,
-                                    BaseAttack = (baseSession != null) ?
-                                       (baseGame.GameBuildingAttack + 1) * baseSession.AttackUpgrade :
-                                       baseGame.GameBuildingAttack,
-                                    BaseDefence = baseGame.GameBuildingDefence,
-                                    BaseWorkersCount = (baseSession != null) ? baseSession.WorkersNumber : 0,
-                                    BaseType = baseGame.GameBuildingType,
-                                    BaseIncome = baseGame.GameBuildingGoldIncome,
-                                    BaseOutcome = baseGame.GameBuildingGoldOutcome,
-                                    NumberOfWorkersInBase = (baseSession != null) ?
-                                       baseSession.WorkersNumber :
-                                       0,
-
-                                    Casern = (casernSession != null),
-                                    GoldMining = (goldMiningSession != null),
-                                    DefenceTower = (defenceTowerSession != null),
-
-                                    CasernLevel = (casernSession != null) ?
-                                       casernSession.BuildingLevel :
-                                       0,
-                                    CasernCapacity = (casernSession != null) ?
-                                       (casernGame.Capacity * (casernSession.CapacityUpgrade + 1)) :
-                                       casernGame.Capacity,
-                                    CasernHp = casernGame.GameBuildingHP,
-                                    CasernAttack = casernGame.GameBuildingAttack,
-                                    CasernDefence = casernGame.GameBuildingDefence,
-                                    NumberOfWarriors = (casernSession != null) ? casernSession.WarriorsNumber : 0,
-                                    NumberOfAttackAircraft = (casernSession != null) ? casernSession.AttackAircraftNumber : 0,
-                                    CasernType = casernGame.GameBuildingType,
-                                    CasernIncome = casernGame.GameBuildingGoldIncome,
-                                    CasernOutcome = casernGame.GameBuildingGoldOutcome,
-
-                                    DefenceTowerLevel = (defenceTowerSession != null) ?
-                                        defenceTowerSession.BuildingLevel : 0,
-                                    DefenceTowerCapacity = (defenceTowerSession != null) ?
-                                       defenceTowerGame.Capacity * (defenceTowerSession.DefenceUpgrade + 1) :
-                                       defenceTowerGame.Capacity,
-                                    DefenceTowerHp = defenceTowerGame.GameBuildingHP,
-                                    DefenceTowerAttack = defenceTowerGame.GameBuildingAttack,
-                                    DefenceTowerDefence = defenceTowerGame.GameBuildingDefence,
-                                    DefenceTowerType = defenceTowerGame.GameBuildingType,
-                                    NumberOfDefenceTower = (defenceTowerSession != null) ? 1 : 0,
-
-                                    GoldMiningLevel = (goldMiningSession != null) ? goldMiningSession.BuildingLevel : 0,
-                                    GoldMiningCapacity = (goldMiningSession != null) ?
-                                       (goldMiningGame.Capacity * (casernSession.CapacityUpgrade + 1)) : 
-                                       goldMiningGame.Capacity,
-                                    GoldMiningHp = goldMiningGame.GameBuildingHP,
-                                    GoldMiningAttack = goldMiningGame.GameBuildingAttack,
-                                    GoldMiningDefence = goldMiningGame.GameBuildingDefence,
-                                    GoldMiningType = goldMiningGame.GameBuildingType,
-                                    GoldMiningIncome = goldMiningGame.GameBuildingGoldIncome,
-                                    GoldMiningOutcome = goldMiningGame.GameBuildingGoldOutcome,
-                                    NumberOfWorkersInGoldMining = (goldMiningSession != null) ? goldMiningSession.WorkersNumber : 0
+                                    CoreId = coreId
+                                    //CoreMapId = coreSession.CoreMapId,
+                                    //
+                                    //BaseHp = baseGame.GameBuildingHP,
+                                    //BaseLevel = (baseSession != null) ? baseSession.BuildingLevel : 0,
+                                    //BaseCapacity = (baseSession != null) ?
+                                    //   baseGame.Capacity * (baseSession.CapacityUpgrade + 1) :
+                                    //   baseGame.Capacity,
+                                    //BaseAttack = (baseSession != null) ?
+                                    //   (baseGame.GameBuildingAttack + 1) * baseSession.AttackUpgrade :
+                                    //   baseGame.GameBuildingAttack,
+                                    //BaseDefence = baseGame.GameBuildingDefence,
+                                    //BaseWorkersCount = (baseSession != null) ? baseSession.WorkersNumber : 0,
+                                    //BaseType = baseGame.GameBuildingType,
+                                    //BaseIncome = baseGame.GameBuildingGoldIncome,
+                                    //BaseOutcome = baseGame.GameBuildingGoldOutcome,
+                                    //NumberOfWorkersInBase = (baseSession != null) ?
+                                    //   baseSession.WorkersNumber :
+                                    //   0,
+                                    //
+                                    //Casern = (casernSession != null),
+                                    //GoldMining = (goldMiningSession != null),
+                                    //DefenceTower = (defenceTowerSession != null),
+                                    //
+                                    //CasernLevel = (casernSession != null) ?
+                                    //   casernSession.BuildingLevel :
+                                    //   0,
+                                    //CasernCapacity = (casernSession != null) ?
+                                    //   (casernGame.Capacity * (casernSession.CapacityUpgrade + 1)) :
+                                    //   casernGame.Capacity,
+                                    //CasernHp = casernGame.GameBuildingHP,
+                                    //CasernAttack = casernGame.GameBuildingAttack,
+                                    //CasernDefence = casernGame.GameBuildingDefence,
+                                    //NumberOfWarriors = (casernSession != null) ? casernSession.WarriorsNumber : 0,
+                                    //NumberOfAttackAircraft = (casernSession != null) ? casernSession.AttackAircraftNumber : 0,
+                                    //CasernType = casernGame.GameBuildingType,
+                                    //CasernIncome = casernGame.GameBuildingGoldIncome,
+                                    //CasernOutcome = casernGame.GameBuildingGoldOutcome,
+                                    //
+                                    //DefenceTowerLevel = (defenceTowerSession != null) ?
+                                    //    defenceTowerSession.BuildingLevel : 0,
+                                    //DefenceTowerCapacity = (defenceTowerSession != null) ?
+                                    //   defenceTowerGame.Capacity * (defenceTowerSession.DefenceUpgrade + 1) :
+                                    //   defenceTowerGame.Capacity,
+                                    //DefenceTowerHp = defenceTowerGame.GameBuildingHP,
+                                    //DefenceTowerAttack = defenceTowerGame.GameBuildingAttack,
+                                    //DefenceTowerDefence = defenceTowerGame.GameBuildingDefence,
+                                    //DefenceTowerType = defenceTowerGame.GameBuildingType,
+                                    //NumberOfDefenceTower = (defenceTowerSession != null) ? 1 : 0,
+                                    //
+                                    //GoldMiningLevel = (goldMiningSession != null) ? goldMiningSession.BuildingLevel : 0,
+                                    //GoldMiningCapacity = (goldMiningSession != null) ?
+                                    //   (goldMiningGame.Capacity * (casernSession.CapacityUpgrade + 1)) : 
+                                    //   goldMiningGame.Capacity,
+                                    //GoldMiningHp = goldMiningGame.GameBuildingHP,
+                                    //GoldMiningAttack = goldMiningGame.GameBuildingAttack,
+                                    //GoldMiningDefence = goldMiningGame.GameBuildingDefence,
+                                    //GoldMiningType = goldMiningGame.GameBuildingType,
+                                    //GoldMiningIncome = goldMiningGame.GameBuildingGoldIncome,
+                                    //GoldMiningOutcome = goldMiningGame.GameBuildingGoldOutcome,
+                                    //NumberOfWorkersInGoldMining = (goldMiningSession != null) ? goldMiningSession.WorkersNumber : 0
                                 };
                                 string coreInfoJson = coreInfo.ToJson();
                                 logger.Info($"CORE INFO SEND: {coreInfoJson}");
@@ -621,5 +622,250 @@
                 .ToJson();
         }
 
+        private List<GameUnitsTable> GetCoreArmy(int coreId)
+        {
+            var result = new List<GameUnitsTable>();
+            var warriorUnit = GetUnitProperty("Warrior");
+            var attackAircraftUnit = GetUnitProperty("AttackAircraft");
+
+            var numberWarriors = CasernGetNumberOfWarriors(coreId);
+            var numberAttackAircraft = CasernGetNumberOfAttackAircraft(coreId);
+
+            for (int i = 0; i < numberWarriors; i++)
+            {
+                result.Add(
+                    new GameUnitsTable()
+                    {
+                        GameUnitId = warriorUnit.GameUnitId,
+                        GameUnitType = warriorUnit.GameUnitType,
+                        GameUnitName = warriorUnit.GameUnitName,
+                        GameUnitHP = warriorUnit.GameUnitHP,
+                        GameUnitAttack = warriorUnit.GameUnitAttack,
+                        GameUnitDefence = warriorUnit.GameUnitDefence,
+                        GameUnitGoldIncome = warriorUnit.GameUnitGoldIncome,
+                        GameUnitGoldOutcome = warriorUnit.GameUnitGoldOutcome
+                    });
+            }
+            for (int i = 0; i < numberAttackAircraft; i++)
+            {
+                result.Add(new GameUnitsTable()
+                {
+                    GameUnitId = attackAircraftUnit.GameUnitId,
+                    GameUnitType = attackAircraftUnit.GameUnitType,
+                    GameUnitName = attackAircraftUnit.GameUnitName,
+                    GameUnitHP = attackAircraftUnit.GameUnitHP,
+                    GameUnitAttack = attackAircraftUnit.GameUnitAttack,
+                    GameUnitDefence = attackAircraftUnit.GameUnitDefence,
+                    GameUnitGoldIncome = attackAircraftUnit.GameUnitGoldIncome,
+                    GameUnitGoldOutcome = attackAircraftUnit.GameUnitGoldOutcome
+                });
+            }
+
+            return result;
+        }
+
+        private List<GameBuildingsTable> GetCoreBuildings(int coreId)
+        {
+            var result = new List<GameBuildingsTable>();
+            var defenceTowerBuilding =
+                m_GameBuildingsEntity.GameBuildingsTable
+                .Where(obj => obj.GameBuildingName == "DefenceTower")
+                .FirstOrDefault();
+            var defenceTowerCount =
+                m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .ToList().Count;
+
+            var baseBuilding =
+                m_GameBuildingsEntity.GameBuildingsTable
+                .Where(obj => obj.GameBuildingName == "Base")
+                .FirstOrDefault();
+
+            var warriorUnit = GetUnitProperty("Warrior");
+            var attackAircraftUnit = GetUnitProperty("AttackAircraft");
+
+            var numberWarriors = CasernGetNumberOfWarriors(coreId);
+            var numberAttackAircraft = CasernGetNumberOfAttackAircraft(coreId);
+
+            for (int i = 0; i < defenceTowerCount; i++)
+            {
+                result.Add(
+                    new GameBuildingsTable()
+                    {
+                        GameBuildingId = defenceTowerBuilding.GameBuildingId,
+                        GameBuildingType = defenceTowerBuilding.GameBuildingType,
+                        GameBuildingName = "DefenceTower",
+                        GameBuildingHP = defenceTowerBuilding.GameBuildingHP,
+                        GameBuildingAttack = defenceTowerBuilding.GameBuildingAttack,
+                        GameBuildingDefence = defenceTowerBuilding.GameBuildingDefence,
+                        GameBuildingGoldIncome = defenceTowerBuilding.GameBuildingGoldIncome,
+                        GameBuildingGoldOutcome = defenceTowerBuilding.GameBuildingGoldOutcome,
+                        Capacity = defenceTowerBuilding.Capacity
+                    });
+            }
+
+            for (int i = 0; i < numberAttackAircraft; i++)
+            {
+                result.Add(new GameBuildingsTable()
+                {
+                    GameBuildingId = baseBuilding.GameBuildingId,
+                    GameBuildingType = baseBuilding.GameBuildingType,
+                    GameBuildingName = "Base",
+                    GameBuildingHP = baseBuilding.GameBuildingHP,
+                    GameBuildingAttack = baseBuilding.GameBuildingAttack,
+                    GameBuildingDefence = baseBuilding.GameBuildingDefence,
+                    GameBuildingGoldIncome = baseBuilding.GameBuildingGoldIncome,
+                    GameBuildingGoldOutcome = baseBuilding.GameBuildingGoldOutcome,
+                    Capacity = baseBuilding.Capacity
+                });
+            }
+
+            return result;
+        }
+
+        public BattleResponse DuelBattle(int attackerCoreId, int defenderCoreId)
+        {
+            var attackers = GetCoreArmy(attackerCoreId);
+            var defenders = GetCoreArmy(defenderCoreId);
+
+            var result = 
+                GameEngine.DuelBattle(ref attackers, ref defenders);
+
+            var attackersCasern = 
+                m_SessionCasernsEntity.SessionCasernsTable
+                .Where(obj => obj.SessionCoreId == attackerCoreId)
+                .FirstOrDefault();
+
+            int attackWarriorCount = 0;
+            int attackAircraftCount = 0;
+            for (var i = 0; i < attackers.Count; i++)
+            {
+                if (attackers[i].GameUnitName == "Warrior")
+                {
+                    ++attackWarriorCount;
+                }
+                else if (attackers[i].GameUnitName == "AttackAircraft")
+                {
+                    ++attackAircraftCount;
+                }
+            }
+
+            attackersCasern.WarriorsNumber = attackWarriorCount;
+            attackersCasern.AttackAircraftNumber = attackAircraftCount;
+            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+            var defendersCasern =
+               m_SessionCasernsEntity.SessionCasernsTable
+               .Where(obj => obj.SessionCoreId == defenderCoreId)
+               .FirstOrDefault();
+            int defendersWarriorNumber = 0;
+            int defendersAircraftCount = 0;
+            for (var i = 0; i < attackers.Count; i++)
+            {
+                if (attackers[i].GameUnitName == "Warrior")
+                {
+                    ++defendersWarriorNumber;
+                }
+                else if (attackers[i].GameUnitName == "AttackAircraft")
+                {
+                    ++defendersAircraftCount;
+                }
+            }
+
+            defendersCasern.WarriorsNumber = defendersWarriorNumber;
+            defendersCasern.AttackAircraftNumber = defendersAircraftCount;
+            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+            m_SessionCasernsEntity.SaveChanges();
+
+            return result;
+        }
+
+        public BattleResponse CoreBattle(int attackerCoreId, int defenderCoreId)
+        {
+            var attackers = GetCoreArmy(attackerCoreId);
+            var defenders = GetCoreArmy(defenderCoreId);
+            var defendersBuildings = GetCoreBuildings(defenderCoreId);
+
+            var result =
+                GameEngine.CoreBattle(ref attackers, ref defenders, ref defendersBuildings);
+
+            int attackWarriorCount = 0;
+            int attackAircraftCount = 0;
+            for (var i = 0; i < attackers.Count; i++)
+            {
+                if (attackers[i].GameUnitName == "Warrior")
+                {
+                    ++attackWarriorCount;
+                }
+                else if (attackers[i].GameUnitName == "AttackAircraft")
+                {
+                    ++attackAircraftCount;
+                }
+            }
+
+            var attackersCasern =
+                m_SessionCasernsEntity.SessionCasernsTable
+                .Where(obj => obj.SessionCoreId == attackerCoreId)
+                .FirstOrDefault();
+            attackersCasern.WarriorsNumber = attackWarriorCount;
+            attackersCasern.AttackAircraftNumber = attackAircraftCount;
+            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+            int defendersWarriorNumber = 0;
+            int defendersAircraftCount = 0;
+            for (var i = 0; i < attackers.Count; i++)
+            {
+                if (attackers[i].GameUnitName == "Warrior")
+                {
+                    ++defendersWarriorNumber;
+                }
+                else if (attackers[i].GameUnitName == "AttackAircraft")
+                {
+                    ++defendersAircraftCount;
+                }
+            }
+
+            for (var i = 0; i < defenders.Count; i++)
+            {
+                if (defenders[i].GameUnitName == "Warrior")
+                {
+                    ++defendersWarriorNumber;
+                }
+                else if (defenders[i].GameUnitName == "AttackAircraft")
+                {
+                    ++defendersAircraftCount;
+                }
+            }
+            var defendersCasern =
+               m_SessionCasernsEntity.SessionCasernsTable
+               .Where(obj => obj.SessionCoreId == defenderCoreId)
+               .FirstOrDefault();
+            defendersCasern.WarriorsNumber = defendersWarriorNumber;
+            defendersCasern.AttackAircraftNumber = defendersAircraftCount;
+            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+            m_SessionCasernsEntity.SaveChanges();
+
+            int defenderDefenceTowerCount = 0; 
+            for (var i = 0; i < defendersBuildings.Count; i++)
+            {
+                if (defendersBuildings[i].GameBuildingName == "DefenceTower")
+                {
+                    ++defenderDefenceTowerCount;
+                }
+            }
+            var listOfTowerDefence = 
+                m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                .Where(obj => obj.SessionCoreId == defenderCoreId)
+                .ToList();
+            while (listOfTowerDefence.Count > defenderDefenceTowerCount)
+            {
+                listOfTowerDefence.Remove(listOfTowerDefence[0]);
+            }
+            m_SessionDefenceTowersEntity.SaveChanges();
+
+            return result;
+        }
     }
 }

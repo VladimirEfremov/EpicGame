@@ -1,9 +1,11 @@
 ﻿using System.Web.Http;
 using EpicGameCommon;
+using EpicGameCommon.Response;
 using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
 {
+    [RoutePrefix("api/game")]
     public class GameController : ApiController
     {
         [Route("CasernGetNumberOfWarriors")]
@@ -101,5 +103,32 @@ namespace EpicGameWeb.Controllers
                 .GetCoreInfoById(2015);
             return coreInfoJson;
         }
+
+        [HttpPost]
+        [Route("DuelBattle")]
+        public string DuelBattle([FromBody]string data)
+        {
+            var result = RemoteProcedureCallClass
+                .GetGameChannel()
+                .DuelBattle(AuthController.CoreId, System.Int32.Parse(data))
+                .ToJson();
+            return result;
+        }
+
+        [HttpPost]
+        public string CoreBattle([FromBody]string defenderCoreId)
+        {
+            int defenderCoreIdInt;
+            if (System.Int32.TryParse(defenderCoreId, out defenderCoreIdInt))
+            {
+                var result = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .CoreBattle(AuthController.CoreId, defenderCoreIdInt)
+                    .ToJson();
+                return result;
+            }
+            return "";
+        }
+
     }
 }

@@ -50,6 +50,10 @@ export class HttpAuthService
         private router: Router) 
     { }
 
+    GoToLoginPage():void{
+        this.router.navigate(['/login']);
+    }
+
     login(loginPostData: HttpLoginPostData) : void 
     {
         loginPostData.PasswordHash = 
@@ -199,7 +203,7 @@ export class HttpAuthService
     {
         //http post
         this.httpClient
-            .post(this.signOutUrl, "")
+            .post<string>(this.signOutUrl, "")
             .subscribe(
                 data => console.log("success"),
                 error => console.log("error"+error)

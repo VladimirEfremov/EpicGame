@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AccountData } from './AccountData';
 import { SessionCoresTable } from './SessionCoresTable';
 import { CoreInfo } from '../game/game-structures/CoreInfo';
+import { BattleResponse } from '../game/game-structures/BattleResponse';
 
 @Injectable()
 export class GameService 
@@ -16,6 +17,12 @@ export class GameService
     
     getCoreInfoByIdUrl : string =
         "http://localhost:6430/api/game/GetCoreInfoById";
+
+    duelBattleUrl: string =
+        "http://localhost:6430/api/game/DuelBattle"; 
+    
+    coreBattleUrl: string =
+        "http://localhost:6430/api/game/CoreBattle"; 
 
     constructor(
         private httpClient: HttpClient,
@@ -84,6 +91,50 @@ export class GameService
         return this.httpClient
             .get<CoreInfo>(
                 this.getCoreInfoByIdUrl);;
+    }
+
+    public DuelBattle(coreId : number):BattleResponse
+    {
+        console.log("GetAllUserInfo");
+        let result; 
+        let dataToPost: BattleResponse ={
+            WhoWonTheBattle:coreId,
+            Message:""
+        };
+        this.httpClient.post<string>(
+            this.duelBattleUrl, "2")
+            .subscribe(
+                (data:string) => {
+                    console.log("[success] DuelBattle")
+                    result = data;
+                    console.log(result);
+                    //console.log("Battle result: " + result.WhoWonTheBattle + " Message: " + result.Message);
+                },
+                error => {
+                    console.log("[error] DuelBattle: " + error);
+                }
+            );
+        return result;
+    }
+
+    public CoreBattle(coreId : number):BattleResponse
+    {
+        console.log("GetAllUserInfo");
+        let result; 
+        this.httpClient.post<string>(
+            this.coreBattleUrl,
+            coreId.toString())
+            .subscribe(
+                data => {
+                    console.log("[success] CoreBattle")
+                    let cdata : BattleResponse = JSON.parse(data);
+                    result = cdata;
+                },
+                error => {
+                    console.log("[error] CoreBattle: " + error);
+                }
+            );
+        return result;
     }
 
 }

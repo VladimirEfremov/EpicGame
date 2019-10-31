@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n    Nickname:{{accountData.Nickname}}\n    </td>\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"!coreInfo.Casern\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.DefenceTower\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.GoldMining\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{casernInfo.CasernAttack}}</div> \n            <div>Defence: {{casernInfo.CasernDefence}}</div>\n            <div>Warriors: {{casernInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{casernInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{casernInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{defenceTowerInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{defenceTowerInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{defenceTowerInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{defenceTowerInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n          <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n              <td>  \n                  <div>Hp: {{goldMiningInfo.GoldMiningHp}}</div> \n                  <div>Attack: {{goldMiningInfo.GoldMiningAttack}}</div> \n                  <div>Defence: {{goldMiningInfo.GoldMiningDefence}}</div>\n                  <div>Type: {{goldMiningInfo.GoldMiningType}}</div>\n                </td>\n                <td>\n                    <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> \n                    <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>\n                </td>\n              <td>\n                <button title=\"Добавит нового рабочего на производственную линию\"\n                        (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n              </td>\n            </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\">FriendsList</tr>\n      <tr>\n        <td>\n          <button (click)=\"OnLessBtnClick()\">\n            &lt;\n          </button>\n          <button (click)=\"OnGreaterBtnClick()\">\n            &gt;\n          </button>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of friendsUsers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of followersUsers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchDefault>\n                  <div *ngFor=\n                  \"let user of followingsUsers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n\n      <br/> \n       <ng-template ngSwitchCase=\"0\">\n         <ng-template *ngIf=\"IsUserFriend(); else not\">\n           <button class=\"btnUserAction\" \n           (click)=\"RemoveUserFromFriends()\">\n           Удалить из друзей\n          </button>\n        </ng-template>\n        <ng-template #not>\n            <button class=\"btnUserAction\" \n            (click)=\"AddUserToFriends()\">\n            Добавить в друзья\n           </button>\n        </ng-template>\n       </ng-template>\n\n       <ng-template ngSwitchCase=\"1\"> \n          <button class=\"btnUserAction\" \n          (click)=\"RemoveUserFromFriends()\">\n            Удалить из друзей\n          </button>\n       </ng-template>\n\n       <ng-template ngSwitchCase=\"3\">\n          <button class=\"btnUserAction\" \n          (click)=\"RemoveUserFromFriends()\">\n          Отменить подписку\n          </button>\n       </ng-template>\n\n       <ng-template ngSwitchDefault>\n        <button class=\"btnUserAction\">\n          Default\n        </button>\n       </ng-template>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data\"\n      >\n      <div [ngSwitch]=\"log.color\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerBuildContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"> <div class=\"LoggerWarContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerCommunicationContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.message}}</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=600 height=600>\n    Canvas not supported\n </canvas>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"!coreInfo.Casern\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.DefenceTower\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.GoldMining\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n          <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n              <td>  \n                  <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n                  <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n                  <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n                  <div>Type: {{coreInfo.GoldMiningType}}</div>\n                </td>\n                <td>\n                    <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                    <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n                </td>\n              <td>\n                <button title=\"Добавит нового рабочего на производственную линию\"\n                        (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n              </td>\n            </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\">\n        <td>\n          <div class=\"TextInCenter\">FriendsList</div>\n        </td>\n        <td>\n          <div>{{numberOfPage}}</div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button>\n            Follower?\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data\"\n      >\n      <div [ngSwitch]=\"log.color\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerBuildContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"> <div class=\"LoggerWarContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerCommunicationContent\">{{log.message}}</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.message}}</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=600 height=600>\n    Canvas not supported\n </canvas>");
 
 /***/ }),
 
@@ -709,7 +709,7 @@ class Map {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\ntd\r\n{\r\n    text-align: left;\r\n    padding: 0.5rem;\r\n}\r\n\r\n\r\n.globalTable\r\n{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n\r\n.CoreTable\r\n{\r\n    width: 70rem;\r\n    border: 1px solid black;\r\n    border-left: 1px solid black;\r\n}\r\n\r\n\r\n.GameTxt\r\n{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    vertical-align: text-top;\r\n}\r\n\r\n\r\n.CommunicationTable\r\n{\r\n    width: 250px;\r\n    height:200px;\r\n    border: 1px solid black;\r\n    margin-right: 5%;\r\n}\r\n\r\n\r\n.DiactivatedButton\r\n{\r\n    background-color: gray;\r\n}\r\n\r\n\r\n.cmnBtn\r\n{\r\n    width: 100px;\r\n}\r\n\r\n\r\n.btnList\r\n{\r\n    width: 100px;\r\n}\r\n\r\n\r\n.Logger {\r\n    margin-left:25px;\r\n    background-color: #0f0d53;\r\n    height:350px;\r\n    width:650px;\r\n    padding:0.1rem;\r\n    padding-left:1.1rem;\r\n    overflow-y: scroll;\r\n}\r\n\r\n\r\n.LoggerContent\r\n{\r\n    margin-left:1px;\r\n    margin-top:5px;\r\n    font-size:14px;\r\n}\r\n\r\n\r\n.LoggerDefaultContent\r\n{\r\n    color: #ffffff;\r\n}\r\n\r\n\r\n.LoggerBuildContent\r\n{\r\n    color: #f1ee12;\r\n}\r\n\r\n\r\n.LoggerWarContent\r\n{\r\n    color: #ff0000;\r\n}\r\n\r\n\r\n.LoggerCommunicationContent\r\n{\r\n    color: #09ff00;\r\n}\r\n\r\n\r\n.RoundedExitBtnBox{\r\n    display: flex;\r\n}\r\n\r\n\r\n.RoundedExitBtn{\r\n    position: absolute; \r\n    right: 2.5%;\r\n    top: 2.5%;\r\n    width:25px;\r\n    height:25px;\r\n    color:red;\r\n    background-color: rgb(250, 250, 0, 0);\r\n    font:30px;\r\n    border-radius: 50%;\r\n    border:1px solid red;\r\n}\r\n\r\n\r\n.UsersActionWindowBox{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n\r\n.UsersActionWindow {\r\n    position: absolute;\r\n    width: 500px;\r\n    height: 500px;\r\n    background-color: rgb(0,0,0);\r\n    color:white;\r\n    font-size: 30px;\r\n}\r\n\r\n\r\n.UserInfo {\r\n    position:absolute;\r\n    left: 5%;\r\n}\r\n\r\n\r\n.btnUserAction {\r\n    position: absolute;\r\n    left:40%;\r\n    bottom: 10%;\r\n    width: 100px;\r\n    align-self:center;\r\n}\r\n\r\n\r\n.CanvasDiv{\r\n    position:absolute;\r\n    left: 0px;\r\n    right: 0px;\r\n}\r\n\r\n\r\n#map{\r\n\r\n    border:1px solid black;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtBQUNuQjs7O0FBR0E7O0lBRUksV0FBVztJQUNYLFlBQVk7QUFDaEI7OztBQUVBOztJQUVJLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsNEJBQTRCO0FBQ2hDOzs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLHdCQUF3QjtBQUM1Qjs7O0FBRUE7O0lBRUksWUFBWTtJQUNaLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsZ0JBQWdCO0FBQ3BCOzs7QUFFQTs7SUFFSSxzQkFBc0I7QUFDMUI7OztBQUVBOztJQUVJLFlBQVk7QUFDaEI7OztBQUVBOztJQUVJLFlBQVk7QUFDaEI7OztBQUVBO0lBQ0ksZ0JBQWdCO0lBQ2hCLHlCQUF5QjtJQUN6QixZQUFZO0lBQ1osV0FBVztJQUNYLGNBQWM7SUFDZCxtQkFBbUI7SUFDbkIsa0JBQWtCO0FBQ3RCOzs7QUFFQTs7SUFFSSxlQUFlO0lBQ2YsY0FBYztJQUNkLGNBQWM7QUFDbEI7OztBQUVBOztJQUVJLGNBQWM7QUFDbEI7OztBQUVBOztJQUVJLGNBQWM7QUFDbEI7OztBQUVBOztJQUVJLGNBQWM7QUFDbEI7OztBQUVBOztJQUVJLGNBQWM7QUFDbEI7OztBQUVBO0lBQ0ksYUFBYTtBQUNqQjs7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLFNBQVM7SUFDVCxVQUFVO0lBQ1YsV0FBVztJQUNYLFNBQVM7SUFDVCxxQ0FBcUM7SUFDckMsU0FBUztJQUNULGtCQUFrQjtJQUNsQixvQkFBb0I7QUFDeEI7OztBQUVBO0lBQ0ksYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixtQkFBbUI7QUFDdkI7OztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixhQUFhO0lBQ2IsNEJBQTRCO0lBQzVCLFdBQVc7SUFDWCxlQUFlO0FBQ25COzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixRQUFRO0FBQ1o7OztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixXQUFXO0lBQ1gsWUFBWTtJQUNaLGlCQUFpQjtBQUNyQjs7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsU0FBUztJQUNULFVBQVU7QUFDZDs7O0FBRUE7O0lBRUksc0JBQXNCO0FBQzFCIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcclxuXHJcbnRkXHJcbntcclxuICAgIHRleHQtYWxpZ246IGxlZnQ7XHJcbiAgICBwYWRkaW5nOiAwLjVyZW07XHJcbn1cclxuXHJcblxyXG4uZ2xvYmFsVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbn1cclxuXHJcbi5Db3JlVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDcwcmVtO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkIGJsYWNrO1xyXG59XHJcblxyXG4uR2FtZVR4dFxyXG57XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBmb250LXNpemU6IDM0cHg7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogdGV4dC10b3A7XHJcbn1cclxuXHJcbi5Db21tdW5pY2F0aW9uVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDI1MHB4O1xyXG4gICAgaGVpZ2h0OjIwMHB4O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDUlO1xyXG59XHJcblxyXG4uRGlhY3RpdmF0ZWRCdXR0b25cclxue1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogZ3JheTtcclxufVxyXG5cclxuLmNtbkJ0blxyXG57XHJcbiAgICB3aWR0aDogMTAwcHg7XHJcbn1cclxuXHJcbi5idG5MaXN0XHJcbntcclxuICAgIHdpZHRoOiAxMDBweDtcclxufVxyXG5cclxuLkxvZ2dlciB7XHJcbiAgICBtYXJnaW4tbGVmdDoyNXB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzBmMGQ1MztcclxuICAgIGhlaWdodDozNTBweDtcclxuICAgIHdpZHRoOjY1MHB4O1xyXG4gICAgcGFkZGluZzowLjFyZW07XHJcbiAgICBwYWRkaW5nLWxlZnQ6MS4xcmVtO1xyXG4gICAgb3ZlcmZsb3cteTogc2Nyb2xsO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29udGVudFxyXG57XHJcbiAgICBtYXJnaW4tbGVmdDoxcHg7XHJcbiAgICBtYXJnaW4tdG9wOjVweDtcclxuICAgIGZvbnQtc2l6ZToxNHB4O1xyXG59XHJcblxyXG4uTG9nZ2VyRGVmYXVsdENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmZmZmZmY7XHJcbn1cclxuXHJcbi5Mb2dnZXJCdWlsZENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmMWVlMTI7XHJcbn1cclxuXHJcbi5Mb2dnZXJXYXJDb250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjZmYwMDAwO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29tbXVuaWNhdGlvbkNvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICMwOWZmMDA7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bkJveHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bntcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsgXHJcbiAgICByaWdodDogMi41JTtcclxuICAgIHRvcDogMi41JTtcclxuICAgIHdpZHRoOjI1cHg7XHJcbiAgICBoZWlnaHQ6MjVweDtcclxuICAgIGNvbG9yOnJlZDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyNTAsIDI1MCwgMCwgMCk7XHJcbiAgICBmb250OjMwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XHJcbiAgICBib3JkZXI6MXB4IHNvbGlkIHJlZDtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93Qm94e1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93IHtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIHdpZHRoOiA1MDBweDtcclxuICAgIGhlaWdodDogNTAwcHg7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApO1xyXG4gICAgY29sb3I6d2hpdGU7XHJcbiAgICBmb250LXNpemU6IDMwcHg7XHJcbn1cclxuXHJcbi5Vc2VySW5mbyB7XHJcbiAgICBwb3NpdGlvbjphYnNvbHV0ZTtcclxuICAgIGxlZnQ6IDUlO1xyXG59XHJcblxyXG4uYnRuVXNlckFjdGlvbiB7XHJcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgICBsZWZ0OjQwJTtcclxuICAgIGJvdHRvbTogMTAlO1xyXG4gICAgd2lkdGg6IDEwMHB4O1xyXG4gICAgYWxpZ24tc2VsZjpjZW50ZXI7XHJcbn1cclxuXHJcbi5DYW52YXNEaXZ7XHJcbiAgICBwb3NpdGlvbjphYnNvbHV0ZTtcclxuICAgIGxlZnQ6IDBweDtcclxuICAgIHJpZ2h0OiAwcHg7XHJcbn1cclxuXHJcbiNtYXB7XHJcblxyXG4gICAgYm9yZGVyOjFweCBzb2xpZCBibGFjaztcclxufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\ntd\r\n{\r\n    text-align: left;\r\n    padding: 0.5rem;\r\n}\r\n\r\n\r\n.globalTable\r\n{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n\r\n.CoreTable\r\n{\r\n    width: 70rem;\r\n    border: 1px solid black;\r\n    border-left: 1px solid black;\r\n}\r\n\r\n\r\n.GameTxt\r\n{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    vertical-align: text-top;\r\n}\r\n\r\n\r\n.DiactivatedButton\r\n{\r\n    background-color: gray;\r\n}\r\n\r\n\r\n.CommunicationTable\r\n{\r\n    width: 350px;\r\n    height:200px;\r\n    border: 1px solid black;\r\n    margin-right: 5%;\r\n}\r\n\r\n\r\n.TextInCenter\r\n{\r\n    text-align: center;\r\n}\r\n\r\n\r\n.cmnBtn\r\n{\r\n    width: 100px;\r\n}\r\n\r\n\r\n.btnList\r\n{\r\n    width: 150px;\r\n}\r\n\r\n\r\n.Logger {\r\n    margin-left:25px;\r\n    background-color: #0f0d53;\r\n    height:350px;\r\n    width:650px;\r\n    padding:0.1rem;\r\n    padding-left:1.1rem;\r\n    overflow-y: scroll;\r\n}\r\n\r\n\r\n.LoggerContent\r\n{\r\n    margin-left:1px;\r\n    margin-top:5px;\r\n    font-size:14px;\r\n}\r\n\r\n\r\n.LoggerDefaultContent\r\n{\r\n    color: #ffffff;\r\n}\r\n\r\n\r\n.LoggerBuildContent\r\n{\r\n    color: #f1ee12;\r\n}\r\n\r\n\r\n.LoggerWarContent\r\n{\r\n    color: #ff0000;\r\n}\r\n\r\n\r\n.LoggerCommunicationContent\r\n{\r\n    color: #09ff00;\r\n}\r\n\r\n\r\n.RoundedExitBtnBox{\r\n    display: flex;\r\n}\r\n\r\n\r\n.RoundedExitBtn{\r\n    position: absolute; \r\n    right: 2.5%;\r\n    top: 2.5%;\r\n    width:25px;\r\n    height:25px;\r\n    color:red;\r\n    background-color: rgb(250, 250, 0, 0);\r\n    font:30px;\r\n    border-radius: 50%;\r\n    border:1px solid red;\r\n}\r\n\r\n\r\n.UsersActionWindowBox{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n\r\n.UsersActionWindow {\r\n    position: absolute;\r\n    width: 500px;\r\n    height: 500px;\r\n    background-color: rgb(0,0,0);\r\n    color:white;\r\n    font-size: 30px;\r\n}\r\n\r\n\r\n.UserInfo {\r\n    position:absolute;\r\n    left: 5%;\r\n}\r\n\r\n\r\n.btnUserAction {\r\n    position: absolute;\r\n    left:40%;\r\n    bottom: 10%;\r\n    width: 150px;\r\n}\r\n\r\n\r\n.CanvasDiv{\r\n    position:absolute;\r\n    left: 0px;\r\n    right: 0px;\r\n}\r\n\r\n\r\n#map{\r\n\r\n    border:1px solid black;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtBQUNuQjs7O0FBR0E7O0lBRUksV0FBVztJQUNYLFlBQVk7QUFDaEI7OztBQUVBOztJQUVJLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsNEJBQTRCO0FBQ2hDOzs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLHdCQUF3QjtBQUM1Qjs7O0FBRUE7O0lBRUksc0JBQXNCO0FBQzFCOzs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osWUFBWTtJQUNaLHVCQUF1QjtJQUN2QixnQkFBZ0I7QUFDcEI7OztBQUVBOztJQUVJLGtCQUFrQjtBQUN0Qjs7O0FBRUE7O0lBRUksWUFBWTtBQUNoQjs7O0FBRUE7O0lBRUksWUFBWTtBQUNoQjs7O0FBRUE7SUFDSSxnQkFBZ0I7SUFDaEIseUJBQXlCO0lBQ3pCLFlBQVk7SUFDWixXQUFXO0lBQ1gsY0FBYztJQUNkLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7OztBQUVBOztJQUVJLGVBQWU7SUFDZixjQUFjO0lBQ2QsY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7SUFDSSxhQUFhO0FBQ2pCOzs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsU0FBUztJQUNULFVBQVU7SUFDVixXQUFXO0lBQ1gsU0FBUztJQUNULHFDQUFxQztJQUNyQyxTQUFTO0lBQ1Qsa0JBQWtCO0lBQ2xCLG9CQUFvQjtBQUN4Qjs7O0FBRUE7SUFDSSxhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLG1CQUFtQjtBQUN2Qjs7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsWUFBWTtJQUNaLGFBQWE7SUFDYiw0QkFBNEI7SUFDNUIsV0FBVztJQUNYLGVBQWU7QUFDbkI7OztBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLFFBQVE7QUFDWjs7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsUUFBUTtJQUNSLFdBQVc7SUFDWCxZQUFZO0FBQ2hCOzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixTQUFTO0lBQ1QsVUFBVTtBQUNkOzs7QUFFQTs7SUFFSSxzQkFBc0I7QUFDMUIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG5cclxudGRcclxue1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxuICAgIHBhZGRpbmc6IDAuNXJlbTtcclxufVxyXG5cclxuXHJcbi5nbG9iYWxUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogMTAwJTtcclxufVxyXG5cclxuLkNvcmVUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogNzByZW07XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuICAgIGJvcmRlci1sZWZ0OiAxcHggc29saWQgYmxhY2s7XHJcbn1cclxuXHJcbi5HYW1lVHh0XHJcbntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtc2l6ZTogMzRweDtcclxuICAgIHZlcnRpY2FsLWFsaWduOiB0ZXh0LXRvcDtcclxufVxyXG5cclxuLkRpYWN0aXZhdGVkQnV0dG9uXHJcbntcclxuICAgIGJhY2tncm91bmQtY29sb3I6IGdyYXk7XHJcbn1cclxuXHJcbi5Db21tdW5pY2F0aW9uVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgaGVpZ2h0OjIwMHB4O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDUlO1xyXG59XHJcblxyXG4uVGV4dEluQ2VudGVyXHJcbntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG5cclxuLmNtbkJ0blxyXG57XHJcbiAgICB3aWR0aDogMTAwcHg7XHJcbn1cclxuXHJcbi5idG5MaXN0XHJcbntcclxuICAgIHdpZHRoOiAxNTBweDtcclxufVxyXG5cclxuLkxvZ2dlciB7XHJcbiAgICBtYXJnaW4tbGVmdDoyNXB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzBmMGQ1MztcclxuICAgIGhlaWdodDozNTBweDtcclxuICAgIHdpZHRoOjY1MHB4O1xyXG4gICAgcGFkZGluZzowLjFyZW07XHJcbiAgICBwYWRkaW5nLWxlZnQ6MS4xcmVtO1xyXG4gICAgb3ZlcmZsb3cteTogc2Nyb2xsO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29udGVudFxyXG57XHJcbiAgICBtYXJnaW4tbGVmdDoxcHg7XHJcbiAgICBtYXJnaW4tdG9wOjVweDtcclxuICAgIGZvbnQtc2l6ZToxNHB4O1xyXG59XHJcblxyXG4uTG9nZ2VyRGVmYXVsdENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmZmZmZmY7XHJcbn1cclxuXHJcbi5Mb2dnZXJCdWlsZENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmMWVlMTI7XHJcbn1cclxuXHJcbi5Mb2dnZXJXYXJDb250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjZmYwMDAwO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29tbXVuaWNhdGlvbkNvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICMwOWZmMDA7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bkJveHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bntcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsgXHJcbiAgICByaWdodDogMi41JTtcclxuICAgIHRvcDogMi41JTtcclxuICAgIHdpZHRoOjI1cHg7XHJcbiAgICBoZWlnaHQ6MjVweDtcclxuICAgIGNvbG9yOnJlZDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyNTAsIDI1MCwgMCwgMCk7XHJcbiAgICBmb250OjMwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XHJcbiAgICBib3JkZXI6MXB4IHNvbGlkIHJlZDtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93Qm94e1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93IHtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIHdpZHRoOiA1MDBweDtcclxuICAgIGhlaWdodDogNTAwcHg7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApO1xyXG4gICAgY29sb3I6d2hpdGU7XHJcbiAgICBmb250LXNpemU6IDMwcHg7XHJcbn1cclxuXHJcbi5Vc2VySW5mbyB7XHJcbiAgICBwb3NpdGlvbjphYnNvbHV0ZTtcclxuICAgIGxlZnQ6IDUlO1xyXG59XHJcblxyXG4uYnRuVXNlckFjdGlvbiB7XHJcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgICBsZWZ0OjQwJTtcclxuICAgIGJvdHRvbTogMTAlO1xyXG4gICAgd2lkdGg6IDE1MHB4O1xyXG59XHJcblxyXG4uQ2FudmFzRGl2e1xyXG4gICAgcG9zaXRpb246YWJzb2x1dGU7XHJcbiAgICBsZWZ0OiAwcHg7XHJcbiAgICByaWdodDogMHB4O1xyXG59XHJcblxyXG4jbWFwe1xyXG5cclxuICAgIGJvcmRlcjoxcHggc29saWQgYmxhY2s7XHJcbn0iXX0= */");
 
 /***/ }),
 
@@ -752,48 +752,6 @@ let GameComponent = class GameComponent {
         this.coreInfo = {
             Money: -1,
             CoreId: -1,
-            CoreMapId: -1,
-            BaseLevel: -1,
-            BaseCapacity: -1,
-            BaseHp: -1,
-            BaseAttack: -1,
-            BaseDefence: -1,
-            BaseWorkersCount: -1,
-            BaseType: -1,
-            BaseIncome: -1,
-            BaseOutcome: -1,
-            NumberOfWorkersInBase: -1,
-            Casern: false,
-            GoldMining: false,
-            DefenceTower: false,
-            CasernLevel: -1,
-            CasernCapacity: -1,
-            CasernHp: -1,
-            CasernAttack: -1,
-            CasernDefence: -1,
-            CasernWarriorsCount: -1,
-            CasernAttackAircraftsCount: -1,
-            CasernType: -1,
-            CasernIncome: -1,
-            CasernOutcome: -1,
-            NumberOfWarriors: -1,
-            NumberOfAttackAircraft: -1,
-            DefenceTowerLevel: -1,
-            DefenceTowerCapacity: -1,
-            DefenceTowerHp: -1,
-            DefenceTowerAttack: -1,
-            DefenceTowerDefence: -1,
-            DefenceTowerType: -1,
-            NumberOfDefenceTower: -1,
-            GoldMiningLevel: -1,
-            GoldMiningCapacity: -1,
-            GoldMiningHp: -1,
-            GoldMiningAttack: -1,
-            GoldMiningDefence: -1,
-            GoldMiningType: -1,
-            GoldMiningIncome: -1,
-            GoldMiningOutcome: -1,
-            NumberOfWorkersInGoldMining: -1
         };
         //Flags info core
         this.IsCoreInfoActivated = true;
@@ -834,19 +792,9 @@ let GameComponent = class GameComponent {
         //Game
         //Communication 
         //0-All, 1-Friends, 2-Followers, 3-Followings
-        this.numberOfSelectedList = -1;
-        this.numberOfPage = 0;
+        this.numberOfSelectedList = 0;
+        this.numberOfPage = 1;
         this.pageStep = 4;
-        //list [All, Friends, Followers, Followings]
-        this.selectedNicknames = [];
-        this.all = ["none1", "none2"];
-        this.friends = ["Friend1", "Friend2"];
-        this.followers = [
-            "Fol0", "Fol1", "Fol2", "Fol3", "Fol4",
-            "Fol5", "Fol6", "Fol7", "Fol8", "Fol9",
-            "Fol10", "Fol11", "Fol12"
-        ];
-        this.followings = ["Followings1", "Followings2"];
         //Users stuff
         this.allUsers = [];
         this.friendsUsers = [];
@@ -857,6 +805,7 @@ let GameComponent = class GameComponent {
         this.selectedFollowers = [];
         this.selectedFollowings = [];
         this.isUserActionsWindowVisible = false;
+        this.isSelectedUserFriend = false;
         //Log
         this.loggedData = new _game_structures_Logger__WEBPACK_IMPORTED_MODULE_4__["Logger"]();
         //Map
@@ -868,9 +817,11 @@ let GameComponent = class GameComponent {
         this.map.DrawWorld();
         window.requestAnimationFrame(this.map.DrawWorld);
         this.GetAccountData();
-        //this.coreInfo.Casern=true;
-        //this.coreInfo.GoldMining=true;
-        //this.coreInfo.DefenceTower=true;
+        this.CommunicationsUpdate();
+    }
+    OnSignOutBtnClick() {
+        this.httpAuthService.SignOut();
+        this.httpAuthService.GoToLoginPage();
     }
     GetAccountData() {
         this.httpAuthService.GetAccountData()
@@ -880,53 +831,53 @@ let GameComponent = class GameComponent {
                 "[Nickname: " + this.accountData.Nickname +
                 " Friends list: " + this.accountData.FriendsList + "]");
             this.httpGameService.GetCoreById()
-                .subscribe(data => {
+                .subscribe((data) => {
                 console.log("[success] GetCoreById " +
                     "{ " +
                     "CoreId:" + data.CoreId + "\n" +
                     " Money:" + data.Money + "\n" +
-                    " CoreMapId:" + data.CoreMapId + "\n" +
-                    " BaseLevel:" + data.BaseLevel + "\n" +
-                    " BaseCapacity:" + data.BaseCapacity + "\n" +
-                    " BaseHp:" + data.BaseHp + "\n" +
-                    " BaseAttack:" + data.BaseAttack + "\n" +
-                    " BaseDefence:" + data.BaseDefence + "\n" +
-                    " BaseWorkersCount:" + data.BaseWorkersCount + "\n" +
-                    " BaseType:" + data.BaseType + "\n" +
-                    " BaseIncome:" + data.BaseIncome + "\n" +
-                    " BaseOutcome:" + data.BaseOutcome + "\n" +
-                    " NumberOfWorkersInBase:" + data.NumberOfWorkersInBase + "\n" +
+                    //" CoreMapId:"+ data.CoreMapId+"\n"+
+                    //" BaseLevel:"+ data.BaseLevel+"\n"+
+                    //" BaseCapacity:"+ data.BaseCapacity+"\n"+
+                    //" BaseHp:"+ data.BaseHp+"\n"+
+                    //" BaseAttack:"+ data.BaseAttack+"\n"+
+                    //" BaseDefence:"+ data.BaseDefence+"\n"+
+                    //" BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
+                    //" BaseType:"+ data.BaseType+"\n"+
+                    //" BaseIncome:"+ data.BaseIncome+"\n"+
+                    //" BaseOutcome:"+ data.BaseOutcome+"\n"+
+                    //" NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
                     //" Casern:"+ data.Casern+"\n"+
                     //" GoldMining:"+ data.GoldMining+"\n"+
                     //" DefenceTower:"+ data.DefenceTower+"\n"+
-                    " CasernLevel:" + data.CasernLevel + "\n" +
-                    " CasernCapacity:" + data.CasernCapacity + "\n" +
-                    " CasernHp:" + data.CasernHp + "\n" +
-                    " CasernAttack:" + data.CasernAttack + "\n" +
-                    " CasernDefence:" + data.CasernDefence + "\n" +
-                    " CasernWarriorsCount:" + data.CasernWarriorsCount + "\n" +
-                    " CasernAttackAircraftsCount:" + data.CasernAttackAircraftsCount + "\n" +
-                    " CasernType:" + data.CasernWarriorsCount + "\n" +
-                    " CasernIncome:" + data.CasernIncome + "\n" +
-                    " CasernOutcome:" + data.CasernOutcome + "\n" +
-                    " NumberOfWarriors:" + data.NumberOfWarriors + "\n" +
-                    " NumberOfAttackAircraft:" + data.NumberOfAttackAircraft + "\n" +
-                    " DefenceTowerLevel:" + data.DefenceTowerLevel + "\n" +
-                    " DefenceTowerCapacity:" + data.DefenceTowerCapacity + "\n" +
-                    " DefenceTowerHp:" + data.DefenceTowerHp + "\n" +
-                    " DefenceTowerAttack:" + data.DefenceTowerAttack + "\n" +
-                    " DefenceTowerDefence:" + data.DefenceTowerDefence + "\n" +
-                    " DefenceTowerType:" + data.DefenceTowerType + "\n" +
-                    " NumberOfDefenceTower:" + data.NumberOfDefenceTower + "\n" +
-                    " GoldMiningLevel:" + data.GoldMiningLevel + "\n" +
-                    " GoldMiningCapacity:" + data.GoldMiningCapacity + "\n" +
-                    " GoldMiningHp:" + data.GoldMiningHp + "\n" +
-                    " GoldMiningAttack:" + data.GoldMiningAttack + "\n" +
-                    " GoldMiningDefence:" + data.GoldMiningDefence + "\n" +
-                    " GoldMiningType:" + data.GoldMiningType + "\n" +
-                    " GoldMiningIncome:" + data.GoldMiningIncome + "\n" +
-                    " GoldMiningOutcome:" + data.GoldMiningOutcome + "\n" +
-                    " NumberOfWorkersInGoldMining:" + data.NumberOfWorkersInGoldMining + "\n" +
+                    //" CasernLevel:"+ data.CasernLevel+"\n"+
+                    //" CasernCapacity:"+ data.CasernCapacity+"\n"+
+                    //" CasernHp:"+ data.CasernHp+"\n"+
+                    //" CasernAttack:"+ data.CasernAttack+"\n"+
+                    //" CasernDefence:"+ data.CasernDefence+"\n"+
+                    //" CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
+                    //" CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
+                    //" CasernType:"+ data.CasernWarriorsCount+"\n"+
+                    //" CasernIncome:"+ data.CasernIncome+"\n"+
+                    //" CasernOutcome:"+ data.CasernOutcome+"\n"+
+                    //" NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
+                    //" NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
+                    //" DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
+                    //" DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
+                    //" DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
+                    //" DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
+                    //" DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
+                    //" DefenceTowerType:"+ data.DefenceTowerType+"\n"+
+                    //" NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
+                    //" GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
+                    //" GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
+                    //" GoldMiningHp:"+ data.GoldMiningHp+"\n"+
+                    //" GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
+                    //" GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
+                    //" GoldMiningType:"+ data.GoldMiningType+"\n"+
+                    //" GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
+                    //" GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
+                    //" NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
                     "}");
                 this.coreInfo = data;
             }, error => console.log("[error] GetCoreById: " + error));
@@ -936,13 +887,21 @@ let GameComponent = class GameComponent {
             this.accountData.FriendsList = ["null"];
         });
     }
-    GetCoreInfo() {
+    CommunicationsUpdate() {
+        this.GetAllUsers();
+        this.GetUsersFollowers();
+        this.GetUsersFollowings();
+        this.GetUsersFriends();
+        return true;
     }
     GetAllUsers() {
         this.httpAuthService.GetAllUsers()
             .subscribe(res => {
             console.log("get all users");
             this.allUsers = res;
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i].Nickname);
+            }
         }, err => {
             console.log("[error] get all users");
         });
@@ -952,6 +911,9 @@ let GameComponent = class GameComponent {
             .subscribe(res => {
             console.log("get user friends");
             this.friendsUsers = res;
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i].Nickname);
+            }
         }, err => {
             console.log("[error] get user friends");
         });
@@ -961,6 +923,9 @@ let GameComponent = class GameComponent {
             .subscribe(res => {
             console.log("get user followers");
             this.followersUsers = res;
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i].Nickname);
+            }
         }, err => {
             console.log("[error] get user followers");
         });
@@ -970,6 +935,9 @@ let GameComponent = class GameComponent {
             .subscribe(res => {
             console.log("get user followings");
             this.followingsUsers = res;
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i].Nickname);
+            }
         }, err => {
             console.log("[error] get user followings");
         });
@@ -1021,64 +989,64 @@ let GameComponent = class GameComponent {
         this.IsGoldMiningInfoActivated = false;
     }
     OnLessBtnClick() {
-        if (this.numberOfPage > 0) {
+        if (this.numberOfPage > 1) {
             if (this.numberOfSelectedList == 0) {
                 --this.numberOfPage;
                 this.selectedAll =
                     this.allUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep);
+                        .slice((this.pageStep * (this.numberOfPage - 1)), this.pageStep * this.numberOfPage);
             }
             else if (this.numberOfSelectedList == 1) {
                 --this.numberOfPage;
                 this.selectedFriends =
                     this.friendsUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
             else if (this.numberOfSelectedList == 2) {
                 --this.numberOfPage;
                 this.selectedFollowers =
                     this.followersUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
             else if (this.numberOfSelectedList == 3) {
                 --this.numberOfPage;
                 this.selectedFollowings =
                     this.followingsUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
         }
     }
     OnGreaterBtnClick() {
         if (this.numberOfSelectedList == 0) {
-            if (this.pageStep * (this.numberOfPage + 1) < this.allUsers.length) {
+            if (this.pageStep * this.numberOfPage < this.allUsers.length) {
                 ++this.numberOfPage;
                 this.selectedAll =
                     this.allUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep - 1);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
         }
         else if (this.numberOfSelectedList == 1) {
-            if (this.pageStep * (this.numberOfPage + 1) < this.friendsUsers.length) {
+            if (this.pageStep * this.numberOfPage < this.friendsUsers.length) {
                 ++this.numberOfPage;
                 this.selectedFriends =
                     this.friendsUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep - 1);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
         }
         else if (this.numberOfSelectedList == 2) {
-            if (this.pageStep * (this.numberOfPage + 1) < this.followersUsers.length) {
+            if (this.pageStep * this.numberOfPage < this.followersUsers.length) {
                 ++this.numberOfPage;
                 this.selectedFollowers =
                     this.followersUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
         }
         else if (this.numberOfSelectedList == 3) {
-            if (this.pageStep * (this.numberOfPage + 1) < this.followingsUsers.length) {
+            if (this.pageStep * this.numberOfPage < this.followingsUsers.length) {
                 ++this.numberOfPage;
                 this.selectedFollowings =
                     this.followingsUsers
-                        .slice(this.pageStep * this.numberOfPage, this.pageStep * this.numberOfPage + this.pageStep - 1);
+                        .slice(this.pageStep * (this.numberOfPage - 1), this.pageStep * this.numberOfPage);
             }
         }
     }
@@ -1087,44 +1055,62 @@ let GameComponent = class GameComponent {
         this.GetAllUsers();
         this.selectedAll =
             this.allUsers.slice(0, this.pageStep);
-        this.numberOfPage = 0;
+        this.numberOfPage = 1;
         this.numberOfSelectedList = 0;
     }
     OnFriendsBtnClick() {
         //GetAllFriends
         this.GetUsersFriends();
-        this.selectedNicknames =
-            this.friends.slice(0, this.pageStep);
-        this.numberOfPage = 0;
+        this.selectedFriends =
+            this.friendsUsers.slice(0, this.pageStep);
+        this.numberOfPage = 1;
         this.numberOfSelectedList = 1;
     }
     OnFollowersBtnClick() {
         //GetAllFollowers
         this.GetUsersFollowers();
-        this.selectedNicknames =
-            this.followers.slice(0, this.pageStep);
-        this.numberOfPage = 0;
+        this.selectedFollowers =
+            this.followersUsers.slice(0, this.pageStep);
+        this.numberOfPage = 1;
         this.numberOfSelectedList = 2;
     }
     OnFollowingsBtnClick() {
         //GetAllFollowings
         this.GetUsersFollowings();
-        this.selectedNicknames =
-            this.followings.slice(0, this.pageStep);
-        this.numberOfPage = 0;
+        this.selectedFollowings =
+            this.followingsUsers.slice(0, this.pageStep);
+        this.numberOfPage = 1;
         this.numberOfSelectedList = 3;
     }
     OnUserBtnClick(userInfo) {
+        console.log("On user btn click: [selected list: "
+            + this.numberOfSelectedList
+            + "]");
         this.isUserActionsWindowVisible = true;
         console.log("OnUserBtnClick: " + userInfo.Nickname);
         this.selectedUser = userInfo;
+        this.isSelectedUserFriend = this.IsUserFriend();
     }
-    IsUserFriend(nick) {
-        for (var i = 0; i < this.friendsUsers.length; i++) {
-            if (this.friendsUsers[i].Nickname == nick) {
+    IsUserFriend() {
+        this.CommunicationsUpdate();
+        console.log("[call] IsUserFriend");
+        for (var f = 0; f < this.friendsUsers.length; f++) {
+            console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+            if (this.friendsUsers[f].Nickname ===
+                this.selectedUser.Nickname) {
+                console.log("[IsUserFriend] true");
                 return true;
             }
         }
+        for (var f = 0; f < this.followingsUsers.length; f++) {
+            console.log(this.followingsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+            if (this.followingsUsers[f].Nickname ===
+                this.selectedUser.Nickname) {
+                console.log("[IsUserFriend] true");
+                return true;
+            }
+        }
+        console.log("[IsUserFriend] false");
         return false;
     }
     AddUserToFriends() {
@@ -1134,6 +1120,7 @@ let GameComponent = class GameComponent {
         };
         this.httpAuthService.AddUserToFriends(users);
         this.isUserActionsWindowVisible = false;
+        this.CommunicationsUpdate();
     }
     RemoveUserFromFriends() {
         let users = {
@@ -1142,21 +1129,37 @@ let GameComponent = class GameComponent {
         };
         this.httpAuthService.RemoveUserFromFriends(users);
         this.isUserActionsWindowVisible = false;
+        this.CommunicationsUpdate();
         if (this.numberOfSelectedList == 1) {
             console.log("this.numberOfSelectedList == 1");
-            this.OnFriendsBtnClick();
+            this.selectedFriends =
+                this.friendsUsers.slice(0, this.pageStep);
         }
         else if (this.numberOfSelectedList == 2) {
             console.log("this.numberOfSelectedList == 2");
-            this.OnFollowersBtnClick();
+            this.selectedFriends =
+                this.followersUsers.slice(0, this.pageStep);
         }
         else if (this.numberOfSelectedList == 3) {
             console.log("this.numberOfSelectedList == 3");
-            this.OnFollowingsBtnClick();
+            this.selectedFriends =
+                this.followingsUsers.slice(0, this.pageStep);
         }
     }
     OnExitBtnClick() {
         this.isUserActionsWindowVisible = false;
+    }
+    OnDuelBattleBtnClick() {
+        let result = this
+            .httpGameService
+            .DuelBattle(this.selectedUser.CoreId);
+        console.log(result.Message);
+    }
+    OnCoreAttackBtnClick() {
+        let result = this
+            .httpGameService
+            .CoreBattle(this.selectedUser.CoreId);
+        console.log(result.Message);
     }
 };
 GameComponent.ctorParameters = () => [
@@ -1433,6 +1436,8 @@ let GameService = class GameService {
         this.router = router;
         this.baseProduceWorkerUrl = "http://localhost:6430/api/game/BaseProduceWorker";
         this.getCoreInfoByIdUrl = "http://localhost:6430/api/game/GetCoreInfoById";
+        this.duelBattleUrl = "http://localhost:6430/api/game/DuelBattle";
+        this.coreBattleUrl = "http://localhost:6430/api/game/CoreBattle";
     }
     SwitchToGame() {
         this.router.navigate(["/game"]);
@@ -1471,6 +1476,37 @@ let GameService = class GameService {
         return this.httpClient
             .get(this.getCoreInfoByIdUrl);
         ;
+    }
+    DuelBattle(coreId) {
+        console.log("GetAllUserInfo");
+        let result;
+        let dataToPost = {
+            WhoWonTheBattle: coreId,
+            Message: ""
+        };
+        this.httpClient.post(this.duelBattleUrl, "2")
+            .subscribe((data) => {
+            console.log("[success] DuelBattle");
+            result = data;
+            console.log(result);
+            //console.log("Battle result: " + result.WhoWonTheBattle + " Message: " + result.Message);
+        }, error => {
+            console.log("[error] DuelBattle: " + error);
+        });
+        return result;
+    }
+    CoreBattle(coreId) {
+        console.log("GetAllUserInfo");
+        let result;
+        this.httpClient.post(this.coreBattleUrl, coreId.toString())
+            .subscribe(data => {
+            console.log("[success] CoreBattle");
+            let cdata = JSON.parse(data);
+            result = cdata;
+        }, error => {
+            console.log("[error] CoreBattle: " + error);
+        });
+        return result;
     }
 };
 GameService.ctorParameters = () => [
@@ -1545,6 +1581,9 @@ let HttpAuthService = class HttpAuthService {
         this.getUsersFollowersUrl = "http://localhost:6430/Auth/UsersFollowersInfo";
         this.getUsersFollowingsUrl = "http://localhost:6430/Auth/UsersFollowingsInfo";
         this.signOutUrl = "http://localhost:6430/Auth/SignOut";
+    }
+    GoToLoginPage() {
+        this.router.navigate(['/login']);
     }
     login(loginPostData) {
         loginPostData.PasswordHash =

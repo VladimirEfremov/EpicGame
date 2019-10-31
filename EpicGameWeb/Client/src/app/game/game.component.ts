@@ -40,48 +40,48 @@ export class GameComponent implements OnInit
   {
     Money: -1,
     CoreId: -1,
-    CoreMapId: -1,
-    BaseLevel: -1,
-    BaseCapacity: -1,
-    BaseHp: -1,
-    BaseAttack: -1,
-    BaseDefence: -1,
-    BaseWorkersCount: -1,
-    BaseType: -1,
-    BaseIncome: -1,
-    BaseOutcome: -1,
-    NumberOfWorkersInBase: -1,
-    Casern:false,
-    GoldMining:false,
-    DefenceTower:false,
-    CasernLevel: -1,
-    CasernCapacity: -1,
-    CasernHp: -1,
-    CasernAttack: -1,
-    CasernDefence: -1,
-    CasernWarriorsCount: -1,
-    CasernAttackAircraftsCount: -1,
-    CasernType: -1,
-    CasernIncome: -1,
-    CasernOutcome: -1,
-    NumberOfWarriors: -1,
-    NumberOfAttackAircraft: -1,
-    DefenceTowerLevel: -1,
-    DefenceTowerCapacity: -1,
-    DefenceTowerHp: -1,
-    DefenceTowerAttack: -1,
-    DefenceTowerDefence: -1,
-    DefenceTowerType: -1,
-    NumberOfDefenceTower: -1,
-    GoldMiningLevel: -1,
-    GoldMiningCapacity: -1,
-    GoldMiningHp: -1,
-    GoldMiningAttack: -1,
-    GoldMiningDefence: -1,
-    GoldMiningType: -1,
-    GoldMiningIncome: -1,
-    GoldMiningOutcome: -1,
-    NumberOfWorkersInGoldMining: -1
+    //CoreMapId: -1,
+    //BaseLevel: -1,
+    //BaseCapacity: -1,
+    //BaseHp: -1,
+    //BaseAttack: -1,
+    //BaseDefence: -1,
+    //BaseWorkersCount: -1,
+    //BaseType: -1,
+    //BaseIncome: -1,
+    //BaseOutcome: -1,
+    //NumberOfWorkersInBase: -1,
+    //Casern:false,
+    //GoldMining:false,
+    //DefenceTower:false,
+    //CasernLevel: -1,
+    //CasernCapacity: -1,
+    //CasernHp: -1,
+    //CasernAttack: -1,
+    //CasernDefence: -1,
+    //CasernWarriorsCount: -1,
+    //CasernAttackAircraftsCount: -1,
+    //CasernType: -1,
+    //CasernIncome: -1,
+    //CasernOutcome: -1,
+    //NumberOfWarriors: -1,
+    //NumberOfAttackAircraft: -1,
+    //DefenceTowerLevel: -1,
+    //DefenceTowerCapacity: -1,
+    //DefenceTowerHp: -1,
+    //DefenceTowerAttack: -1,
+    //DefenceTowerDefence: -1,
+    //DefenceTowerType: -1,
+    //NumberOfDefenceTower: -1,
+    //GoldMiningLevel: -1,
+    //GoldMiningCapacity: -1,
+    //GoldMiningHp: -1,
+    //GoldMiningAttack: -1,
+    //GoldMiningDefence: -1,
+    //GoldMiningType: -1,
+    //GoldMiningIncome: -1,
+    //GoldMiningOutcome: -1,
+    //NumberOfWorkersInGoldMining: -1
   };
 
   //Flags info core
@@ -136,19 +136,9 @@ export class GameComponent implements OnInit
 
   //Communication 
   //0-All, 1-Friends, 2-Followers, 3-Followings
-  numberOfSelectedList:number=-1;
-  numberOfPage:number=0;
+  numberOfSelectedList:number=0;
+  numberOfPage:number=1;
   pageStep:number=4;
-  //list [All, Friends, Followers, Followings]
-  selectedNicknames : string[] = [];
-  all : string[] = ["none1", "none2"];
-  friends : string[] = ["Friend1", "Friend2"];
-  followers : string[] = [
-      "Fol0","Fol1", "Fol2","Fol3","Fol4",
-      "Fol5","Fol6","Fol7","Fol8","Fol9",
-      "Fol10","Fol11","Fol12"
-    ];
-  followings : string[] = ["Followings1", "Followings2"];
   
   //Users stuff
   allUsers:UserInfo[] = [];
@@ -163,6 +153,7 @@ export class GameComponent implements OnInit
 
   isUserActionsWindowVisible = false;
   selectedUser : UserInfo;
+  isSelectedUserFriend:boolean = false;
 
   //Log
   loggedData:Logger = new Logger();
@@ -182,9 +173,13 @@ export class GameComponent implements OnInit
       
       this.GetAccountData();
 
-      //this.coreInfo.Casern=true;
-      //this.coreInfo.GoldMining=true;
-      //this.coreInfo.DefenceTower=true;
+      this.CommunicationsUpdate();
+  }
+
+  OnSignOutBtnClick():void
+  {
+    this.httpAuthService.SignOut();
+    this.httpAuthService.GoToLoginPage();
   }
 
   GetAccountData():void
@@ -198,53 +193,53 @@ export class GameComponent implements OnInit
             " Friends list: " + this.accountData.FriendsList + "]");
             this.httpGameService.GetCoreById()
             .subscribe(
-                data => { 
+                (data:CoreInfo) => { 
                     console.log("[success] GetCoreById " +
                     "{ "+
                     "CoreId:"+ data.CoreId+"\n"+
                     " Money:"+ data.Money+"\n"+
-                    " CoreMapId:"+ data.CoreMapId+"\n"+
-                    " BaseLevel:"+ data.BaseLevel+"\n"+
-                    " BaseCapacity:"+ data.BaseCapacity+"\n"+
-                    " BaseHp:"+ data.BaseHp+"\n"+
-                    " BaseAttack:"+ data.BaseAttack+"\n"+
-                    " BaseDefence:"+ data.BaseDefence+"\n"+
-                    " BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
-                    " BaseType:"+ data.BaseType+"\n"+
-                    " BaseIncome:"+ data.BaseIncome+"\n"+
-                    " BaseOutcome:"+ data.BaseOutcome+"\n"+
-                    " NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
+                    //" CoreMapId:"+ data.CoreMapId+"\n"+
+                    //" BaseLevel:"+ data.BaseLevel+"\n"+
+                    //" BaseCapacity:"+ data.BaseCapacity+"\n"+
+                    //" BaseHp:"+ data.BaseHp+"\n"+
+                    //" BaseAttack:"+ data.BaseAttack+"\n"+
+                    //" BaseDefence:"+ data.BaseDefence+"\n"+
+                    //" BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
+                    //" BaseType:"+ data.BaseType+"\n"+
+                    //" BaseIncome:"+ data.BaseIncome+"\n"+
+                    //" BaseOutcome:"+ data.BaseOutcome+"\n"+
+                    //" NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
                     //" Casern:"+ data.Casern+"\n"+
                     //" GoldMining:"+ data.GoldMining+"\n"+
                     //" DefenceTower:"+ data.DefenceTower+"\n"+
-                    " CasernLevel:"+ data.CasernLevel+"\n"+
-                    " CasernCapacity:"+ data.CasernCapacity+"\n"+
-                    " CasernHp:"+ data.CasernHp+"\n"+
-                    " CasernAttack:"+ data.CasernAttack+"\n"+
-                    " CasernDefence:"+ data.CasernDefence+"\n"+
-                    " CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
-                    " CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
-                    " CasernType:"+ data.CasernWarriorsCount+"\n"+
-                    " CasernIncome:"+ data.CasernIncome+"\n"+
-                    " CasernOutcome:"+ data.CasernOutcome+"\n"+
-                    " NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
-                    " NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
-                    " DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
-                    " DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
-                    " DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
-                    " DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
-                    " DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
-                    " DefenceTowerType:"+ data.DefenceTowerType+"\n"+
-                    " NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
-                    " GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
-                    " GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
-                    " GoldMiningHp:"+ data.GoldMiningHp+"\n"+
-                    " GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
-                    " GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
-                    " GoldMiningType:"+ data.GoldMiningType+"\n"+
-                    " GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
-                    " GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
-                    " NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
+                    //" CasernLevel:"+ data.CasernLevel+"\n"+
+                    //" CasernCapacity:"+ data.CasernCapacity+"\n"+
+                    //" CasernHp:"+ data.CasernHp+"\n"+
+                    //" CasernAttack:"+ data.CasernAttack+"\n"+
+                    //" CasernDefence:"+ data.CasernDefence+"\n"+
+                    //" CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
+                    //" CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
+                    //" CasernType:"+ data.CasernWarriorsCount+"\n"+
+                    //" CasernIncome:"+ data.CasernIncome+"\n"+
+                    //" CasernOutcome:"+ data.CasernOutcome+"\n"+
+                    //" NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
+                    //" NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
+                    //" DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
+                    //" DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
+                    //" DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
+                    //" DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
+                    //" DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
+                    //" DefenceTowerType:"+ data.DefenceTowerType+"\n"+
+                    //" NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
+                    //" GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
+                    //" GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
+                    //" GoldMiningHp:"+ data.GoldMiningHp+"\n"+
+                    //" GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
+                    //" GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
+                    //" GoldMiningType:"+ data.GoldMiningType+"\n"+
+                    //" GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
+                    //" GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
+                    //" NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
                     "}"
                     ); 
                     this.coreInfo = data;
@@ -259,9 +254,13 @@ export class GameComponent implements OnInit
         });
   }
 
-  GetCoreInfo():void
+  CommunicationsUpdate():boolean
   {
-      
+      this.GetAllUsers();
+      this.GetUsersFollowers();
+      this.GetUsersFollowings();
+      this.GetUsersFriends();
+      return true;
   }
 
   GetAllUsers()
@@ -271,6 +270,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get all users");
         this.allUsers = res;
+        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get all users");
@@ -285,6 +285,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user friends");
         this.friendsUsers = res;
+        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user friends");
@@ -299,6 +300,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user followers");
         this.followersUsers = res;
+        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user followers");
@@ -313,6 +315,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user followings");
         this.followingsUsers = res;
+        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user followings");
@@ -390,39 +393,39 @@ export class GameComponent implements OnInit
 
   OnLessBtnClick():void
   {
-      if (this.numberOfPage > 0)
+      if (this.numberOfPage > 1)
       {
         if (this.numberOfSelectedList == 0)
         {
             --this.numberOfPage;
             this.selectedAll = 
             this.allUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage +this.pageStep);
+            .slice((this.pageStep*(this.numberOfPage - 1)),
+                this.pageStep*this.numberOfPage);
         }
         else if (this.numberOfSelectedList == 1)
         {
             --this.numberOfPage;
             this.selectedFriends = 
             this.friendsUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep);
+            .slice(this.pageStep*(this.numberOfPage - 1),
+                this.pageStep*this.numberOfPage);
         }
         else if (this.numberOfSelectedList == 2)
         {
             --this.numberOfPage;
             this.selectedFollowers = 
             this.followersUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep);
+            .slice(this.pageStep*(this.numberOfPage - 1),
+                this.pageStep*this.numberOfPage);
         }
         else if (this.numberOfSelectedList == 3)
         {
             --this.numberOfPage;
             this.selectedFollowings = 
             this.followingsUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep);
+            .slice(this.pageStep*(this.numberOfPage - 1),
+                this.pageStep*this.numberOfPage);
         }
       }
   }
@@ -431,46 +434,46 @@ export class GameComponent implements OnInit
   {
     if (this.numberOfSelectedList == 0)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.allUsers.length)
+        if (this.pageStep*this.numberOfPage < this.allUsers.length)
         {
             ++this.numberOfPage;
             this.selectedAll = 
             this.allUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep-1);
+            .slice(this.pageStep * (this.numberOfPage - 1),
+                  this.pageStep * this.numberOfPage);
         }
     }
     else if (this.numberOfSelectedList == 1)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.friendsUsers.length)
+        if (this.pageStep*this.numberOfPage < this.friendsUsers.length)
         {
             ++this.numberOfPage;
             this.selectedFriends = 
             this.friendsUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep-1);
+            .slice(this.pageStep * (this.numberOfPage - 1),
+            this.pageStep * this.numberOfPage);
         }
     }
     else if (this.numberOfSelectedList == 2)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.followersUsers.length)
+        if (this.pageStep*this.numberOfPage < this.followersUsers.length)
         {
             ++this.numberOfPage;
             this.selectedFollowers = 
             this.followersUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep);
+            .slice(this.pageStep * (this.numberOfPage - 1),
+            this.pageStep * this.numberOfPage);
         }
     }
     else if (this.numberOfSelectedList == 3)
     {
-        if (this.pageStep*(this.numberOfPage+1) < this.followingsUsers.length)
+        if (this.pageStep*this.numberOfPage < this.followingsUsers.length)
         {
             ++this.numberOfPage;
             this.selectedFollowings = 
             this.followingsUsers
-            .slice(this.pageStep*this.numberOfPage,
-                this.pageStep*this.numberOfPage + this.pageStep-1);
+            .slice(this.pageStep * (this.numberOfPage - 1),
+            this.pageStep * this.numberOfPage);
         }
     }
   }
@@ -482,7 +485,7 @@ export class GameComponent implements OnInit
       this.selectedAll = 
         this.allUsers.slice(0, this.pageStep);
       
-      this.numberOfPage = 0;
+      this.numberOfPage = 1;
       this.numberOfSelectedList = 0;
   }
     
@@ -491,10 +494,10 @@ export class GameComponent implements OnInit
       //GetAllFriends
       this.GetUsersFriends();
 
-      this.selectedNicknames = 
-        this.friends.slice(0, this.pageStep);
+      this.selectedFriends = 
+        this.friendsUsers.slice(0, this.pageStep);
 
-      this.numberOfPage = 0;
+      this.numberOfPage = 1;
       this.numberOfSelectedList = 1;
   }
   
@@ -503,10 +506,10 @@ export class GameComponent implements OnInit
       //GetAllFollowers
       this.GetUsersFollowers();
 
-      this.selectedNicknames = 
-        this.followers.slice(0, this.pageStep);
+      this.selectedFollowers = 
+        this.followersUsers.slice(0, this.pageStep);
 
-      this.numberOfPage = 0;
+      this.numberOfPage = 1;
       this.numberOfSelectedList = 2;
   }
   
@@ -515,29 +518,49 @@ export class GameComponent implements OnInit
     //GetAllFollowings
     this.GetUsersFollowings();
 
-    this.selectedNicknames = 
-      this.followings.slice(0, this.pageStep);
+    this.selectedFollowings = 
+      this.followingsUsers.slice(0, this.pageStep);
 
-    this.numberOfPage = 0;
+    this.numberOfPage = 1;
     this.numberOfSelectedList = 3;
   }
 
   OnUserBtnClick(userInfo : UserInfo) : void
   {
-      this.isUserActionsWindowVisible = true;
-      console.log("OnUserBtnClick: " + userInfo.Nickname);
-      this.selectedUser = userInfo;
+    console.log("On user btn click: [selected list: " 
+    + this.numberOfSelectedList 
+    + "]");
+    this.isUserActionsWindowVisible = true;
+    console.log("OnUserBtnClick: " + userInfo.Nickname);
+    this.selectedUser = userInfo;
+    this.isSelectedUserFriend = this.IsUserFriend();
   }
 
-  IsUserFriend(nick:string) : boolean
+  IsUserFriend() : boolean
   {
-      for (var i = 0; i < this.friendsUsers.length; i++)
+      this.CommunicationsUpdate();
+      console.log("[call] IsUserFriend");
+      for (var f = 0; f < this.friendsUsers.length; f++)
       {
-          if (this.friendsUsers[i].Nickname == nick)
+        console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+        if (this.friendsUsers[f].Nickname ===
+          this.selectedUser.Nickname)
           {
+            console.log("[IsUserFriend] true");
             return true;
           }
+        }
+      for (var f = 0; f < this.followingsUsers.length; f++)
+      {
+        console.log(this.followingsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+        if (this.followingsUsers[f].Nickname ===
+          this.selectedUser.Nickname)
+        {
+          console.log("[IsUserFriend] true");
+          return true;
+        }
       }
+      console.log("[IsUserFriend] false");
       return false;
   }
 
@@ -549,6 +572,7 @@ export class GameComponent implements OnInit
     };
     this.httpAuthService.AddUserToFriends(users);
     this.isUserActionsWindowVisible = false;
+    this.CommunicationsUpdate();
   }
   
   RemoveUserFromFriends() : void
@@ -559,20 +583,24 @@ export class GameComponent implements OnInit
     };
     this.httpAuthService.RemoveUserFromFriends(users);
     this.isUserActionsWindowVisible = false;
+    this.CommunicationsUpdate();
     if (this.numberOfSelectedList == 1)
     {
       console.log("this.numberOfSelectedList == 1");
-      this.OnFriendsBtnClick();
+      this.selectedFriends = 
+        this.friendsUsers.slice(0, this.pageStep);
     }
     else if (this.numberOfSelectedList == 2)
     {
       console.log("this.numberOfSelectedList == 2");
-      this.OnFollowersBtnClick();
+      this.selectedFriends = 
+        this.followersUsers.slice(0, this.pageStep);
     }
     else if (this.numberOfSelectedList == 3)
     {
       console.log("this.numberOfSelectedList == 3");
-      this.OnFollowingsBtnClick();
+      this.selectedFriends = 
+        this.followingsUsers.slice(0, this.pageStep);
     }
   }
 
@@ -581,6 +609,20 @@ export class GameComponent implements OnInit
     this.isUserActionsWindowVisible=false;
   }
 
-  
+  OnDuelBattleBtnClick() :void
+  {
+    let result = this
+    .httpGameService
+    .DuelBattle(this.selectedUser.CoreId);
+    console.log(result.Message);
+  }
+
+  OnCoreAttackBtnClick() :void
+  {
+    let result = this
+    .httpGameService
+    .CoreBattle(this.selectedUser.CoreId);
+    console.log(result.Message);
+  }
 
 }

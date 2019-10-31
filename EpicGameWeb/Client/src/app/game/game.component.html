@@ -8,8 +8,14 @@
       </div>
     </td>
     <td>
-    Nickname:{{accountData.Nickname}}
+      <div>
+        Nickname:{{accountData.Nickname}}
+      </div>
+      <div>
+        <button (click)="OnSignOutBtnClick()">Exit</button>
+      </div>
     </td>
+
 </tr>
 
 <tr>
@@ -76,11 +82,11 @@
         <ng-template [ngIf]="IsCasernInfoActivated">
           <td>  
             <div>Hp: {{coreInfo.CasernHp}}</div> 
-            <div>Attack: {{casernInfo.CasernAttack}}</div> 
-            <div>Defence: {{casernInfo.CasernDefence}}</div>
-            <div>Warriors: {{casernInfo.CasernWarriorsCount}}</div>
-            <div>AttackAircraft: {{casernInfo.CasernAttackAircraftsCount}}</div>
-            <div>Type: {{casernInfo.CasernType}}</div>
+            <div>Attack: {{coreInfo.CasernAttack}}</div> 
+            <div>Defence: {{coreInfo.CasernDefence}}</div>
+            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>
+            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>
+            <div>Type: {{coreInfo.CasernType}}</div>
           </td>
           <td>
               <div>Income: {{casernInfo.CasernIncome}}</div> 
@@ -94,27 +100,27 @@
         
         <ng-template [ngIf]="IsDefenceTowerInfoActivated">
             <td>  
-              <div>Hp: {{defenceTowerInfo.DefenceTowerHp}}</div> 
-              <div>Attack: {{defenceTowerInfo.DefenceTowerAttack}}</div> 
-              <div>Defence: {{defenceTowerInfo.DefenceTowerDefence}}</div>
-              <div>Type: {{defenceTowerInfo.DefenceTowerType}}</div>
+              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> 
+              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> 
+              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>
+              <div>Type: {{coreInfo.DefenceTowerType}}</div>
             </td>
             <td>
-                <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> 
-                <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>
+                <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
+                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>
             </td>
           </ng-template>
         
           <ng-template [ngIf]="IsGoldMiningInfoActivated">
               <td>  
-                  <div>Hp: {{goldMiningInfo.GoldMiningHp}}</div> 
-                  <div>Attack: {{goldMiningInfo.GoldMiningAttack}}</div> 
-                  <div>Defence: {{goldMiningInfo.GoldMiningDefence}}</div>
-                  <div>Type: {{goldMiningInfo.GoldMiningType}}</div>
+                  <div>Hp: {{coreInfo.GoldMiningHp}}</div> 
+                  <div>Attack: {{coreInfo.GoldMiningAttack}}</div> 
+                  <div>Defence: {{coreInfo.GoldMiningDefence}}</div>
+                  <div>Type: {{coreInfo.GoldMiningType}}</div>
                 </td>
                 <td>
-                    <div>Income: {{goldMiningInfo.GoldMiningIncome}}</div> 
-                    <div>Outcome: {{goldMiningInfo.GoldMiningOutcome}}</div>
+                    <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
+                    <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>
                 </td>
               <td>
                 <button title="Добавит нового рабочего на производственную линию"
@@ -128,15 +134,24 @@
   
   <td>
     <table class="CommunicationTable">
-      <tr align="center">FriendsList</tr>
+      <tr align="center">
+        <td>
+          <div class="TextInCenter">FriendsList</div>
+        </td>
+        <td>
+          <div>{{numberOfPage}}</div>
+        </td>
+      </tr>
       <tr>
         <td>
-          <button (click)="OnLessBtnClick()">
-            &lt;
-          </button>
-          <button (click)="OnGreaterBtnClick()">
-            &gt;
-          </button>
+          <div>
+            <button (click)="OnLessBtnClick()">
+              &lt;
+            </button>
+            <button (click)="OnGreaterBtnClick()">
+              &gt;
+            </button>
+          </div>
         </td>
       </tr>
       <tr>
@@ -170,7 +185,7 @@
 
               <ng-template ngSwitchCase="1"> 
                   <div *ngFor=
-                  "let user of friendsUsers">
+                  "let user of selectedFriends">
                   <button class="btnList" 
                   (click)="OnUserBtnClick(user)">
                     {{user.Nickname}}
@@ -180,7 +195,7 @@
 
               <ng-template ngSwitchCase="2">
                   <div *ngFor=
-                  "let user of followersUsers">
+                  "let user of selectedFollowers">
                   <button class="btnList" 
                   (click)="OnUserBtnClick(user)">
                     {{user.Nickname}}
@@ -188,9 +203,9 @@
                 </div>
               </ng-template>
 
-              <ng-template ngSwitchDefault>
+              <ng-template ngSwitchCase="3">
                   <div *ngFor=
-                  "let user of followingsUsers">
+                  "let user of selectedFollowings">
                   <button class="btnList" 
                   (click)="OnUserBtnClick(user)">
                     {{user.Nickname}}
@@ -234,42 +249,42 @@
       </div>
       
       
-
-      <br/> 
-       <ng-template ngSwitchCase="0">
-         <ng-template *ngIf="IsUserFriend(); else not">
-           <button class="btnUserAction" 
-           (click)="RemoveUserFromFriends()">
-           Удалить из друзей
-          </button>
+      <div class="btnUserAction">
+        <button (click)="OnDuelBattleBtnClick()">Duel</button>
+        
+        <button (click)="OnCoreAttackBtnClick()">Attack core</button>
+  
+         <ng-template ngSwitchCase="0">
+             <button *ngIf="isSelectedUserFriend"
+              (click)="RemoveUserFromFriends()">
+              Удалить из друзей
+            </button>
+            <button *ngIf="!isSelectedUserFriend"
+              (click)="AddUserToFriends()">
+              Добавить в друзья
+            </button>
         </ng-template>
-        <ng-template #not>
-            <button class="btnUserAction" 
-            (click)="AddUserToFriends()">
-            Добавить в друзья
-           </button>
-        </ng-template>
-       </ng-template>
-
-       <ng-template ngSwitchCase="1"> 
-          <button class="btnUserAction" 
-          (click)="RemoveUserFromFriends()">
-            Удалить из друзей
+  
+         <ng-template ngSwitchCase="1"> 
+            <button 
+            (click)="RemoveUserFromFriends()">
+              Удалить из друзей
+            </button>
+         </ng-template>
+  
+         <ng-template ngSwitchCase="3">
+            <button 
+            (click)="RemoveUserFromFriends()">
+            Отменить подписку
+            </button>
+         </ng-template>
+  
+         <ng-template ngSwitchDefault>
+          <button>
+            Follower?
           </button>
-       </ng-template>
-
-       <ng-template ngSwitchCase="3">
-          <button class="btnUserAction" 
-          (click)="RemoveUserFromFriends()">
-          Отменить подписку
-          </button>
-       </ng-template>
-
-       <ng-template ngSwitchDefault>
-        <button class="btnUserAction">
-          Default
-        </button>
-       </ng-template>
+         </ng-template>
+      </div>
       
     </div>
   </ng-template>

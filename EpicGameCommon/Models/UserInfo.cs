@@ -1,6 +1,6 @@
 ﻿namespace EpicGameCommon
 {
-    public class UserInfo
+    public struct UserInfo
     {
         public string Nickname { get; set; }
         public int UserId { get; set; }

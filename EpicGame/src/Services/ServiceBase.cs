@@ -74,13 +74,13 @@ namespace EpicGame.src.Services
         //USER
         public void AddUserToFriends(string users)
         {
-            TwoUsers twoUsers = users?.FromJson<TwoUsers>();
+            TwoUsers twoUsers = users.FromJson<TwoUsers>();
             m_UserDBHelper.AddUserToFriends(twoUsers.FirstId, twoUsers.SecondId);
         }
 
         public void RemoveUserFromFriends(string users)
         {
-            TwoUsers twoUsers = users?.FromJson<TwoUsers>();
+            TwoUsers twoUsers = users.FromJson<TwoUsers>();
             m_UserDBHelper.RemoveUserFromFriends(twoUsers.FirstId, twoUsers.SecondId);
         }
 
@@ -125,5 +125,20 @@ namespace EpicGame.src.Services
             return m_GameDBHelper.GetCoreInfoById(coreId);
         }
 
+        public string DuelBattle(int attackerCoreId, int defenderCoreId)
+        {
+            var result = m_GameDBHelper
+                .DuelBattle(attackerCoreId, defenderCoreId)
+                .ToJson();
+            return result;
+        }
+
+        public string CoreBattle(int attackerCoreId, int defenderCoreId)
+        {
+            var result = m_GameDBHelper
+                .CoreBattle(attackerCoreId, defenderCoreId)
+                .ToJson();
+            return result;
+        }
     }
 }

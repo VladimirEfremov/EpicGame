@@ -27,17 +27,22 @@ td
     vertical-align: text-top;
 }
 
+.DiactivatedButton
+{
+    background-color: gray;
+}
+
 .CommunicationTable
 {
-    width: 250px;
+    width: 350px;
     height:200px;
     border: 1px solid black;
     margin-right: 5%;
 }
 
-.DiactivatedButton
+.TextInCenter
 {
-    background-color: gray;
+    text-align: center;
 }
 
 .cmnBtn
@@ -47,7 +52,7 @@ td
 
 .btnList
 {
-    width: 100px;
+    width: 150px;
 }
 
 .Logger {
@@ -128,8 +133,7 @@ td
     position: absolute;
     left:40%;
     bottom: 10%;
-    width: 100px;
-    align-self:center;
+    width: 150px;
 }
 
 .CanvasDiv{

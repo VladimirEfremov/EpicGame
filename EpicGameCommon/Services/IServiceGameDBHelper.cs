@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using EpicGameCommon.Response;
+using System.ServiceModel;
 
 namespace EpicGameCommon
 {
@@ -41,5 +42,10 @@ namespace EpicGameCommon
         [OperationContract]
         string GetCoreInfoById(int coreId);
 
+        [OperationContract]
+        string DuelBattle(int attackerCoreId, int defenderCoreId);
+
+        [OperationContract]
+        string CoreBattle(int attackerCoreId, int defenderCoreId);
     }
 }
