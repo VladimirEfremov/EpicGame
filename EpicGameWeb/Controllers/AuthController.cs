@@ -157,5 +157,50 @@ namespace EpicGameWeb.Controllers
             FormsAuthentication.SignOut();
         }
 
+        [HttpGet]
+        public string GetAllUserLogData()
+        {
+            string result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .GetAllUserLogData(UserId);
+            return result;
+        }
+        
+        [HttpGet]
+        public string GetAllUserBattleEvents()
+        {
+            string result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .GetAllUserBattleEvents(UserId);
+            return result;
+        }
+
+        [HttpGet]
+        public string GetAllUserProduceEvents()
+        {
+            string result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .GetAllUserProduceEvents(UserId);
+            return result;
+        }
+
+        [HttpGet]
+        public string GetAllUserCommunicationEvents()
+        {
+            string result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .GetAllUserCommunicationEvents(UserId);
+            return result;
+        }
+
+        [HttpGet]
+        public string UpdateLogData()
+        {
+            string result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .UpdateLogData(UserId);
+            return result;
+        }
+
     }
 }

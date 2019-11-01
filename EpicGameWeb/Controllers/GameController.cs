@@ -49,6 +49,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpPost]
+        [Route("BaseProduceWorker")]
         public void BaseProduceWorker([FromBody]int coreId)
         {
             RemoteProcedureCallClass

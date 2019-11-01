@@ -7,6 +7,7 @@
     using EpicGameCommon;
     using EpicGame.src.Models.User;
     using EpicGame.src.Models.Session;
+    using EpicGame.Game;
 
     class UserDBHelper : System.IDisposable
     {
@@ -259,6 +260,11 @@
         public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
         {
             logger.Info($"user [id: {thisId}] add [id: {idToAdd}] to friends");
+
+            var userToAdd = m_UserContext.UserTable.AsNoTracking()
+                .Where(obj => obj.UserId == idToAdd)
+                .FirstOrDefault();
+
             var arrayFriends = from   friends in m_UserFriendsContext.UserFriendsTable
                                where  friends.UserId   == thisId
                                where  friends.FriendId == idToAdd
@@ -266,7 +272,7 @@
             if (arrayFriends.Count() != 0)
             {
                 //this user already in friend
-                return;
+                EventLogger.AddLogForUser(thisId, $"User [{userToAdd?.Nickname}] already in your friend list");
             }
             else
             {
@@ -311,6 +317,8 @@
                     UserFollowingsContextTrySave();
                     UserFriendsContextTrySave();
                     UserFollowersContextTrySave();
+
+                    EventLogger.AddLogForUser(thisId, $"You add user [{userToAdd?.Nickname}] to friends list");
                 }
                 else
                 {
@@ -321,6 +329,7 @@
                     if (arrayFollowings.Count() != 0)
                     {
                         //логика followings
+                        EventLogger.AddLogForUser(thisId, $"You are following user [{userToAdd?.Nickname}]");
                         return;
                     }
                     else
@@ -341,6 +350,8 @@
 
                         UserFollowingsContextTrySave();
                         UserFollowersContextTrySave();
+
+                        EventLogger.AddLogForUser(thisId, $"User [{userToAdd?.Nickname}] add to your friend list");
                     }
                 }
             }
@@ -358,6 +369,11 @@
                                where friends.UserId == thisId
                                where friends.FriendId == idToRemove
                                select friends;
+
+            var userToRemove = m_UserContext.UserTable.AsNoTracking()
+                .Where(obj => obj.UserId == idToRemove)
+                .FirstOrDefault();
+
             if (arrayFriends.Count() != 0)
             {
                 //friends logic
@@ -397,6 +413,8 @@
                 UserFollowingsContextTrySave();
                 UserFriendsContextTrySave();
                 UserFollowersContextTrySave();
+
+                EventLogger.AddLogForUser(thisId, $"You remove user [{userToRemove?.Nickname}] from friends list");
             }
             else
             {
@@ -407,6 +425,7 @@
                 if (arrayFollowers.Count() != 0)
                 {
                     //логика для follower
+                    EventLogger.AddLogForUser(thisId, $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
                     return;
                 }
                 else
@@ -436,6 +455,8 @@
 
                         UserFollowingsContextTrySave();
                         UserFollowersContextTrySave();
+
+                        EventLogger.AddLogForUser(thisId, $"You stop following user [{userToRemove?.Nickname}]");
                     }
                     else
                     {

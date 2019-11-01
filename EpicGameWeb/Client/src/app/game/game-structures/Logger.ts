@@ -1,6 +1,8 @@
 import {DataToLog} from './DataToLog';
+import {Log} from './Log';
 export class Logger {
     
+    public Data2:Log[] = [];
     public Data:DataToLog[] = [];
     public constructor() {}
   

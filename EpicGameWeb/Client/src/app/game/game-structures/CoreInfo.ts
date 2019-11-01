@@ -13,9 +13,9 @@ export interface CoreInfo
     //BaseIncome: number,
     //BaseOutcome: number,
     //NumberOfWorkersInBase: number,
-    //Casern: boolean,
-    //GoldMining: boolean,
-    //DefenceTower: boolean,
+    Casern: boolean;
+    GoldMining: boolean;
+    DefenceTower: boolean;
     //CasernLevel: number,
     //CasernCapacity: number,
     //CasernHp: number,

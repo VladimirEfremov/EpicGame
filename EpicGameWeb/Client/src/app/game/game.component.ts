@@ -51,9 +51,9 @@ export class GameComponent implements OnInit
     //BaseIncome: -1,
     //BaseOutcome: -1,
     //NumberOfWorkersInBase: -1,
-    //Casern:false,
-    //GoldMining:false,
-    //DefenceTower:false,
+    Casern:false,
+    GoldMining:false,
+    DefenceTower:false,
     //CasernLevel: -1,
     //CasernCapacity: -1,
     //CasernHp: -1,
@@ -174,6 +174,36 @@ export class GameComponent implements OnInit
       this.GetAccountData();
 
       this.CommunicationsUpdate();
+
+      this.coreInfo.Casern = true;
+      this.coreInfo.DefenceTower = true;
+      this.coreInfo.GoldMining = true;
+
+      setInterval(()=>{
+        this.httpGameService
+        .GetAllUserLogData(
+          this.accountData.UserId)
+          .subscribe(
+            data => {
+                console.log("[success] GetAllUserLogData");
+                this.loggedData.Data2 = data;
+                if (this.loggedData.Data2 != null)
+                {
+                  for (var i = 0; i < this.loggedData.Data2.length; i++)
+                  {
+                    console.log("msg: " + this.loggedData.Data2[i].Message);
+                  }
+                }
+            },
+            error => {
+                console.log(
+                    "[error] GetAllUserLogData" 
+                    + error);
+            }
+        );
+        
+      }, 200);
+
   }
 
   OnSignOutBtnClick():void
@@ -270,7 +300,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get all users");
         this.allUsers = res;
-        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
+        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get all users");
@@ -285,7 +315,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user friends");
         this.friendsUsers = res;
-        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
+        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user friends");
@@ -300,7 +330,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user followers");
         this.followersUsers = res;
-        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
+        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user followers");
@@ -315,7 +345,7 @@ export class GameComponent implements OnInit
       res=>{
         console.log("get user followings");
         this.followingsUsers = res;
-        for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
+        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
       },
       err=>{
         console.log("[error] get user followings");
@@ -334,16 +364,19 @@ export class GameComponent implements OnInit
   OnBuildCasernBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится казарма");
+    this.httpGameService.CoreBuildCasern(this.accountData.CoreId);
   }
 
   OnBuildGoldMiningBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится шахта для добывания золото");
+    this.httpGameService.CoreBuildGoldMining(this.accountData.CoreId);
   }
 
   OnBuildDefenceTowerBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится защитное сооружение");
+    this.httpGameService.CoreBuildDefenceTower(this.accountData.CoreId);
   }
 
   OnProduceWorkerBtnClick() : void

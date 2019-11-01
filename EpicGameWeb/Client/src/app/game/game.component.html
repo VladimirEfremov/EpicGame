@@ -293,13 +293,18 @@
 
 <div class="Logger" onload="this.scrollTop = 9999;"> 
     <div class="LoggerContent"
-      *ngFor="let log of loggedData?.Data"
+      *ngFor="let log of loggedData?.Data2"
       >
-      <div [ngSwitch]="log.color">
-          <ng-template ngSwitchCase="1"><div class="LoggerBuildContent">{{log.message}}</div></ng-template>
-          <ng-template ngSwitchCase="2"> <div class="LoggerWarContent">{{log.message}}</div></ng-template>
-          <ng-template ngSwitchCase="3"><div class="LoggerCommunicationContent">{{log.message}}</div></ng-template>
-          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.message}}</div></ng-template>
+      <div [ngSwitch]="log.Type">
+          <ng-template ngSwitchCase="LoggerType.BattleSuccess"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="LoggerType.BattleFailure"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="LoggerType.BattleBeenAttacked"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
+
+          <ng-template ngSwitchCase="LoggerType.ProduceSuccess"> <div class="LoggerBuildContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="LoggerType.ProduceFailure"> <div class="LoggerBuildContent">{{log.Message}}</div></ng-template>
+          
+          <ng-template ngSwitchCase="LoggerType.Communication"><div class="LoggerCommunicationContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}}</div></ng-template>
       </div>
     </div>
   </div>

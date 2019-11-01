@@ -2,6 +2,7 @@
 
 using EpicGameCommon;
 using EpicGame.src.DBHelper;
+using EpicGame.Game;
 
 namespace EpicGame.src.Services
 {
@@ -137,6 +138,52 @@ namespace EpicGame.src.Services
         {
             var result = m_GameDBHelper
                 .CoreBattle(attackerCoreId, defenderCoreId)
+                .ToJson();
+            return result;
+        }
+
+        //Log stuff
+        public string GetAllUserLogData(int userId)
+        {
+            string result = EventLogger
+                .GetAllUserLogData(
+                    new LogRequest() { UserId = userId })
+                .ToJson();
+            return result;
+        }
+
+        public string GetAllUserBattleEvents(int userId)
+        {
+            string result = EventLogger
+                .GetAllUserBattleEvents(
+                    new LogRequest() { UserId = userId })
+                .ToJson();
+            return result;
+        }
+
+        public string GetAllUserProduceEvents(int userId)
+        {
+            string result = EventLogger
+                .GetAllUserProduceEvents(
+                    new LogRequest() { UserId = userId })
+                .ToJson();
+            return result;
+        }
+
+        public string GetAllUserCommunicationEvents(int userId)
+        {
+            string result = EventLogger
+                .GetAllUserCommunicationEvents(
+                    new LogRequest() { UserId = userId })
+                .ToJson();
+            return result;
+        }
+
+        public string UpdateLogData(int userId)
+        {
+            string result = EventLogger
+                .UpdateLogData(
+                    new LogRequest() { UserId = userId })
                 .ToJson();
             return result;
         }

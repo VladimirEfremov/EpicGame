@@ -206,26 +206,38 @@
             {
                 if (@base.WorkersNumber > 0)
                 {
-                    --@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
-                    while (seconds < 1 * 60)
+                    if (m_SessionCasernsEntity
+                        .SessionCasernsTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .ToArray().Length == 0)
                     {
-                        Thread.Sleep(1000);
-                        seconds++;
-                    }
-                    m_SessionCasernsEntity.SessionCasernsTable.Add(
-                        new SessionCasernsTable()
+                        --@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+                        while (seconds < 1 * 60)
                         {
-                            SessionCoreId = coreId,
-                            WarriorsNumber = 0,
-                            BuildingLevel = 1,
-                            AttackAircraftNumber = 0,
-                            CapacityUpgrade = 0,
-                            UniqueUpgrade = 0
-                        });
-                    m_SessionCasernsEntity.SaveChanges();
-                    ++@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
+                            Thread.Sleep(1000);
+                            seconds++;
+                        }
+                        m_SessionCasernsEntity.SessionCasernsTable.Add(
+                            new SessionCasernsTable()
+                            {
+                                SessionCoreId = coreId,
+                                WarriorsNumber = 0,
+                                BuildingLevel = 1,
+                                AttackAircraftNumber = 0,
+                                CapacityUpgrade = 0,
+                                UniqueUpgrade = 0
+                            });
+                        m_SessionCasernsEntity.SaveChanges();
+                        ++@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+
+                        logger.Info("[call] CoreBuildCasern");
+                    }
+                    else
+                    {
+                        logger.Warn($"Casern already build for core [coreId: {coreId}]");
+                    }
                 }
             }
             else
@@ -245,26 +257,38 @@
             {
                 if (@base.WorkersNumber > 0)
                 {
-                    --@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
-                    while (seconds < 1 * 60)
+                    if (m_SessionGoldMiningsEntity
+                        .SessionGoldMiningsTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .ToArray().Length == 0)
                     {
-                        Thread.Sleep(1000);
-                        seconds++;
-                    }
-                    m_SessionGoldMiningsEntity
-                        .SessionGoldMiningsTable.Add(
-                        new SessionGoldMiningsTable()
+                        --@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+                        while (seconds < 1 * 60)
                         {
-                            SessionCoreId = coreId,
-                            WorkersNumber = 0,
-                            BuildingLevel = 1,
-                            CapacityUpgrade = 0,
-                            UniqueUpgrade = 0
-                        });
-                    m_SessionGoldMiningsEntity.SaveChanges();
-                    ++@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
+                            Thread.Sleep(1000);
+                            seconds++;
+                        }
+                        m_SessionGoldMiningsEntity
+                            .SessionGoldMiningsTable.Add(
+                            new SessionGoldMiningsTable()
+                            {
+                                SessionCoreId = coreId,
+                                WorkersNumber = 0,
+                                BuildingLevel = 1,
+                                CapacityUpgrade = 0,
+                                UniqueUpgrade = 0
+                            });
+                        m_SessionGoldMiningsEntity.SaveChanges();
+                        ++@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+
+                        logger.Info("[call] CoreBuildGoldMining");
+                    }
+                    else
+                    {
+                        logger.Warn($"GoldMining already build for core [coreId: {coreId}]");
+                    }
                 }
             }
             else
@@ -284,26 +308,38 @@
             {
                 if (@base.WorkersNumber > 0)
                 {
-                    --@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
-                    while (seconds < 1 * 60)
+                    if (m_SessionDefenceTowersEntity
+                        .SessionDefenceTowersTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .ToArray().Length == 0)
                     {
-                        Thread.Sleep(1000);
-                        seconds++;
-                    }
-                    m_SessionDefenceTowersEntity
-                        .SessionDefenceTowersTable.Add(
-                        new SessionDefenceTowersTable()
+                        --@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+                        while (seconds < 1 * 1)
                         {
-                            SessionCoreId = coreId,
-                            BuildingLevel = 1,
-                            AttackUpgrade = 0,
-                            DefenceUpgrade = 0,
-                            UniqueUpgrade = 0
-                        });
-                    m_SessionDefenceTowersEntity.SaveChanges();
-                    ++@base.WorkersNumber;
-                    m_SessionBasesEntity.SaveChanges();
+                            Thread.Sleep(1000);
+                            seconds++;
+                        }
+                        m_SessionDefenceTowersEntity
+                            .SessionDefenceTowersTable.Add(
+                            new SessionDefenceTowersTable()
+                            {
+                                SessionCoreId = coreId,
+                                BuildingLevel = 1,
+                                AttackUpgrade = 0,
+                                DefenceUpgrade = 0,
+                                UniqueUpgrade = 0
+                            });
+                        m_SessionDefenceTowersEntity.SaveChanges();
+                        ++@base.WorkersNumber;
+                        m_SessionBasesEntity.SaveChanges();
+
+                        logger.Info("[call] CoreBuildDefenceTower");
+                    }
+                    else
+                    {
+                        logger.Warn($"DefenceTower already build for core [coreId: {coreId}]");
+                    }
                 }
             }
             else
@@ -328,13 +364,19 @@
                     .FirstOrDefault();
                 if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * baseBuilding.Capacity)
                 {
-                    while (seconds < 1 * 1)
+                    while (seconds < 1 * 60)
                     {
                         Thread.Sleep(1000);
                         seconds++;
                     }
                     ++@base.WorkersNumber;
                     m_SessionBasesEntity.SaveChanges();
+
+                    logger.Info("[call] BaseProduceWorker");
+                }
+                else
+                {
+                    logger.Warn($"Workers capacity limit exceeded for core !!! [coreId: {coreId}]");
                 }
             }
             else
@@ -366,6 +408,12 @@
                     }
                     ++casern.WarriorsNumber;
                     m_SessionCasernsEntity.SaveChanges();
+
+                    logger.Info("[call] CasernProduceWarrior");
+                }
+                else
+                {
+                    logger.Warn($"Warriors capacity limit exceeded for core !!! [coreId: {coreId}]");
                 }
             }
             else
@@ -397,6 +445,12 @@
                     }
                     ++casern.AttackAircraftNumber;
                     m_SessionCasernsEntity.SaveChanges();
+
+                    logger.Info("[call] CasernProduceAttackAircraft");
+                }
+                else
+                {
+                    logger.Warn($"AttackAircraft capacity limit exceeded for core !!! [coreId: {coreId}]");
                 }
             }
             else
@@ -428,7 +482,7 @@
                     if (goldMining.WorkersNumber < goldMiningBuilding.Capacity)
                     {
                         --@base.WorkersNumber;
-                        while (seconds < 1 * 15)
+                        while (seconds < 1 * 1)
                         {
                             Thread.Sleep(1000);
                             seconds++;
@@ -436,6 +490,8 @@
                         ++goldMining.WorkersNumber;
                         m_SessionGoldMiningsEntity.SaveChanges();
                         m_SessionBasesEntity.SaveChanges();
+
+                        logger.Info("[call] GoldMiningAddWorker");
                     }
                     else
                     {
@@ -600,12 +656,14 @@
 
         public string GetAllCores()
         {
+            logger.Info("[call] GetAllCores");
             return m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                 .ToList().ToJson();
         }
 
         public string GetCoreByUserId(int userId)
         {
+            logger.Info("[call] GetCoreByUserId");
             return m_SessionCoreEntity.SessionCoresTable
                 .AsNoTracking()
                 .Where(obj => obj.UserId == userId)
@@ -615,6 +673,7 @@
 
         public string GetCoreById(int coreId)
         {
+            logger.Info("[call] GetCoreById");
             return m_SessionCoreEntity
                 .SessionCoresTable
                 .Where(obj => obj.SessionCoreId == coreId)

@@ -420,6 +420,8 @@ namespace EpicGame
 
             Uri address = new Uri("http://127.0.0.1:2001/IServiceBase");
             BasicHttpBinding binding = new BasicHttpBinding();
+            binding.SendTimeout = new TimeSpan(0, 15, 0);
+            binding.ReceiveTimeout = new TimeSpan(0, 15, 0);
             Type contract = typeof(IServiceBase);
             using (ServiceHost host = new ServiceHost(typeof(ServiceBase)))
             {
