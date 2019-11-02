@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } 
+from '@angular/core';
 
 export class Map {
     canvas;
@@ -12,13 +13,37 @@ export class Map {
     xoff:number = 0;
     yoff:number = 0;
 
+    canvasRect : ClientRect;
+    mouseX:number;
+    mouseY:number;
+
     public Init():void
     {
         this.canvas = document
             .getElementById('map');
         this.context = this.canvas.getContext('2d');
         this.width = this.canvas.width; 
-        this.height = this.canvas.height; 
+        this.height = this.canvas.height;
+
+        this.canvasRect = document
+                .getElementById('map')
+                .getBoundingClientRect();
+
+        console.log("" + this.canvasRect.bottom);
+        this.canvas
+            .addEventListener(
+                'mousemove', function(event) {
+                    let rect: ClientRect = 
+                            document
+                            .getElementById('map')
+                            .getBoundingClientRect();
+                    this.mouseX = 
+                        event.clientX - rect.left;
+                    this.mouseY = 
+                        event.clientY - rect.top;
+                    console.log("x: " + this.mouseX + 
+                        "y: " + this.mouseY);
+                }, false);
 
         //нужно качать изображение с сервера
         //this.spaceShipSprite = new Image();
@@ -55,7 +80,10 @@ export class Map {
         console.log("Draw");
 
         this.context.fillStyle = "red";
-        this.DrawCircle(200,200, 50, "yellow");
+        this.DrawCircle(
+            (this.canvasRect.right - this.canvasRect.left) / 2,
+            (this.canvasRect.bottom - this.canvasRect.top) / 2,
+             50, "yellow");
 
         if (this.x > 100)
         {

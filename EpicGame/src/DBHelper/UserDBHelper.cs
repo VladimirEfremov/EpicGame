@@ -272,7 +272,9 @@
             if (arrayFriends.Count() != 0)
             {
                 //this user already in friend
-                EventLogger.AddLogForUser(thisId, $"User [{userToAdd?.Nickname}] already in your friend list");
+                EventLogger.AddLogForUser(thisId, 
+                    LogType.Communication,
+                    $"User [{userToAdd?.Nickname}] already in your friend list");
             }
             else
             {
@@ -318,7 +320,9 @@
                     UserFriendsContextTrySave();
                     UserFollowersContextTrySave();
 
-                    EventLogger.AddLogForUser(thisId, $"You add user [{userToAdd?.Nickname}] to friends list");
+                    EventLogger.AddLogForUser(thisId,
+                        LogType.Communication,
+                        $"You add user [{userToAdd?.Nickname}] to friends list");
                 }
                 else
                 {
@@ -329,7 +333,9 @@
                     if (arrayFollowings.Count() != 0)
                     {
                         //логика followings
-                        EventLogger.AddLogForUser(thisId, $"You are following user [{userToAdd?.Nickname}]");
+                        EventLogger.AddLogForUser(thisId,
+                            LogType.Communication,
+                            $"You are following user [{userToAdd?.Nickname}]");
                         return;
                     }
                     else
@@ -351,7 +357,9 @@
                         UserFollowingsContextTrySave();
                         UserFollowersContextTrySave();
 
-                        EventLogger.AddLogForUser(thisId, $"User [{userToAdd?.Nickname}] add to your friend list");
+                        EventLogger.AddLogForUser(thisId,
+                            LogType.Communication,
+                            $"User [{userToAdd?.Nickname}] add to your friend list");
                     }
                 }
             }
@@ -414,7 +422,9 @@
                 UserFriendsContextTrySave();
                 UserFollowersContextTrySave();
 
-                EventLogger.AddLogForUser(thisId, $"You remove user [{userToRemove?.Nickname}] from friends list");
+                EventLogger.AddLogForUser(thisId,
+                    LogType.Communication,
+                    $"You remove user [{userToRemove?.Nickname}] from friends list");
             }
             else
             {
@@ -425,7 +435,9 @@
                 if (arrayFollowers.Count() != 0)
                 {
                     //логика для follower
-                    EventLogger.AddLogForUser(thisId, $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
+                    EventLogger.AddLogForUser(thisId,
+                        LogType.Communication,
+                        $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
                     return;
                 }
                 else
@@ -456,7 +468,9 @@
                         UserFollowingsContextTrySave();
                         UserFollowersContextTrySave();
 
-                        EventLogger.AddLogForUser(thisId, $"You stop following user [{userToRemove?.Nickname}]");
+                        EventLogger.AddLogForUser(thisId,
+                            LogType.Communication,
+                            $"You stop following user [{userToRemove?.Nickname}]");
                     }
                     else
                     {

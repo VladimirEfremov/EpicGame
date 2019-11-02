@@ -179,8 +179,7 @@ export class GameComponent implements OnInit
       this.coreInfo.DefenceTower = true;
       this.coreInfo.GoldMining = true;
 
-      setInterval(()=>{
-        this.httpGameService
+      this.httpGameService
         .GetAllUserLogData(
           this.accountData.UserId)
           .subscribe(
@@ -194,6 +193,9 @@ export class GameComponent implements OnInit
                     console.log("msg: " + this.loggedData.Data2[i].Message);
                   }
                 }
+                else {
+                  this.loggedData.Data2 = [];
+                }
             },
             error => {
                 console.log(
@@ -201,8 +203,47 @@ export class GameComponent implements OnInit
                     + error);
             }
         );
-        
-      }, 200);
+
+      setInterval(
+        ()=>{
+          this.httpGameService.IsLogUpdated(this.accountData.UserId)
+            .subscribe(
+              data => {
+                if (data == 1)
+                {
+                  console.log("[success] log is updated");
+                  this.httpGameService
+                  .UpdateLogData(
+                    this.accountData.UserId)
+                    .subscribe(
+                      data2 => {
+                          //console.log("[success] UpdateLogData");
+                          if (this.loggedData.Data2 == null)
+                          {
+                            this.loggedData.Data2 = [];
+                          }
+
+                          if (data2 != null)
+                          {
+                            console.log("data2 length");
+                            let update_length:number = data2.length;
+                            for (var i = 0; i < (update_length); i++)
+                            {
+                              let temp = data2.pop();
+                              console.log("data2 push: " + temp.Id);
+                              this.loggedData.Data2.push(temp);
+                            }
+                          }
+                          else{
+                            console.log("data2 is null");
+                          }
+                      }, error => { console.log("[error] UpdateLogData" + error); }
+                      );
+                }
+              }, error => { console.log("[error] IsLogUpdated" + error); }
+          );
+         
+      }, 500);
 
   }
 

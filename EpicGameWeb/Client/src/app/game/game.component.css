@@ -92,6 +92,11 @@ td
     color: #09ff00;
 }
 
+.LoggerTime{
+    position: relative;
+    right: 5px;
+}
+
 .RoundedExitBtnBox{
     display: flex;
 }
@@ -143,6 +148,5 @@ td
 }
 
 #map{
-
     border:1px solid black;
 }

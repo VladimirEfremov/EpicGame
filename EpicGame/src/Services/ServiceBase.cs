@@ -187,5 +187,12 @@ namespace EpicGame.src.Services
                 .ToJson();
             return result;
         }
+
+        public bool IsLogUpdated(int userId)
+        {
+            bool result = EventLogger
+                .IsLogUpdated(userId);
+            return result;
+        }
     }
 }

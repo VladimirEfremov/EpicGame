@@ -202,5 +202,14 @@ namespace EpicGameWeb.Controllers
             return result;
         }
 
+        [HttpGet]
+        public int IsLogUpdated()
+        {
+            bool result = RemoteProcedureCallClass
+                .GetBaseChannel()
+                .IsLogUpdated(UserId);
+            return (result ? 1 : 0);
+        }
+
     }
 }

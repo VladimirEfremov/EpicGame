@@ -9,7 +9,7 @@ namespace EpicGame.Game
 
     public enum LogType
     {
-        None, 
+        None = 0, 
         BattleSuccess, BattleFailure, BattleBeenAttacked,
         ProduceSuccess, ProduceFailure,
         Communication
@@ -26,7 +26,6 @@ namespace EpicGame.Game
     public struct LogRequest
     {
         public int UserId { get; set; }
-        public int LastClientLogId { get; set; }
     }
 
     public struct LogResponse
@@ -37,17 +36,41 @@ namespace EpicGame.Game
 
     public static class EventLogger
     {
+
+        private struct UpdateLog
+        {
+            public bool IsUpdated { get; set; }
+            public int LastClientLogId { get; set; }
+        }
+
         private static Dictionary<int, List<Log>> s_LogData;
+        private static Dictionary<int, UpdateLog> s_UpdateFlags;
         public static int s_NextLogId { get; private set; }
         static EventLogger()
         {
             s_LogData = new Dictionary<int, List<Log>>();
+            s_UpdateFlags = new Dictionary<int, UpdateLog>();
+        }
+
+        public static bool IsLogUpdated(int userId)
+        {
+            if (s_UpdateFlags.ContainsKey(userId))
+            {
+                return s_UpdateFlags[userId].IsUpdated;
+            }
+            return false;
         }
 
         public static Log[] GetAllUserLogData(LogRequest request)
         {
             if (s_LogData.ContainsKey(request.UserId))
             {
+                if (s_UpdateFlags.ContainsKey(request.UserId))
+                {
+                    s_UpdateFlags[request.UserId] = new UpdateLog { IsUpdated = false, 
+                        LastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId
+                    };
+                }
                 return s_LogData[request.UserId].ToArray();
             }
             return null;
@@ -63,6 +86,14 @@ namespace EpicGame.Game
                         (obj.Type == LogType.BattleFailure) ||
                         (obj.Type == LogType.BattleSuccess))
                     .ToArray();
+                if (s_UpdateFlags.ContainsKey(request.UserId))
+                {
+                    s_UpdateFlags[request.UserId] = new UpdateLog
+                    {
+                        IsUpdated = false,
+                        LastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId
+                    };
+                }
                 return result;
             }
             return null;
@@ -77,6 +108,14 @@ namespace EpicGame.Game
                         (obj.Type == LogType.ProduceFailure) ||
                         (obj.Type == LogType.ProduceSuccess))
                     .ToArray();
+                if (s_UpdateFlags.ContainsKey(request.UserId))
+                {
+                    s_UpdateFlags[request.UserId] = new UpdateLog
+                    {
+                        IsUpdated = false,
+                        LastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId
+                    };
+                }
                 return result;
             }
             return null;
@@ -89,6 +128,14 @@ namespace EpicGame.Game
                 var result = s_LogData[request.UserId]
                     .Where(obj => (obj.Type == LogType.Communication))
                     .ToArray();
+                if (s_UpdateFlags.ContainsKey(request.UserId))
+                {
+                    s_UpdateFlags[request.UserId] = new UpdateLog
+                    {
+                        IsUpdated = false,
+                        LastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId
+                    };
+                }
                 return result;
             }
             return null;
@@ -99,29 +146,76 @@ namespace EpicGame.Game
             if (s_LogData.ContainsKey(request.UserId))
             {
                 var result = s_LogData[request.UserId]
-                    .Where(obj => obj.Id > request.LastClientLogId)
+                    .Where(obj => obj.Id > s_UpdateFlags[request.UserId].LastClientLogId)
                     .ToArray();
+                int lastId = result[0].Id;
+                if (result != null)
+                {
+                    for (int i = 1; i < result.Length; i++)
+                    {
+                        if (result[i].Id > lastId)
+                        {
+                            lastId = result[i].Id;
+                        }
+                    }
+                }
+
+                if (s_UpdateFlags.ContainsKey(request.UserId))
+                {
+                    s_UpdateFlags[request.UserId] = new UpdateLog
+                    {
+                        IsUpdated = false,
+                        LastClientLogId = lastId
+                    };
+                }
+
                 return result;
             }
             return null;
         }
 
-        public static void AddLogForUser(int userId, string message)
+        public static void AddLogForUser(int userId, LogType type, string message)
         {
             var log = new Log();
             log.Id = s_NextLogId;
             log.Message = message;
             log.Time = DateTime.Now.ToShortTimeString();
+            log.Type = type;
 
+            if (s_UpdateFlags.ContainsKey(userId))
+            {
+                s_UpdateFlags[userId] = new UpdateLog
+                {
+                    IsUpdated = true,
+                    LastClientLogId = s_UpdateFlags[userId].LastClientLogId
+                };
+            }
+            else
+            {
+                s_UpdateFlags.Add(userId, new UpdateLog
+                {
+                    IsUpdated = false,
+                    LastClientLogId = 0
+                });
+            }
+            
             if (s_LogData.ContainsKey(userId))
             {
                 s_LogData[userId].Add(log);
+                if (s_NextLogId > 2_000_000_000)
+                {
+                    s_NextLogId = 0;
+                }
                 ++s_NextLogId;
             }
             else 
             {
                 var list = new List<Log>() { log };
                 s_LogData.Add(userId, list);
+                if (s_NextLogId > 2_000_000_000)
+                {
+                    s_NextLogId = 0;
+                }
                 ++s_NextLogId;
             }
         }

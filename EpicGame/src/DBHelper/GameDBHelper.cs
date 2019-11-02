@@ -10,24 +10,28 @@
     using EpicGame.src.Models.Game;
     using EpicGame.src.Models.Session;
     using EpicGameCommon.Response;
+    using EpicGame.Game;
+    using EpicGame.src.Models.User;
 
     class GameDBHelper : System.IDisposable
     {
         public bool NeedDispose { get; set; } = false;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private readonly GameUnitsEntity m_GameUnitsEntity = new GameUnitsEntity();
-        private readonly GameUnitsTypeEntity m_GameUnitsTypeEntity = new GameUnitsTypeEntity();
-        private readonly GameBuildingsEntity m_GameBuildingsEntity = new GameBuildingsEntity();
-        private readonly GameBuildingTypeEntity m_GameBuildingsTypeEntity = new GameBuildingTypeEntity();
-        private readonly GameBuildingProductionEntity m_GameBuildingProductionEntity = new GameBuildingProductionEntity();
+        private UserEntity m_UserContext = new UserEntity();
 
-        private static readonly SessionMapEntity m_SessionMapEntity = new SessionMapEntity();
-        private static readonly SessionCoresEntity m_SessionCoreEntity = new SessionCoresEntity();
-        private static readonly SessionBasesEntity m_SessionBasesEntity = new SessionBasesEntity();
-        private static readonly SessionCasernsEntity m_SessionCasernsEntity = new SessionCasernsEntity();
-        private static readonly SessionGoldMiningsEntity m_SessionGoldMiningsEntity = new SessionGoldMiningsEntity();
-        private static readonly SessionDefenceTowersEntity m_SessionDefenceTowersEntity = new SessionDefenceTowersEntity();
+        private GameUnitsEntity m_GameUnitsEntity = new GameUnitsEntity();
+        private GameUnitsTypeEntity m_GameUnitsTypeEntity = new GameUnitsTypeEntity();
+        private GameBuildingsEntity m_GameBuildingsEntity = new GameBuildingsEntity();
+        private GameBuildingTypeEntity m_GameBuildingsTypeEntity = new GameBuildingTypeEntity();
+        private GameBuildingProductionEntity m_GameBuildingProductionEntity = new GameBuildingProductionEntity();
+
+        private static SessionMapEntity m_SessionMapEntity = new SessionMapEntity();
+        private static SessionCoresEntity m_SessionCoreEntity = new SessionCoresEntity();
+        private static SessionBasesEntity m_SessionBasesEntity = new SessionBasesEntity();
+        private static SessionCasernsEntity m_SessionCasernsEntity = new SessionCasernsEntity();
+        private static SessionGoldMiningsEntity m_SessionGoldMiningsEntity = new SessionGoldMiningsEntity();
+        private static SessionDefenceTowersEntity m_SessionDefenceTowersEntity = new SessionDefenceTowersEntity();
 
 
         public GameDBHelper()
@@ -42,6 +46,8 @@
             {
                 logger.Warn("Disposing context.".ToUpper());
                 NLog.LogManager.Shutdown();
+
+                m_UserContext.Dispose();
 
                 m_GameUnitsEntity.Dispose();
                 m_GameUnitsTypeEntity.Dispose();
@@ -209,7 +215,7 @@
                     if (m_SessionCasernsEntity
                         .SessionCasernsTable.AsNoTracking()
                         .Where(obj => obj.SessionCoreId == coreId)
-                        .ToArray().Length == 0)
+                        .FirstOrDefault() == null)
                     {
                         --@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
@@ -233,10 +239,30 @@
                         m_SessionBasesEntity.SaveChanges();
 
                         logger.Info("[call] CoreBuildCasern");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceSuccess,
+                            $"Build casern for core [{nick}]");
                     }
                     else
                     {
                         logger.Warn($"Casern already build for core [coreId: {coreId}]");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceFailure,
+                           $"Casern already build for core [{nick}]");
                     }
                 }
             }
@@ -260,7 +286,7 @@
                     if (m_SessionGoldMiningsEntity
                         .SessionGoldMiningsTable.AsNoTracking()
                         .Where(obj => obj.SessionCoreId == coreId)
-                        .ToArray().Length == 0)
+                        .FirstOrDefault() == null)
                     {
                         --@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
@@ -284,10 +310,30 @@
                         m_SessionBasesEntity.SaveChanges();
 
                         logger.Info("[call] CoreBuildGoldMining");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceSuccess,
+                            $"Build gold mining for core [{nick}]");
                     }
                     else
                     {
                         logger.Warn($"GoldMining already build for core [coreId: {coreId}]");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceFailure,
+                           $"Gold mining already build for core [{nick}]");
                     }
                 }
             }
@@ -335,10 +381,30 @@
                         m_SessionBasesEntity.SaveChanges();
 
                         logger.Info("[call] CoreBuildDefenceTower");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceSuccess,
+                            $"Build defence tower for core [{nick}]");
                     }
                     else
                     {
                         logger.Warn($"DefenceTower already build for core [coreId: {coreId}]");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                           LogType.ProduceFailure,
+                           $"Defence tower already build for core [{nick}]");
                     }
                 }
             }
@@ -373,10 +439,31 @@
                     m_SessionBasesEntity.SaveChanges();
 
                     logger.Info("[call] BaseProduceWorker");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceSuccess,
+                        $"Produce new worker [{nick}] |{@base.WorkersNumber}|");
                 }
                 else
                 {
                     logger.Warn($"Workers capacity limit exceeded for core !!! [coreId: {coreId}]");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceFailure,
+                        $"Workers capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
                 }
             }
             else
@@ -410,10 +497,30 @@
                     m_SessionCasernsEntity.SaveChanges();
 
                     logger.Info("[call] CasernProduceWarrior");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceSuccess,
+                        $"Produce new warrior [{nick}] |{casern.WarriorsNumber}|");
                 }
                 else
                 {
                     logger.Warn($"Warriors capacity limit exceeded for core !!! [coreId: {coreId}]");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceFailure,
+                        $"Warriors capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
                 }
             }
             else
@@ -447,10 +554,30 @@
                     m_SessionCasernsEntity.SaveChanges();
 
                     logger.Info("[call] CasernProduceAttackAircraft");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceSuccess,
+                       $"Produce new attack aircraft [{nick}] |{casern.AttackAircraftNumber}|");
                 }
                 else
                 {
                     logger.Warn($"AttackAircraft capacity limit exceeded for core !!! [coreId: {coreId}]");
+
+                    int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                    string nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == userId)
+                        .FirstOrDefault()?.Nickname;
+                    EventLogger.AddLogForUser(userId,
+                        LogType.ProduceFailure,
+                       $"AttackAircraft capacity limit exceeded for core !!! [nick: {nick}] |{casern.AttackAircraftNumber}|");
                 }
             }
             else
@@ -492,10 +619,30 @@
                         m_SessionBasesEntity.SaveChanges();
 
                         logger.Info("[call] GoldMiningAddWorker");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                            LogType.ProduceSuccess,
+                            $"Add new worker to gold mining [{nick}] |{goldMining.WorkersNumber}|");
                     }
                     else
                     {
                         logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
+
+                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                        .Where(obj => obj.SessionCoreId == coreId)
+                        .FirstOrDefault().UserId;
+                        string nick = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == userId)
+                            .FirstOrDefault()?.Nickname;
+                        EventLogger.AddLogForUser(userId,
+                           LogType.ProduceFailure,
+                           $"Gold mining capacity exceeded [{nick}] |{goldMining.WorkersNumber}|");
                     }
                 }
                 else

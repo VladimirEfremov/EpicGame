@@ -57,6 +57,8 @@ export class GameService
     updateLogDataUrl: string =
         "http://localhost:6430/Auth/UpdateLogData"; 
 
+    isLogUpdatedUrl: string = 
+        "http://localhost:6430/Auth/IsLogUpdated"
 
     constructor(
         private httpClient: HttpClient,
@@ -211,80 +213,29 @@ export class GameService
         return this.httpClient.get<Log[]>(this.getAllUserLogDataUrl);
     }
 
-    public GetAllUserBattleEvents(userId:number) : Log[]
+    public GetAllUserBattleEvents(userId:number) : Observable<Log[]>
     {
-        let result;
-        this.httpClient.get<Log[]>(
-            this.getAllUserBattleEventsUrl)
-            .subscribe(
-                data => {
-                    console.log("[success] GetAllUserBattleEvents");
-                    result = data;
-                },
-                error => {
-                    console.log(
-                        "[error] GetAllUserBattleEvents" 
-                        + error);
-                }
-            );
-        return result;
+        return this.httpClient.get<Log[]>(this.getAllUserBattleEventsUrl);;
     }
 
-    public GetAllUserProduceEvents(userId:number) : Log[]
+    public GetAllUserProduceEvents(userId:number) : Observable<Log[]>
     {
-        let result;
-        this.httpClient.get<Log[]>(
-            this.getAllUserProduceEventsUrl)
-            .subscribe(
-                data => {
-                    console.log("[success] GetAllUserProduceEvents");
-                    result = data;
-                },
-                error => {
-                    console.log(
-                        "[error] GetAllUserProduceEvents" 
-                        + error);
-                }
-            );
-        return result;
+        return this.httpClient.get<Log[]>(this.getAllUserProduceEventsUrl);
     }
 
-    public GetAllUserCommunicationEvents(userId:number) : Log[]
+    public GetAllUserCommunicationEvents(userId:number) : Observable<Log[]>
     {
-        let result;
-        this.httpClient.get<Log[]>(
-            this.getAllUserCommunicationEventsUrl)
-            .subscribe(
-                data => {
-                    console.log("[success] GetAllUserCommunicationEvents");
-                    result = data;
-                },
-                error => {
-                    console.log(
-                        "[error] GetAllUserCommunicationEvents" 
-                        + error);
-                }
-            );
-        return result;
+        return this.httpClient.get<Log[]>(this.getAllUserCommunicationEventsUrl);;
     }
 
-    public UpdateLogData(userId:number) : Log[]
+    public UpdateLogData(userId:number) : Observable<Log[]>
     {
-        let result;
-        this.httpClient.get<Log[]>(
-            this.updateLogDataUrl)
-            .subscribe(
-                data => {
-                    console.log("[success] UpdateLogData");
-                    result = data;
-                },
-                error => {
-                    console.log(
-                        "[error] UpdateLogData" 
-                        + error);
-                }
-            );
-        return result;
+        return this.httpClient.get<Log[]>(this.updateLogDataUrl);
+    }
+
+    public IsLogUpdated(userId:number) : Observable<number>
+    {
+        return this.httpClient.get<number>(this.isLogUpdatedUrl);
     }
 
 }

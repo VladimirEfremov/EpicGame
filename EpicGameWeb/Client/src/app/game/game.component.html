@@ -296,15 +296,15 @@
       *ngFor="let log of loggedData?.Data2"
       >
       <div [ngSwitch]="log.Type">
-          <ng-template ngSwitchCase="LoggerType.BattleSuccess"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
-          <ng-template ngSwitchCase="LoggerType.BattleFailure"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
-          <ng-template ngSwitchCase="LoggerType.BattleBeenAttacked"><div class="LoggerWarContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="1"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+          <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+          <ng-template ngSwitchCase="3"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
 
-          <ng-template ngSwitchCase="LoggerType.ProduceSuccess"> <div class="LoggerBuildContent">{{log.Message}}</div></ng-template>
-          <ng-template ngSwitchCase="LoggerType.ProduceFailure"> <div class="LoggerBuildContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}}<sup class="LoggerTime">[{{log.Time}}]</sup></div></ng-template>
+          <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}}<sup class="LoggerTime">[{{log.Time}}]</sup></div></ng-template>
           
-          <ng-template ngSwitchCase="LoggerType.Communication"><div class="LoggerCommunicationContent">{{log.Message}}</div></ng-template>
-          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}}</div></ng-template>
+          <ng-template ngSwitchCase="6"><div class="LoggerCommunicationContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} {{log.Type}} [{{log.Time}}]</div></ng-template>
       </div>
     </div>
   </div>
@@ -316,6 +316,6 @@
 
 </div>
 
- <canvas id="map" width=600 height=600>
+ <canvas id="map" width=1000 height=1000>
     Canvas not supported
  </canvas>

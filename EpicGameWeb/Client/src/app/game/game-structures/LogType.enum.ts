@@ -1,6 +1,6 @@
 export enum LogType 
 {
-    None, 
+    None = 0, 
     BattleSuccess, BattleFailure, BattleBeenAttacked,
     ProduceSuccess, ProduceFailure,
     Communication

@@ -19,5 +19,8 @@ namespace EpicGameCommon
 
         [OperationContract]
         string UpdateLogData(int userId);
+
+        [OperationContract]
+        bool IsLogUpdated(int userId);
     }
 }
