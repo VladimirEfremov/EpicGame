@@ -61,16 +61,48 @@ namespace EpicGame.Game
             return false;
         }
 
+        private static int MaxLogIdForUser(int userId)
+        {
+            int prevMaxId;
+            var logDataArray = s_LogData[userId].ToArray();
+            if (logDataArray != null)
+            {
+                if (logDataArray.Length != 0)
+                {
+                    prevMaxId = logDataArray[0].Id;
+                    for (int i = 1; i < logDataArray.Length; i++)
+                    {
+                        if (logDataArray[i].Id > prevMaxId)
+                        {
+                            prevMaxId = logDataArray[i].Id;
+                        }
+                    }
+                }
+                else
+                {
+                    prevMaxId = 0;
+                }
+            }
+            else
+            {
+                prevMaxId = 0;
+            }
+
+            return prevMaxId;
+        }
+
         public static Log[] GetAllUserLogData(LogRequest request)
         {
             if (s_LogData.ContainsKey(request.UserId))
             {
                 if (s_UpdateFlags.ContainsKey(request.UserId))
                 {
-                    s_UpdateFlags[request.UserId] = new UpdateLog { IsUpdated = false, 
-                        LastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId
+                    s_UpdateFlags[request.UserId] = new UpdateLog { 
+                        IsUpdated = false, 
+                        LastClientLogId = MaxLogIdForUser(request.UserId)
                     };
                 }
+
                 return s_LogData[request.UserId].ToArray();
             }
             return null;
@@ -143,33 +175,21 @@ namespace EpicGame.Game
 
         public static Log[] UpdateLogData(LogRequest request)
         {
+            int prevLastClientLogId = s_UpdateFlags[request.UserId].LastClientLogId;
             if (s_LogData.ContainsKey(request.UserId))
             {
-                var result = s_LogData[request.UserId]
-                    .Where(obj => obj.Id > s_UpdateFlags[request.UserId].LastClientLogId)
-                    .ToArray();
-                int lastId = result[0].Id;
-                if (result != null)
-                {
-                    for (int i = 1; i < result.Length; i++)
-                    {
-                        if (result[i].Id > lastId)
-                        {
-                            lastId = result[i].Id;
-                        }
-                    }
-                }
-
                 if (s_UpdateFlags.ContainsKey(request.UserId))
                 {
                     s_UpdateFlags[request.UserId] = new UpdateLog
                     {
                         IsUpdated = false,
-                        LastClientLogId = lastId
+                        LastClientLogId = MaxLogIdForUser(request.UserId)
                     };
                 }
 
-                return result;
+                return s_LogData[request.UserId]
+                    .Where(obj => obj.Id > prevLastClientLogId)
+                    .ToArray();
             }
             return null;
         }
@@ -182,23 +202,6 @@ namespace EpicGame.Game
             log.Time = DateTime.Now.ToShortTimeString();
             log.Type = type;
 
-            if (s_UpdateFlags.ContainsKey(userId))
-            {
-                s_UpdateFlags[userId] = new UpdateLog
-                {
-                    IsUpdated = true,
-                    LastClientLogId = s_UpdateFlags[userId].LastClientLogId
-                };
-            }
-            else
-            {
-                s_UpdateFlags.Add(userId, new UpdateLog
-                {
-                    IsUpdated = false,
-                    LastClientLogId = 0
-                });
-            }
-            
             if (s_LogData.ContainsKey(userId))
             {
                 s_LogData[userId].Add(log);
@@ -217,6 +220,23 @@ namespace EpicGame.Game
                     s_NextLogId = 0;
                 }
                 ++s_NextLogId;
+            }
+
+            if (s_UpdateFlags.ContainsKey(userId))
+            {
+                s_UpdateFlags[userId] = new UpdateLog
+                {
+                    IsUpdated = true,
+                    LastClientLogId = s_UpdateFlags[userId].LastClientLogId
+                };
+            }
+            else
+            {
+                s_UpdateFlags.Add(userId, new UpdateLog
+                {
+                    IsUpdated = false,
+                    LastClientLogId = 0
+                });
             }
         }
 

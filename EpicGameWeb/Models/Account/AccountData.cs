@@ -8,9 +8,5 @@ namespace EpicGameWeb.Models.Account
         public int UserId { get; set; }
         public int CoreId { get; set; }
         public string Nickname { get; set; }
-        public string[] FriendsList { get; set; }
-        public string[] FollowersList { get; set; }
-        public string[] FollowingsList { get; set; }
-
     }
 }

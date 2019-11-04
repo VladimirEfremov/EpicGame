@@ -29,10 +29,7 @@ export class GameComponent implements OnInit
   accountData : AccountData = {
     UserId: -1,
     CoreId: -1,
-    Nickname: "",
-    FriendsList: [],
-    FollowersList: [],
-    FollowingsList: []
+    Nickname: ""
   }; 
 
   //Info core
@@ -40,48 +37,48 @@ export class GameComponent implements OnInit
   {
     Money: -1,
     CoreId: -1,
-    //CoreMapId: -1,
-    //BaseLevel: -1,
-    //BaseCapacity: -1,
-    //BaseHp: -1,
-    //BaseAttack: -1,
-    //BaseDefence: -1,
-    //BaseWorkersCount: -1,
-    //BaseType: -1,
-    //BaseIncome: -1,
-    //BaseOutcome: -1,
-    //NumberOfWorkersInBase: -1,
-    Casern:false,
-    GoldMining:false,
-    DefenceTower:false,
-    //CasernLevel: -1,
-    //CasernCapacity: -1,
-    //CasernHp: -1,
-    //CasernAttack: -1,
-    //CasernDefence: -1,
-    //CasernWarriorsCount: -1,
-    //CasernAttackAircraftsCount: -1,
-    //CasernType: -1,
-    //CasernIncome: -1,
-    //CasernOutcome: -1,
-    //NumberOfWarriors: -1,
-    //NumberOfAttackAircraft: -1,
-    //DefenceTowerLevel: -1,
-    //DefenceTowerCapacity: -1,
-    //DefenceTowerHp: -1,
-    //DefenceTowerAttack: -1,
-    //DefenceTowerDefence: -1,
-    //DefenceTowerType: -1,
-    //NumberOfDefenceTower: -1,
-    //GoldMiningLevel: -1,
-    //GoldMiningCapacity: -1,
-    //GoldMiningHp: -1,
-    //GoldMiningAttack: -1,
-    //GoldMiningDefence: -1,
-    //GoldMiningType: -1,
-    //GoldMiningIncome: -1,
-    //GoldMiningOutcome: -1,
-    //NumberOfWorkersInGoldMining: -1
+    CoreMapId: -1,
+    BaseLevel: -1,
+    BaseCapacity: -1,
+    BaseHp: -1,
+    BaseAttack: -1,
+    BaseDefence: -1,
+    BaseWorkersCount: -1,
+    BaseType: -1,
+    BaseIncome: -1,
+    BaseOutcome: -1,
+    NumberOfWorkersInBase: -1,
+    Casern:0,
+    GoldMining:0,
+    DefenceTower:0,
+    CasernLevel: -1,
+    CasernCapacity: -1,
+    CasernHp: -1,
+    CasernAttack: -1,
+    CasernDefence: -1,
+    CasernWarriorsCount: -1,
+    CasernAttackAircraftsCount: -1,
+    CasernType: -1,
+    CasernIncome: -1,
+    CasernOutcome: -1,
+    NumberOfWarriors: -1,
+    NumberOfAttackAircraft: -1,
+    DefenceTowerLevel: -1,
+    DefenceTowerCapacity: -1,
+    DefenceTowerHp: -1,
+    DefenceTowerAttack: -1,
+    DefenceTowerDefence: -1,
+    DefenceTowerType: -1,
+    NumberOfDefenceTower: -1,
+    GoldMiningLevel: -1,
+    GoldMiningCapacity: -1,
+    GoldMiningHp: -1,
+    GoldMiningAttack: -1,
+    GoldMiningDefence: -1,
+    GoldMiningType: -1,
+    GoldMiningIncome: -1,
+    GoldMiningOutcome: -1,
+    NumberOfWorkersInGoldMining: -1
   };
 
   //Flags info core
@@ -173,12 +170,6 @@ export class GameComponent implements OnInit
       
       this.GetAccountData();
 
-      this.CommunicationsUpdate();
-
-      this.coreInfo.Casern = true;
-      this.coreInfo.DefenceTower = true;
-      this.coreInfo.GoldMining = true;
-
       this.httpGameService
         .GetAllUserLogData(
           this.accountData.UserId)
@@ -260,69 +251,99 @@ export class GameComponent implements OnInit
           res => {
             this.accountData = res;
             console.log("Get account data " +
-            "[Nickname: " + this.accountData.Nickname + 
-            " Friends list: " + this.accountData.FriendsList + "]");
-            this.httpGameService.GetCoreById()
-            .subscribe(
-                (data:CoreInfo) => { 
-                    console.log("[success] GetCoreById " +
-                    "{ "+
-                    "CoreId:"+ data.CoreId+"\n"+
-                    " Money:"+ data.Money+"\n"+
-                    //" CoreMapId:"+ data.CoreMapId+"\n"+
-                    //" BaseLevel:"+ data.BaseLevel+"\n"+
-                    //" BaseCapacity:"+ data.BaseCapacity+"\n"+
-                    //" BaseHp:"+ data.BaseHp+"\n"+
-                    //" BaseAttack:"+ data.BaseAttack+"\n"+
-                    //" BaseDefence:"+ data.BaseDefence+"\n"+
-                    //" BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
-                    //" BaseType:"+ data.BaseType+"\n"+
-                    //" BaseIncome:"+ data.BaseIncome+"\n"+
-                    //" BaseOutcome:"+ data.BaseOutcome+"\n"+
-                    //" NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
-                    //" Casern:"+ data.Casern+"\n"+
-                    //" GoldMining:"+ data.GoldMining+"\n"+
-                    //" DefenceTower:"+ data.DefenceTower+"\n"+
-                    //" CasernLevel:"+ data.CasernLevel+"\n"+
-                    //" CasernCapacity:"+ data.CasernCapacity+"\n"+
-                    //" CasernHp:"+ data.CasernHp+"\n"+
-                    //" CasernAttack:"+ data.CasernAttack+"\n"+
-                    //" CasernDefence:"+ data.CasernDefence+"\n"+
-                    //" CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
-                    //" CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
-                    //" CasernType:"+ data.CasernWarriorsCount+"\n"+
-                    //" CasernIncome:"+ data.CasernIncome+"\n"+
-                    //" CasernOutcome:"+ data.CasernOutcome+"\n"+
-                    //" NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
-                    //" NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
-                    //" DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
-                    //" DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
-                    //" DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
-                    //" DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
-                    //" DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
-                    //" DefenceTowerType:"+ data.DefenceTowerType+"\n"+
-                    //" NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
-                    //" GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
-                    //" GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
-                    //" GoldMiningHp:"+ data.GoldMiningHp+"\n"+
-                    //" GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
-                    //" GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
-                    //" GoldMiningType:"+ data.GoldMiningType+"\n"+
-                    //" GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
-                    //" GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
-                    //" NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
-                    "}"
-                    ); 
-                    this.coreInfo = data;
-                },
-                error => console.log("[error] GetCoreById: "+error)
-            );
+            "[Nickname: " + this.accountData.Nickname);
+            this.httpGameService
+              .GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById " +
+                      "{ "+
+                      "CoreId:"+ data.CoreId+"\n"+
+                      " Money:"+ data.Money+"\n"+
+                      " CoreMapId:"+ data.CoreMapId+"\n"+
+                      " BaseLevel:"+ data.BaseLevel+"\n"+
+                      " BaseCapacity:"+ data.BaseCapacity+"\n"+
+                      " BaseHp:"+ data.BaseHp+"\n"+
+                      " BaseAttack:"+ data.BaseAttack+"\n"+
+                      " BaseDefence:"+ data.BaseDefence+"\n"+
+                      " BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
+                      " BaseType:"+ data.BaseType+"\n"+
+                      " BaseIncome:"+ data.BaseIncome+"\n"+
+                      " BaseOutcome:"+ data.BaseOutcome+"\n"+
+                      " NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
+                      " Casern:"+ data.Casern+"\n"+
+                      " GoldMining:"+ data.GoldMining+"\n"+
+                      " DefenceTower:"+ data.DefenceTower+"\n"+
+                      " CasernLevel:"+ data.CasernLevel+"\n"+
+                      " CasernCapacity:"+ data.CasernCapacity+"\n"+
+                      " CasernHp:"+ data.CasernHp+"\n"+
+                      " CasernAttack:"+ data.CasernAttack+"\n"+
+                      " CasernDefence:"+ data.CasernDefence+"\n"+
+                      " CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
+                      " CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
+                      " CasernType:"+ data.CasernWarriorsCount+"\n"+
+                      " CasernIncome:"+ data.CasernIncome+"\n"+
+                      " CasernOutcome:"+ data.CasernOutcome+"\n"+
+                      " NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
+                      " NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
+                      " DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
+                      " DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
+                      " DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
+                      " DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
+                      " DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
+                      " DefenceTowerType:"+ data.DefenceTowerType+"\n"+
+                      " NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
+                      " GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
+                      " GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
+                      " GoldMiningHp:"+ data.GoldMiningHp+"\n"+
+                      " GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
+                      " GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
+                      " GoldMiningType:"+ data.GoldMiningType+"\n"+
+                      " GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
+                      " GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
+                      " NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
+                      "}"
+                      ); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+            this.CommunicationsUpdate();
           },
           err => {
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
-            this.accountData.FriendsList = [ "null" ];
         });
+  }
+
+  GetCasernNumberOfwarriors():void
+  {
+    this.httpGameService
+    .CasernGetNumberOfWarriors(this.accountData.CoreId)
+    .subscribe(
+      res=>{
+        console.log("[success] GetCasernNumberOfwarriors");
+        this.coreInfo.NumberOfWarriors = res;
+      },
+      err=>{
+        console.log("[error] GetCasernNumberOfwarriors");
+      }
+    );
+  }
+
+  GetCasernNumberOfAttackAircraft():void
+  {
+    this.httpGameService
+    .CasernGetNumberOfAttackAircraft(this.accountData.CoreId)
+    .subscribe(
+      res=>{
+        console.log("[success] GetCasernNumberOfAttackAircraft");
+        this.coreInfo.CasernAttackAircraftsCount = res;
+      },
+      err=>{
+        console.log("[error] GetCasernNumberOfAttackAircraft");
+      }
+    );
   }
 
   CommunicationsUpdate():boolean
@@ -422,7 +443,6 @@ export class GameComponent implements OnInit
 
   OnProduceWorkerBtnClick() : void
   {
-    this.loggedData.PushBuildingMsg("Создается unit рабочий");
     this.httpGameService.BaseProduceWorker(this.accountData.CoreId);
   }
 
@@ -436,12 +456,14 @@ export class GameComponent implements OnInit
 
   OnProduceWarriorBtnClick() : void 
   {
-    this.loggedData.PushBuildingMsg("Создается unit воин");
+    this.httpGameService.CasernProduceWarrior(this.accountData.CoreId);
+    this.GetCasernNumberOfwarriors();
   }
 
   OnProduceAttackAircraftBtnClick() : void 
   {
-    this.loggedData.PushBuildingMsg("Создается unit AttackAircraft");
+    this.httpGameService.CasernGetNumberOfAttackAircraft(this.accountData.CoreId);
+    this.GetCasernNumberOfAttackAircraft();
   }
 
   OnGoldMiningBtnClick() : void
@@ -454,7 +476,7 @@ export class GameComponent implements OnInit
 
   OnAddWorkerToMineBtnClick() : void
   {
-    this.loggedData.PushBuildingMsg("Добавлен рабочий к руднику");
+    this.httpGameService.GoldMiningAddWorker(this.accountData.CoreId);
   }
 
   OnDefenceTowerBtnClick() : void
@@ -605,7 +627,9 @@ export class GameComponent implements OnInit
     + this.numberOfSelectedList 
     + "]");
     this.isUserActionsWindowVisible = true;
-    console.log("OnUserBtnClick: " + userInfo.Nickname);
+    console.log("OnUserBtnClick: [nick: " + userInfo.Nickname + 
+      ", userid: " + userInfo.UserId + 
+      ", coreid: " + userInfo.CoreId);
     this.selectedUser = userInfo;
     this.isSelectedUserFriend = this.IsUserFriend();
   }
@@ -688,7 +712,6 @@ export class GameComponent implements OnInit
     let result = this
     .httpGameService
     .DuelBattle(this.selectedUser.CoreId);
-    console.log(result.Message);
   }
 
   OnCoreAttackBtnClick() :void

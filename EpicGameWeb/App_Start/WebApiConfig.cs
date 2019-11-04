@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace EpicGameWeb
 {
     public static class WebApiConfig
     {
+        public static string UrlPrefixRelative { get; internal set; }
+
         public static void Register(HttpConfiguration config)
         {
             // Конфигурация и службы веб-API

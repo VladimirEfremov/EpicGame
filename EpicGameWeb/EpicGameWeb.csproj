@@ -293,6 +293,7 @@
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\DBHelper\RemoteProcedureCallClass.cs" />
     <Compile Include="Models\Game\StoredInfo.cs" />
+    <Compile Include="Models\MySession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,8 @@
-﻿using System.Web.Http;
+﻿using System.Web;
+using System.Web.Http;
 using EpicGameCommon;
 using EpicGameCommon.Response;
+using EpicGameWeb.Models;
 using EpicGameWeb.Models.DBHelper;
 
 namespace EpicGameWeb.Controllers
@@ -81,54 +83,51 @@ namespace EpicGameWeb.Controllers
                 .GoldMiningAddWorker(coreId);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetCoreById")]
-        public string GetCoreById([FromBody]string coreInfo)
+        public string GetCoreById()
         {
-            CoreInfo core = coreInfo.FromJson<CoreInfo>();
-            if (core.CoreId > 0)
-            {
-                return RemoteProcedureCallClass
-                    .GetGameChannel()
-                    .GetCoreById(core.CoreId);
-            }
-            return new CoreInfo().ToJson();
+            var result = RemoteProcedureCallClass
+                .GetGameChannel()
+                .GetCoreById(MySession.CoreId);
+            return result;
         }
 
         [HttpGet]
-        public string GetCoreInfoById()
+        [Route("GetCoreInfoById")]
+        public CoreInfo GetCoreInfoById()
         {
-            var s = AuthController.UserId;
             string coreInfoJson = RemoteProcedureCallClass
                 .GetGameChannel()
-                .GetCoreInfoById(2015);
-            return coreInfoJson;
+                .GetCoreInfoById(MySession.CoreId);
+            CoreInfo coreInfo = coreInfoJson.FromJson<CoreInfo>();
+            return coreInfo;
         }
 
         [HttpPost]
         [Route("DuelBattle")]
-        public string DuelBattle([FromBody]string data)
+        public int DuelBattle([FromBody]object defenderCoreId)
         {
-            var result = RemoteProcedureCallClass
-                .GetGameChannel()
-                .DuelBattle(AuthController.CoreId, System.Int32.Parse(data))
-                .ToJson();
-            return result;
+            int defenderCoreIdInt; 
+            if (System.Int32.TryParse(defenderCoreId.ToString(), out defenderCoreIdInt))
+            {
+                var resultJson = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .DuelBattle(MySession.CoreId, defenderCoreIdInt);
+                var result = resultJson.FromJson<BattleResponse>().WhoWonTheBattle;
+                return result;
+            }
+            return -2;
         }
 
         [HttpPost]
-        public string CoreBattle([FromBody]string defenderCoreId)
+        public string CoreBattle([FromBody]int defenderCoreId)
         {
-            int defenderCoreIdInt;
-            if (System.Int32.TryParse(defenderCoreId, out defenderCoreIdInt))
-            {
-                var result = RemoteProcedureCallClass
-                    .GetGameChannel()
-                    .CoreBattle(AuthController.CoreId, defenderCoreIdInt)
-                    .ToJson();
-                return result;
-            }
-            return "";
+            var result = RemoteProcedureCallClass
+                .GetGameChannel()
+                .CoreBattle(MySession.CoreId, defenderCoreId)
+                .ToJson();
+            return result;
         }
 
     }

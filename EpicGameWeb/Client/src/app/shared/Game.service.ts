@@ -30,6 +30,10 @@ export class GameService
     goldMiningAddWorkerUrl : string =
         "http://localhost:6430/api/game/GoldMiningAddWorker";
     
+    casernGetNumberOfWarriorsUrl:string=
+        "http://localhost:6430/api/game/CasernGetNumberOfWarriors";
+    casernGetNumberOfAttackAircraftUrl:string=
+        "http://localhost:6430/api/game/CasernGetNumberOfAttackAircraft";
 
 
     getCoreInfoByIdUrl : string =
@@ -71,14 +75,14 @@ export class GameService
         this.router.navigate(["/game"]);
     }
 
-    public CasernGetNumberOfWarriors(coreId:number):number
+    public CasernGetNumberOfWarriors(coreId:number):Observable<number>
     {
-        return 0;
+        return this.httpClient.post<number>(this.casernGetNumberOfWarriorsUrl, coreId);
     }
 
-    public CasernGetNumberOfAttackAircraft(coreId:number):number
+    public CasernGetNumberOfAttackAircraft(coreId:number):Observable<number>
     {
-        return 0;
+        return this.httpClient.post<number>(this.casernGetNumberOfAttackAircraftUrl, coreId);
     }
 
     public CoreBuildCasern(coreId:number):void
@@ -157,25 +161,20 @@ export class GameService
         );
     }
 
-    public GetCoreById():Observable<CoreInfo>
+    public GetCoreInfoById():Observable<CoreInfo>
     {
-        return this.httpClient
-            .get<CoreInfo>(
-                this.getCoreInfoByIdUrl);;
+        return this.httpClient.get<CoreInfo>(this.getCoreInfoByIdUrl);
     }
 
-    public DuelBattle(coreId : number):BattleResponse
+    public DuelBattle(coreId : number):number
     {
         console.log("GetAllUserInfo");
+        console.log("[Duel battle] CoreId: " + coreId);
         let result; 
-        let dataToPost: BattleResponse ={
-            WhoWonTheBattle:coreId,
-            Message:""
-        };
-        this.httpClient.post<string>(
-            this.duelBattleUrl, "2")
+        this.httpClient.post<number>(
+            this.duelBattleUrl, coreId)
             .subscribe(
-                (data:string) => {
+                (data:number) => {
                     console.log("[success] DuelBattle")
                     result = data;
                     console.log(result);

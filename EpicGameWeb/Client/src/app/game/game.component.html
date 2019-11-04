@@ -32,23 +32,23 @@
         <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>
         <button (click)="OnCoreBtnClick()">Core</button>
 
-        <ng-template [ngIf]="coreInfo.Casern">
+        <ng-template [ngIf]="coreInfo.Casern == 1">
           <button (click)="OnCasernBtnClick()">Casern</button> 
         </ng-template>
-        <ng-template [ngIf]="coreInfo.DefenceTower">
+        <ng-template [ngIf]="coreInfo.DefenceTower == 1">
           <button (click)="OnGoldMiningBtnClick()">GoldMining</button> 
         </ng-template>
-        <ng-template [ngIf]="coreInfo.GoldMining">
+        <ng-template [ngIf]="coreInfo.GoldMining == 1">
           <button (click)="OnDefenceTowerBtnClick()">DefenceTower</button> 
         </ng-template>
 
-        <ng-template [ngIf]="!coreInfo.Casern">
+        <ng-template [ngIf]="coreInfo.Casern == 0">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Casern</button> 
         </ng-template>
-        <ng-template [ngIf]="!coreInfo.DefenceTower">
+        <ng-template [ngIf]="coreInfo.DefenceTower == 0">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">GoldMining</button> 
         </ng-template>
-        <ng-template [ngIf]="!coreInfo.GoldMining">
+        <ng-template [ngIf]="coreInfo.GoldMining == 0">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">DefenceTower</button> 
         </ng-template>
 
@@ -111,22 +111,23 @@
             </td>
           </ng-template>
         
-          <ng-template [ngIf]="IsGoldMiningInfoActivated">
-              <td>  
-                  <div>Hp: {{coreInfo.GoldMiningHp}}</div> 
-                  <div>Attack: {{coreInfo.GoldMiningAttack}}</div> 
-                  <div>Defence: {{coreInfo.GoldMiningDefence}}</div>
-                  <div>Type: {{coreInfo.GoldMiningType}}</div>
-                </td>
-                <td>
-                    <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
-                    <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>
-                </td>
-              <td>
-                <button title="Добавит нового рабочего на производственную линию"
-                        (click)="OnAddWorkerToMineBtnClick()">Add worker</button> <br/>
-              </td>
-            </ng-template>
+        <ng-template [ngIf]="IsGoldMiningInfoActivated">
+            <td>  
+              <div>Hp: {{coreInfo.GoldMiningHp}}</div> 
+              <div>Workers: {{coreInfo.NumberOfWorkersInGoldMining}}</div>
+              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> 
+              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>
+              <div>Type: {{coreInfo.GoldMiningType}}</div>
+            </td>
+            <td>
+                <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
+                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>
+            </td>
+            <td>
+              <button title="Добавит нового рабочего на производственную линию"
+                      (click)="OnAddWorkerToMineBtnClick()">Add worker</button> <br/>
+            </td>
+        </ng-template>
     </tr>
     
   </table>
@@ -300,11 +301,11 @@
           <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
           <ng-template ngSwitchCase="3"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
 
-          <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}}<sup class="LoggerTime">[{{log.Time}}]</sup></div></ng-template>
-          <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}}<sup class="LoggerTime">[{{log.Time}}]</sup></div></ng-template>
+          <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+          <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
           
           <ng-template ngSwitchCase="6"><div class="LoggerCommunicationContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} {{log.Type}} [{{log.Time}}]</div></ng-template>
+          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
       </div>
     </div>
   </div>

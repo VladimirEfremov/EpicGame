@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"!coreInfo.Casern\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.DefenceTower\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"!coreInfo.GoldMining\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n          <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n              <td>  \n                  <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n                  <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n                  <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n                  <div>Type: {{coreInfo.GoldMiningType}}</div>\n                </td>\n                <td>\n                    <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                    <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n                </td>\n              <td>\n                <button title=\"Добавит нового рабочего на производственную линию\"\n                        (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n              </td>\n            </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\">\n        <td>\n          <div class=\"TextInCenter\">FriendsList</div>\n        </td>\n        <td>\n          <div>{{numberOfPage}}</div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button>\n            Follower?\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} {{log.Type}} [{{log.Time}}]</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 1\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 1\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 1\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n        <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n              <div>Workers: {{coreInfo.NumberOfWorkersInGoldMining}}</div>\n              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n              <div>Type: {{coreInfo.GoldMiningType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <button title=\"Добавит нового рабочего на производственную линию\"\n                      (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n            </td>\n        </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\">\n        <td>\n          <div class=\"TextInCenter\">FriendsList</div>\n        </td>\n        <td>\n          <div>{{numberOfPage}}</div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button>\n            Follower?\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
 
 /***/ }),
 
@@ -760,29 +760,54 @@ let GameComponent = class GameComponent {
         this.accountData = {
             UserId: -1,
             CoreId: -1,
-            Nickname: "",
-            FriendsList: [],
-            FollowersList: [],
-            FollowingsList: []
+            Nickname: ""
         };
         //Info core
         this.coreInfo = {
             Money: -1,
             CoreId: -1,
-            //CoreMapId: -1,
-            //BaseLevel: -1,
-            //BaseCapacity: -1,
-            //BaseHp: -1,
-            //BaseAttack: -1,
-            //BaseDefence: -1,
-            //BaseWorkersCount: -1,
-            //BaseType: -1,
-            //BaseIncome: -1,
-            //BaseOutcome: -1,
-            //NumberOfWorkersInBase: -1,
-            Casern: false,
-            GoldMining: false,
-            DefenceTower: false,
+            CoreMapId: -1,
+            BaseLevel: -1,
+            BaseCapacity: -1,
+            BaseHp: -1,
+            BaseAttack: -1,
+            BaseDefence: -1,
+            BaseWorkersCount: -1,
+            BaseType: -1,
+            BaseIncome: -1,
+            BaseOutcome: -1,
+            NumberOfWorkersInBase: -1,
+            Casern: 0,
+            GoldMining: 0,
+            DefenceTower: 0,
+            CasernLevel: -1,
+            CasernCapacity: -1,
+            CasernHp: -1,
+            CasernAttack: -1,
+            CasernDefence: -1,
+            CasernWarriorsCount: -1,
+            CasernAttackAircraftsCount: -1,
+            CasernType: -1,
+            CasernIncome: -1,
+            CasernOutcome: -1,
+            NumberOfWarriors: -1,
+            NumberOfAttackAircraft: -1,
+            DefenceTowerLevel: -1,
+            DefenceTowerCapacity: -1,
+            DefenceTowerHp: -1,
+            DefenceTowerAttack: -1,
+            DefenceTowerDefence: -1,
+            DefenceTowerType: -1,
+            NumberOfDefenceTower: -1,
+            GoldMiningLevel: -1,
+            GoldMiningCapacity: -1,
+            GoldMiningHp: -1,
+            GoldMiningAttack: -1,
+            GoldMiningDefence: -1,
+            GoldMiningType: -1,
+            GoldMiningIncome: -1,
+            GoldMiningOutcome: -1,
+            NumberOfWorkersInGoldMining: -1
         };
         //Flags info core
         this.IsCoreInfoActivated = true;
@@ -848,10 +873,6 @@ let GameComponent = class GameComponent {
         this.map.DrawWorld();
         window.requestAnimationFrame(this.map.DrawWorld);
         this.GetAccountData();
-        this.CommunicationsUpdate();
-        this.coreInfo.Casern = true;
-        this.coreInfo.DefenceTower = true;
-        this.coreInfo.GoldMining = true;
         this.httpGameService
             .GetAllUserLogData(this.accountData.UserId)
             .subscribe(data => {
@@ -907,63 +928,83 @@ let GameComponent = class GameComponent {
             .subscribe(res => {
             this.accountData = res;
             console.log("Get account data " +
-                "[Nickname: " + this.accountData.Nickname +
-                " Friends list: " + this.accountData.FriendsList + "]");
-            this.httpGameService.GetCoreById()
+                "[Nickname: " + this.accountData.Nickname);
+            this.httpGameService
+                .GetCoreInfoById()
                 .subscribe((data) => {
                 console.log("[success] GetCoreById " +
                     "{ " +
                     "CoreId:" + data.CoreId + "\n" +
                     " Money:" + data.Money + "\n" +
-                    //" CoreMapId:"+ data.CoreMapId+"\n"+
-                    //" BaseLevel:"+ data.BaseLevel+"\n"+
-                    //" BaseCapacity:"+ data.BaseCapacity+"\n"+
-                    //" BaseHp:"+ data.BaseHp+"\n"+
-                    //" BaseAttack:"+ data.BaseAttack+"\n"+
-                    //" BaseDefence:"+ data.BaseDefence+"\n"+
-                    //" BaseWorkersCount:"+ data.BaseWorkersCount+"\n"+
-                    //" BaseType:"+ data.BaseType+"\n"+
-                    //" BaseIncome:"+ data.BaseIncome+"\n"+
-                    //" BaseOutcome:"+ data.BaseOutcome+"\n"+
-                    //" NumberOfWorkersInBase:"+ data.NumberOfWorkersInBase+"\n"+
-                    //" Casern:"+ data.Casern+"\n"+
-                    //" GoldMining:"+ data.GoldMining+"\n"+
-                    //" DefenceTower:"+ data.DefenceTower+"\n"+
-                    //" CasernLevel:"+ data.CasernLevel+"\n"+
-                    //" CasernCapacity:"+ data.CasernCapacity+"\n"+
-                    //" CasernHp:"+ data.CasernHp+"\n"+
-                    //" CasernAttack:"+ data.CasernAttack+"\n"+
-                    //" CasernDefence:"+ data.CasernDefence+"\n"+
-                    //" CasernWarriorsCount:"+ data.CasernWarriorsCount+"\n"+
-                    //" CasernAttackAircraftsCount:"+ data.CasernAttackAircraftsCount+"\n"+
-                    //" CasernType:"+ data.CasernWarriorsCount+"\n"+
-                    //" CasernIncome:"+ data.CasernIncome+"\n"+
-                    //" CasernOutcome:"+ data.CasernOutcome+"\n"+
-                    //" NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
-                    //" NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
-                    //" DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
-                    //" DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
-                    //" DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
-                    //" DefenceTowerAttack:"+ data.DefenceTowerAttack+"\n"+
-                    //" DefenceTowerDefence:"+ data.DefenceTowerDefence+"\n"+
-                    //" DefenceTowerType:"+ data.DefenceTowerType+"\n"+
-                    //" NumberOfDefenceTower:"+ data.NumberOfDefenceTower+"\n"+
-                    //" GoldMiningLevel:"+ data.GoldMiningLevel+"\n"+
-                    //" GoldMiningCapacity:"+ data.GoldMiningCapacity+"\n"+
-                    //" GoldMiningHp:"+ data.GoldMiningHp+"\n"+
-                    //" GoldMiningAttack:"+ data.GoldMiningAttack+"\n"+
-                    //" GoldMiningDefence:"+ data.GoldMiningDefence+"\n"+
-                    //" GoldMiningType:"+ data.GoldMiningType+"\n"+
-                    //" GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
-                    //" GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
-                    //" NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
+                    " CoreMapId:" + data.CoreMapId + "\n" +
+                    " BaseLevel:" + data.BaseLevel + "\n" +
+                    " BaseCapacity:" + data.BaseCapacity + "\n" +
+                    " BaseHp:" + data.BaseHp + "\n" +
+                    " BaseAttack:" + data.BaseAttack + "\n" +
+                    " BaseDefence:" + data.BaseDefence + "\n" +
+                    " BaseWorkersCount:" + data.BaseWorkersCount + "\n" +
+                    " BaseType:" + data.BaseType + "\n" +
+                    " BaseIncome:" + data.BaseIncome + "\n" +
+                    " BaseOutcome:" + data.BaseOutcome + "\n" +
+                    " NumberOfWorkersInBase:" + data.NumberOfWorkersInBase + "\n" +
+                    " Casern:" + data.Casern + "\n" +
+                    " GoldMining:" + data.GoldMining + "\n" +
+                    " DefenceTower:" + data.DefenceTower + "\n" +
+                    " CasernLevel:" + data.CasernLevel + "\n" +
+                    " CasernCapacity:" + data.CasernCapacity + "\n" +
+                    " CasernHp:" + data.CasernHp + "\n" +
+                    " CasernAttack:" + data.CasernAttack + "\n" +
+                    " CasernDefence:" + data.CasernDefence + "\n" +
+                    " CasernWarriorsCount:" + data.CasernWarriorsCount + "\n" +
+                    " CasernAttackAircraftsCount:" + data.CasernAttackAircraftsCount + "\n" +
+                    " CasernType:" + data.CasernWarriorsCount + "\n" +
+                    " CasernIncome:" + data.CasernIncome + "\n" +
+                    " CasernOutcome:" + data.CasernOutcome + "\n" +
+                    " NumberOfWarriors:" + data.NumberOfWarriors + "\n" +
+                    " NumberOfAttackAircraft:" + data.NumberOfAttackAircraft + "\n" +
+                    " DefenceTowerLevel:" + data.DefenceTowerLevel + "\n" +
+                    " DefenceTowerCapacity:" + data.DefenceTowerCapacity + "\n" +
+                    " DefenceTowerHp:" + data.DefenceTowerHp + "\n" +
+                    " DefenceTowerAttack:" + data.DefenceTowerAttack + "\n" +
+                    " DefenceTowerDefence:" + data.DefenceTowerDefence + "\n" +
+                    " DefenceTowerType:" + data.DefenceTowerType + "\n" +
+                    " NumberOfDefenceTower:" + data.NumberOfDefenceTower + "\n" +
+                    " GoldMiningLevel:" + data.GoldMiningLevel + "\n" +
+                    " GoldMiningCapacity:" + data.GoldMiningCapacity + "\n" +
+                    " GoldMiningHp:" + data.GoldMiningHp + "\n" +
+                    " GoldMiningAttack:" + data.GoldMiningAttack + "\n" +
+                    " GoldMiningDefence:" + data.GoldMiningDefence + "\n" +
+                    " GoldMiningType:" + data.GoldMiningType + "\n" +
+                    " GoldMiningIncome:" + data.GoldMiningIncome + "\n" +
+                    " GoldMiningOutcome:" + data.GoldMiningOutcome + "\n" +
+                    " NumberOfWorkersInGoldMining:" + data.NumberOfWorkersInGoldMining + "\n" +
                     "}");
                 this.coreInfo = data;
             }, error => console.log("[error] GetCoreById: " + error));
+            this.CommunicationsUpdate();
         }, err => {
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
-            this.accountData.FriendsList = ["null"];
+        });
+    }
+    GetCasernNumberOfwarriors() {
+        this.httpGameService
+            .CasernGetNumberOfWarriors(this.accountData.CoreId)
+            .subscribe(res => {
+            console.log("[success] GetCasernNumberOfwarriors");
+            this.coreInfo.NumberOfWarriors = res;
+        }, err => {
+            console.log("[error] GetCasernNumberOfwarriors");
+        });
+    }
+    GetCasernNumberOfAttackAircraft() {
+        this.httpGameService
+            .CasernGetNumberOfAttackAircraft(this.accountData.CoreId)
+            .subscribe(res => {
+            console.log("[success] GetCasernNumberOfAttackAircraft");
+            this.coreInfo.CasernAttackAircraftsCount = res;
+        }, err => {
+            console.log("[error] GetCasernNumberOfAttackAircraft");
         });
     }
     CommunicationsUpdate() {
@@ -1032,7 +1073,6 @@ let GameComponent = class GameComponent {
         this.httpGameService.CoreBuildDefenceTower(this.accountData.CoreId);
     }
     OnProduceWorkerBtnClick() {
-        this.loggedData.PushBuildingMsg("Создается unit рабочий");
         this.httpGameService.BaseProduceWorker(this.accountData.CoreId);
     }
     OnCasernBtnClick() {
@@ -1042,10 +1082,12 @@ let GameComponent = class GameComponent {
         this.IsGoldMiningInfoActivated = false;
     }
     OnProduceWarriorBtnClick() {
-        this.loggedData.PushBuildingMsg("Создается unit воин");
+        this.httpGameService.CasernProduceWarrior(this.accountData.CoreId);
+        this.GetCasernNumberOfwarriors();
     }
     OnProduceAttackAircraftBtnClick() {
-        this.loggedData.PushBuildingMsg("Создается unit AttackAircraft");
+        this.httpGameService.CasernGetNumberOfAttackAircraft(this.accountData.CoreId);
+        this.GetCasernNumberOfAttackAircraft();
     }
     OnGoldMiningBtnClick() {
         this.IsCoreInfoActivated = false;
@@ -1054,7 +1096,7 @@ let GameComponent = class GameComponent {
         this.IsGoldMiningInfoActivated = true;
     }
     OnAddWorkerToMineBtnClick() {
-        this.loggedData.PushBuildingMsg("Добавлен рабочий к руднику");
+        this.httpGameService.GoldMiningAddWorker(this.accountData.CoreId);
     }
     OnDefenceTowerBtnClick() {
         this.IsCasernInfoActivated = false;
@@ -1161,7 +1203,9 @@ let GameComponent = class GameComponent {
             + this.numberOfSelectedList
             + "]");
         this.isUserActionsWindowVisible = true;
-        console.log("OnUserBtnClick: " + userInfo.Nickname);
+        console.log("OnUserBtnClick: [nick: " + userInfo.Nickname +
+            ", userid: " + userInfo.UserId +
+            ", coreid: " + userInfo.CoreId);
         this.selectedUser = userInfo;
         this.isSelectedUserFriend = this.IsUserFriend();
     }
@@ -1227,7 +1271,6 @@ let GameComponent = class GameComponent {
         let result = this
             .httpGameService
             .DuelBattle(this.selectedUser.CoreId);
-        console.log(result.Message);
     }
     OnCoreAttackBtnClick() {
         let result = this
@@ -1515,6 +1558,8 @@ let GameService = class GameService {
         this.casernProduceWarriorUrl = "http://localhost:6430/api/game/CasernProduceWarrior";
         this.casernProduceAttackAircraftUrl = "http://localhost:6430/api/game/CasernProduceAttackAircraft";
         this.goldMiningAddWorkerUrl = "http://localhost:6430/api/game/GoldMiningAddWorker";
+        this.casernGetNumberOfWarriorsUrl = "http://localhost:6430/api/game/CasernGetNumberOfWarriors";
+        this.casernGetNumberOfAttackAircraftUrl = "http://localhost:6430/api/game/CasernGetNumberOfAttackAircraft";
         this.getCoreInfoByIdUrl = "http://localhost:6430/api/game/GetCoreInfoById";
         this.duelBattleUrl = "http://localhost:6430/api/game/DuelBattle";
         this.coreBattleUrl = "http://localhost:6430/api/game/CoreBattle";
@@ -1529,10 +1574,10 @@ let GameService = class GameService {
         this.router.navigate(["/game"]);
     }
     CasernGetNumberOfWarriors(coreId) {
-        return 0;
+        return this.httpClient.post(this.casernGetNumberOfWarriorsUrl, coreId);
     }
     CasernGetNumberOfAttackAircraft(coreId) {
-        return 0;
+        return this.httpClient.post(this.casernGetNumberOfAttackAircraftUrl, coreId);
     }
     CoreBuildCasern(coreId) {
         this.httpClient
@@ -1569,19 +1614,14 @@ let GameService = class GameService {
             .post(this.goldMiningAddWorkerUrl, coreId)
             .subscribe(data => console.log("[GoldMiningAddWorker] success"), error => console.log("error" + error));
     }
-    GetCoreById() {
-        return this.httpClient
-            .get(this.getCoreInfoByIdUrl);
-        ;
+    GetCoreInfoById() {
+        return this.httpClient.get(this.getCoreInfoByIdUrl);
     }
     DuelBattle(coreId) {
         console.log("GetAllUserInfo");
+        console.log("[Duel battle] CoreId: " + coreId);
         let result;
-        let dataToPost = {
-            WhoWonTheBattle: coreId,
-            Message: ""
-        };
-        this.httpClient.post(this.duelBattleUrl, "2")
+        this.httpClient.post(this.duelBattleUrl, coreId)
             .subscribe((data) => {
             console.log("[success] DuelBattle");
             result = data;

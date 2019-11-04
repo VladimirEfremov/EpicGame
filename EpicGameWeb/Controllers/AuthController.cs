@@ -2,6 +2,7 @@
 using System.Web.Security;
 using EpicGameCommon;
 using EpicGameCommon.Models.Session;
+using EpicGameWeb.Models;
 using EpicGameWeb.Models.Account;
 using EpicGameWeb.Models.DBHelper;
 
@@ -9,11 +10,26 @@ namespace EpicGameWeb.Controllers
 {
     public class AuthController : Controller
     {
-        public static int UserId;
-        public static int CoreId;
+
+        public string GetSessionVariable(string variableName)
+        {
+            if (Session[variableName] != null)
+            {
+                return Session[variableName].ToString();
+            }
+            return "";
+        }
+
+        public void SetSessionVariable(string variableName, string value)
+        {
+            Session[variableName] = value;
+        }
 
         public string Login(LoginModel loginModel)
         {
+            SetSessionVariable("UserId", "");
+            SetSessionVariable("CoreId", "");
+
             if (loginModel != null)
             {
                 if (ModelState.IsValid)
@@ -82,20 +98,25 @@ namespace EpicGameWeb.Controllers
         {
             int userId = RemoteProcedureCallClass.GetUserChannel()
                 .GetUserIdByNickname(User.Identity.Name);
-            UserId = userId;
 
             var core = RemoteProcedureCallClass.GetGameChannel()
-                .GetCoreByUserId(UserId).FromJson<SessionCoresTable>();
-            
-            if (core?.SessionCoreId != 0) { CoreId = core.SessionCoreId; }
+                .GetCoreByUserId(userId).FromJson<SessionCoresTable>();
+
+            SetSessionVariable("UserId", userId.ToString());
+            MySession.UserId = userId;
+            if (core != null)
+            {
+                if (core.SessionCoreId != 0) 
+                { 
+                    SetSessionVariable("CoreId", core.SessionCoreId.ToString());
+                    MySession.CoreId = core.SessionCoreId;
+                }
+            }
 
             AccountData result = new AccountData();
             result.UserId = userId;
             result.CoreId = (core != null) ? core.SessionCoreId : 0;
             result.Nickname = User.Identity.Name;
-            result.FriendsList = new string[] { "fr1" };
-            result.FollowersList = new string[] { "fo2" };
-            result.FollowingsList = new string[] { "fol3" };
             return result.ToJson();
         }
 
@@ -127,28 +148,55 @@ namespace EpicGameWeb.Controllers
         [HttpGet]
         public string UsersFriendsInfo()
         {
-            var channel = RemoteProcedureCallClass
-                .GetUserChannel();
-            var friendsUsersJson = channel.GetUsersFriendsInfo(UserId);
-            return friendsUsersJson;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var channel = RemoteProcedureCallClass
+                    .GetUserChannel();
+                var friendsUsersJson = channel.GetUsersFriendsInfo(userId);
+                return friendsUsersJson;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public string UsersFollowersInfo()
         {
-            var channel = RemoteProcedureCallClass
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var channel = RemoteProcedureCallClass
                 .GetUserChannel();
-            var followersUsersJson = channel.GetUsersFollowersInfo(UserId);
-            return followersUsersJson;
+                var followersUsersJson = channel.GetUsersFollowersInfo(userId);
+                return followersUsersJson;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public string UsersFollowingsInfo()
         {
-            var channel = RemoteProcedureCallClass
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var channel = RemoteProcedureCallClass
                 .GetUserChannel();
-            var followingsUsersJson = channel.GetUsersFollowingsInfo(UserId);
-            return followingsUsersJson;
+                var followingsUsersJson = channel.GetUsersFollowingsInfo(userId);
+                return followingsUsersJson;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpPost]
@@ -160,55 +208,109 @@ namespace EpicGameWeb.Controllers
         [HttpGet]
         public string GetAllUserLogData()
         {
-            string result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .GetAllUserLogData(UserId);
-            return result;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                string result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetAllUserLogData(userId);
+                return result;
+            }
+            else
+            {
+                return "";
+            }
         }
         
         [HttpGet]
         public string GetAllUserBattleEvents()
         {
-            string result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .GetAllUserBattleEvents(UserId);
-            return result;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                string result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetAllUserBattleEvents(userId);
+                return result;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public string GetAllUserProduceEvents()
         {
-            string result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .GetAllUserProduceEvents(UserId);
-            return result;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                string result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetAllUserProduceEvents(userId);
+                return result;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public string GetAllUserCommunicationEvents()
         {
-            string result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .GetAllUserCommunicationEvents(UserId);
-            return result;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                string result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetAllUserCommunicationEvents(userId);
+                return result;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public string UpdateLogData()
         {
-            string result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .UpdateLogData(UserId);
-            return result;
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                string result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .UpdateLogData(userId);
+                return result;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
         public int IsLogUpdated()
         {
-            bool result = RemoteProcedureCallClass
-                .GetBaseChannel()
-                .IsLogUpdated(UserId);
-            return (result ? 1 : 0);
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                bool result = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .IsLogUpdated(userId);
+                return (result ? 1 : 0);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
     }
