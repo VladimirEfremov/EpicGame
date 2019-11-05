@@ -219,7 +219,7 @@
                     {
                         --@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
-                        while (seconds < 1 * 60)
+                        while (seconds < 1 * 1)
                         {
                             Thread.Sleep(1000);
                             seconds++;
@@ -246,6 +246,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
                             $"Build casern for core [{nick}]");
@@ -260,6 +268,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceFailure,
                            $"Casern already build for core [{nick}]");
@@ -290,7 +306,7 @@
                     {
                         --@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
-                        while (seconds < 1 * 60)
+                        while (seconds < 1 * 1)
                         {
                             Thread.Sleep(1000);
                             seconds++;
@@ -317,6 +333,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
                             $"Build gold mining for core [{nick}]");
@@ -331,6 +355,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceFailure,
                            $"Gold mining already build for core [{nick}]");
@@ -388,6 +420,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
                             $"Build defence tower for core [{nick}]");
@@ -402,6 +442,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                            LogType.ProduceFailure,
                            $"Defence tower already build for core [{nick}]");
@@ -446,6 +494,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
                         $"Produce new worker [{nick}] |{@base.WorkersNumber}|");
@@ -460,7 +516,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
-
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceFailure,
                         $"Workers capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
@@ -504,6 +567,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
                         $"Produce new warrior [{nick}] |{casern.WarriorsNumber}|");
@@ -518,6 +589,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceFailure,
                         $"Warriors capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
@@ -539,13 +618,12 @@
             if (casern != null)
             {
                 var casernBuilding = m_GameBuildingsEntity
-                .GameBuildingsTable
-                .AsNoTracking()
-                .Where(obj => obj.GameBuildingName == "Casern")
-                .FirstOrDefault();
+                    .GameBuildingsTable.AsNoTracking()
+                    .Where(obj => obj.GameBuildingName == "Casern")
+                    .FirstOrDefault();
                 if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
                 {
-                    while (seconds < 1 * 15)
+                    while (seconds < 1 * 1)
                     {
                         Thread.Sleep(1000);
                         seconds++;
@@ -561,6 +639,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
                        $"Produce new attack aircraft [{nick}] |{casern.AttackAircraftNumber}|");
@@ -575,6 +661,14 @@
                     string nick = m_UserContext.UserTable.AsNoTracking()
                         .Where(obj => obj.UserId == userId)
                         .FirstOrDefault()?.Nickname;
+                    if (userId <= 0)
+                    {
+                        logger.Error($"UserId [{userId}] <= 0");
+                    }
+                    else
+                    {
+                        logger.Info($"UserId [{userId}]");
+                    }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceFailure,
                        $"AttackAircraft capacity limit exceeded for core !!! [nick: {nick}] |{casern.AttackAircraftNumber}|");
@@ -626,6 +720,16 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
+
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
                             $"Add new worker to gold mining [{nick}] |{goldMining.WorkersNumber}|");
@@ -640,6 +744,14 @@
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
+                        if (userId <= 0)
+                        {
+                            logger.Error($"UserId [{userId}] <= 0");
+                        }
+                        else
+                        {
+                            logger.Info($"UserId [{userId}]");
+                        }
                         EventLogger.AddLogForUser(userId,
                            LogType.ProduceFailure,
                            $"Gold mining capacity exceeded [{nick}] |{goldMining.WorkersNumber}|");
@@ -737,8 +849,8 @@
                                     CasernHp = casernGame.GameBuildingHP,
                                     CasernAttack = casernGame.GameBuildingAttack,
                                     CasernDefence = casernGame.GameBuildingDefence,
-                                    NumberOfWarriors = (casernSession != null) ? casernSession.WarriorsNumber : 0,
-                                    NumberOfAttackAircraft = (casernSession != null) ? casernSession.AttackAircraftNumber : 0,
+                                    CasernWarriorsCount = (casernSession != null) ? casernSession.WarriorsNumber : 0,
+                                    CasernAttackAircraftsCount = (casernSession != null) ? casernSession.AttackAircraftNumber : 0,
                                     CasernType = casernGame.GameBuildingType,
                                     CasernIncome = casernGame.GameBuildingGoldIncome,
                                     CasernOutcome = casernGame.GameBuildingGoldOutcome,
@@ -764,7 +876,7 @@
                                     GoldMiningType = goldMiningGame.GameBuildingType,
                                     GoldMiningIncome = goldMiningGame.GameBuildingGoldIncome,
                                     GoldMiningOutcome = goldMiningGame.GameBuildingGoldOutcome,
-                                    NumberOfWorkersInGoldMining = (goldMiningSession != null) ? goldMiningSession.WorkersNumber : 0
+                                    GoldMiningNumberOfWorkers = (goldMiningSession != null) ? goldMiningSession.WorkersNumber : 0
                                 };
                                 string coreInfoJson = coreInfo.ToJson();
                                 logger.Info($"CORE INFO SEND: {coreInfoJson}");

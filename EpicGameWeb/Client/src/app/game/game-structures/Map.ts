@@ -29,7 +29,7 @@ export class Map {
                 .getElementById('map')
                 .getBoundingClientRect();
 
-        console.log("" + this.canvasRect.bottom);
+        //console.log("" + this.canvasRect.bottom);
         this.canvas
             .addEventListener(
                 'mousemove', function(event) {
@@ -41,8 +41,7 @@ export class Map {
                         event.clientX - rect.left;
                     this.mouseY = 
                         event.clientY - rect.top;
-                    console.log("x: " + this.mouseX + 
-                        "y: " + this.mouseY);
+                    //console.log("x: " + this.mouseX + "y: " + this.mouseY);
                 }, false);
 
         //нужно качать изображение с сервера
@@ -77,7 +76,7 @@ export class Map {
     public DrawWorld():void
     {
         this.Clear();
-        console.log("Draw");
+        //console.log("Draw");
 
         this.context.fillStyle = "red";
         this.DrawCircle(

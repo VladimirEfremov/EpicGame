@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 1\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 1\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 1\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{casernInfo.CasernIncome}}</div> \n              <div>Outcome: {{casernInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n        <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n              <div>Workers: {{coreInfo.NumberOfWorkersInGoldMining}}</div>\n              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n              <div>Type: {{coreInfo.GoldMiningType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <button title=\"Добавит нового рабочего на производственную линию\"\n                      (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n            </td>\n        </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\">\n        <td>\n          <div class=\"TextInCenter\">FriendsList</div>\n        </td>\n        <td>\n          <div>{{numberOfPage}}</div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button>\n            Follower?\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}}<sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} <sup class=\"LoggerTime\">[{{log.Time}}]</sup></div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 1\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 1\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 1\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.CasernIncome}}</div> \n              <div>Outcome: {{coreInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n          </ng-template>\n        \n        <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n              <div>Workers: {{coreInfo.NumberOfWorkersInGoldMining}}</div>\n              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n              <div>Type: {{coreInfo.GoldMiningType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <button title=\"Добавит нового рабочего на производственную линию\"\n                      (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n            </td>\n        </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\" class=\"cmntr\">\n          <td>\n              <div class=\"TextInCenter\" [ngSwitch]=\"numberOfSelectedList\">\n                  <ng-template [ngSwitchCase]=\"0\">All</ng-template>\n                  <ng-template [ngSwitchCase]=\"1\">Friends</ng-template>\n                  <ng-template [ngSwitchCase]=\"2\">Followers</ng-template>\n                  <ng-template [ngSwitchCase]=\"3\">Followings</ng-template>\n              </div>\n          </td>\n          <td> <div>{{numberOfPage}}</div> </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button>\n            Follower?\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
 
 /***/ }),
 
@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n\n<div class=\"main_registration\">\n<div class=\"background\">\n\n<form>\n        <h1 class=\"txt_registration\">\n        REGISTRATION FORM\n        </h1>\n\n        <div class=\"name\">\n        <input name=\"firstName\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите имя *\" \n                [(ngModel)]=\"PostData.FirstName\"\n                required\n                />\n        </div>\n\n        <br />\n\n        <div class=\"sunname\">\n        <input  name=\"login\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите фамилию *\" \n                [(ngModel)]=\"PostData.SecondName\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div class=\"password\">\n        <input name=\"pass\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"PostData.PasswordHash\"\n                required/>\n        </div>\n   \n        <br />\n\n        <div class=\"nickname\">\n        <input  name=\"login\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите никнейм *\" \n                [(ngModel)]=\"PostData.Nickname\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div class=\"email\">\n        <input  name=\"login\" type=\"text\" \n                placeholder=\"Введите email *\" \n                [(ngModel)]=\"PostData.Email\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div>\n        <button  name=\"btn_Registration\" \n                (click)=\"onClick()\">\n                Зарегестрироваться \n        </button>\n        </div>\n\n</form>\n\n</div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n\n<div class=\"main_registration\">\n<div class=\"background\">\n\n<form>\n        <h1 class=\"txt_registration\">\n        REGISTRATION FORM\n        </h1>\n\n        <div class=\"name\">\n        <input name=\"firstName\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите имя *\" \n                [(ngModel)]=\"PostData.FirstName\"\n                required\n                />\n        </div>\n\n        <br />\n\n        <div class=\"sunname\">\n        <input  name=\"login\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите фамилию *\" \n                [(ngModel)]=\"PostData.SecondName\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div class=\"password\">\n        <input name=\"pass\" type=\"password\" \n                maxlength=30\n                placeholder=\"Введите пароль *\" \n                [(ngModel)]=\"PostData.PasswordHash\"\n                required/>\n        </div>\n   \n        <br />\n\n        <div class=\"nickname\">\n        <input  name=\"login\" type=\"text\" \n                maxlength=30\n                placeholder=\"Введите никнейм *\" \n                [(ngModel)]=\"PostData.Nickname\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div class=\"email\">\n        <input  name=\"login\" type=\"text\" \n                placeholder=\"Введите email *\" \n                [(ngModel)]=\"PostData.Email\"\n                required\n                />\n        </div>\n   \n        <br />\n\n        <div class=\"link_login\">\n            <a title=\"Нажми, чтобы войти\"\n            routerLink=\"/login\">\n            Уже есть аккаунт\n            </a>\n        </div>\n\n        <div>\n        <button  name=\"btn_Registration\" \n                (click)=\"onClick()\">\n                Зарегестрироваться \n        </button>\n        </div>\n\n</form>\n\n</div>\n</div>");
 
 /***/ }),
 
@@ -664,7 +664,7 @@ class Map {
         this.canvasRect = document
             .getElementById('map')
             .getBoundingClientRect();
-        console.log("" + this.canvasRect.bottom);
+        //console.log("" + this.canvasRect.bottom);
         this.canvas
             .addEventListener('mousemove', function (event) {
             let rect = document
@@ -674,8 +674,7 @@ class Map {
                 event.clientX - rect.left;
             this.mouseY =
                 event.clientY - rect.top;
-            console.log("x: " + this.mouseX +
-                "y: " + this.mouseY);
+            //console.log("x: " + this.mouseX + "y: " + this.mouseY);
         }, false);
         //нужно качать изображение с сервера
         //this.spaceShipSprite = new Image();
@@ -699,7 +698,7 @@ class Map {
     }
     DrawWorld() {
         this.Clear();
-        console.log("Draw");
+        //console.log("Draw");
         this.context.fillStyle = "red";
         this.DrawCircle((this.canvasRect.right - this.canvasRect.left) / 2, (this.canvasRect.bottom - this.canvasRect.top) / 2, 50, "yellow");
         if (this.x > 100) {
@@ -726,7 +725,7 @@ class Map {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\ntd\r\n{\r\n    text-align: left;\r\n    padding: 0.5rem;\r\n}\r\n\r\n\r\n.globalTable\r\n{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n\r\n.CoreTable\r\n{\r\n    width: 70rem;\r\n    border: 1px solid black;\r\n    border-left: 1px solid black;\r\n}\r\n\r\n\r\n.GameTxt\r\n{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    vertical-align: text-top;\r\n}\r\n\r\n\r\n.DiactivatedButton\r\n{\r\n    background-color: gray;\r\n}\r\n\r\n\r\n.CommunicationTable\r\n{\r\n    width: 350px;\r\n    height:200px;\r\n    border: 1px solid black;\r\n    margin-right: 5%;\r\n}\r\n\r\n\r\n.TextInCenter\r\n{\r\n    text-align: center;\r\n}\r\n\r\n\r\n.cmnBtn\r\n{\r\n    width: 100px;\r\n}\r\n\r\n\r\n.btnList\r\n{\r\n    width: 150px;\r\n}\r\n\r\n\r\n.Logger {\r\n    margin-left:25px;\r\n    background-color: #0f0d53;\r\n    height:350px;\r\n    width:650px;\r\n    padding:0.1rem;\r\n    padding-left:1.1rem;\r\n    overflow-y: scroll;\r\n}\r\n\r\n\r\n.LoggerContent\r\n{\r\n    margin-left:1px;\r\n    margin-top:5px;\r\n    font-size:14px;\r\n}\r\n\r\n\r\n.LoggerDefaultContent\r\n{\r\n    color: #ffffff;\r\n}\r\n\r\n\r\n.LoggerBuildContent\r\n{\r\n    color: #f1ee12;\r\n}\r\n\r\n\r\n.LoggerWarContent\r\n{\r\n    color: #ff0000;\r\n}\r\n\r\n\r\n.LoggerCommunicationContent\r\n{\r\n    color: #09ff00;\r\n}\r\n\r\n\r\n.LoggerTime{\r\n    position: relative;\r\n    right: 5px;\r\n}\r\n\r\n\r\n.RoundedExitBtnBox{\r\n    display: flex;\r\n}\r\n\r\n\r\n.RoundedExitBtn{\r\n    position: absolute; \r\n    right: 2.5%;\r\n    top: 2.5%;\r\n    width:25px;\r\n    height:25px;\r\n    color:red;\r\n    background-color: rgb(250, 250, 0, 0);\r\n    font:30px;\r\n    border-radius: 50%;\r\n    border:1px solid red;\r\n}\r\n\r\n\r\n.UsersActionWindowBox{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n\r\n.UsersActionWindow {\r\n    position: absolute;\r\n    width: 500px;\r\n    height: 500px;\r\n    background-color: rgb(0,0,0);\r\n    color:white;\r\n    font-size: 30px;\r\n}\r\n\r\n\r\n.UserInfo {\r\n    position:absolute;\r\n    left: 5%;\r\n}\r\n\r\n\r\n.btnUserAction {\r\n    position: absolute;\r\n    left:40%;\r\n    bottom: 10%;\r\n    width: 150px;\r\n}\r\n\r\n\r\n.CanvasDiv{\r\n    position:absolute;\r\n    left: 0px;\r\n    right: 0px;\r\n}\r\n\r\n\r\n#map{\r\n    border:1px solid black;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtBQUNuQjs7O0FBR0E7O0lBRUksV0FBVztJQUNYLFlBQVk7QUFDaEI7OztBQUVBOztJQUVJLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsNEJBQTRCO0FBQ2hDOzs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLHdCQUF3QjtBQUM1Qjs7O0FBRUE7O0lBRUksc0JBQXNCO0FBQzFCOzs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osWUFBWTtJQUNaLHVCQUF1QjtJQUN2QixnQkFBZ0I7QUFDcEI7OztBQUVBOztJQUVJLGtCQUFrQjtBQUN0Qjs7O0FBRUE7O0lBRUksWUFBWTtBQUNoQjs7O0FBRUE7O0lBRUksWUFBWTtBQUNoQjs7O0FBRUE7SUFDSSxnQkFBZ0I7SUFDaEIseUJBQXlCO0lBQ3pCLFlBQVk7SUFDWixXQUFXO0lBQ1gsY0FBYztJQUNkLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7OztBQUVBOztJQUVJLGVBQWU7SUFDZixjQUFjO0lBQ2QsY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7O0lBRUksY0FBYztBQUNsQjs7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtBQUNkOzs7QUFFQTtJQUNJLGFBQWE7QUFDakI7OztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxTQUFTO0lBQ1QsVUFBVTtJQUNWLFdBQVc7SUFDWCxTQUFTO0lBQ1QscUNBQXFDO0lBQ3JDLFNBQVM7SUFDVCxrQkFBa0I7SUFDbEIsb0JBQW9CO0FBQ3hCOzs7QUFFQTtJQUNJLGFBQWE7SUFDYix1QkFBdUI7SUFDdkIsbUJBQW1CO0FBQ3ZCOzs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osYUFBYTtJQUNiLDRCQUE0QjtJQUM1QixXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsUUFBUTtBQUNaOzs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsV0FBVztJQUNYLFlBQVk7QUFDaEI7OztBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLFNBQVM7SUFDVCxVQUFVO0FBQ2Q7OztBQUVBO0lBQ0ksc0JBQXNCO0FBQzFCIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcclxuXHJcbnRkXHJcbntcclxuICAgIHRleHQtYWxpZ246IGxlZnQ7XHJcbiAgICBwYWRkaW5nOiAwLjVyZW07XHJcbn1cclxuXHJcblxyXG4uZ2xvYmFsVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbn1cclxuXHJcbi5Db3JlVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDcwcmVtO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkIGJsYWNrO1xyXG59XHJcblxyXG4uR2FtZVR4dFxyXG57XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBmb250LXNpemU6IDM0cHg7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogdGV4dC10b3A7XHJcbn1cclxuXHJcbi5EaWFjdGl2YXRlZEJ1dHRvblxyXG57XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBncmF5O1xyXG59XHJcblxyXG4uQ29tbXVuaWNhdGlvblRhYmxlXHJcbntcclxuICAgIHdpZHRoOiAzNTBweDtcclxuICAgIGhlaWdodDoyMDBweDtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiA1JTtcclxufVxyXG5cclxuLlRleHRJbkNlbnRlclxyXG57XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5jbW5CdG5cclxue1xyXG4gICAgd2lkdGg6IDEwMHB4O1xyXG59XHJcblxyXG4uYnRuTGlzdFxyXG57XHJcbiAgICB3aWR0aDogMTUwcHg7XHJcbn1cclxuXHJcbi5Mb2dnZXIge1xyXG4gICAgbWFyZ2luLWxlZnQ6MjVweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICMwZjBkNTM7XHJcbiAgICBoZWlnaHQ6MzUwcHg7XHJcbiAgICB3aWR0aDo2NTBweDtcclxuICAgIHBhZGRpbmc6MC4xcmVtO1xyXG4gICAgcGFkZGluZy1sZWZ0OjEuMXJlbTtcclxuICAgIG92ZXJmbG93LXk6IHNjcm9sbDtcclxufVxyXG5cclxuLkxvZ2dlckNvbnRlbnRcclxue1xyXG4gICAgbWFyZ2luLWxlZnQ6MXB4O1xyXG4gICAgbWFyZ2luLXRvcDo1cHg7XHJcbiAgICBmb250LXNpemU6MTRweDtcclxufVxyXG5cclxuLkxvZ2dlckRlZmF1bHRDb250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjZmZmZmZmO1xyXG59XHJcblxyXG4uTG9nZ2VyQnVpbGRDb250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjZjFlZTEyO1xyXG59XHJcblxyXG4uTG9nZ2VyV2FyQ29udGVudFxyXG57XHJcbiAgICBjb2xvcjogI2ZmMDAwMDtcclxufVxyXG5cclxuLkxvZ2dlckNvbW11bmljYXRpb25Db250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjMDlmZjAwO1xyXG59XHJcblxyXG4uTG9nZ2VyVGltZXtcclxuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcclxuICAgIHJpZ2h0OiA1cHg7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bkJveHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbn1cclxuXHJcbi5Sb3VuZGVkRXhpdEJ0bntcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsgXHJcbiAgICByaWdodDogMi41JTtcclxuICAgIHRvcDogMi41JTtcclxuICAgIHdpZHRoOjI1cHg7XHJcbiAgICBoZWlnaHQ6MjVweDtcclxuICAgIGNvbG9yOnJlZDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyNTAsIDI1MCwgMCwgMCk7XHJcbiAgICBmb250OjMwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XHJcbiAgICBib3JkZXI6MXB4IHNvbGlkIHJlZDtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93Qm94e1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxufVxyXG5cclxuLlVzZXJzQWN0aW9uV2luZG93IHtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIHdpZHRoOiA1MDBweDtcclxuICAgIGhlaWdodDogNTAwcHg7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApO1xyXG4gICAgY29sb3I6d2hpdGU7XHJcbiAgICBmb250LXNpemU6IDMwcHg7XHJcbn1cclxuXHJcbi5Vc2VySW5mbyB7XHJcbiAgICBwb3NpdGlvbjphYnNvbHV0ZTtcclxuICAgIGxlZnQ6IDUlO1xyXG59XHJcblxyXG4uYnRuVXNlckFjdGlvbiB7XHJcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgICBsZWZ0OjQwJTtcclxuICAgIGJvdHRvbTogMTAlO1xyXG4gICAgd2lkdGg6IDE1MHB4O1xyXG59XHJcblxyXG4uQ2FudmFzRGl2e1xyXG4gICAgcG9zaXRpb246YWJzb2x1dGU7XHJcbiAgICBsZWZ0OiAwcHg7XHJcbiAgICByaWdodDogMHB4O1xyXG59XHJcblxyXG4jbWFwe1xyXG4gICAgYm9yZGVyOjFweCBzb2xpZCBibGFjaztcclxufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\ntd\r\n{\r\n    text-align: left;\r\n    padding: 0.5rem;\r\n}\r\n\r\n\r\n.globalTable\r\n{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n\r\n.CoreTable\r\n{\r\n    width: 70rem;\r\n    border: 1px solid black;\r\n    border-left: 1px solid black;\r\n}\r\n\r\n\r\n.GameTxt\r\n{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    vertical-align: text-top;\r\n}\r\n\r\n\r\n.DiactivatedButton\r\n{\r\n    background-color: gray;\r\n}\r\n\r\n\r\n.CommunicationTable\r\n{\r\n    width: 350px;\r\n    height:200px;\r\n    border: 1px solid black;\r\n    margin-right: 5%;\r\n}\r\n\r\n\r\n.cmntr {\r\n    width: 150px;\r\n}\r\n\r\n\r\n.TextInCenter\r\n{\r\n    text-align: center;\r\n}\r\n\r\n\r\n.cmnBtn\r\n{\r\n    width: 100px;\r\n}\r\n\r\n\r\n.btnList\r\n{\r\n    width: 150px;\r\n}\r\n\r\n\r\n.Logger {\r\n    margin-left:25px;\r\n    background-color: #0f0d53;\r\n    height:350px;\r\n    width:650px;\r\n    padding:0.1rem;\r\n    padding-left:1.1rem;\r\n    overflow-y: scroll;\r\n}\r\n\r\n\r\n.LoggerContent\r\n{\r\n    margin-left:1px;\r\n    margin-top:5px;\r\n    font-size:14px;\r\n}\r\n\r\n\r\n.LoggerDefaultContent\r\n{\r\n    color: #ffffff;\r\n}\r\n\r\n\r\n.LoggerBuildContent\r\n{\r\n    color: #f1ee12;\r\n}\r\n\r\n\r\n.LoggerWarContent\r\n{\r\n    color: #ff0000;\r\n}\r\n\r\n\r\n.LoggerCommunicationContent\r\n{\r\n    color: #09ff00;\r\n}\r\n\r\n\r\n.LoggerTime{\r\n    position: relative;\r\n    right: 5px;\r\n}\r\n\r\n\r\n.RoundedExitBtnBox{\r\n    display: flex;\r\n}\r\n\r\n\r\n.RoundedExitBtn{\r\n    position: absolute; \r\n    right: 2.5%;\r\n    top: 2.5%;\r\n    width:25px;\r\n    height:25px;\r\n    color:red;\r\n    background-color: rgb(250, 250, 0, 0);\r\n    font:30px;\r\n    border-radius: 50%;\r\n    border:1px solid red;\r\n}\r\n\r\n\r\n.UsersActionWindowBox{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n\r\n.UsersActionWindow {\r\n    position: absolute;\r\n    width: 500px;\r\n    height: 500px;\r\n    background-color: rgb(0,0,0);\r\n    color:white;\r\n    font-size: 30px;\r\n}\r\n\r\n\r\n.UserInfo {\r\n    position:absolute;\r\n    left: 5%;\r\n}\r\n\r\n\r\n.btnUserAction {\r\n    position: absolute;\r\n    left:40%;\r\n    bottom: 10%;\r\n    width: 150px;\r\n}\r\n\r\n\r\n.CanvasDiv{\r\n    position:absolute;\r\n    left: 0px;\r\n    right: 0px;\r\n}\r\n\r\n\r\n#map{\r\n    border:1px solid black;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtBQUNuQjs7O0FBR0E7O0lBRUksV0FBVztJQUNYLFlBQVk7QUFDaEI7OztBQUVBOztJQUVJLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsNEJBQTRCO0FBQ2hDOzs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLHdCQUF3QjtBQUM1Qjs7O0FBRUE7O0lBRUksc0JBQXNCO0FBQzFCOzs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osWUFBWTtJQUNaLHVCQUF1QjtJQUN2QixnQkFBZ0I7QUFDcEI7OztBQUVBO0lBQ0ksWUFBWTtBQUNoQjs7O0FBRUE7O0lBRUksa0JBQWtCO0FBQ3RCOzs7QUFFQTs7SUFFSSxZQUFZO0FBQ2hCOzs7QUFFQTs7SUFFSSxZQUFZO0FBQ2hCOzs7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQix5QkFBeUI7SUFDekIsWUFBWTtJQUNaLFdBQVc7SUFDWCxjQUFjO0lBQ2QsbUJBQW1CO0lBQ25CLGtCQUFrQjtBQUN0Qjs7O0FBRUE7O0lBRUksZUFBZTtJQUNmLGNBQWM7SUFDZCxjQUFjO0FBQ2xCOzs7QUFFQTs7SUFFSSxjQUFjO0FBQ2xCOzs7QUFFQTs7SUFFSSxjQUFjO0FBQ2xCOzs7QUFFQTs7SUFFSSxjQUFjO0FBQ2xCOzs7QUFFQTs7SUFFSSxjQUFjO0FBQ2xCOzs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixVQUFVO0FBQ2Q7OztBQUVBO0lBQ0ksYUFBYTtBQUNqQjs7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLFNBQVM7SUFDVCxVQUFVO0lBQ1YsV0FBVztJQUNYLFNBQVM7SUFDVCxxQ0FBcUM7SUFDckMsU0FBUztJQUNULGtCQUFrQjtJQUNsQixvQkFBb0I7QUFDeEI7OztBQUVBO0lBQ0ksYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixtQkFBbUI7QUFDdkI7OztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixhQUFhO0lBQ2IsNEJBQTRCO0lBQzVCLFdBQVc7SUFDWCxlQUFlO0FBQ25COzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixRQUFRO0FBQ1o7OztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixXQUFXO0lBQ1gsWUFBWTtBQUNoQjs7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsU0FBUztJQUNULFVBQVU7QUFDZDs7O0FBRUE7SUFDSSxzQkFBc0I7QUFDMUIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG5cclxudGRcclxue1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxuICAgIHBhZGRpbmc6IDAuNXJlbTtcclxufVxyXG5cclxuXHJcbi5nbG9iYWxUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogMTAwJTtcclxufVxyXG5cclxuLkNvcmVUYWJsZVxyXG57XHJcbiAgICB3aWR0aDogNzByZW07XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuICAgIGJvcmRlci1sZWZ0OiAxcHggc29saWQgYmxhY2s7XHJcbn1cclxuXHJcbi5HYW1lVHh0XHJcbntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtc2l6ZTogMzRweDtcclxuICAgIHZlcnRpY2FsLWFsaWduOiB0ZXh0LXRvcDtcclxufVxyXG5cclxuLkRpYWN0aXZhdGVkQnV0dG9uXHJcbntcclxuICAgIGJhY2tncm91bmQtY29sb3I6IGdyYXk7XHJcbn1cclxuXHJcbi5Db21tdW5pY2F0aW9uVGFibGVcclxue1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgaGVpZ2h0OjIwMHB4O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDUlO1xyXG59XHJcblxyXG4uY21udHIge1xyXG4gICAgd2lkdGg6IDE1MHB4O1xyXG59XHJcblxyXG4uVGV4dEluQ2VudGVyXHJcbntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG5cclxuLmNtbkJ0blxyXG57XHJcbiAgICB3aWR0aDogMTAwcHg7XHJcbn1cclxuXHJcbi5idG5MaXN0XHJcbntcclxuICAgIHdpZHRoOiAxNTBweDtcclxufVxyXG5cclxuLkxvZ2dlciB7XHJcbiAgICBtYXJnaW4tbGVmdDoyNXB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzBmMGQ1MztcclxuICAgIGhlaWdodDozNTBweDtcclxuICAgIHdpZHRoOjY1MHB4O1xyXG4gICAgcGFkZGluZzowLjFyZW07XHJcbiAgICBwYWRkaW5nLWxlZnQ6MS4xcmVtO1xyXG4gICAgb3ZlcmZsb3cteTogc2Nyb2xsO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29udGVudFxyXG57XHJcbiAgICBtYXJnaW4tbGVmdDoxcHg7XHJcbiAgICBtYXJnaW4tdG9wOjVweDtcclxuICAgIGZvbnQtc2l6ZToxNHB4O1xyXG59XHJcblxyXG4uTG9nZ2VyRGVmYXVsdENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmZmZmZmY7XHJcbn1cclxuXHJcbi5Mb2dnZXJCdWlsZENvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICNmMWVlMTI7XHJcbn1cclxuXHJcbi5Mb2dnZXJXYXJDb250ZW50XHJcbntcclxuICAgIGNvbG9yOiAjZmYwMDAwO1xyXG59XHJcblxyXG4uTG9nZ2VyQ29tbXVuaWNhdGlvbkNvbnRlbnRcclxue1xyXG4gICAgY29sb3I6ICMwOWZmMDA7XHJcbn1cclxuXHJcbi5Mb2dnZXJUaW1le1xyXG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG4gICAgcmlnaHQ6IDVweDtcclxufVxyXG5cclxuLlJvdW5kZWRFeGl0QnRuQm94e1xyXG4gICAgZGlzcGxheTogZmxleDtcclxufVxyXG5cclxuLlJvdW5kZWRFeGl0QnRue1xyXG4gICAgcG9zaXRpb246IGFic29sdXRlOyBcclxuICAgIHJpZ2h0OiAyLjUlO1xyXG4gICAgdG9wOiAyLjUlO1xyXG4gICAgd2lkdGg6MjVweDtcclxuICAgIGhlaWdodDoyNXB4O1xyXG4gICAgY29sb3I6cmVkO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1MCwgMjUwLCAwLCAwKTtcclxuICAgIGZvbnQ6MzBweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcclxuICAgIGJvcmRlcjoxcHggc29saWQgcmVkO1xyXG59XHJcblxyXG4uVXNlcnNBY3Rpb25XaW5kb3dCb3h7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG4uVXNlcnNBY3Rpb25XaW5kb3cge1xyXG4gICAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gICAgd2lkdGg6IDUwMHB4O1xyXG4gICAgaGVpZ2h0OiA1MDBweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigwLDAsMCk7XHJcbiAgICBjb2xvcjp3aGl0ZTtcclxuICAgIGZvbnQtc2l6ZTogMzBweDtcclxufVxyXG5cclxuLlVzZXJJbmZvIHtcclxuICAgIHBvc2l0aW9uOmFic29sdXRlO1xyXG4gICAgbGVmdDogNSU7XHJcbn1cclxuXHJcbi5idG5Vc2VyQWN0aW9uIHtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIGxlZnQ6NDAlO1xyXG4gICAgYm90dG9tOiAxMCU7XHJcbiAgICB3aWR0aDogMTUwcHg7XHJcbn1cclxuXHJcbi5DYW52YXNEaXZ7XHJcbiAgICBwb3NpdGlvbjphYnNvbHV0ZTtcclxuICAgIGxlZnQ6IDBweDtcclxuICAgIHJpZ2h0OiAwcHg7XHJcbn1cclxuXHJcbiNtYXB7XHJcbiAgICBib3JkZXI6MXB4IHNvbGlkIGJsYWNrO1xyXG59Il19 */");
 
 /***/ }),
 
@@ -790,8 +789,6 @@ let GameComponent = class GameComponent {
             CasernType: -1,
             CasernIncome: -1,
             CasernOutcome: -1,
-            NumberOfWarriors: -1,
-            NumberOfAttackAircraft: -1,
             DefenceTowerLevel: -1,
             DefenceTowerCapacity: -1,
             DefenceTowerHp: -1,
@@ -807,7 +804,7 @@ let GameComponent = class GameComponent {
             GoldMiningType: -1,
             GoldMiningIncome: -1,
             GoldMiningOutcome: -1,
-            NumberOfWorkersInGoldMining: -1
+            GoldMiningNumberOfWorkers: -1
         };
         //Flags info core
         this.IsCoreInfoActivated = true;
@@ -879,45 +876,42 @@ let GameComponent = class GameComponent {
             console.log("[success] GetAllUserLogData");
             this.loggedData.Data2 = data;
             if (this.loggedData.Data2 != null) {
-                for (var i = 0; i < this.loggedData.Data2.length; i++) {
-                    console.log("msg: " + this.loggedData.Data2[i].Message);
-                }
+                console.log("Get log data !");
             }
             else {
                 this.loggedData.Data2 = [];
+                console.log("Get empty log data !");
             }
+            setInterval(() => {
+                this.httpGameService.IsLogUpdated(this.accountData.UserId)
+                    .subscribe(data => {
+                    if (data == 1) {
+                        this.httpGameService
+                            .UpdateLogData(this.accountData.UserId)
+                            .subscribe(data2 => {
+                            //console.log("[success] UpdateLogData");
+                            if (this.loggedData.Data2 == null) {
+                                this.loggedData.Data2 = [];
+                            }
+                            if (data2 != null) {
+                                let update_length = data2.length;
+                                for (var i = 0; i < (update_length); i++) {
+                                    let temp = data2.pop();
+                                    this.loggedData.Data2.push(temp);
+                                }
+                                console.log("Log data been updaed !");
+                            }
+                            else {
+                                console.log("data2 is null");
+                            }
+                        }, error => { console.log("[error] UpdateLogData" + error); });
+                    }
+                }, error => { console.log("[error] IsLogUpdated" + error); });
+            }, 500);
         }, error => {
             console.log("[error] GetAllUserLogData"
                 + error);
         });
-        setInterval(() => {
-            this.httpGameService.IsLogUpdated(this.accountData.UserId)
-                .subscribe(data => {
-                if (data == 1) {
-                    console.log("[success] log is updated");
-                    this.httpGameService
-                        .UpdateLogData(this.accountData.UserId)
-                        .subscribe(data2 => {
-                        //console.log("[success] UpdateLogData");
-                        if (this.loggedData.Data2 == null) {
-                            this.loggedData.Data2 = [];
-                        }
-                        if (data2 != null) {
-                            console.log("data2 length");
-                            let update_length = data2.length;
-                            for (var i = 0; i < (update_length); i++) {
-                                let temp = data2.pop();
-                                console.log("data2 push: " + temp.Id);
-                                this.loggedData.Data2.push(temp);
-                            }
-                        }
-                        else {
-                            console.log("data2 is null");
-                        }
-                    }, error => { console.log("[error] UpdateLogData" + error); });
-                }
-            }, error => { console.log("[error] IsLogUpdated" + error); });
-        }, 500);
     }
     OnSignOutBtnClick() {
         this.httpAuthService.SignOut();
@@ -960,8 +954,6 @@ let GameComponent = class GameComponent {
                     " CasernType:" + data.CasernWarriorsCount + "\n" +
                     " CasernIncome:" + data.CasernIncome + "\n" +
                     " CasernOutcome:" + data.CasernOutcome + "\n" +
-                    " NumberOfWarriors:" + data.NumberOfWarriors + "\n" +
-                    " NumberOfAttackAircraft:" + data.NumberOfAttackAircraft + "\n" +
                     " DefenceTowerLevel:" + data.DefenceTowerLevel + "\n" +
                     " DefenceTowerCapacity:" + data.DefenceTowerCapacity + "\n" +
                     " DefenceTowerHp:" + data.DefenceTowerHp + "\n" +
@@ -977,7 +969,7 @@ let GameComponent = class GameComponent {
                     " GoldMiningType:" + data.GoldMiningType + "\n" +
                     " GoldMiningIncome:" + data.GoldMiningIncome + "\n" +
                     " GoldMiningOutcome:" + data.GoldMiningOutcome + "\n" +
-                    " NumberOfWorkersInGoldMining:" + data.NumberOfWorkersInGoldMining + "\n" +
+                    " NumberOfWorkersInGoldMining:" + data.GoldMiningNumberOfWorkers + "\n" +
                     "}");
                 this.coreInfo = data;
             }, error => console.log("[error] GetCoreById: " + error));
@@ -985,26 +977,6 @@ let GameComponent = class GameComponent {
         }, err => {
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
-        });
-    }
-    GetCasernNumberOfwarriors() {
-        this.httpGameService
-            .CasernGetNumberOfWarriors(this.accountData.CoreId)
-            .subscribe(res => {
-            console.log("[success] GetCasernNumberOfwarriors");
-            this.coreInfo.NumberOfWarriors = res;
-        }, err => {
-            console.log("[error] GetCasernNumberOfwarriors");
-        });
-    }
-    GetCasernNumberOfAttackAircraft() {
-        this.httpGameService
-            .CasernGetNumberOfAttackAircraft(this.accountData.CoreId)
-            .subscribe(res => {
-            console.log("[success] GetCasernNumberOfAttackAircraft");
-            this.coreInfo.CasernAttackAircraftsCount = res;
-        }, err => {
-            console.log("[error] GetCasernNumberOfAttackAircraft");
         });
     }
     CommunicationsUpdate() {
@@ -1063,17 +1035,49 @@ let GameComponent = class GameComponent {
     OnBuildCasernBtnClick() {
         this.loggedData.PushBuildingMsg("Строится казарма");
         this.httpGameService.CoreBuildCasern(this.accountData.CoreId);
+        this.httpGameService.GetCoreInfoById()
+            .subscribe((data) => {
+            console.log("[success] GetCoreById ");
+            this.coreInfo = data;
+        }, error => console.log("[error] GetCoreById: " + error));
     }
     OnBuildGoldMiningBtnClick() {
         this.loggedData.PushBuildingMsg("Строится шахта для добывания золото");
-        this.httpGameService.CoreBuildGoldMining(this.accountData.CoreId);
+        this.httpGameService
+            .CoreBuildGoldMining(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[CoreBuildGoldMining] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnBuildDefenceTowerBtnClick() {
         this.loggedData.PushBuildingMsg("Строится защитное сооружение");
-        this.httpGameService.CoreBuildDefenceTower(this.accountData.CoreId);
+        this.httpGameService
+            .CoreBuildDefenceTower(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[CoreBuildDefenceTower] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnProduceWorkerBtnClick() {
-        this.httpGameService.BaseProduceWorker(this.accountData.CoreId);
+        this.httpGameService
+            .BaseProduceWorker(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[BaseProduceWorker] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnCasernBtnClick() {
         this.IsCoreInfoActivated = false;
@@ -1082,12 +1086,28 @@ let GameComponent = class GameComponent {
         this.IsGoldMiningInfoActivated = false;
     }
     OnProduceWarriorBtnClick() {
-        this.httpGameService.CasernProduceWarrior(this.accountData.CoreId);
-        this.GetCasernNumberOfwarriors();
+        this.httpGameService
+            .CasernProduceWarrior(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[CasernProduceWarrior] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnProduceAttackAircraftBtnClick() {
-        this.httpGameService.CasernGetNumberOfAttackAircraft(this.accountData.CoreId);
-        this.GetCasernNumberOfAttackAircraft();
+        this.httpGameService
+            .CasernProduceAttackAircraft(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[CasernProduceAttackAircraft] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnGoldMiningBtnClick() {
         this.IsCoreInfoActivated = false;
@@ -1096,7 +1116,16 @@ let GameComponent = class GameComponent {
         this.IsGoldMiningInfoActivated = true;
     }
     OnAddWorkerToMineBtnClick() {
-        this.httpGameService.GoldMiningAddWorker(this.accountData.CoreId);
+        this.httpGameService
+            .GoldMiningAddWorker(this.accountData.CoreId)
+            .subscribe(data => {
+            console.log("[GoldMiningAddWorker] success");
+            this.httpGameService.GetCoreInfoById()
+                .subscribe((data) => {
+                console.log("[success] GetCoreById ");
+                this.coreInfo = data;
+            }, error => console.log("[error] GetCoreById: " + error));
+        }, error => console.log("error" + error));
     }
     OnDefenceTowerBtnClick() {
         this.IsCasernInfoActivated = false;
@@ -1305,7 +1334,7 @@ GameComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n.main_login {\r\n    display: flex;\r\n    margin-top:200px;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.background {\r\n    background-color: rgb(93, 72, 255);\r\n    border-radius: 20%;\r\n    padding: 60px;\r\n}\r\n\r\n.txt_login {\r\n    color: white;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\ninput {\r\n    padding: 5px;\r\n    font-size: 30px;\r\n}\r\n\r\nbutton {\r\n    font-size: 40px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.link_registration { \r\n    color:white;\r\n    margin-top:3px; \r\n    margin-bottom:25px; \r\n    font-weight:bold; \r\n    float:left; \r\n}\r\n\r\na:link { \r\n    color:white;\r\n}\r\n\r\na:visited { \r\n    color:white;\r\n}\r\n\r\na:hover { \r\n    color:rgb(0, 47, 255);\r\n}\r\n\r\na:active { \r\n    color:rgb(111, 0, 255);\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbG9naW4vbG9naW4uY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQ0E7SUFDSSxhQUFhO0lBQ2IsZ0JBQWdCO0lBQ2hCLG1CQUFtQjtJQUNuQix1QkFBdUI7QUFDM0I7O0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsa0JBQWtCO0lBQ2xCLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixtQkFBbUI7QUFDdkI7O0FBR0E7SUFDSSxZQUFZO0lBQ1osZUFBZTtBQUNuQjs7QUFFQTtJQUNJLGVBQWU7SUFDZixhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLFdBQVc7SUFDWCxjQUFjO0lBQ2Qsa0JBQWtCO0lBQ2xCLGdCQUFnQjtJQUNoQixVQUFVO0FBQ2Q7O0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxxQkFBcUI7QUFDekI7O0FBQ0E7SUFDSSxzQkFBc0I7QUFDMUIiLCJmaWxlIjoic3JjL2FwcC9sb2dpbi9sb2dpbi5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbi5tYWluX2xvZ2luIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBtYXJnaW4tdG9wOjIwMHB4O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4uYmFja2dyb3VuZCB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoOTMsIDcyLCAyNTUpO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMjAlO1xyXG4gICAgcGFkZGluZzogNjBweDtcclxufVxyXG5cclxuLnR4dF9sb2dpbiB7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG5cclxuaW5wdXQge1xyXG4gICAgcGFkZGluZzogNXB4O1xyXG4gICAgZm9udC1zaXplOiAzMHB4O1xyXG59XHJcblxyXG5idXR0b24ge1xyXG4gICAgZm9udC1zaXplOiA0MHB4O1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxufVxyXG5cclxuLmxpbmtfcmVnaXN0cmF0aW9uIHsgXHJcbiAgICBjb2xvcjp3aGl0ZTtcclxuICAgIG1hcmdpbi10b3A6M3B4OyBcclxuICAgIG1hcmdpbi1ib3R0b206MjVweDsgXHJcbiAgICBmb250LXdlaWdodDpib2xkOyBcclxuICAgIGZsb2F0OmxlZnQ7IFxyXG59XHJcbmE6bGluayB7IFxyXG4gICAgY29sb3I6d2hpdGU7XHJcbn1cclxuYTp2aXNpdGVkIHsgXHJcbiAgICBjb2xvcjp3aGl0ZTtcclxufVxyXG5hOmhvdmVyIHsgXHJcbiAgICBjb2xvcjpyZ2IoMCwgNDcsIDI1NSk7XHJcbn1cclxuYTphY3RpdmUgeyBcclxuICAgIGNvbG9yOnJnYigxMTEsIDAsIDI1NSk7XHJcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n.main_login {\r\n    display: flex;\r\n    margin-top:200px;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.background {\r\n    background-color: rgb(93, 72, 255);\r\n    border-radius: 20%;\r\n    padding: 60px;\r\n}\r\n\r\n.txt_login {\r\n    color: white;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\ninput {\r\n    padding: 5px;\r\n    font-size: 30px;\r\n}\r\n\r\nbutton {\r\n    font-size: 40px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.link_registration { \r\n    color:white;\r\n    margin-top:3px; \r\n    margin-bottom:25px; \r\n    font-weight:bold; \r\n    float:left; \r\n}\r\n\r\na:link { \r\n    color:white;\r\n}\r\n\r\na:visited { \r\n    color:white;\r\n}\r\n\r\na:hover { \r\n    color:rgb(0, 47, 255);\r\n}\r\n\r\na:active { \r\n    color:rgb(111, 0, 255);\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbG9naW4vbG9naW4uY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQ0E7SUFDSSxhQUFhO0lBQ2IsZ0JBQWdCO0lBQ2hCLG1CQUFtQjtJQUNuQix1QkFBdUI7QUFDM0I7O0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsa0JBQWtCO0lBQ2xCLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxZQUFZO0lBQ1osZUFBZTtBQUNuQjs7QUFFQTtJQUNJLGVBQWU7SUFDZixhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLFdBQVc7SUFDWCxjQUFjO0lBQ2Qsa0JBQWtCO0lBQ2xCLGdCQUFnQjtJQUNoQixVQUFVO0FBQ2Q7O0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxxQkFBcUI7QUFDekI7O0FBQ0E7SUFDSSxzQkFBc0I7QUFDMUIiLCJmaWxlIjoic3JjL2FwcC9sb2dpbi9sb2dpbi5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbi5tYWluX2xvZ2luIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBtYXJnaW4tdG9wOjIwMHB4O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4uYmFja2dyb3VuZCB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoOTMsIDcyLCAyNTUpO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMjAlO1xyXG4gICAgcGFkZGluZzogNjBweDtcclxufVxyXG5cclxuLnR4dF9sb2dpbiB7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG5pbnB1dCB7XHJcbiAgICBwYWRkaW5nOiA1cHg7XHJcbiAgICBmb250LXNpemU6IDMwcHg7XHJcbn1cclxuXHJcbmJ1dHRvbiB7XHJcbiAgICBmb250LXNpemU6IDQwcHg7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG4ubGlua19yZWdpc3RyYXRpb24geyBcclxuICAgIGNvbG9yOndoaXRlO1xyXG4gICAgbWFyZ2luLXRvcDozcHg7IFxyXG4gICAgbWFyZ2luLWJvdHRvbToyNXB4OyBcclxuICAgIGZvbnQtd2VpZ2h0OmJvbGQ7IFxyXG4gICAgZmxvYXQ6bGVmdDsgXHJcbn1cclxuYTpsaW5rIHsgXHJcbiAgICBjb2xvcjp3aGl0ZTtcclxufVxyXG5hOnZpc2l0ZWQgeyBcclxuICAgIGNvbG9yOndoaXRlO1xyXG59XHJcbmE6aG92ZXIgeyBcclxuICAgIGNvbG9yOnJnYigwLCA0NywgMjU1KTtcclxufVxyXG5hOmFjdGl2ZSB7IFxyXG4gICAgY29sb3I6cmdiKDExMSwgMCwgMjU1KTtcclxufSJdfQ== */");
 
 /***/ }),
 
@@ -1476,7 +1505,7 @@ NotFoundPageComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n.main_registration {\r\n    display: flex;\r\n    margin-top:200px;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.background {\r\n    background-color: rgb(93, 72, 255);\r\n    border-radius: 20%;\r\n    padding: 60px;\r\n}\r\n\r\n.txt_registration {\r\n    color: white;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\ninput {\r\n    padding: 5px;\r\n    font-size: 30px;\r\n    margin-left: 30px;\r\n}\r\n\r\nbutton {\r\n    font-size: 30px;\r\n    margin-left: 65px;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcmVnaXN0cmF0aW9uL3JlZ2lzdHJhdGlvbi5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtJQUNJLGFBQWE7SUFDYixnQkFBZ0I7SUFDaEIsbUJBQW1CO0lBQ25CLHVCQUF1QjtBQUMzQjs7QUFFQTtJQUNJLGtDQUFrQztJQUNsQyxrQkFBa0I7SUFDbEIsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLFlBQVk7SUFDWixlQUFlO0lBQ2YsaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGlCQUFpQjtBQUNyQiIsImZpbGUiOiJzcmMvYXBwL3JlZ2lzdHJhdGlvbi9yZWdpc3RyYXRpb24uY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4ubWFpbl9yZWdpc3RyYXRpb24ge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIG1hcmdpbi10b3A6MjAwcHg7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5iYWNrZ3JvdW5kIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYig5MywgNzIsIDI1NSk7XHJcbiAgICBib3JkZXItcmFkaXVzOiAyMCU7XHJcbiAgICBwYWRkaW5nOiA2MHB4O1xyXG59XHJcblxyXG4udHh0X3JlZ2lzdHJhdGlvbiB7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG5pbnB1dCB7XHJcbiAgICBwYWRkaW5nOiA1cHg7XHJcbiAgICBmb250LXNpemU6IDMwcHg7XHJcbiAgICBtYXJnaW4tbGVmdDogMzBweDtcclxufVxyXG5cclxuYnV0dG9uIHtcclxuICAgIGZvbnQtc2l6ZTogMzBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiA2NXB4O1xyXG59Il19 */");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n.main_registration {\r\n    display: flex;\r\n    margin-top:200px;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.background {\r\n    background-color: rgb(93, 72, 255);\r\n    border-radius: 20%;\r\n    padding: 60px;\r\n}\r\n\r\n.txt_registration {\r\n    color: white;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.link_login {\r\n    color: white;\r\n    margin-top: 3px; \r\n    margin-bottom: 25px; \r\n    font-weight: bold; \r\n}\r\n\r\ninput {\r\n    padding: 5px;\r\n    font-size: 30px;\r\n    margin-left: 30px;\r\n}\r\n\r\nbutton {\r\n    font-size: 30px;\r\n    margin-left: 65px;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcmVnaXN0cmF0aW9uL3JlZ2lzdHJhdGlvbi5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtJQUNJLGFBQWE7SUFDYixnQkFBZ0I7SUFDaEIsbUJBQW1CO0lBQ25CLHVCQUF1QjtBQUMzQjs7QUFFQTtJQUNJLGtDQUFrQztJQUNsQyxrQkFBa0I7SUFDbEIsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLFlBQVk7SUFDWixlQUFlO0lBQ2YsbUJBQW1CO0lBQ25CLGlCQUFpQjtBQUNyQjs7QUFFQTtJQUNJLFlBQVk7SUFDWixlQUFlO0lBQ2YsaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGlCQUFpQjtBQUNyQiIsImZpbGUiOiJzcmMvYXBwL3JlZ2lzdHJhdGlvbi9yZWdpc3RyYXRpb24uY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4ubWFpbl9yZWdpc3RyYXRpb24ge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIG1hcmdpbi10b3A6MjAwcHg7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5iYWNrZ3JvdW5kIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYig5MywgNzIsIDI1NSk7XHJcbiAgICBib3JkZXItcmFkaXVzOiAyMCU7XHJcbiAgICBwYWRkaW5nOiA2MHB4O1xyXG59XHJcblxyXG4udHh0X3JlZ2lzdHJhdGlvbiB7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG4ubGlua19sb2dpbiB7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbiAgICBtYXJnaW4tdG9wOiAzcHg7IFxyXG4gICAgbWFyZ2luLWJvdHRvbTogMjVweDsgXHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgXHJcbn1cclxuXHJcbmlucHV0IHtcclxuICAgIHBhZGRpbmc6IDVweDtcclxuICAgIGZvbnQtc2l6ZTogMzBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiAzMHB4O1xyXG59XHJcblxyXG5idXR0b24ge1xyXG4gICAgZm9udC1zaXplOiAzMHB4O1xyXG4gICAgbWFyZ2luLWxlZnQ6IDY1cHg7XHJcbn0iXX0= */");
 
 /***/ }),
 
@@ -1573,46 +1602,26 @@ let GameService = class GameService {
     SwitchToGame() {
         this.router.navigate(["/game"]);
     }
-    CasernGetNumberOfWarriors(coreId) {
-        return this.httpClient.post(this.casernGetNumberOfWarriorsUrl, coreId);
-    }
-    CasernGetNumberOfAttackAircraft(coreId) {
-        return this.httpClient.post(this.casernGetNumberOfAttackAircraftUrl, coreId);
-    }
     CoreBuildCasern(coreId) {
-        this.httpClient
-            .post(this.coreBuildCasernUrl, coreId)
-            .subscribe(data => console.log("[CoreBuildCasern] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.coreBuildCasernUrl, coreId);
     }
     CoreBuildDefenceTower(coreId) {
-        this.httpClient
-            .post(this.coreBuildDefenceTowerUrl, coreId)
-            .subscribe(data => console.log("[CoreBuildDefenceTower] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.coreBuildDefenceTowerUrl, coreId);
     }
     CoreBuildGoldMining(coreId) {
-        this.httpClient
-            .post(this.coreBuildGoldMiningUrl, coreId)
-            .subscribe(data => console.log("[CoreBuildGoldMining] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.coreBuildGoldMiningUrl, coreId);
     }
     BaseProduceWorker(coreId) {
-        this.httpClient
-            .post(this.baseProduceWorkerUrl, coreId)
-            .subscribe(data => console.log("[BaseProduceWorker] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.baseProduceWorkerUrl, coreId);
     }
     CasernProduceWarrior(coreId) {
-        this.httpClient
-            .post(this.casernProduceWarriorUrl, coreId)
-            .subscribe(data => console.log("[CasernProduceWarrior] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.casernProduceWarriorUrl, coreId);
     }
     CasernProduceAttackAircraft(coreId) {
-        this.httpClient
-            .post(this.casernProduceAttackAircraftUrl, coreId)
-            .subscribe(data => console.log("[CasernProduceAttackAircraft] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.casernProduceAttackAircraftUrl, coreId);
     }
     GoldMiningAddWorker(coreId) {
-        this.httpClient
-            .post(this.goldMiningAddWorkerUrl, coreId)
-            .subscribe(data => console.log("[GoldMiningAddWorker] success"), error => console.log("error" + error));
+        return this.httpClient.post(this.goldMiningAddWorkerUrl, coreId);
     }
     GetCoreInfoById() {
         return this.httpClient.get(this.getCoreInfoByIdUrl);

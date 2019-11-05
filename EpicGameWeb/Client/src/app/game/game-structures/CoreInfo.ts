@@ -26,8 +26,6 @@ export interface CoreInfo
     CasernType :number;
     CasernIncome :number;
     CasernOutcome :number;
-    NumberOfWarriors :number;
-    NumberOfAttackAircraft :number;
     DefenceTowerLevel :number;
     DefenceTowerCapacity :number;
     DefenceTowerHp :number;
@@ -43,5 +41,5 @@ export interface CoreInfo
     GoldMiningType :number;
     GoldMiningIncome :number;
     GoldMiningOutcome :number;
-    NumberOfWorkersInGoldMining :number;
+    GoldMiningNumberOfWorkers :number;
 }

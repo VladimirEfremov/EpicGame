@@ -89,8 +89,8 @@
             <div>Type: {{coreInfo.CasernType}}</div>
           </td>
           <td>
-              <div>Income: {{casernInfo.CasernIncome}}</div> 
-              <div>Outcome: {{casernInfo.CasernOutcome}}</div>
+              <div>Income: {{coreInfo.CasernIncome}}</div> 
+              <div>Outcome: {{coreInfo.CasernOutcome}}</div>
           </td>
           <td>
             <button title="Стоимость: 1000 gold" (click)="OnProduceWarriorBtnClick()">Produce warrior</button> <br/>
@@ -135,13 +135,16 @@
   
   <td>
     <table class="CommunicationTable">
-      <tr align="center">
-        <td>
-          <div class="TextInCenter">FriendsList</div>
-        </td>
-        <td>
-          <div>{{numberOfPage}}</div>
-        </td>
+      <tr align="center" class="cmntr">
+          <td>
+              <div class="TextInCenter" [ngSwitch]="numberOfSelectedList">
+                  <ng-template [ngSwitchCase]="0">All</ng-template>
+                  <ng-template [ngSwitchCase]="1">Friends</ng-template>
+                  <ng-template [ngSwitchCase]="2">Followers</ng-template>
+                  <ng-template [ngSwitchCase]="3">Followings</ng-template>
+              </div>
+          </td>
+          <td> <div>{{numberOfPage}}</div> </td>
       </tr>
       <tr>
         <td>

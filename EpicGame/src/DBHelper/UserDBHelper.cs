@@ -259,109 +259,119 @@
         /// <param name="idToAdd">Кого добавляют в друзья (кидают инвайт)</param>
         public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
         {
-            logger.Info($"user [id: {thisId}] add [id: {idToAdd}] to friends");
-
-            var userToAdd = m_UserContext.UserTable.AsNoTracking()
-                .Where(obj => obj.UserId == idToAdd)
-                .FirstOrDefault();
-
-            var arrayFriends = from   friends in m_UserFriendsContext.UserFriendsTable
-                               where  friends.UserId   == thisId
-                               where  friends.FriendId == idToAdd
-                               select friends;
-            if (arrayFriends.Count() != 0)
+            if (thisId != idToAdd)
             {
-                //this user already in friend
-                EventLogger.AddLogForUser(thisId, 
-                    LogType.Communication,
-                    $"User [{userToAdd?.Nickname}] already in your friend list");
-            }
-            else
-            {
-                var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
-                                     where followers.UserId == thisId
-                                     where followers.FollowerId == idToAdd
-                                     select followers;
-                if (arrayFollowers.Count() != 0)
+                logger.Info($"user [id: {thisId}] add [id: {idToAdd}] to friends");
+
+                var userToAdd = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == idToAdd)
+                    .FirstOrDefault();
+
+                var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
+                                   where friends.UserId == thisId
+                                   where friends.FriendId == idToAdd
+                                   select friends;
+                if (arrayFriends.Count() != 0)
                 {
-                    //логика для follower
-                    //thisId.Follower.Delete(idToAdd)
-                    foreach (var follower in arrayFollowers)
-                    {
-                        m_UserFollowersContext.UserFollowersTable.Remove(follower);
-                    }
-
-                    //thisId.Friends.Add(idToAdd)
-                    m_UserFriendsContext.UserFriendsTable.Add(new UserFriendsTable()
-                    {
-                        UserId = thisId,
-                        FriendId = idToAdd
-                    });
-                    //idToAdd.Friend.Add(thisId)
-                    m_UserFriendsContext.UserFriendsTable.Add(new UserFriendsTable()
-                    {
-                        UserId = idToAdd,
-                        FriendId = thisId
-                    });
-                    //idToAdd.Following.Delete(thisId)
-                    var idToRemoveUsers = from followings in m_UserFollowingContext.UserFollowingTable
-                                          where followings.UserId == idToAdd
-                                          where followings.FollowingId == thisId
-                                          select followings;
-                    if (idToRemoveUsers.Count() != 0)
-                    {
-                        foreach (var following in idToRemoveUsers)
-                        {
-                            m_UserFollowingContext.UserFollowingTable.Remove(following);
-                        }
-                    }
-
-                    UserFollowingsContextTrySave();
-                    UserFriendsContextTrySave();
-                    UserFollowersContextTrySave();
-
+                    //this user already in friend
                     EventLogger.AddLogForUser(thisId,
                         LogType.Communication,
-                        $"You add user [{userToAdd?.Nickname}] to friends list");
+                        $"User [{userToAdd?.Nickname}] already in your friend list");
                 }
                 else
                 {
-                    var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
-                                          where following.UserId == thisId
-                                          where following.FollowingId == idToAdd
-                                          select following;
-                    if (arrayFollowings.Count() != 0)
+                    var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
+                                         where followers.UserId == thisId
+                                         where followers.FollowerId == idToAdd
+                                         select followers;
+                    if (arrayFollowers.Count() != 0)
                     {
-                        //логика followings
-                        EventLogger.AddLogForUser(thisId,
-                            LogType.Communication,
-                            $"You are following user [{userToAdd?.Nickname}]");
-                        return;
-                    }
-                    else
-                    {
-                        //логика none
-                        //thisId.Following.Add(idToAdd);
-                        m_UserFollowingContext.UserFollowingTable.Add(new UserFollowingTable()
+                        //логика для follower
+                        //thisId.Follower.Delete(idToAdd)
+                        foreach (var follower in arrayFollowers)
+                        {
+                            m_UserFollowersContext.UserFollowersTable.Remove(follower);
+                        }
+
+                        //thisId.Friends.Add(idToAdd)
+                        m_UserFriendsContext.UserFriendsTable.Add(new UserFriendsTable()
                         {
                             UserId = thisId,
-                            FollowingId = idToAdd
+                            FriendId = idToAdd
                         });
-                        //idToAdd.Followers.Add(thisId);
-                        m_UserFollowersContext.UserFollowersTable.Add(new UserFollowersTable()
+                        //idToAdd.Friend.Add(thisId)
+                        m_UserFriendsContext.UserFriendsTable.Add(new UserFriendsTable()
                         {
                             UserId = idToAdd,
-                            FollowerId = thisId
+                            FriendId = thisId
                         });
+                        //idToAdd.Following.Delete(thisId)
+                        var idToRemoveUsers = from followings in m_UserFollowingContext.UserFollowingTable
+                                              where followings.UserId == idToAdd
+                                              where followings.FollowingId == thisId
+                                              select followings;
+                        if (idToRemoveUsers.Count() != 0)
+                        {
+                            foreach (var following in idToRemoveUsers)
+                            {
+                                m_UserFollowingContext.UserFollowingTable.Remove(following);
+                            }
+                        }
 
                         UserFollowingsContextTrySave();
+                        UserFriendsContextTrySave();
                         UserFollowersContextTrySave();
 
                         EventLogger.AddLogForUser(thisId,
                             LogType.Communication,
-                            $"User [{userToAdd?.Nickname}] add to your friend list");
+                            $"You add user [{userToAdd?.Nickname}] to friends list");
+                    }
+                    else
+                    {
+                        var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
+                                              where following.UserId == thisId
+                                              where following.FollowingId == idToAdd
+                                              select following;
+                        if (arrayFollowings.Count() != 0)
+                        {
+                            //логика followings
+                            EventLogger.AddLogForUser(thisId,
+                                LogType.Communication,
+                                $"You are following user [{userToAdd?.Nickname}]");
+                            return;
+                        }
+                        else
+                        {
+                            //логика none
+                            //thisId.Following.Add(idToAdd);
+                            m_UserFollowingContext.UserFollowingTable.Add(new UserFollowingTable()
+                            {
+                                UserId = thisId,
+                                FollowingId = idToAdd
+                            });
+                            //idToAdd.Followers.Add(thisId);
+                            m_UserFollowersContext.UserFollowersTable.Add(new UserFollowersTable()
+                            {
+                                UserId = idToAdd,
+                                FollowerId = thisId
+                            });
+
+                            UserFollowingsContextTrySave();
+                            UserFollowersContextTrySave();
+
+                            EventLogger.AddLogForUser(thisId,
+                                LogType.Communication,
+                                $"User [{userToAdd?.Nickname}] add to your friend list");
+                        }
                     }
                 }
+            }
+            else
+            {
+                logger.Warn("User trying to add himself in a friends list");
+                EventLogger.AddLogForUser(thisId,
+                    LogType.Communication,
+                    "You can't add yourself to a friends list!");
             }
         }
 
@@ -372,112 +382,122 @@
         /// <param name="idToRemove">Кого удаляют из друзей</param>
         public void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove)
         {
-            logger.Info($"user [id: {thisId}] remove [id: {idToRemove}] from friends");
-            var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
-                               where friends.UserId == thisId
-                               where friends.FriendId == idToRemove
-                               select friends;
-
-            var userToRemove = m_UserContext.UserTable.AsNoTracking()
-                .Where(obj => obj.UserId == idToRemove)
-                .FirstOrDefault();
-
-            if (arrayFriends.Count() != 0)
+            if (thisId != idToRemove)
             {
-                //friends logic
-                //thisId.Friend.Delete(idToRemove);
-                foreach (var friend in arrayFriends)
-                {
-                    m_UserFriendsContext.UserFriendsTable.Remove(friend);
-                }
+                logger.Info($"user [id: {thisId}] remove [id: {idToRemove}] from friends");
+                var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
+                                   where friends.UserId == thisId
+                                   where friends.FriendId == idToRemove
+                                   select friends;
 
-                //thisId.Followers.Add(idToRemove);
-                m_UserFollowersContext.UserFollowersTable.Add(new UserFollowersTable()
-                {
-                    UserId = thisId,
-                    FollowerId = idToRemove
-                });
+                var userToRemove = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == idToRemove)
+                    .FirstOrDefault();
 
-                //idToRemove.Friend.Delete(thisId);
-                var idToRemoveUsers = from friends in m_UserFriendsContext.UserFriendsTable
-                                      where friends.UserId == idToRemove
-                                      where friends.FriendId == thisId
-                                      select friends;
-                if (idToRemoveUsers.Count() != 0)
+                if (arrayFriends.Count() != 0)
                 {
-                    foreach (var friend in idToRemoveUsers)
+                    //friends logic
+                    //thisId.Friend.Delete(idToRemove);
+                    foreach (var friend in arrayFriends)
                     {
                         m_UserFriendsContext.UserFriendsTable.Remove(friend);
                     }
-                }
 
-                //idToRemove.Followings.Add(thisId);
-                m_UserFollowingContext.UserFollowingTable.Add(new UserFollowingTable()
-                {
-                    UserId = idToRemove,
-                    FollowingId = thisId
-                });
+                    //thisId.Followers.Add(idToRemove);
+                    m_UserFollowersContext.UserFollowersTable.Add(new UserFollowersTable()
+                    {
+                        UserId = thisId,
+                        FollowerId = idToRemove
+                    });
 
-                UserFollowingsContextTrySave();
-                UserFriendsContextTrySave();
-                UserFollowersContextTrySave();
+                    //idToRemove.Friend.Delete(thisId);
+                    var idToRemoveUsers = from friends in m_UserFriendsContext.UserFriendsTable
+                                          where friends.UserId == idToRemove
+                                          where friends.FriendId == thisId
+                                          select friends;
+                    if (idToRemoveUsers.Count() != 0)
+                    {
+                        foreach (var friend in idToRemoveUsers)
+                        {
+                            m_UserFriendsContext.UserFriendsTable.Remove(friend);
+                        }
+                    }
 
-                EventLogger.AddLogForUser(thisId,
-                    LogType.Communication,
-                    $"You remove user [{userToRemove?.Nickname}] from friends list");
-            }
-            else
-            {
-                var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
-                                     where followers.UserId == thisId
-                                     where followers.FollowerId == idToRemove
-                                     select followers;
-                if (arrayFollowers.Count() != 0)
-                {
-                    //логика для follower
+                    //idToRemove.Followings.Add(thisId);
+                    m_UserFollowingContext.UserFollowingTable.Add(new UserFollowingTable()
+                    {
+                        UserId = idToRemove,
+                        FollowingId = thisId
+                    });
+
+                    UserFollowingsContextTrySave();
+                    UserFriendsContextTrySave();
+                    UserFollowersContextTrySave();
+
                     EventLogger.AddLogForUser(thisId,
                         LogType.Communication,
-                        $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
-                    return;
+                        $"You remove user [{userToRemove?.Nickname}] from friends list");
                 }
                 else
                 {
-                    var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
-                                          where following.UserId == thisId
-                                          where following.FollowingId == idToRemove
-                                          select following;
-                    if (arrayFollowings.Count() != 0)
+                    var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
+                                         where followers.UserId == thisId
+                                         where followers.FollowerId == idToRemove
+                                         select followers;
+                    if (arrayFollowers.Count() != 0)
                     {
-                        //логика followings
-                        //thisId.Followings.Delete(idToRemove)
-                        foreach (var following in arrayFollowings)
-                        {
-                            m_UserFollowingContext.UserFollowingTable.Remove(following);
-                        }
-
-                        //idToRemove.Followers.Delete(thisId)
-                        var idToRemoveUsers = from followers in m_UserFollowersContext.UserFollowersTable
-                                              where followers.UserId == idToRemove
-                                              where followers.FollowerId == thisId
-                                              select followers;
-                        foreach (var followers in idToRemoveUsers)
-                        {
-                            m_UserFollowersContext.UserFollowersTable.Remove(followers);
-                        }
-
-                        UserFollowingsContextTrySave();
-                        UserFollowersContextTrySave();
-
+                        //логика для follower
                         EventLogger.AddLogForUser(thisId,
                             LogType.Communication,
-                            $"You stop following user [{userToRemove?.Nickname}]");
+                            $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
+                        return;
                     }
                     else
                     {
-                        //none logic
-                        return;
+                        var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
+                                              where following.UserId == thisId
+                                              where following.FollowingId == idToRemove
+                                              select following;
+                        if (arrayFollowings.Count() != 0)
+                        {
+                            //логика followings
+                            //thisId.Followings.Delete(idToRemove)
+                            foreach (var following in arrayFollowings)
+                            {
+                                m_UserFollowingContext.UserFollowingTable.Remove(following);
+                            }
+
+                            //idToRemove.Followers.Delete(thisId)
+                            var idToRemoveUsers = from followers in m_UserFollowersContext.UserFollowersTable
+                                                  where followers.UserId == idToRemove
+                                                  where followers.FollowerId == thisId
+                                                  select followers;
+                            foreach (var followers in idToRemoveUsers)
+                            {
+                                m_UserFollowersContext.UserFollowersTable.Remove(followers);
+                            }
+
+                            UserFollowingsContextTrySave();
+                            UserFollowersContextTrySave();
+
+                            EventLogger.AddLogForUser(thisId,
+                                LogType.Communication,
+                                $"You stop following user [{userToRemove?.Nickname}]");
+                        }
+                        else
+                        {
+                            //none logic
+                            return;
+                        }
                     }
                 }
+            }
+            else
+            {
+                logger.Warn("User trying to remove himself from a friends list");
+                EventLogger.AddLogForUser(thisId, 
+                    LogType.Communication,
+                    "You can't remove yourself from a friends list!");
             }
         }
 

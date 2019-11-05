@@ -28,8 +28,6 @@
         public int CasernType { get; set; }
         public int CasernIncome { get; set; }
         public int CasernOutcome { get; set; }
-        public int NumberOfWarriors { get; set; }
-        public int NumberOfAttackAircraft { get; set; }
         public int DefenceTowerLevel { get; set; }
         public int DefenceTowerCapacity { get; set; }
         public int DefenceTowerHp { get; set; }
@@ -45,6 +43,6 @@
         public int GoldMiningType { get; set; }
         public int GoldMiningIncome { get; set; }
         public int GoldMiningOutcome { get; set; }
-        public int NumberOfWorkersInGoldMining { get; set; }
+        public int GoldMiningNumberOfWorkers { get; set; }
     }
 }

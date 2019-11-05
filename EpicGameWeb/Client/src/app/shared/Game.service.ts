@@ -75,90 +75,49 @@ export class GameService
         this.router.navigate(["/game"]);
     }
 
-    public CasernGetNumberOfWarriors(coreId:number):Observable<number>
+    public CoreBuildCasern(coreId:number):Observable<Object>
     {
-        return this.httpClient.post<number>(this.casernGetNumberOfWarriorsUrl, coreId);
-    }
-
-    public CasernGetNumberOfAttackAircraft(coreId:number):Observable<number>
-    {
-        return this.httpClient.post<number>(this.casernGetNumberOfAttackAircraftUrl, coreId);
-    }
-
-    public CoreBuildCasern(coreId:number):void
-    {
-        this.httpClient
-        .post(this.coreBuildCasernUrl,
+        return this.httpClient.post(
+            this.coreBuildCasernUrl,
             coreId)
-        .subscribe(
-            data  => console.log("[CoreBuildCasern] success"),
-            error => console.log("error" + error)
-        );
     }
     
-    public CoreBuildDefenceTower(coreId:number):void
+    public CoreBuildDefenceTower(coreId:number):Observable<Object>
     {
-        this.httpClient
-        .post(this.coreBuildDefenceTowerUrl,
-            coreId)
-        .subscribe(
-            data  => console.log("[CoreBuildDefenceTower] success"),
-            error => console.log("error" + error)
-        );
+        return this.httpClient.post(
+            this.coreBuildDefenceTowerUrl,
+            coreId);
     }
 
-    public CoreBuildGoldMining(coreId:number):void
+    public CoreBuildGoldMining(coreId:number):Observable<Object>
     {
-        this.httpClient
-        .post(this.coreBuildGoldMiningUrl,
-            coreId)
-        .subscribe(
-            data  => console.log("[CoreBuildGoldMining] success"),
-            error => console.log("error" + error)
-        );
+        return this.httpClient.post(
+            this.coreBuildGoldMiningUrl,
+            coreId);
     }
 
-    public BaseProduceWorker(coreId:number):void
+    public BaseProduceWorker(coreId:number):Observable<Object>
     {
-       this.httpClient
-        .post(this.baseProduceWorkerUrl,
-            coreId)
-        .subscribe(
-            data  => console.log("[BaseProduceWorker] success"),
-            error => console.log("error" + error)
-        );
+       return this.httpClient.post(this.baseProduceWorkerUrl, coreId);
     }
 
-    public CasernProduceWarrior(coreId:number):void
+    public CasernProduceWarrior(coreId:number):Observable<Object>
     {
-        this.httpClient
-        .post(this.casernProduceWarriorUrl,
-            coreId)
-        .subscribe(
-            data  => console.log("[CasernProduceWarrior] success"),
-            error => console.log("error" + error)
-        );
+        return this.httpClient.post(
+            this.casernProduceWarriorUrl,
+            coreId);
     }
 
-    public CasernProduceAttackAircraft(coreId:number):void
+    public CasernProduceAttackAircraft(coreId:number):Observable<Object>
     {
-        this.httpClient
-        .post(this.casernProduceAttackAircraftUrl,
-            coreId)
-        .subscribe(
-            data  => console.log("[CasernProduceAttackAircraft] success"),
-            error => console.log("error" + error)
-        );
+        return this.httpClient.post(
+            this.casernProduceAttackAircraftUrl,
+            coreId);
     }
 
-    public GoldMiningAddWorker(coreId : number):void
+    public GoldMiningAddWorker(coreId : number):Observable<Object>
     {
-        this.httpClient
-        .post(this.goldMiningAddWorkerUrl, coreId)
-        .subscribe(
-            data  => console.log("[GoldMiningAddWorker] success"),
-            error => console.log("error" + error)
-        );
+        return this.httpClient.post(this.goldMiningAddWorkerUrl, coreId)
     }
 
     public GetCoreInfoById():Observable<CoreInfo>

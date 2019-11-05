@@ -61,8 +61,6 @@ export class GameComponent implements OnInit
     CasernType: -1,
     CasernIncome: -1,
     CasernOutcome: -1,
-    NumberOfWarriors: -1,
-    NumberOfAttackAircraft: -1,
     DefenceTowerLevel: -1,
     DefenceTowerCapacity: -1,
     DefenceTowerHp: -1,
@@ -78,7 +76,7 @@ export class GameComponent implements OnInit
     GoldMiningType: -1,
     GoldMiningIncome: -1,
     GoldMiningOutcome: -1,
-    NumberOfWorkersInGoldMining: -1
+    GoldMiningNumberOfWorkers: -1
   };
 
   //Flags info core
@@ -179,14 +177,49 @@ export class GameComponent implements OnInit
                 this.loggedData.Data2 = data;
                 if (this.loggedData.Data2 != null)
                 {
-                  for (var i = 0; i < this.loggedData.Data2.length; i++)
-                  {
-                    console.log("msg: " + this.loggedData.Data2[i].Message);
-                  }
+                  console.log("Get log data !");
                 }
                 else {
                   this.loggedData.Data2 = [];
+                  console.log("Get empty log data !");
                 }
+                setInterval(
+                  ()=>{
+                    this.httpGameService.IsLogUpdated(this.accountData.UserId)
+                      .subscribe(
+                        data => {
+                          if (data == 1)
+                          {
+                            this.httpGameService
+                            .UpdateLogData(
+                              this.accountData.UserId)
+                              .subscribe(
+                                data2 => {
+                                    //console.log("[success] UpdateLogData");
+                                    if (this.loggedData.Data2 == null)
+                                    {
+                                      this.loggedData.Data2 = [];
+                                    }
+          
+                                    if (data2 != null)
+                                    {
+                                      let update_length:number = data2.length;
+                                      for (var i = 0; i < (update_length); i++)
+                                      {
+                                        let temp = data2.pop();
+                                        this.loggedData.Data2.push(temp);
+                                      }
+                                      console.log("Log data been updaed !");
+                                    }
+                                    else{
+                                      console.log("data2 is null");
+                                    }
+                                }, error => { console.log("[error] UpdateLogData" + error); }
+                                );
+                          }
+                        }, error => { console.log("[error] IsLogUpdated" + error); }
+                    );
+                }, 500);
             },
             error => {
                 console.log(
@@ -195,46 +228,6 @@ export class GameComponent implements OnInit
             }
         );
 
-      setInterval(
-        ()=>{
-          this.httpGameService.IsLogUpdated(this.accountData.UserId)
-            .subscribe(
-              data => {
-                if (data == 1)
-                {
-                  console.log("[success] log is updated");
-                  this.httpGameService
-                  .UpdateLogData(
-                    this.accountData.UserId)
-                    .subscribe(
-                      data2 => {
-                          //console.log("[success] UpdateLogData");
-                          if (this.loggedData.Data2 == null)
-                          {
-                            this.loggedData.Data2 = [];
-                          }
-
-                          if (data2 != null)
-                          {
-                            console.log("data2 length");
-                            let update_length:number = data2.length;
-                            for (var i = 0; i < (update_length); i++)
-                            {
-                              let temp = data2.pop();
-                              console.log("data2 push: " + temp.Id);
-                              this.loggedData.Data2.push(temp);
-                            }
-                          }
-                          else{
-                            console.log("data2 is null");
-                          }
-                      }, error => { console.log("[error] UpdateLogData" + error); }
-                      );
-                }
-              }, error => { console.log("[error] IsLogUpdated" + error); }
-          );
-         
-      }, 500);
 
   }
 
@@ -284,8 +277,6 @@ export class GameComponent implements OnInit
                       " CasernType:"+ data.CasernWarriorsCount+"\n"+
                       " CasernIncome:"+ data.CasernIncome+"\n"+
                       " CasernOutcome:"+ data.CasernOutcome+"\n"+
-                      " NumberOfWarriors:"+ data.NumberOfWarriors+"\n"+
-                      " NumberOfAttackAircraft:"+ data.NumberOfAttackAircraft+"\n"+
                       " DefenceTowerLevel:"+ data.DefenceTowerLevel+"\n"+
                       " DefenceTowerCapacity:"+ data.DefenceTowerCapacity+"\n"+
                       " DefenceTowerHp:"+ data.DefenceTowerHp+"\n"+
@@ -301,7 +292,7 @@ export class GameComponent implements OnInit
                       " GoldMiningType:"+ data.GoldMiningType+"\n"+
                       " GoldMiningIncome:"+ data.GoldMiningIncome+"\n"+
                       " GoldMiningOutcome:"+ data.GoldMiningOutcome+"\n"+
-                      " NumberOfWorkersInGoldMining:"+ data.NumberOfWorkersInGoldMining+"\n"+
+                      " NumberOfWorkersInGoldMining:"+ data.GoldMiningNumberOfWorkers+"\n"+
                       "}"
                       ); 
                       this.coreInfo = data;
@@ -314,36 +305,6 @@ export class GameComponent implements OnInit
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
         });
-  }
-
-  GetCasernNumberOfwarriors():void
-  {
-    this.httpGameService
-    .CasernGetNumberOfWarriors(this.accountData.CoreId)
-    .subscribe(
-      res=>{
-        console.log("[success] GetCasernNumberOfwarriors");
-        this.coreInfo.NumberOfWarriors = res;
-      },
-      err=>{
-        console.log("[error] GetCasernNumberOfwarriors");
-      }
-    );
-  }
-
-  GetCasernNumberOfAttackAircraft():void
-  {
-    this.httpGameService
-    .CasernGetNumberOfAttackAircraft(this.accountData.CoreId)
-    .subscribe(
-      res=>{
-        console.log("[success] GetCasernNumberOfAttackAircraft");
-        this.coreInfo.CasernAttackAircraftsCount = res;
-      },
-      err=>{
-        console.log("[error] GetCasernNumberOfAttackAircraft");
-      }
-    );
   }
 
   CommunicationsUpdate():boolean
@@ -427,23 +388,77 @@ export class GameComponent implements OnInit
   {
     this.loggedData.PushBuildingMsg("Строится казарма");
     this.httpGameService.CoreBuildCasern(this.accountData.CoreId);
+    this.httpGameService.GetCoreInfoById()
+      .subscribe(
+          (data:CoreInfo) => { 
+              console.log("[success] GetCoreById "); 
+              this.coreInfo = data;
+          },
+          error => console.log("[error] GetCoreById: "+error)
+      );
   }
 
   OnBuildGoldMiningBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится шахта для добывания золото");
-    this.httpGameService.CoreBuildGoldMining(this.accountData.CoreId);
+    this.httpGameService
+      .CoreBuildGoldMining(this.accountData.CoreId)
+      .subscribe(
+          data  => {
+              console.log("[CoreBuildGoldMining] success");
+              this.httpGameService.GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById "); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+          },
+          error => console.log("error" + error)
+      );
   }
 
   OnBuildDefenceTowerBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится защитное сооружение");
-    this.httpGameService.CoreBuildDefenceTower(this.accountData.CoreId);
+    this.httpGameService
+      .CoreBuildDefenceTower(this.accountData.CoreId)
+      .subscribe(
+          data  => {
+              console.log("[CoreBuildDefenceTower] success");
+              this.httpGameService.GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById "); 
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+          },
+          error => console.log("error" + error)
+      );
+    
   }
 
   OnProduceWorkerBtnClick() : void
   {
-    this.httpGameService.BaseProduceWorker(this.accountData.CoreId);
+    this.httpGameService
+      .BaseProduceWorker(this.accountData.CoreId)
+      .subscribe(
+        data  => {
+            console.log("[BaseProduceWorker] success");
+            this.httpGameService.GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById "); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+        },
+        error => console.log("error" + error)
+      );
   }
 
   OnCasernBtnClick() : void
@@ -456,14 +471,45 @@ export class GameComponent implements OnInit
 
   OnProduceWarriorBtnClick() : void 
   {
-    this.httpGameService.CasernProduceWarrior(this.accountData.CoreId);
-    this.GetCasernNumberOfwarriors();
+    this.httpGameService
+        .CasernProduceWarrior(this.accountData.CoreId)
+        .subscribe(
+          data  => { 
+              console.log("[CasernProduceWarrior] success");
+              this.httpGameService.GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById "); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+          },
+          error => console.log("error" + error)
+        );
+    
   }
 
   OnProduceAttackAircraftBtnClick() : void 
   {
-    this.httpGameService.CasernGetNumberOfAttackAircraft(this.accountData.CoreId);
-    this.GetCasernNumberOfAttackAircraft();
+    this.httpGameService
+        .CasernProduceAttackAircraft(this.accountData.CoreId)
+        .subscribe(
+            data  => {
+                console.log("[CasernProduceAttackAircraft] success");
+                this.httpGameService.GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById "); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+            },
+            error => console.log("error" + error)
+        );
+    
+    
   }
 
   OnGoldMiningBtnClick() : void
@@ -476,7 +522,22 @@ export class GameComponent implements OnInit
 
   OnAddWorkerToMineBtnClick() : void
   {
-    this.httpGameService.GoldMiningAddWorker(this.accountData.CoreId);
+    this.httpGameService
+      .GoldMiningAddWorker(this.accountData.CoreId)
+      .subscribe(
+          data  => { 
+              console.log("[GoldMiningAddWorker] success");
+              this.httpGameService.GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById "); 
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+          },
+          error => console.log("error" + error)
+      );
   }
 
   OnDefenceTowerBtnClick() : void
