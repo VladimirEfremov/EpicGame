@@ -70,6 +70,11 @@
               <div>Outcome: {{coreInfo.BaseOutcome}}</div>
           </td>
           <td>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBaseCapacityUpgrade()">Upgrade Capacity</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBaseAttackUpgrade()">Upgrade Attack</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBaseDefenceUpgrade()">Upgrade Defence</button></tr>
+          </td>
+          <td>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildCasernBtnClick()">Build Casern</button></tr>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildGoldMiningBtnClick()">Build GoldMining</button></tr>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildDefenceTowerBtnClick()">Build DefenceTower</button></tr>
@@ -84,13 +89,16 @@
             <div>Hp: {{coreInfo.CasernHp}}</div> 
             <div>Attack: {{coreInfo.CasernAttack}}</div> 
             <div>Defence: {{coreInfo.CasernDefence}}</div>
-            <div>Warriors: {{coreInfo.CasernWarriorsCount}}</div>
-            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}</div>
+            <div>Warriors: {{coreInfo.CasernWarriorsCount}}/{{coreInfo.CasernCapacity}}</div>
+            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}/{{coreInfo.CasernCapacity}}</div>
             <div>Type: {{coreInfo.CasernType}}</div>
           </td>
           <td>
               <div>Income: {{coreInfo.CasernIncome}}</div> 
               <div>Outcome: {{coreInfo.CasernOutcome}}</div>
+          </td>
+          <td>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnCasernCapacityUpgrade()">Upgrade Capacity</button></tr>
           </td>
           <td>
             <button title="Стоимость: 1000 gold" (click)="OnProduceWarriorBtnClick()">Produce warrior</button> <br/>
@@ -109,15 +117,22 @@
                 <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
                 <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>
             </td>
+            <td>
+              <tr><button title="Стоимость: 1000 gold" (click)="OnDefenceTowerAttackUpgrade()">Upgrade Attack</button></tr>
+              <tr><button title="Стоимость: 1000 gold" (click)="OnDefenceTowerDefenceUpgrade()">Upgrade Defence</button></tr>
+            </td>
           </ng-template>
         
         <ng-template [ngIf]="IsGoldMiningInfoActivated">
             <td>  
               <div>Hp: {{coreInfo.GoldMiningHp}}</div> 
-              <div>Workers: {{coreInfo.NumberOfWorkersInGoldMining}}</div>
+              <div>Workers: {{coreInfo.GoldMiningNumberOfWorkers}}/{{coreInfo.GoldMiningCapacity}}</div>
               <div>Attack: {{coreInfo.GoldMiningAttack}}</div> 
               <div>Defence: {{coreInfo.GoldMiningDefence}}</div>
               <div>Type: {{coreInfo.GoldMiningType}}</div>
+            </td>
+            <td>
+              <tr><button title="Стоимость: 1000 gold" (click)="OnGoldMiningCapacityUpgrade()">Upgrade Capacity</button></tr>
             </td>
             <td>
                 <div>Income: {{coreInfo.GoldMiningIncome}}</div> 

@@ -47,5 +47,26 @@ namespace EpicGameCommon
 
         [OperationContract]
         string CoreBattle(int attackerCoreId, int defenderCoreId);
+
+        [OperationContract]
+        void BaseAttackUpgrade(int coreId);
+
+        [OperationContract]
+        void BaseDefenceUpgrade(int coreId);
+
+        [OperationContract]
+        void BaseCapacityUpgrade(int coreId);
+
+        [OperationContract]
+        void CasernCapacityUpgrade(int coreId);
+
+        [OperationContract]
+        void GoldMiningCapacityUpgrade(int coreId);
+
+        [OperationContract]
+        void DefenceTowerAttackUpgrade(int coreId);
+
+        [OperationContract]
+        void DefenceTowerDefenceUpgrade(int coreId);
     }
 }

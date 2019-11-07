@@ -45,6 +45,20 @@ export class GameService
     coreBattleUrl: string =
         "http://localhost:6430/api/game/CoreBattle"; 
 
+    BaseAttackUpgradeUrl: string =
+        "http://localhost:6430/api/game/BaseAttackUpgrade";
+    BaseDefenceUpgradeUrl: string =
+        "http://localhost:6430/api/game/BaseDefenceUpgrade";
+    BaseCapacityUpgradeUrl: string =
+        "http://localhost:6430/api/game/BaseCapacityUpgrade";
+    CasernCapacityUpgradeUrl: string =
+        "http://localhost:6430/api/game/CasernCapacityUpgrade";
+    GoldMiningCapacityUpgradeUrl: string =
+        "http://localhost:6430/api/game/GoldMiningCapacityUpgrade";
+    DefenceTowerAttackUpgradeUrl: string =
+        "http://localhost:6430/api/game/DefenceTowerAttackUpgrade";
+    DefenceTowerDefenceUpgradeUrl: string =
+        "http://localhost:6430/api/game/DefenceTowerDefenceUpgrade";
 
     getAllUserLogDataUrl: string =
         "http://localhost:6430/Auth/GetAllUserLogData"; 
@@ -164,6 +178,55 @@ export class GameService
                 }
             );
         return result;
+    }
+
+    public BaseAttackUpgrade(coreId:number):Observable<number> 
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.BaseAttackUpgradeUrl, coreId);
+    }
+
+    public BaseDefenceUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseDefenceUpgrade");
+        return this.httpClient.post<number>(
+            this.BaseDefenceUpgradeUrl, coreId);
+    }
+
+    public BaseCapacityUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.BaseCapacityUpgradeUrl, coreId);
+    }
+    
+    public CasernCapacityUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.CasernCapacityUpgradeUrl, coreId);
+    }
+
+    public GoldMiningCapacityUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.GoldMiningCapacityUpgradeUrl, coreId);
+    }
+
+    public DefenceTowerAttackUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.DefenceTowerAttackUpgradeUrl, coreId);
+    }
+
+    public DefenceTowerDefenceUpgrade(coreId:number):Observable<number>  
+    {
+        console.log("BaseAttackUpgrade");
+        return this.httpClient.post<number>(
+            this.DefenceTowerDefenceUpgradeUrl, coreId);
     }
 
     public GetAllUserLogData(userId:number) : Observable<Log[]>

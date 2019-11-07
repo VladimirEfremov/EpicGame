@@ -476,7 +476,8 @@
                     .AsNoTracking()
                     .Where(obj => obj.GameBuildingName == "Base")
                     .FirstOrDefault();
-                if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * baseBuilding.Capacity)
+                if (@base.WorkersNumber < (@base.CapacityUpgrade + 1) * 
+                        (baseBuilding.Capacity*(@base.CapacityUpgrade + 1)))
                 {
                     while (seconds < 1 * 1)
                     {
@@ -544,12 +545,12 @@
                 .FirstOrDefault();
             if (casern != null)
             {
-                var casernBuilding = m_GameBuildingsEntity
-                .GameBuildingsTable
-                .AsNoTracking()
-                .Where(obj => obj.GameBuildingName == "Casern")
-                .FirstOrDefault();
-                if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
+                var casernBuilding = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                    .Where(obj => obj.GameBuildingName == "Casern")
+                    .FirstOrDefault(); 
+
+                if ((casern.WarriorsNumber + casern.AttackAircraftNumber) <
+                        (casernBuilding.Capacity * (casern.CapacityUpgrade + 1)))
                 {
                     while (seconds < 1 * 1)
                     {
@@ -611,24 +612,26 @@
         public void CasernProduceAttackAircraft(int coreId)
         {
             int seconds = 0;
-            var casern =
+            var casernSession =
                 m_SessionCasernsEntity.SessionCasernsTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
-            if (casern != null)
+            if (casernSession != null)
             {
                 var casernBuilding = m_GameBuildingsEntity
                     .GameBuildingsTable.AsNoTracking()
                     .Where(obj => obj.GameBuildingName == "Casern")
                     .FirstOrDefault();
-                if ((casern.WarriorsNumber + casern.AttackAircraftNumber) < casernBuilding.Capacity)
+
+                if ((casernSession.WarriorsNumber + casernSession.AttackAircraftNumber) < 
+                        (casernBuilding.Capacity * (casernSession.CapacityUpgrade+1)))
                 {
                     while (seconds < 1 * 1)
                     {
                         Thread.Sleep(1000);
                         seconds++;
                     }
-                    ++casern.AttackAircraftNumber;
+                    ++casernSession.AttackAircraftNumber;
                     m_SessionCasernsEntity.SaveChanges();
 
                     logger.Info("[call] CasernProduceAttackAircraft");
@@ -649,7 +652,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
-                       $"Produce new attack aircraft [{nick}] |{casern.AttackAircraftNumber}|");
+                       $"Produce new attack aircraft [{nick}] |{casernSession.AttackAircraftNumber}|");
                 }
                 else
                 {
@@ -671,7 +674,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceFailure,
-                       $"AttackAircraft capacity limit exceeded for core !!! [nick: {nick}] |{casern.AttackAircraftNumber}|");
+                       $"AttackAircraft capacity limit exceeded for core !!! [nick: {nick}] |{casernSession.AttackAircraftNumber}|");
                 }
             }
             else
@@ -689,77 +692,81 @@
                 .FirstOrDefault();
             if (@base != null)
             {
-                var goldMining =
+                var goldMiningSession =
                     m_SessionGoldMiningsEntity.SessionGoldMiningsTable
                     .Where(obj => obj.SessionCoreId == coreId)
                     .FirstOrDefault();
-                var goldMiningBuilding = m_GameBuildingsEntity
+                if (goldMiningSession != null)
+                {
+                    var goldMiningBuilding = m_GameBuildingsEntity
                     .GameBuildingsTable
                     .AsNoTracking()
                     .Where(obj => obj.GameBuildingName == "GoldMining")
                     .FirstOrDefault();
-                if (@base.WorkersNumber > 0)
-                {
-                    if (goldMining.WorkersNumber < goldMiningBuilding.Capacity)
+                    if (@base.WorkersNumber > 0)
                     {
-                        --@base.WorkersNumber;
-                        while (seconds < 1 * 1)
+                        if (goldMiningSession.WorkersNumber <
+                                (goldMiningBuilding.Capacity * (goldMiningSession.CapacityUpgrade + 1)))
                         {
-                            Thread.Sleep(1000);
-                            seconds++;
-                        }
-                        ++goldMining.WorkersNumber;
-                        m_SessionGoldMiningsEntity.SaveChanges();
-                        m_SessionBasesEntity.SaveChanges();
+                            --@base.WorkersNumber;
+                            while (seconds < 1 * 1)
+                            {
+                                Thread.Sleep(1000);
+                                seconds++;
+                            }
+                            ++goldMiningSession.WorkersNumber;
+                            m_SessionGoldMiningsEntity.SaveChanges();
+                            m_SessionBasesEntity.SaveChanges();
 
-                        logger.Info("[call] GoldMiningAddWorker");
+                            logger.Info("[call] GoldMiningAddWorker");
 
-                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                        .Where(obj => obj.SessionCoreId == coreId)
-                        .FirstOrDefault().UserId;
-                        string nick = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == userId)
-                            .FirstOrDefault()?.Nickname;
+                            int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                            .Where(obj => obj.SessionCoreId == coreId)
+                            .FirstOrDefault().UserId;
+                            string nick = m_UserContext.UserTable.AsNoTracking()
+                                .Where(obj => obj.UserId == userId)
+                                .FirstOrDefault()?.Nickname;
 
-                        if (userId <= 0)
-                        {
-                            logger.Error($"UserId [{userId}] <= 0");
+                            if (userId <= 0)
+                            {
+                                logger.Error($"UserId [{userId}] <= 0");
+                            }
+                            else
+                            {
+                                logger.Info($"UserId [{userId}]");
+                            }
+
+                            EventLogger.AddLogForUser(userId,
+                                LogType.ProduceSuccess,
+                                $"Add new worker to gold mining [{nick}] |{goldMiningSession.WorkersNumber}|");
                         }
                         else
                         {
-                            logger.Info($"UserId [{userId}]");
-                        }
+                            logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
 
-                        EventLogger.AddLogForUser(userId,
-                            LogType.ProduceSuccess,
-                            $"Add new worker to gold mining [{nick}] |{goldMining.WorkersNumber}|");
+                            int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                            .Where(obj => obj.SessionCoreId == coreId)
+                            .FirstOrDefault().UserId;
+                            string nick = m_UserContext.UserTable.AsNoTracking()
+                                .Where(obj => obj.UserId == userId)
+                                .FirstOrDefault()?.Nickname;
+                            if (userId <= 0)
+                            {
+                                logger.Error($"UserId [{userId}] <= 0");
+                            }
+                            else
+                            {
+                                logger.Info($"UserId [{userId}]");
+                            }
+                            EventLogger.AddLogForUser(userId,
+                               LogType.ProduceFailure,
+                               $"Gold mining capacity exceeded [{nick}] |{goldMiningSession.WorkersNumber}|");
+                        }
                     }
                     else
                     {
-                        logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
-
-                        int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                        .Where(obj => obj.SessionCoreId == coreId)
-                        .FirstOrDefault().UserId;
-                        string nick = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == userId)
-                            .FirstOrDefault()?.Nickname;
-                        if (userId <= 0)
-                        {
-                            logger.Error($"UserId [{userId}] <= 0");
-                        }
-                        else
-                        {
-                            logger.Info($"UserId [{userId}]");
-                        }
-                        EventLogger.AddLogForUser(userId,
-                           LogType.ProduceFailure,
-                           $"Gold mining capacity exceeded [{nick}] |{goldMining.WorkersNumber}|");
+                        logger.Warn($"@base.WorkersNumber [coreId: {coreId}] < 0");
                     }
-                }
-                else
-                {
-                    logger.Warn($"@base.WorkersNumber [coreId: {coreId}] < 0");
                 }
             }
             else
@@ -827,7 +834,9 @@
                                     BaseAttack = (baseSession != null) ?
                                        baseGame.GameBuildingAttack * (baseSession.AttackUpgrade + 1) :
                                        baseGame.GameBuildingAttack,
-                                    BaseDefence = baseGame.GameBuildingDefence,
+                                    BaseDefence = (baseSession != null) ?
+                                        (baseSession.DefenceUpgrade + 1) * baseGame.GameBuildingDefence :  
+                                        baseGame.GameBuildingDefence,
                                     BaseWorkersCount = (baseSession != null) ? baseSession.WorkersNumber : 0,
                                     BaseType = baseGame.GameBuildingType,
                                     BaseIncome = baseGame.GameBuildingGoldIncome,
@@ -861,14 +870,18 @@
                                        defenceTowerGame.Capacity * (defenceTowerSession.DefenceUpgrade + 1) :
                                        defenceTowerGame.Capacity,
                                     DefenceTowerHp = defenceTowerGame.GameBuildingHP,
-                                    DefenceTowerAttack = defenceTowerGame.GameBuildingAttack,
-                                    DefenceTowerDefence = defenceTowerGame.GameBuildingDefence,
+                                    DefenceTowerAttack = (defenceTowerSession != null) ? 
+                                        (defenceTowerSession.AttackUpgrade+1)*defenceTowerGame.GameBuildingAttack :
+                                        defenceTowerGame.GameBuildingAttack,
+                                    DefenceTowerDefence = (defenceTowerSession != null) ?
+                                        (defenceTowerSession.DefenceUpgrade + 1) * defenceTowerGame.GameBuildingDefence :
+                                        defenceTowerGame.GameBuildingDefence,
                                     DefenceTowerType = defenceTowerGame.GameBuildingType,
                                     NumberOfDefenceTower = (defenceTowerSession != null) ? 1 : 0,
                                     
                                     GoldMiningLevel = (goldMiningSession != null) ? goldMiningSession.BuildingLevel : 0,
                                     GoldMiningCapacity = (goldMiningSession != null) ?
-                                       (goldMiningGame.Capacity * (casernSession.CapacityUpgrade + 1)) : 
+                                       (goldMiningGame.Capacity * (goldMiningSession.CapacityUpgrade + 1)) : 
                                        goldMiningGame.Capacity,
                                     GoldMiningHp = goldMiningGame.GameBuildingHP,
                                     GoldMiningAttack = goldMiningGame.GameBuildingAttack,
@@ -1291,6 +1304,210 @@
             m_SessionDefenceTowersEntity.SaveChanges();
 
             return result;
+        }
+
+        public void BaseAttackUpgrade(int coreId)
+        {
+            var core = m_SessionBasesEntity.SessionBasesTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (core != null)
+            {
+                ++core.AttackUpgrade;
+                m_SessionBasesEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                       .Where(obj => obj.SessionCoreId == coreId)
+                       .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId,LogType.ProduceSuccess,
+                   $"Upgrade base attack!");
+
+            }
+        }
+
+        public void BaseDefenceUpgrade(int coreId)
+        {
+            var core = m_SessionBasesEntity.SessionBasesTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (core != null)
+            {
+                ++core.DefenceUpgrade;
+                m_SessionBasesEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade base defence!");
+            }
+        }
+
+        public void BaseCapacityUpgrade(int coreId)
+        {
+            var core = m_SessionBasesEntity.SessionBasesTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (core != null)
+            {
+                ++core.CapacityUpgrade;
+                m_SessionBasesEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade base capacity!");
+            }
+        }
+
+        public void CasernCapacityUpgrade(int coreId)
+        {
+            var casern = m_SessionCasernsEntity.SessionCasernsTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (casern != null)
+            {
+                ++casern.CapacityUpgrade;
+                m_SessionCasernsEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade casern capacity!");
+            }
+        }
+
+        public void GoldMiningCapacityUpgrade(int coreId)
+        {
+            var goldMining = m_SessionGoldMiningsEntity.SessionGoldMiningsTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (goldMining != null)
+            {
+                ++goldMining.CapacityUpgrade;
+                m_SessionGoldMiningsEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade gold mining capacity!");
+            }
+        }
+
+        public void DefenceTowerAttackUpgrade(int coreId)
+        {
+            var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (defenceTower != null)
+            {
+                ++defenceTower.AttackUpgrade;
+                m_SessionDefenceTowersEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade defence tower attack!");
+            }
+        }
+
+        public void DefenceTowerDefenceUpgrade(int coreId)
+        {
+            var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (defenceTower != null)
+            {
+                ++defenceTower.DefenceUpgrade;
+                m_SessionDefenceTowersEntity.SaveChanges();
+
+                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .Where(obj => obj.SessionCoreId == coreId)
+                      .FirstOrDefault().UserId;
+                string nick = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault()?.Nickname;
+                if (userId <= 0)
+                {
+                    logger.Error($"UserId [{userId}] <= 0");
+                }
+                else
+                {
+                    logger.Info($"UserId [{userId}]");
+                }
+                EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                   $"Upgrade defence tower defence!");
+            }
         }
     }
 }

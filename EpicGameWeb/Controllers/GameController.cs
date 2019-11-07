@@ -121,6 +121,7 @@ namespace EpicGameWeb.Controllers
         }
 
         [HttpPost]
+        [Route("CoreBattle")]
         public string CoreBattle([FromBody]int defenderCoreId)
         {
             var result = RemoteProcedureCallClass
@@ -128,6 +129,69 @@ namespace EpicGameWeb.Controllers
                 .CoreBattle(MySession.CoreId, defenderCoreId)
                 .ToJson();
             return result;
+        }
+
+        [HttpPost]
+        [Route("BaseAttackUpgrade")]
+        public void BaseAttackUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .BaseAttackUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("BaseDefenceUpgrade")]
+        public void BaseDefenceUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .BaseDefenceUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("BaseCapacityUpgrade")]
+        public void BaseCapacityUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .BaseCapacityUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("CasernCapacityUpgrade")]
+        public void CasernCapacityUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .CasernCapacityUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("GoldMiningCapacityUpgrade")]
+        public void GoldMiningCapacityUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .GoldMiningCapacityUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("DefenceTowerAttackUpgrade")]
+        public void DefenceTowerAttackUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .DefenceTowerAttackUpgrade(coreId);
+        }
+
+        [HttpPost]
+        [Route("DefenceTowerDefenceUpgrade")]
+        public void DefenceTowerDefenceUpgrade([FromBody]int coreId)
+        {
+            RemoteProcedureCallClass
+                .GetGameChannel()
+                .DefenceTowerDefenceUpgrade(coreId);
         }
 
     }

@@ -194,5 +194,41 @@ namespace EpicGame.src.Services
                 .IsLogUpdated(userId);
             return result;
         }
+
+        public void BaseAttackUpgrade(int coreId)
+        {
+            m_GameDBHelper.BaseAttackUpgrade(coreId);
+        }
+
+        public void BaseDefenceUpgrade(int coreId)
+        {
+            m_GameDBHelper.BaseDefenceUpgrade(coreId);
+        }
+
+        public void BaseCapacityUpgrade(int coreId)
+        {
+            m_GameDBHelper.BaseCapacityUpgrade(coreId);
+        }
+
+        public void CasernCapacityUpgrade(int coreId)
+        {
+            m_GameDBHelper.CasernCapacityUpgrade(coreId);
+        }
+
+        public void GoldMiningCapacityUpgrade(int coreId)
+        {
+            m_GameDBHelper.GoldMiningCapacityUpgrade(coreId);
+        }
+
+        public void DefenceTowerAttackUpgrade(int coreId)
+        {
+            m_GameDBHelper.DefenceTowerAttackUpgrade(coreId);
+        }
+
+        public void DefenceTowerDefenceUpgrade(int coreId)
+        {
+            m_GameDBHelper.DefenceTowerDefenceUpgrade(coreId);
+        }
+
     }
 }

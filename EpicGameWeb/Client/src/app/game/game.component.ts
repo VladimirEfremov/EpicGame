@@ -441,6 +441,148 @@ export class GameComponent implements OnInit
     
   }
 
+  OnBaseCapacityUpgrade() : void
+  {
+    this.httpGameService.BaseCapacityUpgrade(this.accountData.CoreId)
+        .subscribe(
+          data => {
+              console.log("[success] BaseAttackUpgrade")
+              this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+          },
+          error => {console.log("[error] BaseAttackUpgrade: " + error);}
+        );
+  }
+
+  OnBaseAttackUpgrade() : void
+  {
+    this.httpGameService.BaseAttackUpgrade(this.accountData.CoreId)
+      .subscribe(
+          data => {
+              console.log("[success] BaseAttackUpgrade")
+              this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+          },
+          error => {console.log("[error] BaseAttackUpgrade: " + error);}
+      );
+  }
+
+  OnBaseDefenceUpgrade() : void
+  {
+    this.httpGameService.BaseDefenceUpgrade(this.accountData.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] BaseDefenceUpgrade")
+            this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+        },
+        error => {console.log("[error] BaseDefenceUpgrade: " + error);}
+      );
+  }
+
+  OnCasernCapacityUpgrade():void
+  {
+      this.httpGameService.CasernCapacityUpgrade(this.accountData.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] CasernCapacityUpgrade")
+            this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+        },
+        error => {console.log("[error] BaseDefenceUpgrade: " + error);}
+      );
+  }
+
+  OnGoldMiningCapacityUpgrade():void 
+  {
+      this.httpGameService.GoldMiningCapacityUpgrade(this.accountData.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] GoldMiningCapacityUpgrade")
+            this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+        },
+        error => {console.log("[error] BaseDefenceUpgrade: " + error);}
+      );
+  }
+
+  OnDefenceTowerAttackUpgrade():void 
+  {
+      console.log("DefenceTowerAttackUpgrade");
+      this.httpGameService.DefenceTowerAttackUpgrade(this.accountData.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] DefenceTowerAttackUpgrade")
+            this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+        },
+        error => {console.log("[error] BaseDefenceUpgrade: " + error);}
+      );
+  }
+
+  OnDefenceTowerDefenceUpgrade():void  
+  {
+      console.log("DefenceTowerDefenceUpgrade");
+      this.httpGameService.DefenceTowerDefenceUpgrade(this.accountData.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] DefenceTowerDefenceUpgrade")
+            this.httpGameService
+                .GetCoreInfoById()
+                .subscribe(
+                    (data:CoreInfo) => { 
+                        console.log("[success] GetCoreById");
+                        this.coreInfo = data;
+                    },
+                    error => console.log("[error] GetCoreById: "+error)
+                );
+        },
+        error => {console.log("[error] BaseDefenceUpgrade: " + error);}
+      );
+  }
+
   OnProduceWorkerBtnClick() : void
   {
     this.httpGameService
