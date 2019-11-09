@@ -230,5 +230,14 @@ namespace EpicGame.src.Services
             m_GameDBHelper.DefenceTowerDefenceUpgrade(coreId);
         }
 
+        public string GetCoreRenderable(int coreId)
+        {
+            return m_GameDBHelper.GetCoreRenderable(coreId);
+        }
+
+        public string GetOtherRenderable(int coreId)
+        {
+            return m_GameDBHelper.GetOtherRenderable(coreId);
+        }
     }
 }

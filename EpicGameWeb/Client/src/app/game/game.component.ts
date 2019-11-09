@@ -162,6 +162,15 @@ export class GameComponent implements OnInit
   ngOnInit() 
   {
       console.log("OnInit()");
+      this.httpGameService.GetCoreRenderable()
+        .subscribe( data => {
+            console.log("[success] GetCoreRenderable");
+            this.map.thisRenderable = data;
+        },
+        error => {
+            console.log("[error] GetCoreRenderable");
+        });
+
       this.map.Init();
       this.map.DrawWorld();
       window.requestAnimationFrame(this.map.DrawWorld);
@@ -219,7 +228,7 @@ export class GameComponent implements OnInit
                           }
                         }, error => { console.log("[error] IsLogUpdated" + error); }
                     );
-                }, 500);
+                }, 250);
             },
             error => {
                 console.log(
@@ -228,7 +237,19 @@ export class GameComponent implements OnInit
             }
         );
 
-
+        setInterval(
+          ()=>{
+            this.httpGameService.GetOtherRenderable()
+              .subscribe(
+                data => {
+                    console.log("[success] GetOtherRenderable");
+                    if (data.length > 0)
+                    {
+                        this.map.otherRenderable = data;
+                    }
+                }, error => { console.log("[error] GetOtherRenderable" + error); }
+            );
+        }, 250);
   }
 
   OnSignOutBtnClick():void

@@ -67,6 +67,7 @@
     <Compile Include="Models\Game\GameUnitsTable.cs" />
     <Compile Include="Models\Game\GameUnitsTable1.cs" />
     <Compile Include="Models\Game\GameUnitTypeTable.cs" />
+    <Compile Include="Models\Renderable.cs" />
     <Compile Include="Models\Session\SessionBasesTable.cs" />
     <Compile Include="Models\Session\SessionBasesTable1.cs" />
     <Compile Include="Models\Session\SessionCasernsTable.cs" />

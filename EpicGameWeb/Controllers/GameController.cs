@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Http;
 using EpicGameCommon;
+using EpicGameCommon.Models;
 using EpicGameCommon.Response;
 using EpicGameWeb.Models;
 using EpicGameWeb.Models.DBHelper;
@@ -193,6 +194,27 @@ namespace EpicGameWeb.Controllers
                 .GetGameChannel()
                 .DefenceTowerDefenceUpgrade(coreId);
         }
+
+        [HttpGet]
+        [Route("GetCoreRenderable")]
+        public Renderable GetCoreRenderable()
+        {
+            var result = RemoteProcedureCallClass
+                .GetGameChannel()
+                .GetCoreRenderable(MySession.CoreId).FromJson<Renderable>();
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetOtherRenderable")]
+        public Renderable[] GetOtherRenderable()
+        {
+            var result = RemoteProcedureCallClass
+               .GetGameChannel()
+               .GetOtherRenderable(MySession.CoreId).FromJson<Renderable[]>();
+            return result;
+        }
+
 
     }
 }

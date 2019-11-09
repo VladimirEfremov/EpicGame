@@ -12,6 +12,7 @@
     using EpicGameCommon.Response;
     using EpicGame.Game;
     using EpicGame.src.Models.User;
+    using EpicGameCommon.Models;
 
     class GameDBHelper : System.IDisposable
     {
@@ -33,6 +34,7 @@
         private static SessionGoldMiningsEntity m_SessionGoldMiningsEntity = new SessionGoldMiningsEntity();
         private static SessionDefenceTowersEntity m_SessionDefenceTowersEntity = new SessionDefenceTowersEntity();
 
+        //private static Dictionary<int, Renderable[]> m_RenverableCache = new Dictionary<int, Renderable[]>();
 
         public GameDBHelper()
         {
@@ -1508,6 +1510,117 @@
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
                    $"Upgrade defence tower defence!");
             }
+        }
+    
+        public string GetCoreRenderable(int coreId)
+        {
+            var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (core != null)
+            {
+                var map = m_SessionMapEntity.SessionMapTable.AsNoTracking()
+                    .Where(obj => obj.SessionMapId == core.CoreMapId)
+                    .FirstOrDefault();
+                if (map != null)
+                {
+                    Renderable renderable = new Renderable()
+                    {
+                        SessionMapId = map.SessionMapId,
+                        CoreId = coreId,
+                        MapX = map.XCoord,
+                        MapY = map.YCoord
+                    };
+                    return renderable.ToJson();
+                }
+                else
+                {
+                    logger.Warn($"Map[CoreId: {coreId}] == null");
+                }
+            }
+            else
+            {
+                logger.Warn($"Core[CoreId: {coreId}] == null");
+            }
+            return new Renderable().ToJson();
+        }
+
+        public string GetOtherRenderable(int coreId)
+        {
+            var thisCore = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .Where(obj => obj.SessionCoreId == coreId)
+                .FirstOrDefault();
+            if (thisCore != null)
+            {
+                var thisMap = m_SessionMapEntity.SessionMapTable.AsNoTracking()
+                    .Where(obj => obj.SessionMapId == thisCore.CoreMapId)
+                    .FirstOrDefault();
+                if (thisMap != null)
+                {
+                    decimal left = thisMap.XCoord - 2000;
+                    decimal right = thisMap.XCoord + 2000;
+                    decimal top = thisMap.YCoord + 2000;
+                    decimal bottom = thisMap.YCoord - 2000;
+
+                    var others = 
+                        m_SessionMapEntity.SessionMapTable.AsNoTracking()
+                        .Where(obj => 
+                            obj.XCoord >= left && obj.YCoord <= right &&
+                            obj.YCoord >= bottom && obj.YCoord <= top)
+                        .ToArray();
+                    
+                    //if (m_RenverableCache.ContainsKey(coreId))
+                    //{
+                    //    var cachedRenderables = m_RenverableCache[coreId];
+                    //    for (int i = 0; i < cachedRenderables.Length; i++)
+                    //    {
+                    //        if (cachedRenderables[i].CoreId == others[i].SessionMapId)
+                    //        {
+                    //
+                    //        }
+                    //    }
+                    //}
+
+                    if (others != null && others.Length >= 0)
+                    {
+                        int idx = 0;
+                        Renderable[] result = new Renderable[others.Length];
+                        foreach (var other in others)
+                        {
+                            var otherCore = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                                .Where(obj => obj.CoreMapId == other.SessionMapId)
+                                .FirstOrDefault();
+                            var otherUser = m_UserContext.UserTable.AsNoTracking()
+                                .Where(obj => obj.UserId == otherCore.UserId)
+                                .FirstOrDefault();
+
+                            result[idx++] = new Renderable()
+                            {
+                                SessionMapId = other.SessionMapId,
+                                CoreId = otherCore.SessionCoreId,
+                                Nickname = otherUser.Nickname,
+                                MapX = other.XCoord,
+                                MapY = other.YCoord
+                            };
+                        }
+                        return result.ToJson();
+                    }
+                    else
+                    {
+                        logger.Warn($"Others [CoreId: {coreId}] == null or others.count <= 0");
+                    }
+                }
+                else
+                {
+                    logger.Warn($"Map[CoreId: {coreId}] == null");
+                }
+            }
+            else
+            {
+                logger.Warn($"Core[CoreId: {coreId}] == null");
+            }
+
+            return new Renderable().ToJson();
         }
     }
 }

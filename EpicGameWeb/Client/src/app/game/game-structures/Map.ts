@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } 
-from '@angular/core';
+import { Input } from '@angular/core';
+import { Renderable } from './Renderable';
+
 
 export class Map {
     canvas;
@@ -16,6 +17,14 @@ export class Map {
     canvasRect : ClientRect;
     mouseX:number;
     mouseY:number;
+
+    //world stuff
+    centerX : number;
+    centerY : number;
+
+    //renderables
+    thisRenderable : Renderable;
+    otherRenderable : Renderable[];
 
     public Init():void
     {
@@ -49,6 +58,10 @@ export class Map {
         //this.spaceShipSprite.src = "spaceship1.png";
         //this.spaceShipSprite.onload = 
         //    function(e) {this.context.drawImage(this.spaceShipSprite, 0, 0);;};
+
+        this.centerX = (this.canvasRect.right - this.canvasRect.left) / 2;
+        this.centerY = (this.canvasRect.bottom - this.canvasRect.top) / 2;
+
     }
 
     public Clear():void
@@ -79,10 +92,23 @@ export class Map {
         //console.log("Draw");
 
         this.context.fillStyle = "red";
+        //this.DrawCircle(this.centerX, this.centerY, 50, "yellow");
+
         this.DrawCircle(
-            (this.canvasRect.right - this.canvasRect.left) / 2,
-            (this.canvasRect.bottom - this.canvasRect.top) / 2,
-             50, "yellow");
+            this.centerX,
+            this.centerY,
+            50, "Yellow");
+
+        if (this.otherRenderable != null)
+        {
+            for (let i:number = 0; i < this.otherRenderable.length; i++)
+            {
+                this.DrawCircle(
+                    this.otherRenderable[i].MapX - this.thisRenderable.MapX,
+                    this.otherRenderable[i].MapY - this.thisRenderable.MapX,
+                    50, "Yellow");
+            }
+        }
 
         if (this.x > 100)
         {

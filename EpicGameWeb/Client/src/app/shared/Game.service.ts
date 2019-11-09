@@ -9,6 +9,7 @@ import { SessionCoresTable } from './SessionCoresTable';
 import { CoreInfo } from '../game/game-structures/CoreInfo';
 import { BattleResponse } from '../game/game-structures/BattleResponse';
 import { Log } from '../game/game-structures/Log';
+import { Renderable } from '../game/game-structures/Renderable';
 
 @Injectable()
 export class GameService 
@@ -59,7 +60,13 @@ export class GameService
         "http://localhost:6430/api/game/DefenceTowerAttackUpgrade";
     DefenceTowerDefenceUpgradeUrl: string =
         "http://localhost:6430/api/game/DefenceTowerDefenceUpgrade";
-
+        
+    getCoreRenderableUrl:string =
+            "http://localhost:6430/api/game/GetCoreRenderable";
+    
+    getOtherRenderableUrl:string =
+            "http://localhost:6430/api/game/GetOtherRenderable";
+    
     getAllUserLogDataUrl: string =
         "http://localhost:6430/Auth/GetAllUserLogData"; 
 
@@ -257,6 +264,16 @@ export class GameService
     public IsLogUpdated(userId:number) : Observable<number>
     {
         return this.httpClient.get<number>(this.isLogUpdatedUrl);
+    }
+
+    public GetCoreRenderable() : Observable<Renderable>
+    {
+        return this.httpClient.get<Renderable>(this.getCoreRenderableUrl);
+    }
+
+    public GetOtherRenderable() : Observable<Renderable[]>
+    {
+        return this.httpClient.get<Renderable[]>(this.getOtherRenderableUrl);
     }
 
 }

@@ -68,5 +68,12 @@ namespace EpicGameCommon
 
         [OperationContract]
         void DefenceTowerDefenceUpgrade(int coreId);
+
+        [OperationContract]
+        string GetCoreRenderable(int coreId);
+
+        [OperationContract]
+        string GetOtherRenderable(int coreId);
+    
     }
 }
