@@ -13,16 +13,16 @@ namespace EpicGameWeb.Controllers
 
         public string GetSessionVariable(string variableName)
         {
-            if (Session[variableName] != null)
+            if (HttpContext.Request.Cookies[variableName].Value != null)
             {
-                return Session[variableName].ToString();
+                return HttpContext.Request.Cookies[variableName].Value;
             }
             return "";
         }
 
         public void SetSessionVariable(string variableName, string value)
         {
-            Session[variableName] = value;
+            HttpContext.Response.Cookies[variableName].Value = value;
         }
 
         public string Login(LoginModel loginModel)
@@ -103,13 +103,11 @@ namespace EpicGameWeb.Controllers
                 .GetCoreByUserId(userId).FromJson<SessionCoresTable>();
 
             SetSessionVariable("UserId", userId.ToString());
-            MySession.UserId = userId;
             if (core != null)
             {
                 if (core.SessionCoreId != 0) 
                 { 
                     SetSessionVariable("CoreId", core.SessionCoreId.ToString());
-                    MySession.CoreId = core.SessionCoreId;
                 }
             }
 
@@ -139,8 +137,7 @@ namespace EpicGameWeb.Controllers
         [HttpGet]
         public string AllUsersInfo()
         {
-            var channel = RemoteProcedureCallClass
-                .GetUserChannel();
+            var channel = RemoteProcedureCallClass.GetUserChannel();
             var allUsersJson = channel.GetAllUsersInfo();
             return allUsersJson;
         }
@@ -152,8 +149,7 @@ namespace EpicGameWeb.Controllers
             string userIdString = GetSessionVariable("UserId");
             if (System.Int32.TryParse(userIdString, out userId))
             {
-                var channel = RemoteProcedureCallClass
-                    .GetUserChannel();
+                var channel = RemoteProcedureCallClass.GetUserChannel();
                 var friendsUsersJson = channel.GetUsersFriendsInfo(userId);
                 return friendsUsersJson;
             }
@@ -170,8 +166,7 @@ namespace EpicGameWeb.Controllers
             string userIdString = GetSessionVariable("UserId");
             if (System.Int32.TryParse(userIdString, out userId))
             {
-                var channel = RemoteProcedureCallClass
-                .GetUserChannel();
+                var channel = RemoteProcedureCallClass.GetUserChannel();
                 var followersUsersJson = channel.GetUsersFollowersInfo(userId);
                 return followersUsersJson;
             }
@@ -188,8 +183,7 @@ namespace EpicGameWeb.Controllers
             string userIdString = GetSessionVariable("UserId");
             if (System.Int32.TryParse(userIdString, out userId))
             {
-                var channel = RemoteProcedureCallClass
-                .GetUserChannel();
+                var channel = RemoteProcedureCallClass.GetUserChannel();
                 var followingsUsersJson = channel.GetUsersFollowingsInfo(userId);
                 return followingsUsersJson;
             }

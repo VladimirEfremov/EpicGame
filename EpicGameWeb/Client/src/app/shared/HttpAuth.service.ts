@@ -138,32 +138,20 @@ export class HttpAuthService
         return this.httpClient.get<AccountData>(this.getAccountUrl);
     }
 
-    public AddUserToFriends(users:TwoUsers):void
+    public AddUserToFriends(users:TwoUsers):Observable<TwoUsers>
     {
-        console.log(`firstId: ${users.FirstId}
-         secondId: ${users.SecondId}`);
-        this.httpClient.post<TwoUsers>(
-            this.addUserToFriendsUrl, 
-            users)
-        .subscribe(
-            data => console.log("success"),
-            error => console.log("error"+error)
-        );
+        console.log(`firstId: ${users.FirstId} secondId: ${users.SecondId}`);
+        return this.httpClient.post<TwoUsers>(this.addUserToFriendsUrl, users);
     }
     
-    public RemoveUserFromFriends(users:TwoUsers):void
+    public RemoveUserFromFriends(users:TwoUsers):Observable<TwoUsers>
     {
         console.log(`firstId: ${users.FirstId}
                      secondId: ${users.SecondId}`);
-        this.httpClient
-            .post<TwoUsers>(this.removeUserFromFriendsUrl, users)
-            .subscribe(
-                data => console.log("success"),
-                error => console.log("error"+error)
-            );
+        return this.httpClient.post<TwoUsers>(this.removeUserFromFriendsUrl, users);
     }
 
-    public GetAllUsers():Observable<UserInfo[]>
+    public GetAllUsersInfo():Observable<UserInfo[]>
     {
         console.log("GetAllUserInfo");
         let result = this.httpClient

@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 1\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 1\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 1\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseCapacityUpgrade()\">Upgrade Capacity</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseAttackUpgrade()\">Upgrade Attack</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseDefenceUpgrade()\">Upgrade Defence</button></tr>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}/{{coreInfo.CasernCapacity}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}/{{coreInfo.CasernCapacity}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.CasernIncome}}</div> \n              <div>Outcome: {{coreInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnCasernCapacityUpgrade()\">Upgrade Capacity</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnDefenceTowerAttackUpgrade()\">Upgrade Attack</button></tr>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnDefenceTowerDefenceUpgrade()\">Upgrade Defence</button></tr>\n            </td>\n          </ng-template>\n        \n        <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n              <div>Workers: {{coreInfo.GoldMiningNumberOfWorkers}}/{{coreInfo.GoldMiningCapacity}}</div>\n              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n              <div>Type: {{coreInfo.GoldMiningType}}</div>\n            </td>\n            <td>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnGoldMiningCapacityUpgrade()\">Upgrade Capacity</button></tr>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <button title=\"Добавит нового рабочего на производственную линию\"\n                      (click)=\"OnAddWorkerToMineBtnClick()\">Add worker</button> <br/>\n            </td>\n        </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\" class=\"cmntr\">\n          <td>\n              <div class=\"TextInCenter\" [ngSwitch]=\"numberOfSelectedList\">\n                  <ng-template [ngSwitchCase]=\"0\">All</ng-template>\n                  <ng-template [ngSwitchCase]=\"1\">Friends</ng-template>\n                  <ng-template [ngSwitchCase]=\"2\">Followers</ng-template>\n                  <ng-template [ngSwitchCase]=\"3\">Followings</ng-template>\n              </div>\n          </td>\n          <td> <div>{{numberOfPage}}</div> </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">All</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Friends</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Followers</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Followings</button>\n          </tr>\n        </td>\n        \n        <td >\n\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button (click)=\"AddUserToFriends()\">\n            Add to friends\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
+/* harmony default export */ __webpack_exports__["default"] = ("\n<table class=\"globalTable\">\n  \n<tr>\n    <td>\n      <div class=\"GameTxt\" > \n        Ogame2.0\n      </div>\n    </td>\n    <td>\n      <div>\n        Nickname:{{accountData.Nickname}}\n      </div>\n      <div>\n        <button (click)=\"OnSignOutBtnClick()\">Exit</button>\n      </div>\n    </td>\n\n</tr>\n\n<tr>\n    <button>ToCore</button>\n    <button>ToMap</button>\n</tr>\n\n<tr>\n  <td>\n  <table class=\"CoreTable\" align=\"left\"> \n    <tr>\n      <td></td>\n      <td>\n        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>\n        <button (click)=\"OnCoreBtnClick()\">Core</button>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 1\">\n          <button (click)=\"OnCasernBtnClick()\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 1\">\n          <button (click)=\"OnGoldMiningBtnClick()\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 1\">\n          <button (click)=\"OnDefenceTowerBtnClick()\">DefenceTower</button> \n        </ng-template>\n\n        <ng-template [ngIf]=\"coreInfo.Casern == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">Casern</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.DefenceTower == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">GoldMining</button> \n        </ng-template>\n        <ng-template [ngIf]=\"coreInfo.GoldMining == 0\">\n            <button class=\"DiactivatedButton\" title=\"Необходимо купить в Core\" disabled=\"true\">DefenceTower</button> \n        </ng-template>\n\n      </td>\n    </tr>      \n    \n    <tr>\n      <td></td>\n      <ng-template [ngIf]=\"IsCoreInfoActivated\">\n          <td>\n            <div>Hp: {{coreInfo.BaseHp}}</div> \n            <div>Attack: {{coreInfo.BaseAttack}}</div> \n            <div>Defence: {{coreInfo.BaseDefence}}</div>\n            <div>Workers: {{coreInfo.BaseWorkersCount}}/{{coreInfo.BaseCapacity}}</div>\n            <div>Type: {{coreInfo.BaseType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.BaseIncome}}</div> \n              <div>Outcome: {{coreInfo.BaseOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseCapacityUpgrade()\">Upgrade Capacity</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseAttackUpgrade()\">Upgrade Attack</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBaseDefenceUpgrade()\">Upgrade Defence</button></tr>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildCasernBtnClick()\">Build Casern</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildGoldMiningBtnClick()\">Build GoldMining</button></tr>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnBuildDefenceTowerBtnClick()\">Build DefenceTower</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWorkerBtnClick()\">Produce worker</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsCasernInfoActivated\">\n          <td>  \n            <div>Hp: {{coreInfo.CasernHp}}</div> \n            <div>Attack: {{coreInfo.CasernAttack}}</div> \n            <div>Defence: {{coreInfo.CasernDefence}}</div>\n            <div>Warriors: {{coreInfo.CasernWarriorsCount}}/{{coreInfo.CasernCapacity}}</div>\n            <div>AttackAircraft: {{coreInfo.CasernAttackAircraftsCount}}/{{coreInfo.CasernCapacity}}</div>\n            <div>Type: {{coreInfo.CasernType}}</div>\n          </td>\n          <td>\n              <div>Income: {{coreInfo.CasernIncome}}</div> \n              <div>Outcome: {{coreInfo.CasernOutcome}}</div>\n          </td>\n          <td>\n            <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnCasernCapacityUpgrade()\">Upgrade Capacity</button></tr>\n          </td>\n          <td>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceWarriorBtnClick()\">Produce warrior</button> <br/>\n            <button title=\"Стоимость: 1000 gold\" (click)=\"OnProduceAttackAircraftBtnClick()\">Produce attackAircraft</button>\n          </td>\n        </ng-template>\n        \n        <ng-template [ngIf]=\"IsDefenceTowerInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.DefenceTowerHp}}</div> \n              <div>Attack: {{coreInfo.DefenceTowerAttack}}</div> \n              <div>Defence: {{coreInfo.DefenceTowerDefence}}</div>\n              <div>Type: {{coreInfo.DefenceTowerType}}</div>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnDefenceTowerAttackUpgrade()\">Upgrade Attack</button></tr>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnDefenceTowerDefenceUpgrade()\">Upgrade Defence</button></tr>\n            </td>\n          </ng-template>\n        \n        <ng-template [ngIf]=\"IsGoldMiningInfoActivated\">\n            <td>  \n              <div>Hp: {{coreInfo.GoldMiningHp}}</div> \n              <div>Workers: {{coreInfo.GoldMiningNumberOfWorkers}}/{{coreInfo.GoldMiningCapacity}}</div>\n              <div>Attack: {{coreInfo.GoldMiningAttack}}</div> \n              <div>Defence: {{coreInfo.GoldMiningDefence}}</div>\n              <div>Type: {{coreInfo.GoldMiningType}}</div>\n            </td>\n            <td>\n              <tr><button title=\"Стоимость: 1000 gold\" (click)=\"OnGoldMiningCapacityUpgrade()\">Upgrade Capacity</button></tr>\n            </td>\n            <td>\n                <div>Income: {{coreInfo.GoldMiningIncome}}</div> \n                <div>Outcome: {{coreInfo.GoldMiningOutcome}}</div>\n            </td>\n            <td>\n              <button title=\"Добавит нового рабочего на производственную линию\"\n                      (click)=\"OnAddWorkerToMineBtnClick()\">Добавить работника</button> <br/>\n            </td>\n        </ng-template>\n    </tr>\n    \n  </table>\n  </td>\n  \n  <td>\n    <table class=\"CommunicationTable\">\n      <tr align=\"center\" class=\"cmntr\">\n          <td>\n              <div class=\"TextInCenter\" [ngSwitch]=\"numberOfSelectedList\">\n                  <ng-template [ngSwitchCase]=\"0\">Все</ng-template>\n                  <ng-template [ngSwitchCase]=\"1\">Друзья</ng-template>\n                  <ng-template [ngSwitchCase]=\"2\">Подписчики</ng-template>\n                  <ng-template [ngSwitchCase]=\"3\">Подписки</ng-template>\n              </div>\n          </td>\n          <td> <div>{{numberOfPage}}</div> </td>\n      </tr>\n      <tr>\n        <td>\n          <div>\n            <button (click)=\"OnLessBtnClick()\">\n              &lt;\n            </button>\n            <button (click)=\"OnGreaterBtnClick()\">\n              &gt;\n            </button>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnAllBtnClick()\">Все</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFriendsBtnClick()\">Друзья</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowersBtnClick()\">Подписчики</button>\n          </tr>\n          <tr>\n            <button class=\"cmnBtn\" (click)=\"OnFollowingsBtnClick()\">Подписки</button>\n          </tr>\n        </td>\n        \n        <td>\n          <div [ngSwitch]=\"numberOfSelectedList\">\n              <ng-template ngSwitchCase=\"0\">\n                  <div *ngFor=\n                    \"let user of selectedAll\">\n                    <button class=\"btnList\" \n                    (click)=\"OnUserBtnClick(user)\">\n                      {{user.Nickname}}\n                    </button>\n                  </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"1\"> \n                  <div *ngFor=\n                  \"let user of selectedFriends\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"2\">\n                  <div *ngFor=\n                  \"let user of selectedFollowers\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n              <ng-template ngSwitchCase=\"3\">\n                  <div *ngFor=\n                  \"let user of selectedFollowings\">\n                  <button class=\"btnList\" \n                  (click)=\"OnUserBtnClick(user)\">\n                    {{user.Nickname}}\n                  </button>\n                </div>\n              </ng-template>\n\n          </div>\n\n        </td>\n      </tr>\n\n    </table>\n  </td>\n  \n</tr>\n\n</table>\n\n<div class=\"UsersActionWindowBox\">\n  <ng-template [ngIf]=\"isUserActionsWindowVisible\">\n    \n    <div class=\"UsersActionWindow\" \n      [ngSwitch]=\"numberOfSelectedList\">\n      <div class=\"RoundedExitBtnBox\">\n        <button class=\"RoundedExitBtn\"\n                (click)=\"OnExitBtnClick()\">&#215;</button>\n      </div>\n      \n      <br/> \n      <br/>\n\n      <div class=\"UserInfo\">\n        User info\n        <br/> \n        Nickname: {{selectedUser.Nickname}}\n        <br/> \n        <br/> \n        Core info \n        <br/> \n      </div>\n      \n      \n      <div class=\"btnUserAction\">\n        <button (click)=\"OnDuelBattleBtnClick()\">Duel</button>\n        \n        <button (click)=\"OnCoreAttackBtnClick()\">Attack core</button>\n  \n         <ng-template ngSwitchCase=\"0\">\n             <button *ngIf=\"isSelectedUserFriend\"\n              (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n            <button *ngIf=\"!isSelectedUserFriend\"\n              (click)=\"AddUserToFriends()\">\n              Добавить в друзья\n            </button>\n        </ng-template>\n  \n         <ng-template ngSwitchCase=\"1\"> \n            <button \n            (click)=\"RemoveUserFromFriends()\">\n              Удалить из друзей\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchCase=\"3\">\n            <button \n            (click)=\"RemoveUserFromFriends()\">\n            Отменить подписку\n            </button>\n         </ng-template>\n  \n         <ng-template ngSwitchDefault>\n          <button (click)=\"AddUserToFriends()\">\n            Добавить в друзья\n          </button>\n         </ng-template>\n      </div>\n      \n    </div>\n  </ng-template>\n</div>\n\n\n<div class=\"Logger\" onload=\"this.scrollTop = 9999;\"> \n    <div class=\"LoggerContent\"\n      *ngFor=\"let log of loggedData?.Data2\"\n      >\n      <div [ngSwitch]=\"log.Type\">\n          <ng-template ngSwitchCase=\"1\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"2\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"3\"><div class=\"LoggerWarContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n\n          <ng-template ngSwitchCase=\"4\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchCase=\"5\"> <div class=\"LoggerBuildContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          \n          <ng-template ngSwitchCase=\"6\"><div class=\"LoggerCommunicationContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n          <ng-template ngSwitchDefault><div class=\"LoggerDefaultContent\">{{log.Message}} [{{log.Time}}]</div></ng-template>\n      </div>\n    </div>\n  </div>\n\n<div class=\"CanvasDiv\">\n  <button>\n    CLICK ON ME\n  </button>\n\n</div>\n\n <canvas id=\"map\" width=1000 height=1000>\n    Canvas not supported\n </canvas>");
 
 /***/ }),
 
@@ -874,17 +874,18 @@ let GameComponent = class GameComponent {
     }
     ngOnInit() {
         console.log("OnInit()");
-        this.httpGameService.GetCoreRenderable()
-            .subscribe(data => {
-            console.log("[success] GetCoreRenderable");
-            this.map.thisRenderable = data;
-        }, error => {
-            console.log("[error] GetCoreRenderable");
-        });
+        //this.httpGameService.GetCoreRenderable()
+        //  .subscribe( data => {
+        //      console.log("[success] GetCoreRenderable");
+        //      this.map.thisRenderable = data;
+        //  },
+        //  error => {
+        //      console.log("[error] GetCoreRenderable");
+        //  });
+        this.GetAccountData();
         this.map.Init();
         this.map.DrawWorld();
         window.requestAnimationFrame(this.map.DrawWorld);
-        this.GetAccountData();
         this.httpGameService
             .GetAllUserLogData(this.accountData.UserId)
             .subscribe(data => {
@@ -927,15 +928,19 @@ let GameComponent = class GameComponent {
             console.log("[error] GetAllUserLogData"
                 + error);
         });
-        setInterval(() => {
-            this.httpGameService.GetOtherRenderable()
-                .subscribe(data => {
-                console.log("[success] GetOtherRenderable");
-                if (data.length > 0) {
-                    this.map.otherRenderable = data;
-                }
-            }, error => { console.log("[error] GetOtherRenderable" + error); });
-        }, 250);
+        //setInterval(
+        //  ()=>{
+        //    this.httpGameService.GetOtherRenderable()
+        //      .subscribe(
+        //        data => {
+        //            console.log("[success] GetOtherRenderable");
+        //            if (data.length > 0)
+        //            {
+        //                this.map.otherRenderable = data;
+        //            }
+        //        }, error => { console.log("[error] GetOtherRenderable" + error); }
+        //    );
+        //}, 250);
     }
     OnSignOutBtnClick() {
         this.httpAuthService.SignOut();
@@ -997,57 +1002,10 @@ let GameComponent = class GameComponent {
                     "}");
                 this.coreInfo = data;
             }, error => console.log("[error] GetCoreById: " + error));
-            this.CommunicationsUpdate();
+            this.OnAllBtnClick();
         }, err => {
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
-        });
-    }
-    CommunicationsUpdate() {
-        this.GetAllUsers();
-        this.GetUsersFollowers();
-        this.GetUsersFollowings();
-        this.GetUsersFriends();
-        return true;
-    }
-    GetAllUsers() {
-        this.httpAuthService.GetAllUsers()
-            .subscribe(res => {
-            console.log("get all users");
-            this.allUsers = res;
-            //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-        }, err => {
-            console.log("[error] get all users");
-        });
-    }
-    GetUsersFriends() {
-        this.httpAuthService.GetUsersFriendsInfo()
-            .subscribe(res => {
-            console.log("get user friends");
-            this.friendsUsers = res;
-            //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-        }, err => {
-            console.log("[error] get user friends");
-        });
-    }
-    GetUsersFollowers() {
-        this.httpAuthService.GetUsersFollowersInfo()
-            .subscribe(res => {
-            console.log("get user followers");
-            this.followersUsers = res;
-            //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-        }, err => {
-            console.log("[error] get user followers");
-        });
-    }
-    GetUsersFollowings() {
-        this.httpAuthService.GetUsersFollowingsInfo()
-            .subscribe(res => {
-            console.log("get user followings");
-            this.followingsUsers = res;
-            //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-        }, err => {
-            console.log("[error] get user followings");
         });
     }
     OnCoreBtnClick() {
@@ -1307,35 +1265,55 @@ let GameComponent = class GameComponent {
     }
     OnAllBtnClick() {
         //GetAllUsers
-        this.GetAllUsers();
-        this.selectedAll =
-            this.allUsers.slice(0, this.pageStep);
-        this.numberOfPage = 1;
-        this.numberOfSelectedList = 0;
+        this.httpAuthService.GetAllUsersInfo().subscribe((data) => {
+            console.log("[success] GetAllUsers");
+            this.allUsers = data;
+            this.selectedAll =
+                this.allUsers.slice(0, this.pageStep);
+            this.numberOfPage = 1;
+            this.numberOfSelectedList = 0;
+        }, (error) => {
+            console.log("[error] GetAllUsers: " + error);
+        });
     }
     OnFriendsBtnClick() {
-        //GetAllFriends
-        this.GetUsersFriends();
-        this.selectedFriends =
-            this.friendsUsers.slice(0, this.pageStep);
-        this.numberOfPage = 1;
-        this.numberOfSelectedList = 1;
+        //GetFriends
+        this.httpAuthService.GetUsersFriendsInfo().subscribe((data) => {
+            console.log("[success] GetUsersFriendsInfo");
+            this.friendsUsers = data;
+            this.selectedFriends =
+                this.friendsUsers.slice(0, this.pageStep);
+            this.numberOfPage = 1;
+            this.numberOfSelectedList = 1;
+        }, (error) => {
+            console.log("[error] GetUsersFriendsInfo: " + error);
+        });
     }
     OnFollowersBtnClick() {
         //GetAllFollowers
-        this.GetUsersFollowers();
-        this.selectedFollowers =
-            this.followersUsers.slice(0, this.pageStep);
-        this.numberOfPage = 1;
-        this.numberOfSelectedList = 2;
+        this.httpAuthService.GetUsersFollowersInfo().subscribe((data) => {
+            console.log("[success] GetUsersFollowersInfo");
+            this.followersUsers = data;
+            this.selectedFollowers =
+                this.followersUsers.slice(0, this.pageStep);
+            this.numberOfPage = 1;
+            this.numberOfSelectedList = 2;
+        }, (error) => {
+            console.log("[error] GetUsersFollowersInfo: " + error);
+        });
     }
     OnFollowingsBtnClick() {
         //GetAllFollowings
-        this.GetUsersFollowings();
-        this.selectedFollowings =
-            this.followingsUsers.slice(0, this.pageStep);
-        this.numberOfPage = 1;
-        this.numberOfSelectedList = 3;
+        this.httpAuthService.GetUsersFollowingsInfo().subscribe((data) => {
+            console.log("[success] GetUsersFollowingsInfo");
+            this.followingsUsers = data;
+            this.selectedFollowings =
+                this.followingsUsers.slice(0, this.pageStep);
+            this.numberOfPage = 1;
+            this.numberOfSelectedList = 3;
+        }, (error) => {
+            console.log("[error] GetUsersFollowingsInfo: " + error);
+        });
     }
     OnUserBtnClick(userInfo) {
         console.log("On user btn click: [selected list: "
@@ -1349,59 +1327,132 @@ let GameComponent = class GameComponent {
         this.isSelectedUserFriend = this.IsUserFriend();
     }
     IsUserFriend() {
-        this.CommunicationsUpdate();
-        console.log("[call] IsUserFriend");
-        for (var f = 0; f < this.friendsUsers.length; f++) {
-            console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
-            if (this.friendsUsers[f].Nickname ===
-                this.selectedUser.Nickname) {
-                console.log("[IsUserFriend] true");
-                return true;
+        let result = false;
+        this.httpAuthService.GetUsersFriendsInfo()
+            .subscribe((data) => {
+            console.log("[success] GetUsersFriendsInfo: ");
+            this.friendsUsers = data;
+            for (var f = 0; f < this.friendsUsers.length; f++) {
+                console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+                if (this.friendsUsers[f].Nickname ===
+                    this.selectedUser.Nickname) {
+                    console.log("[IsUserFriend] true");
+                    result = true;
+                }
             }
-        }
-        for (var f = 0; f < this.followingsUsers.length; f++) {
-            console.log(this.followingsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
-            if (this.followingsUsers[f].Nickname ===
-                this.selectedUser.Nickname) {
-                console.log("[IsUserFriend] true");
-                return true;
+            if (!result) {
+                this.httpAuthService.GetUsersFollowingsInfo().subscribe((data) => {
+                    console.log("[success] GetUsersFriendsInfo: ");
+                    this.followingsUsers = data;
+                    for (var f = 0; f < this.followingsUsers.length; f++) {
+                        console.log(this.followingsUsers[f].Nickname + " === " +
+                            this.selectedUser.Nickname);
+                        if (this.followingsUsers[f].Nickname ===
+                            this.selectedUser.Nickname) {
+                            console.log("[IsUserFriend] true");
+                            result = true;
+                        }
+                    }
+                }, (error) => {
+                    console.log("[error] GetUsersFriendsInfo: " + error);
+                });
             }
-        }
-        console.log("[IsUserFriend] false");
-        return false;
+        }, (error) => {
+            console.log("[error] GetUsersFriendsInfo: " + error);
+        });
+        if (!result)
+            console.log("[IsUserFriend] false");
+        return result;
     }
     AddUserToFriends() {
         let users = {
             FirstId: this.accountData.UserId,
             SecondId: this.selectedUser.UserId
         };
-        this.httpAuthService.AddUserToFriends(users);
+        this.httpAuthService.AddUserToFriends(users).subscribe((data) => {
+            this.httpAuthService.GetUsersFriendsInfo().subscribe((data) => {
+                console.log("[success] GetUsersFriendsInfo: ");
+                this.friendsUsers = data;
+                this.httpAuthService.GetUsersFollowingsInfo().subscribe((data) => {
+                    console.log("[success] GetUsersFriendsInfo: ");
+                    this.followingsUsers = data;
+                    this.httpAuthService.GetUsersFollowersInfo().subscribe((data) => {
+                        this.followersUsers = data;
+                        if (this.numberOfSelectedList == 1) {
+                            console.log("this.numberOfSelectedList == 1");
+                            this.selectedFriends =
+                                this.friendsUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 2) {
+                            console.log("this.numberOfSelectedList == 2");
+                            this.selectedFollowers =
+                                this.followersUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 3) {
+                            console.log("this.numberOfSelectedList == 3");
+                            this.selectedFollowings =
+                                this.followingsUsers.slice(0, this.pageStep);
+                        }
+                    }, (error) => {
+                        console.log("[error] GetUsersFriendsInfo: " + error);
+                    });
+                }, (error) => {
+                    console.log("[error] GetUsersFriendsInfo: " + error);
+                });
+            }, (error) => {
+                console.log("[error] GetUsersFriendsInfo: " + error);
+            });
+        }, (error) => {
+            console.log("[error] AddUserToFriends: " + error);
+        });
         this.isUserActionsWindowVisible = false;
-        this.CommunicationsUpdate();
     }
     RemoveUserFromFriends() {
         let users = {
             FirstId: this.accountData.UserId,
             SecondId: this.selectedUser.UserId
         };
-        this.httpAuthService.RemoveUserFromFriends(users);
+        this.httpAuthService.RemoveUserFromFriends(users)
+            .subscribe(data => {
+            console.log("[success] RemoveUserFromFriends");
+            this.httpAuthService.GetUsersFriendsInfo()
+                .subscribe((data) => {
+                console.log("[success] GetUsersFriendsInfo: ");
+                this.friendsUsers = data;
+                this.httpAuthService.GetUsersFollowingsInfo()
+                    .subscribe((data) => {
+                    console.log("[success] GetUsersFriendsInfo: ");
+                    this.followingsUsers = data;
+                    this.httpAuthService.GetUsersFollowersInfo()
+                        .subscribe((data) => {
+                        if (this.numberOfSelectedList == 1) {
+                            console.log("this.numberOfSelectedList == 1");
+                            this.selectedFriends =
+                                this.friendsUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 2) {
+                            console.log("this.numberOfSelectedList == 2");
+                            this.selectedFollowers =
+                                this.followersUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 3) {
+                            console.log("this.numberOfSelectedList == 3");
+                            this.selectedFollowings =
+                                this.followingsUsers.slice(0, this.pageStep);
+                        }
+                    }, (error) => {
+                        console.log("[error] GetUsersFriendsInfo: " + error);
+                    });
+                }, (error) => {
+                    console.log("[error] GetUsersFriendsInfo: " + error);
+                });
+            }, (error) => {
+                console.log("[error] GetUsersFriendsInfo: " + error);
+            });
+        }, error => {
+            console.log("[error] RemoveUserFromFriends" + error);
+        });
         this.isUserActionsWindowVisible = false;
-        this.CommunicationsUpdate();
-        if (this.numberOfSelectedList == 1) {
-            console.log("this.numberOfSelectedList == 1");
-            this.selectedFriends =
-                this.friendsUsers.slice(0, this.pageStep);
-        }
-        else if (this.numberOfSelectedList == 2) {
-            console.log("this.numberOfSelectedList == 2");
-            this.selectedFriends =
-                this.followersUsers.slice(0, this.pageStep);
-        }
-        else if (this.numberOfSelectedList == 3) {
-            console.log("this.numberOfSelectedList == 3");
-            this.selectedFriends =
-                this.followingsUsers.slice(0, this.pageStep);
-        }
     }
     OnExitBtnClick() {
         this.isUserActionsWindowVisible = false;
@@ -1961,19 +2012,15 @@ let HttpAuthService = class HttpAuthService {
         return this.httpClient.get(this.getAccountUrl);
     }
     AddUserToFriends(users) {
-        console.log(`firstId: ${users.FirstId}
-         secondId: ${users.SecondId}`);
-        this.httpClient.post(this.addUserToFriendsUrl, users)
-            .subscribe(data => console.log("success"), error => console.log("error" + error));
+        console.log(`firstId: ${users.FirstId} secondId: ${users.SecondId}`);
+        return this.httpClient.post(this.addUserToFriendsUrl, users);
     }
     RemoveUserFromFriends(users) {
         console.log(`firstId: ${users.FirstId}
                      secondId: ${users.SecondId}`);
-        this.httpClient
-            .post(this.removeUserFromFriendsUrl, users)
-            .subscribe(data => console.log("success"), error => console.log("error" + error));
+        return this.httpClient.post(this.removeUserFromFriendsUrl, users);
     }
-    GetAllUsers() {
+    GetAllUsersInfo() {
         console.log("GetAllUserInfo");
         let result = this.httpClient
             .get(this.getAllUsersUrl);

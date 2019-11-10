@@ -1,4 +1,7 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
 using EpicGameCommon;
 using EpicGameCommon.Models;
@@ -11,6 +14,16 @@ namespace EpicGameWeb.Controllers
     [RoutePrefix("api/game")]
     public class GameController : ApiController
     {
+        public string GetSessionVariable(string variableName)
+        {
+            CookieHeaderValue cookie = Request.Headers.GetCookies(variableName).FirstOrDefault();
+            if (cookie != null)
+            {
+                return cookie[variableName].Value;
+            }
+            return "";
+        }
+
         [Route("CasernGetNumberOfWarriors")]
         public int CasernGetNumberOfWarriors([FromBody]int coreId)
         {
@@ -88,35 +101,52 @@ namespace EpicGameWeb.Controllers
         [Route("GetCoreById")]
         public string GetCoreById()
         {
-            var result = RemoteProcedureCallClass
-                .GetGameChannel()
-                .GetCoreById(MySession.CoreId);
-            return result;
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
+            {
+                var result = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .GetCoreById(coreid);
+                return result;
+            }
+            return "";
         }
 
         [HttpGet]
         [Route("GetCoreInfoById")]
         public CoreInfo GetCoreInfoById()
         {
-            string coreInfoJson = RemoteProcedureCallClass
-                .GetGameChannel()
-                .GetCoreInfoById(MySession.CoreId);
-            CoreInfo coreInfo = coreInfoJson.FromJson<CoreInfo>();
-            return coreInfo;
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
+            {
+                string coreInfoJson = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .GetCoreInfoById(coreid);
+                CoreInfo coreInfo = coreInfoJson.FromJson<CoreInfo>();
+                return coreInfo;
+            }
+            return new CoreInfo();
         }
 
         [HttpPost]
         [Route("DuelBattle")]
         public int DuelBattle([FromBody]object defenderCoreId)
         {
-            int defenderCoreIdInt; 
-            if (System.Int32.TryParse(defenderCoreId.ToString(), out defenderCoreIdInt))
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
             {
-                var resultJson = RemoteProcedureCallClass
-                    .GetGameChannel()
-                    .DuelBattle(MySession.CoreId, defenderCoreIdInt);
-                var result = resultJson.FromJson<BattleResponse>().WhoWonTheBattle;
-                return result;
+                int defenderCoreIdInt;
+                if (System.Int32.TryParse(defenderCoreId.ToString(), out defenderCoreIdInt))
+                {
+                    var resultJson = RemoteProcedureCallClass
+                        .GetGameChannel()
+                        .DuelBattle(coreid, defenderCoreIdInt);
+                    var result = resultJson.FromJson<BattleResponse>().WhoWonTheBattle;
+                    return result;
+                }
             }
             return -2;
         }
@@ -125,11 +155,17 @@ namespace EpicGameWeb.Controllers
         [Route("CoreBattle")]
         public string CoreBattle([FromBody]int defenderCoreId)
         {
-            var result = RemoteProcedureCallClass
-                .GetGameChannel()
-                .CoreBattle(MySession.CoreId, defenderCoreId)
-                .ToJson();
-            return result;
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
+            {
+                var result = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .CoreBattle(coreid, defenderCoreId)
+                    .ToJson();
+                return result;
+            }
+            return "";
         }
 
         [HttpPost]
@@ -199,20 +235,32 @@ namespace EpicGameWeb.Controllers
         [Route("GetCoreRenderable")]
         public Renderable GetCoreRenderable()
         {
-            var result = RemoteProcedureCallClass
-                .GetGameChannel()
-                .GetCoreRenderable(MySession.CoreId).FromJson<Renderable>();
-            return result;
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
+            {
+                var result = RemoteProcedureCallClass
+                    .GetGameChannel()
+                    .GetCoreRenderable(coreid).FromJson<Renderable>();
+                return result;
+            }
+            return new Renderable();
         }
 
         [HttpGet]
         [Route("GetOtherRenderable")]
         public Renderable[] GetOtherRenderable()
         {
-            var result = RemoteProcedureCallClass
-               .GetGameChannel()
-               .GetOtherRenderable(MySession.CoreId).FromJson<Renderable[]>();
-            return result;
+            int coreid;
+            var coreIdString = GetSessionVariable("CoreId");
+            if (System.Int32.TryParse(coreIdString, out coreid))
+            {
+                var result = RemoteProcedureCallClass
+                   .GetGameChannel()
+                   .GetOtherRenderable(coreid).FromJson<Renderable[]>();
+                return result;
+            }
+            return new Renderable[0];
         }
 
 

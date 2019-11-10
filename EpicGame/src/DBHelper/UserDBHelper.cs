@@ -257,11 +257,14 @@
         /// </summary>
         /// <param name="thisId">Кто добавляет в друзья</param>
         /// <param name="idToAdd">Кого добавляют в друзья (кидают инвайт)</param>
-        public void AddUserToFriends(System.Int32 thisId, System.Int32 idToAdd)
+        public void AddUserToFriends(int thisId, int idToAdd)
         {
             if (thisId != idToAdd)
             {
                 logger.Info($"user [id: {thisId}] add [id: {idToAdd}] to friends");
+
+                var thisUser = m_UserContext.UserTable.AsNoTracking()
+                                 .Where(obj => obj.UserId == thisId).FirstOrDefault();
 
                 var userToAdd = m_UserContext.UserTable.AsNoTracking()
                     .Where(obj => obj.UserId == idToAdd)
@@ -274,8 +277,7 @@
                 if (arrayFriends.Count() != 0)
                 {
                     //this user already in friend
-                    EventLogger.AddLogForUser(thisId,
-                        LogType.Communication,
+                    EventLogger.AddLogForUser(thisId, LogType.Communication,
                         $"User [{userToAdd?.Nickname}] already in your friend list");
                 }
                 else
@@ -325,6 +327,8 @@
                         EventLogger.AddLogForUser(thisId,
                             LogType.Communication,
                             $"You add user [{userToAdd?.Nickname}] to friends list");
+                        EventLogger.AddLogForUser(idToAdd, LogType.Communication,
+                            $"User [{thisUser?.Nickname}] accept request for friendship");
                     }
                     else
                     {
@@ -335,10 +339,8 @@
                         if (arrayFollowings.Count() != 0)
                         {
                             //логика followings
-                            EventLogger.AddLogForUser(thisId,
-                                LogType.Communication,
-                                $"You are following user [{userToAdd?.Nickname}]");
-                            return;
+                            EventLogger.AddLogForUser(thisId, LogType.Communication,
+                                $"You already following user [{userToAdd?.Nickname}]");
                         }
                         else
                         {
@@ -359,9 +361,10 @@
                             UserFollowingsContextTrySave();
                             UserFollowersContextTrySave();
 
-                            EventLogger.AddLogForUser(thisId,
-                                LogType.Communication,
-                                $"User [{userToAdd?.Nickname}] add to your friend list");
+                            EventLogger.AddLogForUser(thisId, LogType.Communication,
+                                $"You are following user [{userToAdd?.Nickname}]");
+                            EventLogger.AddLogForUser(idToAdd, LogType.Communication,
+                                 $"User [{thisUser?.Nickname}] now your follower");
                         }
                     }
                 }
@@ -369,8 +372,7 @@
             else
             {
                 logger.Warn("User trying to add himself in a friends list");
-                EventLogger.AddLogForUser(thisId,
-                    LogType.Communication,
+                EventLogger.AddLogForUser(thisId, LogType.Communication,
                     "You can't add yourself to a friends list!");
             }
         }
@@ -380,11 +382,14 @@
         /// </summary>
         /// <param name="thisId">Кто удаляет из друзей</param>
         /// <param name="idToRemove">Кого удаляют из друзей</param>
-        public void RemoveUserFromFriends(System.Int32 thisId, System.Int32 idToRemove)
+        public void RemoveUserFromFriends(int thisId, int idToRemove)
         {
             if (thisId != idToRemove)
             {
                 logger.Info($"user [id: {thisId}] remove [id: {idToRemove}] from friends");
+                var thisUser = m_UserContext.UserTable.AsNoTracking()
+                                 .Where(obj => obj.UserId == thisId).FirstOrDefault();
+
                 var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
                                    where friends.UserId == thisId
                                    where friends.FriendId == idToRemove
@@ -434,9 +439,10 @@
                     UserFriendsContextTrySave();
                     UserFollowersContextTrySave();
 
-                    EventLogger.AddLogForUser(thisId,
-                        LogType.Communication,
+                    EventLogger.AddLogForUser(thisId, LogType.Communication,
                         $"You remove user [{userToRemove?.Nickname}] from friends list");
+                    EventLogger.AddLogForUser(idToRemove, LogType.Communication,
+                        $"User {thisUser?.Nickname} delete you from friends list");
                 }
                 else
                 {
@@ -480,9 +486,12 @@
                             UserFollowingsContextTrySave();
                             UserFollowersContextTrySave();
 
-                            EventLogger.AddLogForUser(thisId,
-                                LogType.Communication,
+                            EventLogger.AddLogForUser(thisId, LogType.Communication,
                                 $"You stop following user [{userToRemove?.Nickname}]");
+
+                            EventLogger.AddLogForUser(idToRemove, LogType.Communication,
+                                $"User {thisUser?.Nickname} stop following you");
+
                         }
                         else
                         {
@@ -569,20 +578,20 @@
 
         public string GetUsersFriendsInfo(int userId)
         {
-            var friendsList = m_UserFriendsContext
+            List<UserFriendsTable> friendsList = m_UserFriendsContext
                .UserFriendsTable
                .AsNoTracking()
-               .Where(obj => obj.UserId == userId)
+               .Where(obj => obj.FriendId == userId)
                .ToList();
             var result = new List<UserInfo>();
-            foreach (var user in friendsList)
+            foreach (var friend in friendsList)
             {
                 var userTableInfo = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == user.UserId)
+                    .Where(obj => obj.UserId == friend.UserId)
                     .FirstOrDefault();
                 var core = m_SessionCoreEntity.SessionCoresTable
                             .AsNoTracking()
-                            .Where(obj => obj.UserId == user.UserId)
+                            .Where(obj => obj.UserId == friend.UserId)
                             .FirstOrDefault();
                 result.Add(new UserInfo()
                 {
@@ -640,9 +649,9 @@
                             .FirstOrDefault();
                 result.Add(new UserInfo()
                 {
-                    Nickname = userTableInfo.Nickname.Trim(),
-                    UserId = userTableInfo.UserId,
-                    CoreId = (core == null) ? 0 : core.SessionCoreId
+                    Nickname = userTableInfo?.Nickname?.Trim(),
+                    UserId = (userTableInfo == null) ? -1 : userTableInfo.UserId,
+                    CoreId = (core == null) ? -1 : core.SessionCoreId
                 });
             }
             return result.ToArray().ToJson();

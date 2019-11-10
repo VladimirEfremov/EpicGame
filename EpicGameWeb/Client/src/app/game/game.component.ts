@@ -162,20 +162,20 @@ export class GameComponent implements OnInit
   ngOnInit() 
   {
       console.log("OnInit()");
-      this.httpGameService.GetCoreRenderable()
-        .subscribe( data => {
-            console.log("[success] GetCoreRenderable");
-            this.map.thisRenderable = data;
-        },
-        error => {
-            console.log("[error] GetCoreRenderable");
-        });
+      //this.httpGameService.GetCoreRenderable()
+      //  .subscribe( data => {
+      //      console.log("[success] GetCoreRenderable");
+      //      this.map.thisRenderable = data;
+      //  },
+      //  error => {
+      //      console.log("[error] GetCoreRenderable");
+      //  });
+
+      this.GetAccountData();
 
       this.map.Init();
       this.map.DrawWorld();
       window.requestAnimationFrame(this.map.DrawWorld);
-      
-      this.GetAccountData();
 
       this.httpGameService
         .GetAllUserLogData(
@@ -237,19 +237,19 @@ export class GameComponent implements OnInit
             }
         );
 
-        setInterval(
-          ()=>{
-            this.httpGameService.GetOtherRenderable()
-              .subscribe(
-                data => {
-                    console.log("[success] GetOtherRenderable");
-                    if (data.length > 0)
-                    {
-                        this.map.otherRenderable = data;
-                    }
-                }, error => { console.log("[error] GetOtherRenderable" + error); }
-            );
-        }, 250);
+        //setInterval(
+        //  ()=>{
+        //    this.httpGameService.GetOtherRenderable()
+        //      .subscribe(
+        //        data => {
+        //            console.log("[success] GetOtherRenderable");
+        //            if (data.length > 0)
+        //            {
+        //                this.map.otherRenderable = data;
+        //            }
+        //        }, error => { console.log("[error] GetOtherRenderable" + error); }
+        //    );
+        //}, 250);
   }
 
   OnSignOutBtnClick():void
@@ -320,81 +320,12 @@ export class GameComponent implements OnInit
                   },
                   error => console.log("[error] GetCoreById: "+error)
               );
-            this.CommunicationsUpdate();
+              this.OnAllBtnClick();
           },
           err => {
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
         });
-  }
-
-  CommunicationsUpdate():boolean
-  {
-      this.GetAllUsers();
-      this.GetUsersFollowers();
-      this.GetUsersFollowings();
-      this.GetUsersFriends();
-      return true;
-  }
-
-  GetAllUsers()
-  {
-    this.httpAuthService.GetAllUsers()
-    .subscribe(
-      res=>{
-        console.log("get all users");
-        this.allUsers = res;
-        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-      },
-      err=>{
-        console.log("[error] get all users");
-      }
-    );
-  }
-
-  GetUsersFriends()
-  {
-    this.httpAuthService.GetUsersFriendsInfo()
-    .subscribe(
-      res=>{
-        console.log("get user friends");
-        this.friendsUsers = res;
-        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-      },
-      err=>{
-        console.log("[error] get user friends");
-      }
-    );
-  }
-
-  GetUsersFollowers()
-  {
-    this.httpAuthService.GetUsersFollowersInfo()
-    .subscribe(
-      res=>{
-        console.log("get user followers");
-        this.followersUsers = res;
-        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-      },
-      err=>{
-        console.log("[error] get user followers");
-      }
-    );
-  }
-
-  GetUsersFollowings()
-  {
-    this.httpAuthService.GetUsersFollowingsInfo()
-    .subscribe(
-      res=>{
-        console.log("get user followings");
-        this.followingsUsers = res;
-        //for (var i = 0; i < res.length;i++){console.log(res[i].Nickname);}
-      },
-      err=>{
-        console.log("[error] get user followings");
-      }
-    );
   }
 
   OnCoreBtnClick() : void
@@ -801,48 +732,74 @@ export class GameComponent implements OnInit
   OnAllBtnClick() : void
   {
       //GetAllUsers
-      this.GetAllUsers();
-      this.selectedAll = 
-        this.allUsers.slice(0, this.pageStep);
+      this.httpAuthService.GetAllUsersInfo().subscribe(
+        (data)=>{
+          console.log("[success] GetAllUsers");
+          this.allUsers = data;
+          this.selectedAll = 
+            this.allUsers.slice(0, this.pageStep);
+            this.numberOfPage = 1;
+            this.numberOfSelectedList = 0;
+        },
+        (error)=>{
+          console.log("[error] GetAllUsers: " + error);
+        }
+      );
       
-      this.numberOfPage = 1;
-      this.numberOfSelectedList = 0;
   }
     
   OnFriendsBtnClick() : void
   {
-      //GetAllFriends
-      this.GetUsersFriends();
-
-      this.selectedFriends = 
-        this.friendsUsers.slice(0, this.pageStep);
-
-      this.numberOfPage = 1;
-      this.numberOfSelectedList = 1;
+      //GetFriends
+      this.httpAuthService.GetUsersFriendsInfo().subscribe(
+        (data)=>{
+          console.log("[success] GetUsersFriendsInfo");
+          this.friendsUsers = data;
+          this.selectedFriends = 
+            this.friendsUsers.slice(0, this.pageStep);
+          this.numberOfPage = 1;
+          this.numberOfSelectedList = 1;
+        },
+        (error)=>{
+          console.log("[error] GetUsersFriendsInfo: " + error);
+        }
+      );
   }
   
   OnFollowersBtnClick() : void
   {
       //GetAllFollowers
-      this.GetUsersFollowers();
-
-      this.selectedFollowers = 
-        this.followersUsers.slice(0, this.pageStep);
-
-      this.numberOfPage = 1;
-      this.numberOfSelectedList = 2;
+      this.httpAuthService.GetUsersFollowersInfo().subscribe(
+        (data)=>{
+          console.log("[success] GetUsersFollowersInfo");
+          this.followersUsers = data;
+          this.selectedFollowers = 
+            this.followersUsers.slice(0, this.pageStep);
+          this.numberOfPage = 1;
+          this.numberOfSelectedList = 2;
+        },
+        (error)=>{
+          console.log("[error] GetUsersFollowersInfo: " + error);
+        }
+      );
   }
   
   OnFollowingsBtnClick() : void
   {
     //GetAllFollowings
-    this.GetUsersFollowings();
-
-    this.selectedFollowings = 
-      this.followingsUsers.slice(0, this.pageStep);
-
-    this.numberOfPage = 1;
-    this.numberOfSelectedList = 3;
+    this.httpAuthService.GetUsersFollowingsInfo().subscribe(
+      (data)=>{
+        console.log("[success] GetUsersFollowingsInfo");
+        this.followingsUsers = data;
+        this.selectedFollowings = 
+          this.followingsUsers.slice(0, this.pageStep);
+        this.numberOfPage = 1;
+        this.numberOfSelectedList = 3;
+      },
+      (error)=>{
+        console.log("[error] GetUsersFollowingsInfo: " + error);
+      }
+    );
   }
 
   OnUserBtnClick(userInfo : UserInfo) : void
@@ -860,30 +817,54 @@ export class GameComponent implements OnInit
 
   IsUserFriend() : boolean
   {
-      this.CommunicationsUpdate();
-      console.log("[call] IsUserFriend");
-      for (var f = 0; f < this.friendsUsers.length; f++)
-      {
-        console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
-        if (this.friendsUsers[f].Nickname ===
-          this.selectedUser.Nickname)
-          {
-            console.log("[IsUserFriend] true");
-            return true;
+      let result:boolean = false;
+      this.httpAuthService.GetUsersFriendsInfo()
+        .subscribe(
+          (data) => {
+            console.log("[success] GetUsersFriendsInfo: ");
+            this.friendsUsers = data;
+            for (var f = 0; f < this.friendsUsers.length; f++)
+            {
+              console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
+              if (this.friendsUsers[f].Nickname ===
+                this.selectedUser.Nickname)
+              {
+                  console.log("[IsUserFriend] true");
+                  result = true;
+              }
+            }
+
+            if (!result)
+            {
+                this.httpAuthService.GetUsersFollowingsInfo().subscribe(
+                  (data) => {
+                    console.log("[success] GetUsersFriendsInfo: ");
+                    this.followingsUsers = data;
+                    for (var f = 0; f < this.followingsUsers.length; f++)
+                    {
+                        console.log(this.followingsUsers[f].Nickname + " === " + 
+                          this.selectedUser.Nickname);
+                        if (this.followingsUsers[f].Nickname ===
+                          this.selectedUser.Nickname)
+                        {
+                          console.log("[IsUserFriend] true");
+                          result = true;
+                        }
+                    }
+                  },
+                  (error) => {
+                      console.log("[error] GetUsersFriendsInfo: "+error);
+                  }
+                )
+            }
+          },
+          (error) => {
+              console.log("[error] GetUsersFriendsInfo: " + error);
           }
-        }
-      for (var f = 0; f < this.followingsUsers.length; f++)
-      {
-        console.log(this.followingsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
-        if (this.followingsUsers[f].Nickname ===
-          this.selectedUser.Nickname)
-        {
-          console.log("[IsUserFriend] true");
-          return true;
-        }
-      }
-      console.log("[IsUserFriend] false");
-      return false;
+        );
+      
+      if (!result) console.log("[IsUserFriend] false");
+      return result;
   }
 
   AddUserToFriends() : void
@@ -892,9 +873,55 @@ export class GameComponent implements OnInit
       FirstId: this.accountData.UserId,
       SecondId: this.selectedUser.UserId
     };
-    this.httpAuthService.AddUserToFriends(users);
-    this.isUserActionsWindowVisible = false;
-    this.CommunicationsUpdate();
+    this.httpAuthService.AddUserToFriends(users).subscribe(
+      (data)=>{
+          this.httpAuthService.GetUsersFriendsInfo().subscribe(
+            (data) => {
+              console.log("[success] GetUsersFriendsInfo: ");
+              this.friendsUsers = data;
+              this.httpAuthService.GetUsersFollowingsInfo().subscribe(
+                (data) => {
+                  console.log("[success] GetUsersFriendsInfo: ");
+                  this.followingsUsers = data;
+                  this.httpAuthService.GetUsersFollowersInfo().subscribe(
+                      (data) => {
+                        this.followersUsers = data;
+                        if (this.numberOfSelectedList == 1)
+                        {
+                            console.log("this.numberOfSelectedList == 1");
+                            this.selectedFriends = 
+                              this.friendsUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 2)
+                        {
+                            console.log("this.numberOfSelectedList == 2");
+                            this.selectedFollowers = 
+                              this.followersUsers.slice(0, this.pageStep);
+                        }
+                        else if (this.numberOfSelectedList == 3)
+                        {
+                            console.log("this.numberOfSelectedList == 3");
+                            this.selectedFollowings = 
+                              this.followingsUsers.slice(0, this.pageStep);
+                        }
+                      },
+                      (error) => {
+                        console.log("[error] GetUsersFriendsInfo: " + error);
+                      });
+                },
+                (error) => {
+                  console.log("[error] GetUsersFriendsInfo: " + error);
+                });
+              },
+              (error) => {
+                console.log("[error] GetUsersFriendsInfo: " + error);
+          });
+      },
+      (error) => {
+          console.log("[error] AddUserToFriends: " + error);
+      });
+   
+      this.isUserActionsWindowVisible = false;
   }
   
   RemoveUserFromFriends() : void
@@ -903,27 +930,59 @@ export class GameComponent implements OnInit
       FirstId: this.accountData.UserId,
       SecondId: this.selectedUser.UserId
     };
-    this.httpAuthService.RemoveUserFromFriends(users);
+    this.httpAuthService.RemoveUserFromFriends(users)
+    .subscribe(
+      data => { 
+        console.log("[success] RemoveUserFromFriends");
+        this.httpAuthService.GetUsersFriendsInfo()
+        .subscribe(
+          (data) => {
+            console.log("[success] GetUsersFriendsInfo: ");
+            this.friendsUsers = data;
+            this.httpAuthService.GetUsersFollowingsInfo()
+            .subscribe(
+              (data) => {
+                console.log("[success] GetUsersFriendsInfo: ");
+                this.followingsUsers = data;
+                this.httpAuthService.GetUsersFollowersInfo()
+                .subscribe(
+                  (data) => {
+                    if (this.numberOfSelectedList == 1)
+                    {
+                        console.log("this.numberOfSelectedList == 1");
+                        this.selectedFriends = 
+                          this.friendsUsers.slice(0, this.pageStep);
+                    }
+                    else if (this.numberOfSelectedList == 2)
+                    {
+                        console.log("this.numberOfSelectedList == 2");
+                        this.selectedFollowers = 
+                          this.followersUsers.slice(0, this.pageStep);
+                    }
+                    else if (this.numberOfSelectedList == 3)
+                    {
+                        console.log("this.numberOfSelectedList == 3");
+                        this.selectedFollowings = 
+                          this.followingsUsers.slice(0, this.pageStep);
+                    }
+                },
+                (error) => {
+                  console.log("[error] GetUsersFriendsInfo: " + error);
+                });
+              },
+              (error) => {
+                console.log("[error] GetUsersFriendsInfo: " + error);
+              });
+            },
+            (error) => {
+              console.log("[error] GetUsersFriendsInfo: " + error);
+        });
+      },
+      error => { 
+        console.log("[error] RemoveUserFromFriends"+error);
+      }
+    );
     this.isUserActionsWindowVisible = false;
-    this.CommunicationsUpdate();
-    if (this.numberOfSelectedList == 1)
-    {
-      console.log("this.numberOfSelectedList == 1");
-      this.selectedFriends = 
-        this.friendsUsers.slice(0, this.pageStep);
-    }
-    else if (this.numberOfSelectedList == 2)
-    {
-      console.log("this.numberOfSelectedList == 2");
-      this.selectedFriends = 
-        this.followersUsers.slice(0, this.pageStep);
-    }
-    else if (this.numberOfSelectedList == 3)
-    {
-      console.log("this.numberOfSelectedList == 3");
-      this.selectedFriends = 
-        this.followingsUsers.slice(0, this.pageStep);
-    }
   }
 
   OnExitBtnClick():void

@@ -140,7 +140,7 @@
             </td>
             <td>
               <button title="Добавит нового рабочего на производственную линию"
-                      (click)="OnAddWorkerToMineBtnClick()">Add worker</button> <br/>
+                      (click)="OnAddWorkerToMineBtnClick()">Добавить работника</button> <br/>
             </td>
         </ng-template>
     </tr>
@@ -153,10 +153,10 @@
       <tr align="center" class="cmntr">
           <td>
               <div class="TextInCenter" [ngSwitch]="numberOfSelectedList">
-                  <ng-template [ngSwitchCase]="0">All</ng-template>
-                  <ng-template [ngSwitchCase]="1">Friends</ng-template>
-                  <ng-template [ngSwitchCase]="2">Followers</ng-template>
-                  <ng-template [ngSwitchCase]="3">Followings</ng-template>
+                  <ng-template [ngSwitchCase]="0">Все</ng-template>
+                  <ng-template [ngSwitchCase]="1">Друзья</ng-template>
+                  <ng-template [ngSwitchCase]="2">Подписчики</ng-template>
+                  <ng-template [ngSwitchCase]="3">Подписки</ng-template>
               </div>
           </td>
           <td> <div>{{numberOfPage}}</div> </td>
@@ -176,21 +176,20 @@
       <tr>
         <td>
           <tr>
-            <button class="cmnBtn" (click)="OnAllBtnClick()">All</button>
+            <button class="cmnBtn" (click)="OnAllBtnClick()">Все</button>
           </tr>
           <tr>
-            <button class="cmnBtn" (click)="OnFriendsBtnClick()">Friends</button>
+            <button class="cmnBtn" (click)="OnFriendsBtnClick()">Друзья</button>
           </tr>
           <tr>
-            <button class="cmnBtn" (click)="OnFollowersBtnClick()">Followers</button>
+            <button class="cmnBtn" (click)="OnFollowersBtnClick()">Подписчики</button>
           </tr>
           <tr>
-            <button class="cmnBtn" (click)="OnFollowingsBtnClick()">Followings</button>
+            <button class="cmnBtn" (click)="OnFollowingsBtnClick()">Подписки</button>
           </tr>
         </td>
         
-        <td >
-
+        <td>
           <div [ngSwitch]="numberOfSelectedList">
               <ng-template ngSwitchCase="0">
                   <div *ngFor=
@@ -300,7 +299,7 @@
   
          <ng-template ngSwitchDefault>
           <button (click)="AddUserToFriends()">
-            Add to friends
+            Добавить в друзья
           </button>
          </ng-template>
       </div>
