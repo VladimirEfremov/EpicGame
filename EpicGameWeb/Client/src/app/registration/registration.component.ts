@@ -31,7 +31,4 @@ export class RegistrationComponent implements OnInit
   {
       this.httpAuth.registration(this.PostData);
   }
-
-
-  
 }

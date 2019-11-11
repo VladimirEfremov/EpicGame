@@ -269,6 +269,24 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="src\Models\Session\SessionStatisticTable.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionStatisticTable.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionStatisticTable.cs">
+      <DependentUpon>SessionStatisticTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionStatisticTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionStatisticTable.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Models\Session\SessionStatisticTable1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionStatisticTable.tt</DependentUpon>
+    </Compile>
     <Compile Include="src\Models\User\UserFollowersTable.Context.cs">
       <DependentUpon>UserFollowersTable.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -454,6 +472,16 @@
       <DependentUpon>SessionMapTable.edmx</DependentUpon>
       <LastGenOutput>SessionMapTable1.cs</LastGenOutput>
     </Content>
+    <Content Include="src\Models\Session\SessionStatisticTable.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SessionStatisticTable.Context.cs</LastGenOutput>
+      <DependentUpon>SessionStatisticTable.edmx</DependentUpon>
+    </Content>
+    <Content Include="src\Models\Session\SessionStatisticTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SessionStatisticTable.edmx</DependentUpon>
+      <LastGenOutput>SessionStatisticTable1.cs</LastGenOutput>
+    </Content>
     <Content Include="src\Models\User\UserFollowersTable.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
@@ -583,6 +611,13 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UserFollowersTable.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="src\Models\Session\SessionStatisticTable.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionStatisticTable.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="src\Models\Session\SessionStatisticTable.edmx.diagram">
+      <DependentUpon>SessionStatisticTable.edmx</DependentUpon>
+    </None>
     <None Include="src\Models\User\UserFollowersTable.edmx.diagram">
       <DependentUpon>UserFollowersTable.edmx</DependentUpon>
     </None>

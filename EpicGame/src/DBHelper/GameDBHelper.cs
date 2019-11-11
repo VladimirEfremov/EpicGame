@@ -33,7 +33,7 @@
         private static SessionCasernsEntity m_SessionCasernsEntity = new SessionCasernsEntity();
         private static SessionGoldMiningsEntity m_SessionGoldMiningsEntity = new SessionGoldMiningsEntity();
         private static SessionDefenceTowersEntity m_SessionDefenceTowersEntity = new SessionDefenceTowersEntity();
-
+        private static SessionStatisticEntity m_SessionStatisticEntity = new SessionStatisticEntity();
         //private static Dictionary<int, Renderable[]> m_RenverableCache = new Dictionary<int, Renderable[]>();
 
         public GameDBHelper()
@@ -93,22 +93,26 @@
 
         public int CasernGetNumberOfWarriors(int coreId)
         {
-            return m_SessionCasernsEntity
-                .SessionCasernsTable
-                .AsNoTracking()
+            var casern = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
                 .Where(obj => obj.SessionCoreId == coreId)
-                .Select(obj => obj.WarriorsNumber)
                 .FirstOrDefault();
+            if (casern != null)
+            {
+                return casern.WarriorsNumber;
+            }
+            return 0;
         }
 
         public int CasernGetNumberOfAttackAircraft(int coreId)
         {
-            return m_SessionCasernsEntity
-                .SessionCasernsTable
-                .AsNoTracking()
-                .Where(obj => obj.SessionCoreId == coreId)
-                .Select(obj => obj.AttackAircraftNumber)
-                .FirstOrDefault();
+            var casern = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
+                 .Where(obj => obj.SessionCoreId == coreId)
+                 .FirstOrDefault();
+            if (casern != null)
+            {
+                return casern.AttackAircraftNumber;
+            }
+            return 0;
         }
 
         public GameUnitsTable GetUnitProperty(string unitName)
@@ -122,85 +126,10 @@
 
         public string FindCoreMapByMapIdAsNoTracking(int mapId)
         {
-            return m_SessionMapEntity
-                .SessionMapTable
-                .AsNoTracking()
+            return m_SessionMapEntity.SessionMapTable.AsNoTracking()
                 .Where(obj => obj.SessionMapId == mapId)
                 .FirstOrDefault()
                 .ToJson();
-        }
-
-        //work in progress
-        public bool GenerateCoreForUser(int userId)
-        {
-            //Map {0, 0} - center of universe
-            //1 EGM == 100m
-            //7 000 000 EGM radiuse of sun (ROS)
-            //1 2 3 4 of universe
-            //4 x > 5 * ROS && y < 5 * -ROS 
-
-            var maplist = m_SessionMapEntity.SessionMapTable
-                .AsNoTracking().ToList();
-            SessionMapTable coreCoord;
-            if (maplist.Count == 0)
-            {
-                coreCoord = new SessionMapTable()
-                {
-                    XCoord = (decimal) 500 * 7_000_000,
-                    YCoord = (decimal)-500 * 7_000_000
-                };
-                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
-            }
-            else
-            {
-                var map = maplist.OrderBy(obj => obj.SessionMapId).LastOrDefault();
-                coreCoord = new SessionMapTable()
-                {
-                    XCoord = map.XCoord + 2000,
-                    YCoord = map.YCoord + 2000
-                };
-                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
-            }
-                
-            m_SessionMapEntity.SaveChanges();
-            logger.Info($"core was placed for user [id: {userId}]");
-
-            var addedCoord = 
-                m_SessionMapEntity.SessionMapTable.AsNoTracking()
-                .Where(obj => obj.XCoord == coreCoord.XCoord)
-                .Where(obj => obj.YCoord == coreCoord.YCoord)
-                .FirstOrDefault();
-            if (addedCoord != null)
-            {
-                SessionCoresTable core = new SessionCoresTable()
-                {
-                    UserId = userId,
-                    CoreMapId = addedCoord.SessionMapId,
-                    Money = 1000
-                };
-                m_SessionCoreEntity.SessionCoresTable.Add(core);
-                m_SessionCoreEntity.SaveChanges();
-                logger.Info($"core was created for user [id: {userId}]");
-
-                SessionBasesTable @base = new SessionBasesTable()
-                {
-                    SessionCoreId = GetCoreByUserId(userId).FromJson<SessionCoresTable>().SessionCoreId,
-                    UniqueUpgrade = 0,
-                    WorkersNumber = 3,
-                    BuildingLevel = 1,
-                    AttackUpgrade = 0,
-                    DefenceUpgrade = 0
-                };
-                m_SessionBasesEntity.SessionBasesTable.Add(@base);
-                m_SessionBasesEntity.SaveChanges();
-                logger.Info($"base was created for user [id: {userId}]");
-                return true;
-            }
-            else
-            {
-                logger.Error("can't find added coord!");
-                return false;
-            }
         }
 
         public void CoreBuildCasern(int coreId)
@@ -941,8 +870,7 @@
             return m_SessionCoreEntity.SessionCoresTable
                 .AsNoTracking()
                 .Where(obj => obj.UserId == userId)
-                .FirstOrDefault()
-                .ToJson();
+                .FirstOrDefault().ToJson();
         }
 
         public string GetCoreById(int coreId)
@@ -1066,166 +994,377 @@
             return result;
         }
 
+        private void AddStatisticForDuel(int winnerId, int loserId)
+        {
+            var statsList = m_SessionStatisticEntity.SessionStatisticTable?.ToList();
+            if (statsList.Count > 0)
+            {
+                var winnerStatistic = statsList
+                    .Where(obj => obj.SessionCoreId == winnerId)
+                    .FirstOrDefault();
+                var loserStatistic = statsList
+                    .Where(obj => obj.SessionCoreId == loserId)
+                    .FirstOrDefault();
+                if (winnerStatistic == null)
+                {
+                    statsList.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = winnerId,
+                        Rating = 0,
+                        Wins = 1,
+                        Defeats = 0,
+                        SuccessfullCoreAttacks = 0,
+                        NotSuccessfullCoreAttacks = 0,
+                        Scores = 30
+                    });
+                }
+                if (loserStatistic == null)
+                {
+                    statsList.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = loserId,
+                        Rating = 0,
+                        Wins = 0,
+                        Defeats = 1,
+                        SuccessfullCoreAttacks = 0,
+                        NotSuccessfullCoreAttacks = 0,
+                        Scores = 0
+                    });
+                }
+
+                statsList.OrderBy(obj => obj.Rating);
+                for (int i = 0; i < statsList.Count; i++)
+                {
+                    if (statsList[i].SessionCoreId == winnerId)
+                    {
+                        statsList[i].Rating = i + 1;
+                    }
+                    else if (statsList[i].SessionCoreId == loserId)
+                    {
+                        statsList[i].Rating = i + 1;
+                    }
+                }
+                m_SessionStatisticEntity.SaveChanges();
+            }
+            else
+            {
+                m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                {
+                    SessionCoreId = winnerId,
+                    Rating = 1,
+                    Wins = 1,
+                    Defeats = 0,
+                    SuccessfullCoreAttacks = 0,
+                    NotSuccessfullCoreAttacks = 0,
+                    Scores = 30
+                });
+                m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                {
+                    SessionCoreId = loserId,
+                    Rating = 2,
+                    Wins = 0,
+                    Defeats = 1,
+                    SuccessfullCoreAttacks = 0,
+                    NotSuccessfullCoreAttacks = 0,
+                    Scores = 0
+                });
+                m_SessionStatisticEntity.SaveChanges();
+            }
+        }
+
+        private void AddStatisticForCoreBattle(int winnerId, int loserId, int isWinnerAttacker)
+        {
+            var stats = m_SessionStatisticEntity.SessionStatisticTable;
+            if (stats != null)
+            {
+                var winnerStatistic = stats
+                    .Where(obj => obj.SessionCoreId == winnerId)
+                    .FirstOrDefault();
+                var loserStatistic = stats
+                    .Where(obj => obj.SessionCoreId == loserId)
+                    .FirstOrDefault();
+                var statsList = stats.ToList();
+                if (isWinnerAttacker == 1)
+                {
+                    if (winnerStatistic == null)
+                    {
+                        statsList.Add(new SessionStatisticTable()
+                        {
+                            SessionCoreId = winnerId,
+                            Rating = 0,
+                            Wins = 1,
+                            Defeats = 0,
+                            SuccessfullCoreAttacks = 1,
+                            NotSuccessfullCoreAttacks = 0,
+                            Scores = 45
+                        });
+                    }
+                    if (loserStatistic == null)
+                    {
+                        statsList.Add(new SessionStatisticTable()
+                        {
+                            SessionCoreId = loserId,
+                            Rating = 0,
+                            Wins = 0,
+                            Defeats = 1,
+                            SuccessfullCoreAttacks = 0,
+                            NotSuccessfullCoreAttacks = 0,
+                            Scores = 0
+                        });
+                    }
+                }
+                else
+                {
+                    if (winnerStatistic == null)
+                    {
+                        statsList.Add(new SessionStatisticTable()
+                        {
+                            SessionCoreId = winnerId,
+                            Rating = 0,
+                            Wins = 0,
+                            Defeats = 1,
+                            SuccessfullCoreAttacks = 0,
+                            NotSuccessfullCoreAttacks = 0,
+                            Scores = 15
+                        });
+                    }
+                    if (loserStatistic == null)
+                    {
+                        statsList.Add(new SessionStatisticTable()
+                        {
+                            SessionCoreId = loserId,
+                            Rating = 0,
+                            Wins = 0,
+                            Defeats = 1,
+                            SuccessfullCoreAttacks = 0,
+                            NotSuccessfullCoreAttacks = 1,
+                            Scores = 0
+                        });
+                    }
+                }
+
+                statsList.OrderBy(obj => obj.Rating);
+                for (int i = 0; i < statsList.Count; i++)
+                {
+                    if (statsList[i].SessionCoreId == winnerId)
+                    {
+                        statsList[i].Rating = i + 1;
+                    }
+                    else if (statsList[i].SessionCoreId == loserId)
+                    {
+                        statsList[i].Rating = i + 1;
+                    }
+                }
+                m_SessionStatisticEntity.SaveChanges();
+            }
+            else
+            {
+                if (isWinnerAttacker == 1)
+                {
+                    m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = winnerId,
+                        Rating = 1,
+                        Wins = 1,
+                        Defeats = 0,
+                        SuccessfullCoreAttacks = 1,
+                        NotSuccessfullCoreAttacks = 0,
+                        Scores = 45
+                    });
+                    m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = winnerId,
+                        Rating = 2,
+                        Wins = 0,
+                        Defeats = 1,
+                        SuccessfullCoreAttacks = 0,
+                        NotSuccessfullCoreAttacks = 0,
+                        Scores = 0
+                    });
+                }
+                else
+                {
+                    m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = winnerId,
+                        Rating = 1,
+                        Wins = 1,
+                        Defeats = 0,
+                        SuccessfullCoreAttacks = 0,
+                        NotSuccessfullCoreAttacks = 0,
+                        Scores = 15
+                    });
+                    m_SessionStatisticEntity.SessionStatisticTable.Add(new SessionStatisticTable()
+                    {
+                        SessionCoreId = winnerId,
+                        Rating = 2,
+                        Wins = 0,
+                        Defeats = 1,
+                        SuccessfullCoreAttacks = 0,
+                        NotSuccessfullCoreAttacks = 1,
+                        Scores = 0
+                    });
+                }
+                m_SessionStatisticEntity.SaveChanges();
+            }
+        }
+
         //TODO: у пользователя может и не быть casern
         public BattleResponse DuelBattle(int attackerCoreId, int defenderCoreId)
         {
-            var attackers = GetCoreArmy(attackerCoreId);
-            var defenders = GetCoreArmy(defenderCoreId);
+            var attackerCore = GetCoreByIdAsNoTracking(attackerCoreId)?.FromJson<SessionCoresTable>();
+            var defenderCore = GetCoreByIdAsNoTracking(defenderCoreId)?.FromJson<SessionCoresTable>();
+            
+            List<GameUnitsTable> attackers = GetCoreArmy(attackerCoreId);
+            List<GameUnitsTable> defenders = GetCoreArmy(defenderCoreId);
 
-            SessionCoresTable attackerCore = null;
-            SessionCoresTable defenderCore = null;
-
-            if (attackers.Count <= 0 ||
-                defenders.Count <= 0)
+            if (attackerCore != null)
             {
-                logger.Warn("Attackers or Defenders have no army!");
-
-                var attackerCoreJson = GetCoreByIdAsNoTracking(attackerCoreId);
-                if (attackerCoreJson != null)
+                if (defenderCore != null)
                 {
-                    attackerCore = attackerCoreJson.FromJson<SessionCoresTable>();
-                    if (attackerCore != null)
+                    if (attackers.Count <= 0 || defenders.Count <= 0)
                     {
+                        logger.Warn("Attackers or Defenders have no army!");
                         EventLogger.AddLogForUser(
-                            attackerCore.UserId, 
-                            LogType.BattleFailure, 
+                            attackerCore.UserId, LogType.BattleFailure,
                             $"You have {attackers.Count} army, your enemy have {defenders.Count} army. " +
                             "So global police can't let you to attack that player!");
-                    }
-                    else
-                    {
-                        logger.Error("Attackers core == null!");
-                        EventLogger.AddLogForUser(
-                            attackerCore.UserId,
-                            LogType.BattleFailure,
-                            $"You have no core!");
-                    }
-                }
-                else
-                {
-                    logger.Error(
-                        $"{attackerCoreId} doesnt exists!");
-                }
 
-                var defenderCoreJson = GetCoreByIdAsNoTracking(defenderCoreId);
-                if (defenderCoreJson != "null")
-                {
-                    defenderCore = defenderCoreJson.FromJson<SessionCoresTable>();
-                    if (defenderCore != null)
-                    {
                         EventLogger.AddLogForUser(
-                            defenderCore.UserId,
-                            LogType.BattleFailure,
+                            defenderCore.UserId, LogType.BattleFailure,
                             $"Someone trying to attack you but " +
                                 ((attackers.Count <= 0) ? "attackers have no army" : "you have no army!") +
                             "So global police can't let them to attack!");
+
+                        return new BattleResponse() { Message = "No battle", WhoWonTheBattle = -1 };
+                    }
+                    
+                    var result = GameEngine.DuelBattle(ref attackers, ref defenders);
+
+                    var attackersCasern =
+                        m_SessionCasernsEntity.SessionCasernsTable
+                        .Where(obj => obj.SessionCoreId == attackerCoreId)
+                        .FirstOrDefault();
+                    if (attackersCasern != null)
+                    {
+                        int attackWarriorCount = 0;
+                        int attackAircraftCount = 0;
+                        for (var i = 0; i < attackers.Count; i++)
+                        {
+                            if (attackers[i].GameUnitName.Trim() == "Warrior")
+                            {
+                                ++attackWarriorCount;
+                            }
+                            else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
+                            {
+                                ++attackAircraftCount;
+                            }
+                        }
+
+                        attackersCasern.WarriorsNumber = attackWarriorCount;
+                        attackersCasern.AttackAircraftNumber = attackAircraftCount;
+                        logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+                        if (attackerCore != null)
+                        {
+                            EventLogger.AddLogForUser(
+                                  attackerCore.UserId, LogType.BattleFailure,
+                                  $"Casern warriors & attackaircraft number updated!");
+                        }
                     }
                     else
                     {
-                        logger.Error("Defender core == null!");
-                        EventLogger.AddLogForUser(
-                            defenderCore.UserId,
-                            LogType.BattleFailure,
-                            $"Defender have no core!");
+                        logger.Error($"Attackers don't have casern!");
+                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure,
+                                    $"You have no core!");
                     }
+
+                    var defendersCasern =
+                       m_SessionCasernsEntity.SessionCasernsTable
+                       .Where(obj => obj.SessionCoreId == defenderCoreId)
+                       .FirstOrDefault();
+                    if (defendersCasern != null)
+                    {
+                        int defendersWarriorNumber = 0;
+                        int defendersAircraftCount = 0;
+                        for (var i = 0; i < defenders.Count; i++)
+                        {
+                            if (defenders[i].GameUnitName.Trim() == "Warrior")
+                            {
+                                ++defendersWarriorNumber;
+                            }
+                            else if (defenders[i].GameUnitName.Trim() == "AttackAircraft")
+                            {
+                                ++defendersAircraftCount;
+                            }
+                        }
+
+                        defendersCasern.WarriorsNumber = defendersWarriorNumber;
+                        defendersCasern.AttackAircraftNumber = defendersAircraftCount;
+                        logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+                        if (defenderCore != null)
+                        {
+                            EventLogger.AddLogForUser(defenderCore.UserId, LogType.BattleFailure,
+                                  $"Casern warriors & attackaircraft number updated!");
+                        }
+                    }
+                    else
+                    {
+                        logger.Error($"Defenders don't have casern!");
+                    }
+
+                    m_SessionCasernsEntity.SaveChanges();
+
+                    var attackerUser = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == attackerCore.UserId)
+                        .FirstOrDefault();
+                    var defenderUser = m_UserContext.UserTable.AsNoTracking()
+                            .Where(obj => obj.UserId == defenderCore.UserId)
+                            .FirstOrDefault();
+                    if (attackerUser != null && defenderUser != null)
+                    {
+                        if (result.WhoWonTheBattle == 0)
+                        {
+                            EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
+                                $"You won the battle, {defenderUser.Nickname}'s army been fully destroyed !");
+                            EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
+                                $"Your army been fully destroyed by {attackerUser.Nickname}");
+                            AddStatisticForDuel(attackerCoreId, defenderCoreId);
+                        }
+                        else if (result.WhoWonTheBattle == 1)
+                        {
+                            EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
+                                $"You won the battle, {attackerUser.Nickname}'s army been fully destroyed, core was protected !");
+                            EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
+                                $"Your army been fully destroyed by {defenderUser.Nickname}");
+                            AddStatisticForDuel(defenderCoreId, attackerCoreId);
+                        }
+                    }
+
+                    return result;
                 }
                 else
                 {
-                    logger.Error(
-                        $"{defenderCoreId} doesnt exists!");
+                    logger.Error("Defender core == null!");
+                    EventLogger.AddLogForUser(defenderCore.UserId,LogType.BattleFailure,
+                        $"Defender have no core!");
                 }
             }
-
-            var result = 
-                GameEngine.DuelBattle(ref attackers, ref defenders);
-
-            var attackersCasern = 
-                m_SessionCasernsEntity.SessionCasernsTable
-                .Where(obj => obj.SessionCoreId == attackerCoreId)
-                .FirstOrDefault();
-            if (attackersCasern != null)
+            else 
             {
-                int attackWarriorCount = 0;
-                int attackAircraftCount = 0;
-                for (var i = 0; i < attackers.Count; i++)
-                {
-                    if (attackers[i].GameUnitName == "Warrior")
-                    {
-                        ++attackWarriorCount;
-                    }
-                    else if (attackers[i].GameUnitName == "AttackAircraft")
-                    {
-                        ++attackAircraftCount;
-                    }
-                }
-
-                attackersCasern.WarriorsNumber = attackWarriorCount;
-                attackersCasern.AttackAircraftNumber = attackAircraftCount;
-                logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
-
-                if (attackerCore != null)
-                {
-                    EventLogger.AddLogForUser(
-                          attackerCore.UserId, LogType.BattleFailure,
-                          $"Casern warriors & attackaircraft number updated!");
-                }
+                logger.Error("Attackers core == null!");
+                EventLogger.AddLogForUser(attackerCore.UserId, LogType.BattleFailure,
+                    $"You have no core!");
             }
-            else
-            {
-                logger.Error($"Attackers don't have casern!");
-
-                EventLogger.AddLogForUser(
-                            attackerCoreId,
-                            LogType.BattleFailure,
-                            $"You have no core!");
-            }
-
-            var defendersCasern =
-               m_SessionCasernsEntity.SessionCasernsTable
-               .Where(obj => obj.SessionCoreId == defenderCoreId)
-               .FirstOrDefault();
-            if (defendersCasern != null)
-            {
-                int defendersWarriorNumber = 0;
-                int defendersAircraftCount = 0;
-                for (var i = 0; i < attackers.Count; i++)
-                {
-                    if (attackers[i].GameUnitName == "Warrior")
-                    {
-                        ++defendersWarriorNumber;
-                    }
-                    else if (attackers[i].GameUnitName == "AttackAircraft")
-                    {
-                        ++defendersAircraftCount;
-                    }
-                }
-
-                defendersCasern.WarriorsNumber = defendersWarriorNumber;
-                defendersCasern.AttackAircraftNumber = defendersAircraftCount;
-                logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
-
-                if (defenderCore != null)
-                {
-                    EventLogger.AddLogForUser(
-                          defenderCore.UserId, LogType.BattleFailure,
-                          $"Casern warriors & attackaircraft number updated!");
-                }
-            }
-            else
-            {
-                logger.Error($"Defenders don't have casern!");
-            }
-
-            m_SessionCasernsEntity.SaveChanges();
-
-            return result;
+            return new BattleResponse() { Message = "No Battle", WhoWonTheBattle = -1 };
         }
 
         public BattleResponse CoreBattle(int attackerCoreId, int defenderCoreId)
         {
-            var attackers = GetCoreArmy(attackerCoreId);
-            var defenders = GetCoreArmy(defenderCoreId);
-            var defendersBuildings = GetCoreBuildings(defenderCoreId);
+            List<GameUnitsTable> attackers = GetCoreArmy(attackerCoreId);
+            List<GameUnitsTable> defenders = GetCoreArmy(defenderCoreId);
+            List<GameBuildingsTable> defendersBuildings = GetCoreBuildings(defenderCoreId);
 
             var result =
                 GameEngine.CoreBattle(ref attackers, ref defenders, ref defendersBuildings);
@@ -1234,11 +1373,11 @@
             int attackAircraftCount = 0;
             for (var i = 0; i < attackers.Count; i++)
             {
-                if (attackers[i].GameUnitName == "Warrior")
+                if (attackers[i].GameUnitName.Trim() == "Warrior")
                 {
                     ++attackWarriorCount;
                 }
-                else if (attackers[i].GameUnitName == "AttackAircraft")
+                else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
                 {
                     ++attackAircraftCount;
                 }
@@ -1256,11 +1395,11 @@
             int defendersAircraftCount = 0;
             for (var i = 0; i < attackers.Count; i++)
             {
-                if (attackers[i].GameUnitName == "Warrior")
+                if (attackers[i].GameUnitName.Trim() == "Warrior")
                 {
                     ++defendersWarriorNumber;
                 }
-                else if (attackers[i].GameUnitName == "AttackAircraft")
+                else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
                 {
                     ++defendersAircraftCount;
                 }
@@ -1268,11 +1407,11 @@
 
             for (var i = 0; i < defenders.Count; i++)
             {
-                if (defenders[i].GameUnitName == "Warrior")
+                if (defenders[i].GameUnitName.Trim() == "Warrior")
                 {
                     ++defendersWarriorNumber;
                 }
-                else if (defenders[i].GameUnitName == "AttackAircraft")
+                else if (defenders[i].GameUnitName.Trim() == "AttackAircraft")
                 {
                     ++defendersAircraftCount;
                 }

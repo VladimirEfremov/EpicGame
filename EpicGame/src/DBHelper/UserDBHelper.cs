@@ -47,6 +47,91 @@
             }
         }
 
+        //work in progress
+        public bool GenerateCoreForUser(int userId)
+        {
+            //Map {0, 0} - center of universe
+            //1 EGM == 100m
+            //7 000 000 EGM radiuse of sun (ROS)
+            //1 2 3 4 of universe
+            //4 x > 5 * ROS && y < 5 * -ROS 
+
+            var maplist = m_SessionMapEntity.SessionMapTable
+                .AsNoTracking().ToList();
+            SessionMapTable coreCoord;
+            if (maplist.Count == 0)
+            {
+                coreCoord = new SessionMapTable()
+                {
+                    XCoord = (decimal)500 * 7_000_000,
+                    YCoord = (decimal)-500 * 7_000_000
+                };
+                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
+            }
+            else
+            {
+                var map = maplist.OrderBy(obj => obj.SessionMapId).LastOrDefault();
+                coreCoord = new SessionMapTable()
+                {
+                    XCoord = map.XCoord + 2000,
+                    YCoord = map.YCoord + 2000
+                };
+                m_SessionMapEntity.SessionMapTable.Add(coreCoord);
+            }
+
+            m_SessionMapEntity.SaveChanges();
+            logger.Info($"core was placed for user [id: {userId}]");
+
+            var addedCoord =
+                m_SessionMapEntity.SessionMapTable.AsNoTracking()
+                .Where(obj => obj.XCoord == coreCoord.XCoord)
+                .Where(obj => obj.YCoord == coreCoord.YCoord)
+                .FirstOrDefault();
+            if (addedCoord != null)
+            {
+                SessionCoresTable core = new SessionCoresTable()
+                {
+                    UserId = userId,
+                    CoreMapId = addedCoord.SessionMapId,
+                    Money = 1000
+                };
+                m_SessionCoreEntity.SessionCoresTable.Add(core);
+                m_SessionCoreEntity.SaveChanges();
+                logger.Info($"core was created for user [id: {userId}]");
+
+                core = m_SessionCoreEntity.SessionCoresTable
+                    .AsNoTracking()
+                    .Where(obj => obj.UserId == userId)
+                    .FirstOrDefault();
+                if (core != null)
+                {
+                    SessionBasesTable @base = new SessionBasesTable()
+                    {
+                        SessionCoreId = core.SessionCoreId,
+                        UniqueUpgrade = 0,
+                        WorkersNumber = 3,
+                        BuildingLevel = 1,
+                        AttackUpgrade = 0,
+                        DefenceUpgrade = 0
+                    };
+                    m_SessionBasesEntity.SessionBasesTable.Add(@base);
+                    m_SessionBasesEntity.SaveChanges();
+                    logger.Info($"base was created for user [id: {userId}]");
+                    return true;
+                }
+                else
+                {
+                    logger.Info($"Can't create core for UserdId: {userId}");
+                    return false;
+                }
+            }
+            else
+            {
+                logger.Error("can't find added coord!");
+                return false;
+            }
+        }
+
         private bool RegisterUserToTable(UserTable user)
         {
             logger.Info($"Register user to table: " +
@@ -56,11 +141,8 @@
             if (userIndex == -1)
             {
                 m_UserContext.UserTable.Add(user);
-                UserContextTrySave();
-                using (var gameDbHelper = new GameDBHelper())
-                {
-                    gameDbHelper.GenerateCoreForUser(user.UserId);
-                }
+                m_UserContext.SaveChanges();
+                GenerateCoreForUser(user.UserId);
                 return true;
             }
             else
@@ -212,7 +294,7 @@
                 }
                 
                 m_UserContext.UserTable.Remove(user);
-                UserContextTrySave();
+                m_UserContext.SaveChanges();
                 logger.Info($"remove user [id: {user.UserId}] from user table");
             }
             else
@@ -270,11 +352,11 @@
                     .Where(obj => obj.UserId == idToAdd)
                     .FirstOrDefault();
 
-                var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
-                                   where friends.UserId == thisId
-                                   where friends.FriendId == idToAdd
-                                   select friends;
-                if (arrayFriends.Count() != 0)
+                var friend = m_UserFriendsContext.UserFriendsTable.AsNoTracking()
+                        .Where(obj => obj.UserId == thisId)
+                        .Where(obj => obj.FriendId == idToAdd)
+                        .FirstOrDefault();
+                if (friend != null)
                 {
                     //this user already in friend
                     EventLogger.AddLogForUser(thisId, LogType.Communication,
@@ -282,18 +364,16 @@
                 }
                 else
                 {
-                    var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
-                                         where followers.UserId == thisId
-                                         where followers.FollowerId == idToAdd
-                                         select followers;
-                    if (arrayFollowers.Count() != 0)
+                    var follower = m_UserFollowersContext.UserFollowersTable
+                        .Where(obj => obj.UserId == thisId)
+                        .Where(obj => obj.FollowerId == idToAdd)
+                        .FirstOrDefault();
+
+                    if (follower != null)
                     {
                         //логика для follower
                         //thisId.Follower.Delete(idToAdd)
-                        foreach (var follower in arrayFollowers)
-                        {
-                            m_UserFollowersContext.UserFollowersTable.Remove(follower);
-                        }
+                        m_UserFollowersContext.UserFollowersTable.Remove(follower);
 
                         //thisId.Friends.Add(idToAdd)
                         m_UserFriendsContext.UserFriendsTable.Add(new UserFriendsTable()
@@ -308,21 +388,20 @@
                             FriendId = thisId
                         });
                         //idToAdd.Following.Delete(thisId)
-                        var idToRemoveUsers = from followings in m_UserFollowingContext.UserFollowingTable
-                                              where followings.UserId == idToAdd
-                                              where followings.FollowingId == thisId
-                                              select followings;
-                        if (idToRemoveUsers.Count() != 0)
+                        var following = 
+                            m_UserFollowingContext.UserFollowingTable
+                            .Where(obj => obj.UserId == idToAdd)
+                            .Where(obj => obj.FollowingId == thisId)
+                            .FirstOrDefault();
+
+                        if (following != null)
                         {
-                            foreach (var following in idToRemoveUsers)
-                            {
-                                m_UserFollowingContext.UserFollowingTable.Remove(following);
-                            }
+                            m_UserFollowingContext.UserFollowingTable.Remove(following);
                         }
 
-                        UserFollowingsContextTrySave();
-                        UserFriendsContextTrySave();
-                        UserFollowersContextTrySave();
+                        m_UserFollowingContext.SaveChanges();
+                        m_UserFriendsContext.SaveChanges();
+                        m_UserFollowersContext.SaveChanges();
 
                         EventLogger.AddLogForUser(thisId,
                             LogType.Communication,
@@ -332,11 +411,12 @@
                     }
                     else
                     {
-                        var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
-                                              where following.UserId == thisId
-                                              where following.FollowingId == idToAdd
-                                              select following;
-                        if (arrayFollowings.Count() != 0)
+                        var following = m_UserFollowingContext.UserFollowingTable.AsNoTracking()
+                            .Where(obj => obj.UserId == thisId)
+                            .Where(obj => obj.FollowingId == idToAdd)
+                            .FirstOrDefault();
+
+                        if (following != null)
                         {
                             //логика followings
                             EventLogger.AddLogForUser(thisId, LogType.Communication,
@@ -358,8 +438,8 @@
                                 FollowerId = thisId
                             });
 
-                            UserFollowingsContextTrySave();
-                            UserFollowersContextTrySave();
+                            m_UserFollowingContext.SaveChanges();
+                            m_UserFollowersContext.SaveChanges();
 
                             EventLogger.AddLogForUser(thisId, LogType.Communication,
                                 $"You are following user [{userToAdd?.Nickname}]");
@@ -387,26 +467,24 @@
             if (thisId != idToRemove)
             {
                 logger.Info($"user [id: {thisId}] remove [id: {idToRemove}] from friends");
-                var thisUser = m_UserContext.UserTable.AsNoTracking()
-                                 .Where(obj => obj.UserId == thisId).FirstOrDefault();
+                var thisUserNickname = m_UserContext.UserTable.AsNoTracking()
+                    .Where(obj => obj.UserId == thisId)
+                    .FirstOrDefault()?.Nickname;
 
-                var arrayFriends = from friends in m_UserFriendsContext.UserFriendsTable
-                                   where friends.UserId == thisId
-                                   where friends.FriendId == idToRemove
-                                   select friends;
-
-                var userToRemove = m_UserContext.UserTable.AsNoTracking()
+                var userToRemoveNicname = m_UserContext.UserTable.AsNoTracking()
                     .Where(obj => obj.UserId == idToRemove)
+                    .FirstOrDefault()?.Nickname;
+                
+                var friend = m_UserFriendsContext.UserFriendsTable
+                    .Where(obj => obj.UserId == thisId)
+                    .Where(obj => obj.FriendId == idToRemove)
                     .FirstOrDefault();
 
-                if (arrayFriends.Count() != 0)
+                if (friend != null)
                 {
                     //friends logic
                     //thisId.Friend.Delete(idToRemove);
-                    foreach (var friend in arrayFriends)
-                    {
-                        m_UserFriendsContext.UserFriendsTable.Remove(friend);
-                    }
+                    m_UserFriendsContext.UserFriendsTable.Remove(friend);
 
                     //thisId.Followers.Add(idToRemove);
                     m_UserFollowersContext.UserFollowersTable.Add(new UserFollowersTable()
@@ -416,16 +494,14 @@
                     });
 
                     //idToRemove.Friend.Delete(thisId);
-                    var idToRemoveUsers = from friends in m_UserFriendsContext.UserFriendsTable
-                                          where friends.UserId == idToRemove
-                                          where friends.FriendId == thisId
-                                          select friends;
-                    if (idToRemoveUsers.Count() != 0)
+                    var userToRemove = m_UserFriendsContext.UserFriendsTable
+                        .Where(obj => obj.UserId == idToRemove)
+                        .Where(obj => obj.FriendId == thisId)
+                        .FirstOrDefault();
+
+                    if (userToRemove != null)
                     {
-                        foreach (var friend in idToRemoveUsers)
-                        {
-                            m_UserFriendsContext.UserFriendsTable.Remove(friend);
-                        }
+                        m_UserFriendsContext.UserFriendsTable.Remove(userToRemove);
                     }
 
                     //idToRemove.Followings.Add(thisId);
@@ -435,62 +511,57 @@
                         FollowingId = thisId
                     });
 
-                    UserFollowingsContextTrySave();
-                    UserFriendsContextTrySave();
-                    UserFollowersContextTrySave();
+                    m_UserFollowingContext.SaveChanges();
+                    m_UserFriendsContext.SaveChanges();
+                    m_UserFollowersContext.SaveChanges();
 
                     EventLogger.AddLogForUser(thisId, LogType.Communication,
-                        $"You remove user [{userToRemove?.Nickname}] from friends list");
+                        $"You remove user [{userToRemoveNicname}] from friends list");
                     EventLogger.AddLogForUser(idToRemove, LogType.Communication,
-                        $"User {thisUser?.Nickname} delete you from friends list");
+                        $"User {thisUserNickname} delete you from friends list");
                 }
                 else
                 {
-                    var arrayFollowers = from followers in m_UserFollowersContext.UserFollowersTable
-                                         where followers.UserId == thisId
-                                         where followers.FollowerId == idToRemove
-                                         select followers;
-                    if (arrayFollowers.Count() != 0)
+                    var follower = m_UserFollowersContext.UserFollowersTable.AsNoTracking()
+                       .Where(obj => obj.UserId == thisId)
+                       .Where(obj => obj.FollowerId == idToRemove)
+                       .FirstOrDefault();
+
+                    if (follower != null)
                     {
                         //логика для follower
-                        EventLogger.AddLogForUser(thisId,
-                            LogType.Communication,
-                            $"User [{userToRemove?.Nickname}] is your follower, you can't remove him from that list");
+                        EventLogger.AddLogForUser(thisId, LogType.Communication,
+                            $"User [{userToRemoveNicname}] is your follower, you can't remove him from that list");
                         return;
                     }
                     else
                     {
-                        var arrayFollowings = from following in m_UserFollowingContext.UserFollowingTable
-                                              where following.UserId == thisId
-                                              where following.FollowingId == idToRemove
-                                              select following;
-                        if (arrayFollowings.Count() != 0)
+                        var following = m_UserFollowingContext.UserFollowingTable
+                           .Where(obj => obj.UserId == thisId)
+                           .Where(obj => obj.FollowingId == idToRemove)
+                           .FirstOrDefault();
+                        if (following != null)
                         {
                             //логика followings
                             //thisId.Followings.Delete(idToRemove)
-                            foreach (var following in arrayFollowings)
-                            {
-                                m_UserFollowingContext.UserFollowingTable.Remove(following);
-                            }
+                            m_UserFollowingContext.UserFollowingTable.Remove(following);
 
                             //idToRemove.Followers.Delete(thisId)
-                            var idToRemoveUsers = from followers in m_UserFollowersContext.UserFollowersTable
-                                                  where followers.UserId == idToRemove
-                                                  where followers.FollowerId == thisId
-                                                  select followers;
-                            foreach (var followers in idToRemoveUsers)
-                            {
-                                m_UserFollowersContext.UserFollowersTable.Remove(followers);
-                            }
+                            var deleteThisFromFolowerList = m_UserFollowersContext.UserFollowersTable
+                               .Where(obj => obj.UserId == idToRemove)
+                               .Where(obj => obj.FollowerId == thisId)
+                               .FirstOrDefault();
 
-                            UserFollowingsContextTrySave();
-                            UserFollowersContextTrySave();
+                            m_UserFollowersContext.UserFollowersTable.Remove(deleteThisFromFolowerList);
+
+                            m_UserFollowersContext.SaveChanges();
+                            m_UserFollowersContext.SaveChanges();
 
                             EventLogger.AddLogForUser(thisId, LogType.Communication,
-                                $"You stop following user [{userToRemove?.Nickname}]");
+                                $"You stop following user [{userToRemoveNicname}]");
 
                             EventLogger.AddLogForUser(idToRemove, LogType.Communication,
-                                $"User {thisUser?.Nickname} stop following you");
+                                $"User {thisUserNickname} stop following you");
 
                         }
                         else
@@ -504,8 +575,7 @@
             else
             {
                 logger.Warn("User trying to remove himself from a friends list");
-                EventLogger.AddLogForUser(thisId, 
-                    LogType.Communication,
+                EventLogger.AddLogForUser(thisId, LogType.Communication,
                     "You can't remove yourself from a friends list!");
             }
         }
@@ -657,90 +727,7 @@
             return result.ToArray().ToJson();
         }
 
-        public void UserContextTrySave()
-        {
-            try
-            {
-                m_UserContext.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-            }
-        }
-
-        public void UserFriendsContextTrySave()
-        {
-            try
-            {
-                m_UserFriendsContext.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-            }
-        }
-
-        public void UserFollowersContextTrySave()
-        {
-            try
-            {
-                m_UserFollowersContext.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-            }
-        }
-
-        public void UserFollowingsContextTrySave()
-        {
-            try
-            {
-                m_UserFollowingContext.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    logger.Info("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        logger.Info("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-            }
-        }
-
+        
     }
 
 }

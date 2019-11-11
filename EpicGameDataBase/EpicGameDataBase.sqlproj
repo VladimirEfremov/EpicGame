@@ -74,6 +74,7 @@
     <Build Include="dbo\Tables\Session\SessionGoldMiningsTable.sql" />
     <Build Include="dbo\Tables\Session\SessionDefenceTowersTable.sql" />
     <Build Include="dbo\Tables\Session\SessionBasesTable.sql" />
+    <Build Include="dbo\Tables\Session\SessionStatisticTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EpicGameDataBase.refactorlog" />
