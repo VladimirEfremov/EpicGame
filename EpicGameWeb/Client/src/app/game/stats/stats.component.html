@@ -1,0 +1,32 @@
+
+<div>
+  <button (click)="SwitchToMenu()">Back</button>
+</div>
+
+<div class="statistic">
+
+  <div align="center">Table</div>
+
+  <table> 
+    <tr>
+      <th>Nick</th>
+      <th>Rating</th>
+      <th>Wins</th>
+      <th>Defeats</th>
+      <th>SuccessfullCoreAttacks</th>
+      <th>NotSuccessfullCoreAttacks</th>
+      <th>Scores</th>
+    </tr>
+      <tr *ngFor="let data of table">
+        <td>{{data.Nickname}}</td>
+        <td>{{data.Rating}}</td>
+        <td>{{data.Wins}}</td>
+        <td>{{data.Defeats}}</td>
+        <td>{{data.SuccessfullCoreAttacks}}</td>
+        <td>{{data.NotSuccessfullCoreAttacks}}</td>
+        <td>{{data.Scores}}</td>
+      </tr>      
+  
+  </table>
+
+</div>

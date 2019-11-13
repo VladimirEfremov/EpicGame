@@ -1,0 +1,13 @@
+
+.statistic {
+    color: white;
+    background-color: rgba(1, 1, 1, 0.5);
+    border: 1px solid black;
+    width:800px;
+    height: 600px;
+    overflow: auto;
+}
+
+td {
+    border: 1px solid black;
+}

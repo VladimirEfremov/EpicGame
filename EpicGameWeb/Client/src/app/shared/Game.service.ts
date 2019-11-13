@@ -10,6 +10,7 @@ import { CoreInfo } from '../game/game-structures/CoreInfo';
 import { BattleResponse } from '../game/game-structures/BattleResponse';
 import { Log } from '../game/game-structures/Log';
 import { Renderable } from '../game/game-structures/Renderable';
+import { StatInfo } from '../game/game-structures/StatInfo';
 
 @Injectable()
 export class GameService 
@@ -85,6 +86,9 @@ export class GameService
     isLogUpdatedUrl: string = 
         "http://localhost:6430/Auth/IsLogUpdated"
 
+    getAllStats: string =
+        "http://localhost:6430/api/game/GetAllStats";
+
     constructor(
         private httpClient: HttpClient,
         private router: Router) 
@@ -94,6 +98,16 @@ export class GameService
     SwitchToGame() : void 
     {
         this.router.navigate(["/game"]);
+    }
+
+    SwitchToMenu() : void
+    {
+        this.router.navigate(["/game-menu"]);
+    }
+
+    SwitchToStatisticTable() : void 
+    {
+        this.router.navigate(["/stats"]);
     }
 
     public CoreBuildCasern(coreId:number):Observable<Object>
@@ -274,6 +288,11 @@ export class GameService
     public GetOtherRenderable() : Observable<Renderable[]>
     {
         return this.httpClient.get<Renderable[]>(this.getOtherRenderableUrl);
+    }
+
+    public GetAllStats():Observable<StatInfo[]>
+    {
+        return this.httpClient.get<StatInfo[]>(this.getAllStats);
     }
 
 }

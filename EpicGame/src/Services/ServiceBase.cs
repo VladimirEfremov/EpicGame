@@ -239,5 +239,10 @@ namespace EpicGame.src.Services
         {
             return m_GameDBHelper.GetOtherRenderable(coreId);
         }
+
+        public string GetAllStats()
+        {
+            return m_GameDBHelper.GetAllStats();
+        }
     }
 }

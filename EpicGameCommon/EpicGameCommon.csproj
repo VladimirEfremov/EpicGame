@@ -80,6 +80,7 @@
     <Compile Include="Models\Session\SessionGoldMiningsTable1.cs" />
     <Compile Include="Models\Session\SessionMapTable.cs" />
     <Compile Include="Models\Session\SessionMapTable1.cs" />
+    <Compile Include="Models\StatInfo.cs" />
     <Compile Include="Models\TwoUsers.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\User\UserFollowersTable.cs" />

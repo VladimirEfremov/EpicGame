@@ -21,9 +21,9 @@ export class GameMenuComponent implements OnInit {
       this.gameService.SwitchToGame();
   }
 
-  OnBtnAccountClick() : void
+  OnBtnStatsClick() : void
   {
-      //
+      this.gameService.SwitchToStatisticTable();
   }
 
   OnBtnPeopleClick() : void

@@ -263,6 +263,13 @@ namespace EpicGameWeb.Controllers
             return new Renderable[0];
         }
 
-
+        [HttpGet]
+        [Route("GetAllStats")]
+        public StatInfo[] GetAllStats()
+        {
+            var resultJson = RemoteProcedureCallClass.GetGameChannel().GetAllStats();
+            var result = resultJson.FromJson<StatInfo[]>();
+            return result;
+        }
     }
 }

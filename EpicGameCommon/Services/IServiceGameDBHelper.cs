@@ -74,6 +74,9 @@ namespace EpicGameCommon
 
         [OperationContract]
         string GetOtherRenderable(int coreId);
-    
+
+        [OperationContract]
+        string GetAllStats();
+
     }
 }

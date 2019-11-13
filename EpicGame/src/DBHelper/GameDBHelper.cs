@@ -1761,5 +1761,41 @@
 
             return new Renderable().ToJson();
         }
+    
+        public string GetAllStats()
+        {
+            string nick;
+            var list = new List<StatInfo>();
+            var statsArray = m_SessionStatisticEntity.SessionStatisticTable.AsNoTracking().ToArray();
+            foreach (var stat in statsArray)
+            {
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                    .Where(obj => obj.SessionCoreId == stat.SessionCoreId)
+                    .FirstOrDefault();
+                if (core != null)
+                {
+                    nick = m_UserContext.UserTable.AsNoTracking()
+                        .Where(obj => obj.UserId == core.UserId)
+                        .FirstOrDefault()?.Nickname;
+                }
+                else
+                {
+                    nick = "";
+                }
+
+                list.Add(new StatInfo()
+                {
+                    Nickname = nick,
+                    SessionCoreId = stat.SessionCoreId,
+                    Rating = stat.Rating,
+                    Wins = stat.Wins,
+                    Defeats = stat.Defeats,
+                    SuccessfullCoreAttacks= stat.SuccessfullCoreAttacks, 
+                    NotSuccessfullCoreAttacks = stat.NotSuccessfullCoreAttacks,
+                    Scores = stat.Scores
+                });
+            }
+            return list.ToArray().ToJson();
+        }
     }
 }

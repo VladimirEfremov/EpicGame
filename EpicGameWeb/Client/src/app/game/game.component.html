@@ -311,8 +311,7 @@
 
 <div class="Logger" onload="this.scrollTop = 9999;"> 
     <div class="LoggerContent"
-      *ngFor="let log of loggedData?.Data2"
-      >
+      *ngFor="let log of loggedData?.Data2">
       <div [ngSwitch]="log.Type">
           <ng-template ngSwitchCase="1"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
           <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
