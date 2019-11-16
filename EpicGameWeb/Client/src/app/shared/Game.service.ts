@@ -11,6 +11,9 @@ import { BattleResponse } from '../game/game-structures/BattleResponse';
 import { Log } from '../game/game-structures/Log';
 import { Renderable } from '../game/game-structures/Renderable';
 import { StatInfo } from '../game/game-structures/StatInfo';
+import { MessageInfo } from '../game/game-structures/MessageInfo';
+import { DialogButtonInfo } from '../game/game-structures/DialogButtonInfo';
+import { SendMessageStruct } from '../game/game-structures/SendMessageStruct';
 
 @Injectable()
 export class GameService 
@@ -89,6 +92,15 @@ export class GameService
     getAllStats: string =
         "http://localhost:6430/api/game/GetAllStats";
 
+    getDialogForUserUrl: string = 
+        "http://localhost:6430/api/game/GetDialogForUser";
+
+    getDialogButtonInfoUrl: string = 
+        "http://localhost:6430/api/game/GetDialogButtonInfo"
+
+    sendMessageUrl: string = 
+        "http://localhost:6430/api/game/SendMessage";
+
     constructor(
         private httpClient: HttpClient,
         private router: Router) 
@@ -160,45 +172,14 @@ export class GameService
         return this.httpClient.get<CoreInfo>(this.getCoreInfoByIdUrl);
     }
 
-    public DuelBattle(coreId : number):number
+    public DuelBattle(coreId : number):Observable<number>
     {
-        console.log("GetAllUserInfo");
-        console.log("[Duel battle] CoreId: " + coreId);
-        let result; 
-        this.httpClient.post<number>(
-            this.duelBattleUrl, coreId)
-            .subscribe(
-                (data:number) => {
-                    console.log("[success] DuelBattle")
-                    result = data;
-                    console.log(result);
-                    //console.log("Battle result: " + result.WhoWonTheBattle + " Message: " + result.Message);
-                },
-                error => {
-                    console.log("[error] DuelBattle: " + error);
-                }
-            );
-        return result;
+        return this.httpClient.post<number>(this.duelBattleUrl, coreId);
     }
 
-    public CoreBattle(coreId : number):BattleResponse
+    public CoreBattle(coreId : number):Observable<number>
     {
-        console.log("GetAllUserInfo");
-        let result; 
-        this.httpClient.post<string>(
-            this.coreBattleUrl,
-            coreId.toString())
-            .subscribe(
-                data => {
-                    console.log("[success] CoreBattle")
-                    let cdata : BattleResponse = JSON.parse(data);
-                    result = cdata;
-                },
-                error => {
-                    console.log("[error] CoreBattle: " + error);
-                }
-            );
-        return result;
+        return this.httpClient.post<number>(this.coreBattleUrl,coreId);;
     }
 
     public BaseAttackUpgrade(coreId:number):Observable<number> 
@@ -295,4 +276,19 @@ export class GameService
         return this.httpClient.get<StatInfo[]>(this.getAllStats);
     }
 
+    public GetDialogForUser(companionId:number) : Observable<MessageInfo[]>
+    {
+        return this.httpClient.post<MessageInfo[]>(this.getDialogForUserUrl, companionId);
+    }
+    
+    public GetDialogButtonInfo() : Observable<DialogButtonInfo[]>
+    {
+        return this.httpClient.get<DialogButtonInfo[]>(this.getDialogButtonInfoUrl);
+    }
+
+    public SendMessage(toSend:SendMessageStruct) : Observable<SendMessageStruct>
+    {
+        // { companionId, message }
+        return this.httpClient.post<SendMessageStruct>(this.sendMessageUrl, toSend);
+    }
 }

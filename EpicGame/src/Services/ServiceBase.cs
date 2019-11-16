@@ -3,6 +3,7 @@
 using EpicGameCommon;
 using EpicGame.src.DBHelper;
 using EpicGame.Game;
+using EpicGameCommon.Models;
 
 namespace EpicGame.src.Services
 {
@@ -136,10 +137,18 @@ namespace EpicGame.src.Services
 
         public string CoreBattle(int attackerCoreId, int defenderCoreId)
         {
-            var result = m_GameDBHelper
-                .CoreBattle(attackerCoreId, defenderCoreId)
-                .ToJson();
-            return result;
+            try
+            {
+                var result = m_GameDBHelper
+                    .CoreBattle(attackerCoreId, defenderCoreId)
+                    .ToJson();
+                return result;
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                return "";
+            }
         }
 
         //Log stuff
@@ -243,6 +252,23 @@ namespace EpicGame.src.Services
         public string GetAllStats()
         {
             return m_GameDBHelper.GetAllStats();
+        }
+
+        public string GetDialogButtonInfo(int userId)
+        {
+            var result = m_GameDBHelper.GetDialogButtonInfo(userId);
+            return result;
+        }
+
+        public string GetDialogForUser(DialogId dialogId)
+        {
+            var result = Chat.GetDialogForUser(dialogId);
+            return result.ToJson();
+        }
+
+        public void SendMessage(MessageToAdd messageToAdd)
+        {
+            Chat.AddMessageForUser(messageToAdd.UserId, messageToAdd.CompanionId, messageToAdd.Message);
         }
     }
 }

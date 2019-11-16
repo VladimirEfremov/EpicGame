@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using EpicGameCommon.Models;
+using System.ServiceModel;
 
 namespace EpicGameCommon
 {
@@ -22,5 +23,15 @@ namespace EpicGameCommon
 
         [OperationContract]
         bool IsLogUpdated(int userId);
+
+        [OperationContract]
+        string GetDialogButtonInfo(int userId);
+        
+        [OperationContract]
+        string GetDialogForUser(DialogId id);
+
+        [OperationContract]
+        void SendMessage(MessageToAdd toSend);
+
     }
 }

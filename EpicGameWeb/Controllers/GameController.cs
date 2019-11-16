@@ -159,11 +159,18 @@ namespace EpicGameWeb.Controllers
             var coreIdString = GetSessionVariable("CoreId");
             if (System.Int32.TryParse(coreIdString, out coreid))
             {
-                var result = RemoteProcedureCallClass
-                    .GetGameChannel()
-                    .CoreBattle(coreid, defenderCoreId)
-                    .ToJson();
-                return result;
+                //critical bug
+                try
+                {
+                    var result = RemoteProcedureCallClass
+                        .GetGameChannel()
+                        .CoreBattle(coreid, defenderCoreId)
+                        .ToJson();
+                    return result;
+                }
+                catch
+                {
+                }
             }
             return "";
         }
@@ -271,5 +278,57 @@ namespace EpicGameWeb.Controllers
             var result = resultJson.FromJson<StatInfo[]>();
             return result;
         }
+
+        [HttpPost]
+        [Route("GetDialogForUser")]
+        public MessageInfo[] GetDialogForUser([FromBody]int companionId)
+        {
+            int userId;
+            string userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var resultJson = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetDialogForUser(new DialogId() { UserId = userId, CompanionId = companionId});
+                var result = resultJson.FromJson<MessageInfo[]>();
+                return result;
+            }
+            return new MessageInfo[0];
+        }
+
+        [HttpGet]
+        [Route("GetDialogButtonInfo")]
+        public DialogButtonInfo[] GetDialogButtonInfo()
+        {
+            int userId;
+            var userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var resultJson = RemoteProcedureCallClass.GetBaseChannel().GetDialogButtonInfo(userId);
+                var result = resultJson.FromJson<DialogButtonInfo[]>();
+                return result;
+            }
+            return new DialogButtonInfo[0];
+        }
+
+        [HttpPost]
+        [Route("SendMessage")]
+        public void SendMessage(SendMessageStruct toSend)
+        {
+            int userId;
+            var userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                RemoteProcedureCallClass.GetBaseChannel()
+                    .SendMessage(
+                    new MessageToAdd()
+                    {
+                        UserId = userId,
+                        CompanionId = toSend.CompanionId,
+                        Message = new Message() { Content = toSend.Message, Time = System.DateTime.Now }
+                    });
+            }
+        }
+
     }
 }

@@ -186,10 +186,18 @@ namespace EpicGame.Game
                         LastClientLogId = MaxLogIdForUser(request.UserId)
                     };
                 }
-
-                return s_LogData[request.UserId]
-                    .Where(obj => obj.Id > prevLastClientLogId)
-                    .ToArray();
+                if (prevLastClientLogId == 0)
+                {
+                    return s_LogData[request.UserId]
+                        .Where(obj => obj.Id >= prevLastClientLogId)
+                        .ToArray();
+                }
+                else
+                {
+                    return s_LogData[request.UserId]
+                       .Where(obj => obj.Id > prevLastClientLogId)
+                       .ToArray();
+                }
             }
             return null;
         }

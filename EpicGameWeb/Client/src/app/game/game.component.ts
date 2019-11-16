@@ -15,6 +15,9 @@ import { Logger } from './game-structures/Logger';
 import { Map } from './game-structures/Map';
 import { UserInfo } from '../game/game-structures/UserInfo';
 import { TwoUsers } from '../game/game-structures/TwoUsers';
+import { DialogButtonInfo } from './game-structures/DialogButtonInfo';
+import { MessageInfo } from './game-structures/MessageInfo';
+import { SendMessageStruct } from './game-structures/SendMessageStruct';
 
 @Component({
   selector: 'app-game',
@@ -86,8 +89,6 @@ export class GameComponent implements OnInit
   IsGoldMiningInfoActivated: boolean;
   
   //Base info
-  defencePower: number = 0;
-
   casernInfo: CasernInfo =
   {
       CasernHp: 7500,
@@ -153,6 +154,12 @@ export class GameComponent implements OnInit
   //Log
   loggedData:Logger = new Logger();
 
+  //Dialog
+  isDialogVisible: boolean = false;
+  dialogsButtonInfo:DialogButtonInfo[] = [];
+  dialog: MessageInfo[] = [];
+  textAreaContent: string = "";
+
   //Map
   map:Map = new Map();
 
@@ -173,9 +180,9 @@ export class GameComponent implements OnInit
 
       this.GetAccountData();
 
-      this.map.Init();
-      this.map.DrawWorld();
-      window.requestAnimationFrame(this.map.DrawWorld);
+      //this.map.Init();
+      //this.map.DrawWorld();
+      //window.requestAnimationFrame(this.map.DrawWorld);
 
       this.httpGameService
         .GetAllUserLogData(
@@ -237,6 +244,23 @@ export class GameComponent implements OnInit
             }
         );
 
+        //temporary for Dialog
+        this.dialogsButtonInfo.push({UserId:1, Nickname:"John"});
+        this.dialogsButtonInfo.push({UserId:2, Nickname:"Nike"});
+        this.dialog.push({Nickname: "Buka", Content: "Hi", Time: "20:00"});
+        this.dialog.push({Nickname: "Buka", Content: "How are you ?", Time: "20:30"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+
         //setInterval(
         //  ()=>{
         //    this.httpGameService.GetOtherRenderable()
@@ -250,6 +274,8 @@ export class GameComponent implements OnInit
         //        }, error => { console.log("[error] GetOtherRenderable" + error); }
         //    );
         //}, 250);
+
+
   }
 
   OnSignOutBtnClick():void
@@ -992,17 +1018,164 @@ export class GameComponent implements OnInit
 
   OnDuelBattleBtnClick() :void
   {
-    let result = this
-    .httpGameService
-    .DuelBattle(this.selectedUser.CoreId);
+    let result:number; 
+    this.httpGameService.DuelBattle(this.selectedUser.CoreId)
+    .subscribe(
+      (data:number) => {
+          console.log("[success] DuelBattle")
+          result = data;
+          this.httpGameService
+              .GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById ");
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+      },
+      error => {
+          console.log("[error] DuelBattle: " + error);
+      }
+    );
   }
 
   OnCoreAttackBtnClick() :void
   {
-    let result = this
-    .httpGameService
-    .CoreBattle(this.selectedUser.CoreId);
-    console.log(result.Message);
+    let result:number; 
+    this.httpGameService.CoreBattle(
+      this.selectedUser.CoreId)
+      .subscribe(
+        data => {
+            console.log("[success] CoreBattle")
+            result = data;
+            this.httpGameService
+              .GetCoreInfoById()
+              .subscribe(
+                  (data:CoreInfo) => { 
+                      console.log("[success] GetCoreById ");
+                      this.coreInfo = data;
+                  },
+                  error => console.log("[error] GetCoreById: "+error)
+              );
+        },
+        error => {
+            console.log("[error] CoreBattle: " + error);
+        }
+      );
   }
 
+  OnDialogUserClick(userId:DialogButtonInfo) : void 
+  {
+    this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+    .subscribe(
+      (data) => {
+        console.log("[success] GetAllDialogMessages");
+        if (data != null)
+        {
+          if (data.length > 0)
+          {
+            this.dialog = data;
+          }
+        }
+      },
+      (error) => {
+        console.log("[error] GetAllDialogMessages: " + error);
+      }
+    );
+  }
+
+  OnStartConversationClick()
+  {
+      this.isUserActionsWindowVisible = false;
+      this.httpGameService.GetDialogButtonInfo()
+        .subscribe(
+          (data) => {
+            console.log("[success] GetDialogButtonInfo");
+            if (data != null && data.length > 0)
+            {
+              this.dialogsButtonInfo = data;
+              this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+                .subscribe(
+                  (data) => {
+                    console.log("[success] GetAllDialogMessages");
+                    this.dialog = data;
+                    this.isDialogVisible = true;
+                  },
+                  (error) => {
+                    console.log("[error] GetAllDialogMessages" + error);
+                  }
+                );
+            }
+            else {
+              this.dialogsButtonInfo.push({Nickname:this.selectedUser.Nickname,UserId:this.selectedUser.UserId});
+            }
+          },
+          (error) => {
+            console.log("[error] GetDialogButtonInfo" + error);
+          }
+        );
+      //get dialog info
+      //get dialog with that user
+        //OnDialogUserClick
+      //open ui window
+  }
+
+  public OnKeyPressed($event:KeyboardEvent):boolean {
+    //let key = window.event.keyCode;
+    if ($event.shiftKey === true && $event.keyCode === 13)
+    {
+    }
+    else if ($event.keyCode === 13)
+    {
+        $event.preventDefault();
+        this.OnSendMessageClick();
+    }
+    else {
+      if (this.textAreaContent.length > 0)
+      {
+        if (this.textAreaContent
+            .replace(/(\n)/g, '')
+            .length % 33 === 0)
+        {
+            this.textAreaContent += '\n';
+        }
+      }
+    }
+    return true;
+  }
+
+  OnSendMessageClick()
+  {
+    if (this.textAreaContent.trim().replace('\n', '').length > 0)
+    {
+      this.httpGameService
+        .SendMessage({CompanionId: this.selectedUser.UserId, Message: this.textAreaContent})
+        .subscribe(
+          (data) => {
+            console.log("[success] SendMessage");
+            this.textAreaContent = "";
+            this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+              .subscribe(
+                (data) => {
+                  console.log("[success] GetAllDialogMessages");
+                  if (data != null)
+                  {
+                    if (data.length > 0)
+                    {
+                      this.dialog = data;
+                    }
+                  }
+                },
+                (error) => {
+                  console.log("[error] GetAllDialogMessages: " + error);
+                }
+              );
+          },
+          (error) => {
+            console.log("[error] SendMessage" + error);
+          }
+        );
+    }
+  }
 }

@@ -19,7 +19,7 @@
         public bool NeedDispose { get; set; } = false;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private UserEntity m_UserContext = new UserEntity();
+        private static UserEntity m_UserContext = new UserEntity();
 
         private GameUnitsEntity m_GameUnitsEntity = new GameUnitsEntity();
         private GameUnitsTypeEntity m_GameUnitsTypeEntity = new GameUnitsTypeEntity();
@@ -89,6 +89,12 @@
         private List<GameBuildingProductionTable> GetAllGameBuildingProductionList()
         {
             return m_GameBuildingProductionEntity.GameBuildingProductionTable.AsNoTracking().ToList();
+        }
+
+        public static string GetUserNickById(int id)
+        {
+            return m_UserContext.UserTable.AsNoTracking()
+                .FirstOrDefault(obj => obj.UserId == id)?.Nickname;
         }
 
         public int CasernGetNumberOfWarriors(int coreId)
@@ -619,21 +625,16 @@
             int seconds = 0;
             var @base =
                 m_SessionBasesEntity.SessionBasesTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (@base != null)
             {
                 var goldMiningSession =
                     m_SessionGoldMiningsEntity.SessionGoldMiningsTable
-                    .Where(obj => obj.SessionCoreId == coreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 if (goldMiningSession != null)
                 {
-                    var goldMiningBuilding = m_GameBuildingsEntity
-                    .GameBuildingsTable
-                    .AsNoTracking()
-                    .Where(obj => obj.GameBuildingName == "GoldMining")
-                    .FirstOrDefault();
+                    var goldMiningBuilding = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
+                    .FirstOrDefault(obj => obj.GameBuildingName == "GoldMining");
                     if (@base.WorkersNumber > 0)
                     {
                         if (goldMiningSession.WorkersNumber <
@@ -709,37 +710,28 @@
         public string GetCoreInfoById(int coreId)
         {
             var coreSession = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (coreSession != null)
             {
                 var baseSession = m_SessionBasesEntity.SessionBasesTable.AsNoTracking()
-                    .Where(obj => obj.SessionCoreId == coreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 var baseGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
-                    .Where(obj => obj.GameBuildingName == "Base")
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.GameBuildingName == "Base");
 
                 var casernSession = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
-                    .Where(obj => obj.SessionCoreId == coreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 var casernGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
-                    .Where(obj => obj.GameBuildingName == "Casern")
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.GameBuildingName == "Casern");
 
                 var goldMiningSession = m_SessionGoldMiningsEntity.SessionGoldMiningsTable.AsNoTracking()
-                    .Where(obj => obj.SessionCoreId == coreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 var goldMiningGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
-                    .Where(obj => obj.GameBuildingName == "GoldMining")
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.GameBuildingName == "GoldMining");
 
                 var defenceTowerSession = m_SessionDefenceTowersEntity.SessionDefenceTowersTable.AsNoTracking()
-                    .Where(obj => obj.SessionCoreId == coreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 var defenceTowerGame = m_GameBuildingsEntity.GameBuildingsTable.AsNoTracking()
-                    .Where(obj => obj.GameBuildingName == "DefenceTower")
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.GameBuildingName == "DefenceTower");
 
                 if (baseGame != null)
                 {
@@ -867,29 +859,23 @@
         public string GetCoreByUserId(int userId)
         {
             logger.Info("[call] GetCoreByUserId");
-            return m_SessionCoreEntity.SessionCoresTable
-                .AsNoTracking()
-                .Where(obj => obj.UserId == userId)
-                .FirstOrDefault().ToJson();
+            return m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .FirstOrDefault(obj => obj.UserId == userId).ToJson();
         }
 
         public string GetCoreById(int coreId)
         {
             logger.Info("[call] GetCoreById");
-            return m_SessionCoreEntity
-                .SessionCoresTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault()
+            return m_SessionCoreEntity.SessionCoresTable
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId)
                 .ToJson();
         }
 
         public string GetCoreByIdAsNoTracking(int coreId)
         {
             logger.Info("[call] GetCoreById");
-            return m_SessionCoreEntity
-                .SessionCoresTable.AsNoTracking()
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault()
+            return m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId)
                 .ToJson();
         }
 
@@ -1243,8 +1229,7 @@
 
                     var attackersCasern =
                         m_SessionCasernsEntity.SessionCasernsTable
-                        .Where(obj => obj.SessionCoreId == attackerCoreId)
-                        .FirstOrDefault();
+                        .FirstOrDefault(obj => obj.SessionCoreId == attackerCoreId);
                     if (attackersCasern != null)
                     {
                         int attackWarriorCount = 0;
@@ -1275,14 +1260,11 @@
                     else
                     {
                         logger.Error($"Attackers don't have casern!");
-                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure,
-                                    $"You have no core!");
+                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure, $"You have no core!");
                     }
 
-                    var defendersCasern =
-                       m_SessionCasernsEntity.SessionCasernsTable
-                       .Where(obj => obj.SessionCoreId == defenderCoreId)
-                       .FirstOrDefault();
+                    var defendersCasern = m_SessionCasernsEntity.SessionCasernsTable
+                       .FirstOrDefault(obj => obj.SessionCoreId == defenderCoreId);
                     if (defendersCasern != null)
                     {
                         int defendersWarriorNumber = 0;
@@ -1315,13 +1297,12 @@
                     }
 
                     m_SessionCasernsEntity.SaveChanges();
+                    EventStack.AddEventForUser(defenderCore.UserId, EventType.BattleEvent);
 
                     var attackerUser = m_UserContext.UserTable.AsNoTracking()
-                        .Where(obj => obj.UserId == attackerCore.UserId)
-                        .FirstOrDefault();
+                        .FirstOrDefault(obj => obj.UserId == attackerCore.UserId);
                     var defenderUser = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == defenderCore.UserId)
-                            .FirstOrDefault();
+                        .FirstOrDefault(obj => obj.UserId == defenderCore.UserId);
                     if (attackerUser != null && defenderUser != null)
                     {
                         if (result.WhoWonTheBattle == 0)
@@ -1360,109 +1341,196 @@
             return new BattleResponse() { Message = "No Battle", WhoWonTheBattle = -1 };
         }
 
+        //rework it
         public BattleResponse CoreBattle(int attackerCoreId, int defenderCoreId)
         {
+            var attackerCore = GetCoreByIdAsNoTracking(attackerCoreId)?.FromJson<SessionCoresTable>();
+            var defenderCore = GetCoreByIdAsNoTracking(defenderCoreId)?.FromJson<SessionCoresTable>();
+            
             List<GameUnitsTable> attackers = GetCoreArmy(attackerCoreId);
             List<GameUnitsTable> defenders = GetCoreArmy(defenderCoreId);
             List<GameBuildingsTable> defendersBuildings = GetCoreBuildings(defenderCoreId);
 
-            var result =
-                GameEngine.CoreBattle(ref attackers, ref defenders, ref defendersBuildings);
-
-            int attackWarriorCount = 0;
-            int attackAircraftCount = 0;
-            for (var i = 0; i < attackers.Count; i++)
+            if (attackerCore != null)
             {
-                if (attackers[i].GameUnitName.Trim() == "Warrior")
+                if (defenderCore != null)
                 {
-                    ++attackWarriorCount;
+                    if (attackers.Count <= 0 || defenders.Count <= 0)
+                    {
+                        logger.Warn("Attackers or Defenders have no army!");
+                        EventLogger.AddLogForUser(
+                            attackerCore.UserId, LogType.BattleFailure,
+                            $"You have {attackers.Count} army, your enemy have {defenders.Count} army. " +
+                            "So global police can't let you to attack that player!");
+
+                        EventLogger.AddLogForUser(
+                            defenderCore.UserId, LogType.BattleFailure,
+                            $"Someone trying to attack you but " +
+                                ((attackers.Count <= 0) ? "attackers have no army" : "you have no army!") +
+                            "So global police can't let them to attack!");
+
+                        return new BattleResponse() { Message = "No battle", WhoWonTheBattle = -1 };
+                    }
+        
+                    if (defendersBuildings.Count <= 0)
+                    {
+                        logger.Warn("Attackers or Defenders have no army!");
+                        EventLogger.AddLogForUser(attackerCore.UserId, LogType.BattleFailure,
+                            $"Defender have {defendersBuildings.Count} buildings. You can't attack him");
+                    }
+
+                    var result = GameEngine
+                        .CoreBattle(ref attackers, ref defenders, ref defendersBuildings);
+
+                    var attackersCasern =
+                        m_SessionCasernsEntity.SessionCasernsTable
+                        .FirstOrDefault(obj => obj.SessionCoreId == attackerCoreId);
+                    if (attackersCasern != null)
+                    {
+                        int attackWarriorCount = 0;
+                        int attackAircraftCount = 0;
+                        for (var i = 0; i < attackers.Count; i++)
+                        {
+                            if (attackers[i].GameUnitName.Trim() == "Warrior")
+                            {
+                                ++attackWarriorCount;
+                            }
+                            else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
+                            {
+                                ++attackAircraftCount;
+                            }
+                        }
+
+                        attackersCasern.WarriorsNumber = attackWarriorCount;
+                        attackersCasern.AttackAircraftNumber = attackAircraftCount;
+                        logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+                        if (attackerCore != null)
+                        {
+                            EventLogger.AddLogForUser(
+                                  attackerCore.UserId, LogType.BattleFailure,
+                                  $"Casern warriors & attackaircraft number updated!");
+                        }
+                    }
+                    else
+                    {
+                        logger.Error($"Attackers don't have casern!");
+                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure,
+                                    $"You have no core!");
+                    }
+
+                    var defendersCasern = m_SessionCasernsEntity.SessionCasernsTable
+                       .FirstOrDefault(obj => obj.SessionCoreId == defenderCoreId);
+                    if (defendersCasern != null)
+                    {
+                        int defendersWarriorNumber = 0;
+                        int defendersAircraftCount = 0;
+                        for (var i = 0; i < defenders.Count; i++)
+                        {
+                            if (defenders[i].GameUnitName.Trim() == "Warrior")
+                            {
+                                ++defendersWarriorNumber;
+                            }
+                            else if (defenders[i].GameUnitName.Trim() == "AttackAircraft")
+                            {
+                                ++defendersAircraftCount;
+                            }
+                        }
+
+                        defendersCasern.WarriorsNumber = defendersWarriorNumber;
+                        defendersCasern.AttackAircraftNumber = defendersAircraftCount;
+                        logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
+
+                        //new
+                        int defenderDefenceTowerCount = 0;
+                        for (var i = 0; i < defendersBuildings.Count; i++)
+                        {
+                            if (defendersBuildings[i].GameBuildingName == "DefenceTower")
+                            {
+                                ++defenderDefenceTowerCount;
+                            }
+                        }
+                        var listOfTowerDefence =
+                            m_SessionDefenceTowersEntity.SessionDefenceTowersTable
+                            .Where(obj => obj.SessionCoreId == defenderCoreId)
+                            .ToList();
+
+                        while (listOfTowerDefence.Count > defenderDefenceTowerCount)
+                        {
+                            listOfTowerDefence.Remove(listOfTowerDefence[0]);
+                        }
+                        m_SessionDefenceTowersEntity.SaveChanges();
+                        //
+
+                        if (defenderCore != null)
+                        {
+                            EventLogger.AddLogForUser(defenderCore.UserId, LogType.BattleFailure,
+                                  $"Casern warriors & attackaircraft number updated!");
+                        }
+                    }
+                    else
+                    {
+                        logger.Error($"Defenders don't have casern!");
+                    }
+
+                    m_SessionCasernsEntity.SaveChanges();
+
+                    var attackerUser = m_UserContext.UserTable.AsNoTracking()
+                        .FirstOrDefault(obj => obj.UserId == attackerCore.UserId);
+                    var defenderUser = m_UserContext.UserTable.AsNoTracking()
+                        .FirstOrDefault(obj => obj.UserId == defenderCore.UserId);
+                    if (attackerUser != null && defenderUser != null)
+                    {
+                        if (result.WhoWonTheBattle == 0)
+                        {
+                            EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
+                                $"You won the battle, {defenderUser.Nickname}'s army been fully destroyed !");
+                            EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
+                                $"Your army been fully destroyed by {attackerUser.Nickname}");
+                            AddStatisticForDuel(attackerCoreId, defenderCoreId);
+                        }
+                        else if (result.WhoWonTheBattle == 1)
+                        {
+                            EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
+                                $"You won the battle, {attackerUser.Nickname}'s army been fully destroyed, core was protected !");
+                            EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
+                                $"Your army been fully destroyed by {defenderUser.Nickname}");
+                            AddStatisticForDuel(defenderCoreId, attackerCoreId);
+                        }
+                    }
+
+                    return result;
                 }
-                else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
+                else
                 {
-                    ++attackAircraftCount;
+                    logger.Error("Defender core == null!");
+                    EventLogger.AddLogForUser(defenderCore.UserId, LogType.BattleFailure,
+                        $"Defender have no core!");
                 }
             }
-
-            var attackersCasern =
-                m_SessionCasernsEntity.SessionCasernsTable
-                .Where(obj => obj.SessionCoreId == attackerCoreId)
-                .FirstOrDefault();
-            attackersCasern.WarriorsNumber = attackWarriorCount;
-            attackersCasern.AttackAircraftNumber = attackAircraftCount;
-            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
-
-            int defendersWarriorNumber = 0;
-            int defendersAircraftCount = 0;
-            for (var i = 0; i < attackers.Count; i++)
+            else
             {
-                if (attackers[i].GameUnitName.Trim() == "Warrior")
-                {
-                    ++defendersWarriorNumber;
-                }
-                else if (attackers[i].GameUnitName.Trim() == "AttackAircraft")
-                {
-                    ++defendersAircraftCount;
-                }
+                logger.Error("Attackers core == null!");
+                EventLogger.AddLogForUser(attackerCore.UserId, LogType.BattleFailure,
+                    $"You have no core!");
             }
-
-            for (var i = 0; i < defenders.Count; i++)
-            {
-                if (defenders[i].GameUnitName.Trim() == "Warrior")
-                {
-                    ++defendersWarriorNumber;
-                }
-                else if (defenders[i].GameUnitName.Trim() == "AttackAircraft")
-                {
-                    ++defendersAircraftCount;
-                }
-            }
-            var defendersCasern =
-               m_SessionCasernsEntity.SessionCasernsTable
-               .Where(obj => obj.SessionCoreId == defenderCoreId)
-               .FirstOrDefault();
-            defendersCasern.WarriorsNumber = defendersWarriorNumber;
-            defendersCasern.AttackAircraftNumber = defendersAircraftCount;
-            logger.Info($"Casern [coreId: {attackerCoreId}] warriors & attackaircraft number updated!");
-
-            m_SessionCasernsEntity.SaveChanges();
-
-            int defenderDefenceTowerCount = 0; 
-            for (var i = 0; i < defendersBuildings.Count; i++)
-            {
-                if (defendersBuildings[i].GameBuildingName == "DefenceTower")
-                {
-                    ++defenderDefenceTowerCount;
-                }
-            }
-            var listOfTowerDefence = 
-                m_SessionDefenceTowersEntity.SessionDefenceTowersTable
-                .Where(obj => obj.SessionCoreId == defenderCoreId)
-                .ToList();
-            while (listOfTowerDefence.Count > defenderDefenceTowerCount)
-            {
-                listOfTowerDefence.Remove(listOfTowerDefence[0]);
-            }
-            m_SessionDefenceTowersEntity.SaveChanges();
-
-            return result;
+            return new BattleResponse() { Message = "No Battle", WhoWonTheBattle = -1 };
         }
 
         public void BaseAttackUpgrade(int coreId)
         {
-            var core = m_SessionBasesEntity.SessionBasesTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
-            if (core != null)
+            var @base = m_SessionBasesEntity.SessionBasesTable
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+            if (@base != null)
             {
-                ++core.AttackUpgrade;
+                ++@base.AttackUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                       .Where(obj => obj.SessionCoreId == coreId)
-                       .FirstOrDefault().UserId;
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                       .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1479,20 +1547,18 @@
 
         public void BaseDefenceUpgrade(int coreId)
         {
-            var core = m_SessionBasesEntity.SessionBasesTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
-            if (core != null)
+            var @base = m_SessionBasesEntity.SessionBasesTable
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+            if (@base != null)
             {
-                ++core.DefenceUpgrade;
+                ++@base.DefenceUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1508,20 +1574,18 @@
 
         public void BaseCapacityUpgrade(int coreId)
         {
-            var core = m_SessionBasesEntity.SessionBasesTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
-            if (core != null)
+            var @base = m_SessionBasesEntity.SessionBasesTable
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+            if (@base != null)
             {
-                ++core.CapacityUpgrade;
+                ++@base.CapacityUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1538,19 +1602,17 @@
         public void CasernCapacityUpgrade(int coreId)
         {
             var casern = m_SessionCasernsEntity.SessionCasernsTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (casern != null)
             {
                 ++casern.CapacityUpgrade;
                 m_SessionCasernsEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1567,19 +1629,17 @@
         public void GoldMiningCapacityUpgrade(int coreId)
         {
             var goldMining = m_SessionGoldMiningsEntity.SessionGoldMiningsTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (goldMining != null)
             {
                 ++goldMining.CapacityUpgrade;
                 m_SessionGoldMiningsEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1596,19 +1656,17 @@
         public void DefenceTowerAttackUpgrade(int coreId)
         {
             var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (defenceTower != null)
             {
                 ++defenceTower.AttackUpgrade;
                 m_SessionDefenceTowersEntity.SaveChanges();
 
-                int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                var coreTemp = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                int userId = (coreTemp != null) ? coreTemp.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1625,19 +1683,16 @@
         public void DefenceTowerDefenceUpgrade(int coreId)
         {
             var defenceTower = m_SessionDefenceTowersEntity.SessionDefenceTowersTable
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (defenceTower != null)
             {
                 ++defenceTower.DefenceUpgrade;
                 m_SessionDefenceTowersEntity.SaveChanges();
 
                 int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                      .Where(obj => obj.SessionCoreId == coreId)
-                      .FirstOrDefault().UserId;
+                      .FirstOrDefault(obj => obj.SessionCoreId == coreId).UserId;
                 string nick = m_UserContext.UserTable.AsNoTracking()
-                    .Where(obj => obj.UserId == userId)
-                    .FirstOrDefault()?.Nickname;
+                    .FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
                 if (userId <= 0)
                 {
                     logger.Error($"UserId [{userId}] <= 0");
@@ -1647,20 +1702,18 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade defence tower defence!");
+                   "Upgrade defence tower defence!");
             }
         }
     
         public string GetCoreRenderable(int coreId)
         {
             var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (core != null)
             {
                 var map = m_SessionMapEntity.SessionMapTable.AsNoTracking()
-                    .Where(obj => obj.SessionMapId == core.CoreMapId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionMapId == core.CoreMapId);
                 if (map != null)
                 {
                     Renderable renderable = new Renderable()
@@ -1687,13 +1740,11 @@
         public string GetOtherRenderable(int coreId)
         {
             var thisCore = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                .Where(obj => obj.SessionCoreId == coreId)
-                .FirstOrDefault();
+                .FirstOrDefault(obj => obj.SessionCoreId == coreId);
             if (thisCore != null)
             {
                 var thisMap = m_SessionMapEntity.SessionMapTable.AsNoTracking()
-                    .Where(obj => obj.SessionMapId == thisCore.CoreMapId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionMapId == thisCore.CoreMapId);
                 if (thisMap != null)
                 {
                     decimal left = thisMap.XCoord - 2000;
@@ -1727,11 +1778,9 @@
                         foreach (var other in others)
                         {
                             var otherCore = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                                .Where(obj => obj.CoreMapId == other.SessionMapId)
-                                .FirstOrDefault();
+                                .FirstOrDefault(obj => obj.CoreMapId == other.SessionMapId);
                             var otherUser = m_UserContext.UserTable.AsNoTracking()
-                                .Where(obj => obj.UserId == otherCore.UserId)
-                                .FirstOrDefault();
+                                .FirstOrDefault(obj => obj.UserId == otherCore.UserId);
 
                             result[idx++] = new Renderable()
                             {
@@ -1770,13 +1819,11 @@
             foreach (var stat in statsArray)
             {
                 var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                    .Where(obj => obj.SessionCoreId == stat.SessionCoreId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(obj => obj.SessionCoreId == stat.SessionCoreId);
                 if (core != null)
                 {
                     nick = m_UserContext.UserTable.AsNoTracking()
-                        .Where(obj => obj.UserId == core.UserId)
-                        .FirstOrDefault()?.Nickname;
+                        .FirstOrDefault(obj => obj.UserId == core.UserId)?.Nickname;
                 }
                 else
                 {
@@ -1797,5 +1844,35 @@
             }
             return list.ToArray().ToJson();
         }
+
+        public string GetDialogButtonInfo(int userId)
+        {
+            if (Chat.s_ConverasetionsList.ContainsKey(userId))
+            {
+                var keyArray = Chat.s_ConverasetionsList[userId].Keys.ToArray();
+                var result = new DialogButtonInfo[keyArray.Length];
+                var userArray = m_UserContext.UserTable.AsNoTracking();
+                for (int i = 0; i < result.Length; i++)
+                {
+                    var userNickname = userArray.FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
+                    if (i < result.Length)
+                    {
+                        result[i] = new DialogButtonInfo()
+                        {
+                            Nickname = userNickname,
+                            UserId = keyArray[i]
+                        };
+                    }
+                }
+                return result.ToJson();
+            }
+            return new DialogButtonInfo[0].ToJson();
+        }
+
+        public void SendMessage(SendMessageStruct toSend)
+        {
+            //Chat.AddMessageForUser(toSend.UserId, toSend.CompanionId, toSend.Message);
+        }
+
     }
 }

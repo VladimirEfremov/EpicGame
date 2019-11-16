@@ -29,7 +29,7 @@
     <tr>
       <td></td>
       <td>
-        <h3> Money: {{coreInfo.Money}} gold Defence power: {{defencePower}} </h3>
+        <h3> Money: {{coreInfo.Money}} gold </h3>
         <button (click)="OnCoreBtnClick()">Core</button>
 
         <ng-template [ngIf]="coreInfo.Casern == 1">
@@ -245,7 +245,6 @@
 
 <div class="UsersActionWindowBox">
   <ng-template [ngIf]="isUserActionsWindowVisible">
-    
     <div class="UsersActionWindow" 
       [ngSwitch]="numberOfSelectedList">
       <div class="RoundedExitBtnBox">
@@ -269,9 +268,9 @@
       
       <div class="btnUserAction">
         <button (click)="OnDuelBattleBtnClick()">Duel</button>
-        
         <button (click)="OnCoreAttackBtnClick()">Attack core</button>
-  
+        <button (click)="OnStartConversationClick()">Start conversation</button>
+        
          <ng-template ngSwitchCase="0">
              <button *ngIf="isSelectedUserFriend"
               (click)="RemoveUserFromFriends()">
@@ -309,30 +308,71 @@
 </div>
 
 
-<div class="Logger" onload="this.scrollTop = 9999;"> 
-    <div class="LoggerContent"
+<table class="LowTable">
+  <td>
+  <div class="Logger" onload="this.scrollTop = 9999;"> 
+      <div class="LoggerContent"
       *ngFor="let log of loggedData?.Data2">
       <div [ngSwitch]="log.Type">
-          <ng-template ngSwitchCase="1"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          <ng-template ngSwitchCase="3"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-
-          <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          
-          <ng-template ngSwitchCase="6"><div class="LoggerCommunicationContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-          <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="1"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="3"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        
+        <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        
+        <ng-template ngSwitchCase="6"><div class="LoggerCommunicationContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
       </div>
     </div>
   </div>
+  </td>
+  
+  <td>
+    <div class="chat">
+    
+      <button class="chat-close-button">x</button>
 
-<div class="CanvasDiv">
-  <button>
-    CLICK ON ME
-  </button>
+      <div class="chat-table">
+        <div class="chat-table-row chat-first-row">
+            <div class="chat-table-col">
+              <div *ngFor="let info of dialogsButtonInfo">
+                <button (click)="OnDialogUserClick(info)">{{info.Nickname}}</button>
+              </div>
+            </div>
 
-</div>
+            <div class="chat-table-col chat-content">
+                
+              <div *ngFor="let msg of dialog">
+                <div class="chat-user-nickname" *ngIf="msg.Nickname === accountData.Nickname">{{msg.Nickname}}</div>
+                <div class="chat-companion-nickname" *ngIf="msg.Nickname !== accountData.Nickname">{{msg.Nickname}}</div>
+                <div>> {{msg.Content}} [{{msg.Time}}]</div>
+              </div>
 
- <canvas id="map" width=1000 height=1000>
+            </div>
+            
+        </div>
+        
+        <div class="chat-table-row">
+            <div class="chat-table-col chat-empty">
+              ~_~
+            </div>
+            <div class="chat-table-col">
+              <textarea class="chat-text-area"
+                [(ngModel)]="textAreaContent" 
+                placeholder="Введите текст"
+                (keypress)="OnKeyPressed($event)"></textarea>
+            </div>
+        </div>
+
+      </div>
+
+    </div> <!--chat-->
+  </td>
+
+</table>
+
+
+ <!-- <canvas id="map" width=1000 height=1000>
     Canvas not supported
- </canvas>
+ </canvas> -->
