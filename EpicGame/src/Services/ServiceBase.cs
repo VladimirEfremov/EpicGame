@@ -263,12 +263,24 @@ namespace EpicGame.src.Services
         public string GetDialogForUser(DialogId dialogId)
         {
             var result = Chat.GetDialogForUser(dialogId);
-            return result.ToJson();
+            return result?.ToJson();
         }
 
         public void SendMessage(MessageToAdd messageToAdd)
         {
             Chat.AddMessageForUser(messageToAdd.UserId, messageToAdd.CompanionId, messageToAdd.Message);
+        }
+
+        public int IsEventStackUpdated(int userId)
+        {
+            var result = EventStack.IsEventStackUpdated(userId);
+            return result;
+        }
+
+        public string GetAllEvents(int userId)
+        {
+            var result = EventStack.UpdateEventData(userId);
+            return result?.ToJson();
         }
     }
 }

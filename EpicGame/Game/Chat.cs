@@ -155,7 +155,7 @@ namespace EpicGame.Game
             return new MessageInfo[0];
         }
 
-        public int[] GetDialogsId(int userId)
+        public static int[] GetDialogsId(int userId)
         {
             if (s_ConverasetionsList.ContainsKey(userId))
             {

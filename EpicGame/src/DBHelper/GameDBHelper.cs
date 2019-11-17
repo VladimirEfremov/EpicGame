@@ -39,6 +39,8 @@
         public GameDBHelper()
         {
             logger.Warn("Create GameDBHelper instance");
+
+            GainMoney();
         }
 
         public void Dispose()
@@ -175,11 +177,19 @@
                         ++@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
 
+                        var core = m_SessionCoreEntity.SessionCoresTable
+                            .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                        if (core != null)
+                        {
+                            core.Money -= 10;
+                            m_SessionCoreEntity.SaveChanges();
+                        }
+
                         logger.Info("[call] CoreBuildCasern");
 
                         int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                        .Where(obj => obj.SessionCoreId == coreId)
-                        .FirstOrDefault().UserId;
+                            .Where(obj => obj.SessionCoreId == coreId)
+                            .FirstOrDefault().UserId;
                         string nick = m_UserContext.UserTable.AsNoTracking()
                             .Where(obj => obj.UserId == userId)
                             .FirstOrDefault()?.Nickname;
@@ -193,7 +203,7 @@
                         }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
-                            $"Build casern for core [{nick}]");
+                            "Была построена казарма.");
                     }
                     else
                     {
@@ -215,7 +225,7 @@
                         }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceFailure,
-                           $"Casern already build for core [{nick}]");
+                           "Казарма уже построена !");
                     }
                 }
             }
@@ -262,14 +272,19 @@
                         ++@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
 
+                        var core = m_SessionCoreEntity.SessionCoresTable
+                            .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                        if (core != null)
+                        {
+                            core.Money -= 10;
+                            m_SessionCoreEntity.SaveChanges();
+                        }
+
                         logger.Info("[call] CoreBuildGoldMining");
 
                         int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                        .Where(obj => obj.SessionCoreId == coreId)
-                        .FirstOrDefault().UserId;
-                        string nick = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == userId)
-                            .FirstOrDefault()?.Nickname;
+                            .Where(obj => obj.SessionCoreId == coreId)
+                            .FirstOrDefault().UserId;
                         if (userId <= 0)
                         {
                             logger.Error($"UserId [{userId}] <= 0");
@@ -280,7 +295,7 @@
                         }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceSuccess,
-                            $"Build gold mining for core [{nick}]");
+                            $"Построена шахта для добычи золота.");
                     }
                     else
                     {
@@ -302,7 +317,7 @@
                         }
                         EventLogger.AddLogForUser(userId,
                             LogType.ProduceFailure,
-                           $"Gold mining already build for core [{nick}]");
+                           $"Шахта для добычи золота уже построена !");
                     }
                 }
             }
@@ -349,14 +364,19 @@
                         ++@base.WorkersNumber;
                         m_SessionBasesEntity.SaveChanges();
 
+                        var core = m_SessionCoreEntity.SessionCoresTable
+                            .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                        if (core != null)
+                        {
+                            core.Money -= 10;
+                            m_SessionCoreEntity.SaveChanges();
+                        }
+
                         logger.Info("[call] CoreBuildDefenceTower");
 
                         int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                         .Where(obj => obj.SessionCoreId == coreId)
                         .FirstOrDefault().UserId;
-                        string nick = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == userId)
-                            .FirstOrDefault()?.Nickname;
                         if (userId <= 0)
                         {
                             logger.Error($"UserId [{userId}] <= 0");
@@ -365,20 +385,16 @@
                         {
                             logger.Info($"UserId [{userId}]");
                         }
-                        EventLogger.AddLogForUser(userId,
-                            LogType.ProduceSuccess,
-                            $"Build defence tower for core [{nick}]");
+                        EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
+                            "Построена защитная башня.");
                     }
                     else
                     {
                         logger.Warn($"DefenceTower already build for core [coreId: {coreId}]");
 
                         int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
-                        .Where(obj => obj.SessionCoreId == coreId)
-                        .FirstOrDefault().UserId;
-                        string nick = m_UserContext.UserTable.AsNoTracking()
-                            .Where(obj => obj.UserId == userId)
-                            .FirstOrDefault()?.Nickname;
+                            .Where(obj => obj.SessionCoreId == coreId)
+                            .FirstOrDefault().UserId;
                         if (userId <= 0)
                         {
                             logger.Error($"UserId [{userId}] <= 0");
@@ -387,9 +403,8 @@
                         {
                             logger.Info($"UserId [{userId}]");
                         }
-                        EventLogger.AddLogForUser(userId,
-                           LogType.ProduceFailure,
-                           $"Defence tower already build for core [{nick}]");
+                        EventLogger.AddLogForUser(userId, LogType.ProduceFailure,
+                           "Защитная башня уже построена !");
                     }
                 }
             }
@@ -424,6 +439,14 @@
                     ++@base.WorkersNumber;
                     m_SessionBasesEntity.SaveChanges();
 
+                    var core = m_SessionCoreEntity.SessionCoresTable
+                        .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                    if (core != null)
+                    {
+                        core.Money -= 10;
+                        m_SessionCoreEntity.SaveChanges();
+                    }
+
                     logger.Info("[call] BaseProduceWorker");
 
                     int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
@@ -442,7 +465,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
-                        $"Produce new worker [{nick}] |{@base.WorkersNumber}|");
+                        $"Произведен новыый рабочий [всего рабочих: {@base.WorkersNumber}]");
                 }
                 else
                 {
@@ -462,9 +485,8 @@
                     {
                         logger.Info($"UserId [{userId}]");
                     }
-                    EventLogger.AddLogForUser(userId,
-                        LogType.ProduceFailure,
-                        $"Workers capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
+                    EventLogger.AddLogForUser(userId, LogType.ProduceFailure,
+                        "Был превышен лимит для рабочих. Нужно увеличить вместимость базы для производства новых рабочих !");
                 }
             }
             else
@@ -476,8 +498,7 @@
         public void CasernProduceWarrior(int coreId)
         {
             int seconds = 0;
-            var casern =
-                m_SessionCasernsEntity.SessionCasernsTable
+            var casern = m_SessionCasernsEntity.SessionCasernsTable
                 .Where(obj => obj.SessionCoreId == coreId)
                 .FirstOrDefault();
             if (casern != null)
@@ -497,14 +518,19 @@
                     ++casern.WarriorsNumber;
                     m_SessionCasernsEntity.SaveChanges();
 
+                    var core = m_SessionCoreEntity.SessionCoresTable
+                        .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                    if (core != null)
+                    {
+                        core.Money -= 10;
+                        m_SessionCoreEntity.SaveChanges();
+                    }
+
                     logger.Info("[call] CasernProduceWarrior");
 
                     int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                         .Where(obj => obj.SessionCoreId == coreId)
                         .FirstOrDefault().UserId;
-                    string nick = m_UserContext.UserTable.AsNoTracking()
-                        .Where(obj => obj.UserId == userId)
-                        .FirstOrDefault()?.Nickname;
                     if (userId <= 0)
                     {
                         logger.Error($"UserId [{userId}] <= 0");
@@ -515,7 +541,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
-                        $"Produce new warrior [{nick}] |{casern.WarriorsNumber}|");
+                        $"Произведен новыый воин [всего войнов: {casern.WarriorsNumber}]");
                 }
                 else
                 {
@@ -537,7 +563,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceFailure,
-                        $"Warriors capacity limit exceeded for core !!! [nick: {nick}, coreId: {coreId}]");
+                        "Улучшите вместимость казармы для производства новых боевых юнитов!");
                 }
             }
             else
@@ -571,14 +597,19 @@
                     ++casernSession.AttackAircraftNumber;
                     m_SessionCasernsEntity.SaveChanges();
 
+                    var core = m_SessionCoreEntity.SessionCoresTable
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                    if (core != null)
+                    {
+                        core.Money -= 10;
+                        m_SessionCoreEntity.SaveChanges();
+                    }
+
                     logger.Info("[call] CasernProduceAttackAircraft");
 
                     int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                         .Where(obj => obj.SessionCoreId == coreId)
                         .FirstOrDefault().UserId;
-                    string nick = m_UserContext.UserTable.AsNoTracking()
-                        .Where(obj => obj.UserId == userId)
-                        .FirstOrDefault()?.Nickname;
                     if (userId <= 0)
                     {
                         logger.Error($"UserId [{userId}] <= 0");
@@ -589,7 +620,7 @@
                     }
                     EventLogger.AddLogForUser(userId,
                         LogType.ProduceSuccess,
-                       $"Produce new attack aircraft [{nick}] |{casernSession.AttackAircraftNumber}|");
+                       $"Произведен новый атакующий корабль [всего атакующих кораблей: {casernSession.WarriorsNumber}]");
                 }
                 else
                 {
@@ -609,9 +640,8 @@
                     {
                         logger.Info($"UserId [{userId}]");
                     }
-                    EventLogger.AddLogForUser(userId,
-                        LogType.ProduceFailure,
-                       $"AttackAircraft capacity limit exceeded for core !!! [nick: {nick}] |{casernSession.AttackAircraftNumber}|");
+                    EventLogger.AddLogForUser(userId, LogType.ProduceFailure,
+                       "Улучшите вместимость казармы для производства новых боевых юнитов!");
                 }
             }
             else
@@ -670,11 +700,11 @@
 
                             EventLogger.AddLogForUser(userId,
                                 LogType.ProduceSuccess,
-                                $"Add new worker to gold mining [{nick}] |{goldMiningSession.WorkersNumber}|");
+                                $"Добавлен рабочий на шахту [всего рабочих на шахте: {goldMiningSession.WorkersNumber}|");
                         }
                         else
                         {
-                            logger.Warn($"goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
+                            logger.Warn($"gold mining capacity exceeded goldMining.WorkersNumber [coreId: {coreId}] < goldMiningBuilding.Capacity");
 
                             int userId = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
                             .Where(obj => obj.SessionCoreId == coreId)
@@ -692,7 +722,7 @@
                             }
                             EventLogger.AddLogForUser(userId,
                                LogType.ProduceFailure,
-                               $"Gold mining capacity exceeded [{nick}] |{goldMiningSession.WorkersNumber}|");
+                               $"Превышен лимит шахты, необходимо улучшение !");
                         }
                     }
                     else
@@ -1018,7 +1048,14 @@
                     });
                 }
 
+                var winnerStat = statsList.FirstOrDefault(obj => obj.SessionCoreId == winnerId);
+                winnerStat.Scores += 30;
+                ++winnerStat.Wins;
+                var loserStat = statsList.FirstOrDefault(obj => obj.SessionCoreId == loserId);
+                ++loserStat.Defeats;
+
                 statsList.OrderBy(obj => obj.Rating);
+
                 for (int i = 0; i < statsList.Count; i++)
                 {
                     if (statsList[i].SessionCoreId == winnerId)
@@ -1030,6 +1067,7 @@
                         statsList[i].Rating = i + 1;
                     }
                 }
+
                 m_SessionStatisticEntity.SaveChanges();
             }
             else
@@ -1195,7 +1233,6 @@
             }
         }
 
-        //TODO: у пользователя может и не быть casern
         public BattleResponse DuelBattle(int attackerCoreId, int defenderCoreId)
         {
             var attackerCore = GetCoreByIdAsNoTracking(attackerCoreId)?.FromJson<SessionCoresTable>();
@@ -1213,15 +1250,8 @@
                         logger.Warn("Attackers or Defenders have no army!");
                         EventLogger.AddLogForUser(
                             attackerCore.UserId, LogType.BattleFailure,
-                            $"You have {attackers.Count} army, your enemy have {defenders.Count} army. " +
-                            "So global police can't let you to attack that player!");
-
-                        EventLogger.AddLogForUser(
-                            defenderCore.UserId, LogType.BattleFailure,
-                            $"Someone trying to attack you but " +
-                                ((attackers.Count <= 0) ? "attackers have no army" : "you have no army!") +
-                            "So global police can't let them to attack!");
-
+                            $"У вас армия из {attackers.Count} юнитов, ваш враг имеет армию из {defenders.Count} юнитов. " +
+                            "Поэтому вы не можете напасть.");
                         return new BattleResponse() { Message = "No battle", WhoWonTheBattle = -1 };
                     }
                     
@@ -1252,15 +1282,15 @@
 
                         if (attackerCore != null)
                         {
-                            EventLogger.AddLogForUser(
-                                  attackerCore.UserId, LogType.BattleFailure,
-                                  $"Casern warriors & attackaircraft number updated!");
+                            EventLogger.AddLogForUser(attackerCore.UserId, LogType.BattleFailure,
+                                  $"Количество юнитов в казарме было обновлено.");
                         }
                     }
                     else
                     {
                         logger.Error($"Attackers don't have casern!");
-                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure, $"You have no core!");
+                        EventLogger.AddLogForUser(attackerCoreId, LogType.BattleFailure, 
+                            $"Вам необходима казарма для выполнения этого действия!");
                     }
 
                     var defendersCasern = m_SessionCasernsEntity.SessionCasernsTable
@@ -1288,7 +1318,7 @@
                         if (defenderCore != null)
                         {
                             EventLogger.AddLogForUser(defenderCore.UserId, LogType.BattleFailure,
-                                  $"Casern warriors & attackaircraft number updated!");
+                                  $"Количество юнитов в казарме было обновлено.");
                         }
                     }
                     else
@@ -1308,17 +1338,17 @@
                         if (result.WhoWonTheBattle == 0)
                         {
                             EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
-                                $"You won the battle, {defenderUser.Nickname}'s army been fully destroyed !");
+                                $"Вы выиграли сражение, армия {defenderUser.Nickname} была полностью уничтожена!");
                             EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
-                                $"Your army been fully destroyed by {attackerUser.Nickname}");
+                                $"Ваша армия была полностью уничтожена {attackerUser.Nickname} !");
                             AddStatisticForDuel(attackerCoreId, defenderCoreId);
                         }
                         else if (result.WhoWonTheBattle == 1)
                         {
                             EventLogger.AddLogForUser(defenderUser.UserId, LogType.BattleFailure,
-                                $"You won the battle, {attackerUser.Nickname}'s army been fully destroyed, core was protected !");
+                                $"Вы выиграли сражение, армия { attackerUser.Nickname} была полностью уничтожена!!");
                             EventLogger.AddLogForUser(attackerUser.UserId, LogType.BattleFailure,
-                                $"Your army been fully destroyed by {defenderUser.Nickname}");
+                                $"Ваша армия была полностью уничтожена {defenderUser.Nickname} !");
                             AddStatisticForDuel(defenderCoreId, attackerCoreId);
                         }
                     }
@@ -1329,14 +1359,14 @@
                 {
                     logger.Error("Defender core == null!");
                     EventLogger.AddLogForUser(defenderCore.UserId,LogType.BattleFailure,
-                        $"Defender have no core!");
+                        "У вас нету core !");
                 }
             }
             else 
             {
                 logger.Error("Attackers core == null!");
                 EventLogger.AddLogForUser(attackerCore.UserId, LogType.BattleFailure,
-                    $"You have no core!");
+                    "У вас нету core !");
             }
             return new BattleResponse() { Message = "No Battle", WhoWonTheBattle = -1 };
         }
@@ -1526,7 +1556,7 @@
                 ++@base.AttackUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                var core = m_SessionCoreEntity.SessionCoresTable
                        .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
@@ -1540,8 +1570,12 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId,LogType.ProduceSuccess,
-                   $"Upgrade base attack!");
-
+                   "Было произведено улучшение атаки главного здания!");
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1554,7 +1588,7 @@
                 ++@base.DefenceUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                var core = m_SessionCoreEntity.SessionCoresTable
                       .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
@@ -1568,7 +1602,12 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade base defence!");
+                   "Было произведено улучшение защиты главного здания!");
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1581,7 +1620,7 @@
                 ++@base.CapacityUpgrade;
                 m_SessionBasesEntity.SaveChanges();
 
-                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                var core = m_SessionCoreEntity.SessionCoresTable
                       .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
@@ -1595,7 +1634,12 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade base capacity!");
+                   "Было произведено улучшение вместимости главного здания");
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1608,7 +1652,7 @@
                 ++casern.CapacityUpgrade;
                 m_SessionCasernsEntity.SaveChanges();
 
-                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                var core = m_SessionCoreEntity.SessionCoresTable
                       .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
@@ -1622,7 +1666,12 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade casern capacity!");
+                   "Было произведено улучшение вместимости казармы !");
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1635,7 +1684,7 @@
                 ++goldMining.CapacityUpgrade;
                 m_SessionGoldMiningsEntity.SaveChanges();
 
-                var core = m_SessionCoreEntity.SessionCoresTable.AsNoTracking()
+                var core = m_SessionCoreEntity.SessionCoresTable
                       .FirstOrDefault(obj => obj.SessionCoreId == coreId);
                 int userId = (core != null) ? core.UserId : -1;
                 string nick = m_UserContext.UserTable.AsNoTracking()
@@ -1649,7 +1698,12 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade gold mining capacity!");
+                   "Было произведено улучшение вместимости шахты для добычи золота !");
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1676,7 +1730,15 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   $"Upgrade defence tower attack!");
+                   "Было произведено улучшение атаки защитного здания !");
+
+                var core = m_SessionCoreEntity.SessionCoresTable
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
 
@@ -1702,7 +1764,15 @@
                     logger.Info($"UserId [{userId}]");
                 }
                 EventLogger.AddLogForUser(userId, LogType.ProduceSuccess,
-                   "Upgrade defence tower defence!");
+                   "Было произведено улучшение вместимости шахты для добычи золота !");
+                
+                var core = m_SessionCoreEntity.SessionCoresTable
+                    .FirstOrDefault(obj => obj.SessionCoreId == coreId);
+                if (core != null)
+                {
+                    core.Money -= 10;
+                    m_SessionCoreEntity.SaveChanges();
+                }
             }
         }
     
@@ -1849,30 +1919,70 @@
         {
             if (Chat.s_ConverasetionsList.ContainsKey(userId))
             {
-                var keyArray = Chat.s_ConverasetionsList[userId].Keys.ToArray();
-                var result = new DialogButtonInfo[keyArray.Length];
+                int[] dialogsIds = Chat.GetDialogsId(userId);
+                var result = new DialogButtonInfo[dialogsIds.Length];
                 var userArray = m_UserContext.UserTable.AsNoTracking();
                 for (int i = 0; i < result.Length; i++)
                 {
-                    var userNickname = userArray.FirstOrDefault(obj => obj.UserId == userId)?.Nickname;
-                    if (i < result.Length)
+                    var dialogId = dialogsIds[i];
+                    var userNickname = userArray.FirstOrDefault(obj => obj.UserId == dialogId)?.Nickname;
+                    result[i] = new DialogButtonInfo()
                     {
-                        result[i] = new DialogButtonInfo()
-                        {
-                            Nickname = userNickname,
-                            UserId = keyArray[i]
-                        };
-                    }
+                        Nickname = userNickname,
+                        UserId = dialogsIds[i]
+                    };
                 }
                 return result.ToJson();
             }
             return new DialogButtonInfo[0].ToJson();
         }
 
-        public void SendMessage(SendMessageStruct toSend)
+        public void GainMoney()
         {
-            //Chat.AddMessageForUser(toSend.UserId, toSend.CompanionId, toSend.Message);
-        }
+            var gameUnitsTable = m_GameUnitsEntity.GameUnitsTable;
+            var gameUnitWorker = gameUnitsTable.FirstOrDefault(obj => obj.GameUnitName.Trim() == "Worker");
+            var gameUnitWarrior = gameUnitsTable.FirstOrDefault(obj => obj.GameUnitName.Trim() == "Warrior");
+            var gameUnitAttackAircraft = gameUnitsTable.FirstOrDefault(obj => obj.GameUnitName.Trim() == "AttackAircraft");
 
+            Thread th = new Thread(() =>
+            {
+                while (true)
+                {
+                    //every minute
+                    Thread.Sleep(1 * 60 * 1000);
+
+                    var coreTable = m_SessionCoreEntity.SessionCoresTable;
+                    foreach (var core in coreTable)
+                    {
+                        var goldMining = m_SessionGoldMiningsEntity.SessionGoldMiningsTable.AsNoTracking()
+                            .FirstOrDefault(obj => obj.SessionCoreId == core.SessionCoreId);
+                        var casern = m_SessionCasernsEntity.SessionCasernsTable.AsNoTracking()
+                            .FirstOrDefault(obj => obj.SessionCoreId == core.SessionCoreId);
+                        
+                        if (goldMining != null)
+                        {
+                            core.Money +=
+                                ((gameUnitWorker.GameUnitGoldIncome - gameUnitWorker.GameUnitGoldOutcome)
+                                 * goldMining.WorkersNumber);
+                        }
+
+                        if (casern != null)
+                        {
+                            core.Money +=
+                               ((gameUnitWarrior.GameUnitGoldIncome - gameUnitWarrior.GameUnitGoldOutcome)
+                                * casern.WarriorsNumber)
+                               +
+                               ((gameUnitAttackAircraft.GameUnitGoldIncome - gameUnitAttackAircraft.GameUnitGoldOutcome)
+                                * casern.WarriorsNumber);
+                        }
+
+                        EventStack.AddEventForUser(core.UserId, EventType.GoldUpdated);
+                    }
+
+                    m_SessionCoreEntity.SaveChanges();
+                }
+            });
+            th.Start();
+        }
     }
 }

@@ -18,6 +18,7 @@ import { TwoUsers } from '../game/game-structures/TwoUsers';
 import { DialogButtonInfo } from './game-structures/DialogButtonInfo';
 import { MessageInfo } from './game-structures/MessageInfo';
 import { SendMessageStruct } from './game-structures/SendMessageStruct';
+import { EventType } from './game-structures/EventType.enum';
 
 @Component({
   selector: 'app-game',
@@ -157,6 +158,7 @@ export class GameComponent implements OnInit
   //Dialog
   isDialogVisible: boolean = false;
   dialogsButtonInfo:DialogButtonInfo[] = [];
+  selecterDialog: DialogButtonInfo = {UserId:-1,Nickname:""};
   dialog: MessageInfo[] = [];
   textAreaContent: string = "";
 
@@ -169,20 +171,8 @@ export class GameComponent implements OnInit
   ngOnInit() 
   {
       console.log("OnInit()");
-      //this.httpGameService.GetCoreRenderable()
-      //  .subscribe( data => {
-      //      console.log("[success] GetCoreRenderable");
-      //      this.map.thisRenderable = data;
-      //  },
-      //  error => {
-      //      console.log("[error] GetCoreRenderable");
-      //  });
 
       this.GetAccountData();
-
-      //this.map.Init();
-      //this.map.DrawWorld();
-      //window.requestAnimationFrame(this.map.DrawWorld);
 
       this.httpGameService
         .GetAllUserLogData(
@@ -261,19 +251,72 @@ export class GameComponent implements OnInit
         this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
         this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
 
-        //setInterval(
-        //  ()=>{
-        //    this.httpGameService.GetOtherRenderable()
-        //      .subscribe(
-        //        data => {
-        //            console.log("[success] GetOtherRenderable");
-        //            if (data.length > 0)
-        //            {
-        //                this.map.otherRenderable = data;
-        //            }
-        //        }, error => { console.log("[error] GetOtherRenderable" + error); }
-        //    );
-        //}, 250);
+        setInterval(
+          () => {
+            this.httpGameService.IsEventStackUpdated()
+              .subscribe(
+                (data) => {
+                  if (data > 0)
+                  {
+                    this.httpGameService.GetAllEvent(this.accountData.UserId)
+                    .subscribe(
+                      (data) => {
+                        if (data != null && data.length > 0)
+                        {
+                          console.log("[success] GetAllEvents");
+                          for (let i:number = 0; i < data.length;i++)
+                          {
+                            let element:EventType = data[i];
+                            switch (element) {
+                              case EventType.None: {
+                                break;
+                              }
+                              case EventType.BattleEvent: 
+                              case EventType.GoldUpdated:
+                                this.httpGameService
+                                .GetCoreInfoById()
+                                .subscribe(
+                                    (data:CoreInfo) => { 
+                                        console.log("[success] GetCoreById ");
+                                        this.coreInfo = data;
+                                    },
+                                    error => console.log("[error] GetCoreById: "+error)
+                                );
+                                break;
+                              case EventType.ChatMessageSend: {
+                                this.httpGameService
+                                .GetDialogForUser(this.selecterDialog.UserId)
+                                .subscribe(
+                                  (data) => {
+                                    console.log("[success] GetDialogForUser");
+                                    if (data != null)
+                                    {
+                                      if (data.length > 0)
+                                      {
+                                        console.log("[success] dialog data updated");
+                                        this.dialog = data;
+                                      }
+                                    }
+                                  },
+                                  (error) => {
+                                    console.log("[error] GetDialogForUser: " + error);
+                                  }
+                                );
+                                break;
+                              }
+                            }
+                          }
+                        }
+                      },
+                      (error) => {
+                        console.log("[error] GetAllEvents: " + error);
+                      });
+                  }
+                },
+                (error) => {
+                  console.log("[error] IsEventStackUpdated: " + error);
+                })
+          }, 500);
 
 
   }
@@ -352,6 +395,10 @@ export class GameComponent implements OnInit
             console.log("[error] GetAccountData: " + err);
             this.accountData.Nickname = "null";
         });
+  }
+
+  OnBackButtonClick() : void {
+    this.httpGameService.SwitchToMenu();
   }
 
   OnCoreBtnClick() : void
@@ -1065,12 +1112,13 @@ export class GameComponent implements OnInit
       );
   }
 
-  OnDialogUserClick(userId:DialogButtonInfo) : void 
+  OnDialogUserClick(dialogButtonInfo:DialogButtonInfo) : void 
   {
-    this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+    this.selecterDialog = dialogButtonInfo;
+    this.httpGameService.GetDialogForUser(dialogButtonInfo.UserId)
     .subscribe(
       (data) => {
-        console.log("[success] GetAllDialogMessages");
+        console.log("[success] GetDialogForUser");
         if (data != null)
         {
           if (data.length > 0)
@@ -1080,13 +1128,16 @@ export class GameComponent implements OnInit
         }
       },
       (error) => {
-        console.log("[error] GetAllDialogMessages: " + error);
+        console.log("[error] GetDialogForUser: " + error);
       }
     );
   }
 
   OnStartConversationClick()
   {
+      this.selecterDialog.UserId = this.selectedUser.UserId;
+      this.selecterDialog.Nickname = this.selectedUser.Nickname;
+      
       this.isUserActionsWindowVisible = false;
       this.httpGameService.GetDialogButtonInfo()
         .subscribe(
@@ -1178,4 +1229,6 @@ export class GameComponent implements OnInit
         );
     }
   }
+
+  
 }

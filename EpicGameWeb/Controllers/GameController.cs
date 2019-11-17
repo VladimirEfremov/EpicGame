@@ -330,5 +330,37 @@ namespace EpicGameWeb.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("IsEventStackUpdated")]
+        public int IsEventStackUpdated()
+        {
+            int userId;
+            var userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var isEventStackUpdated = RemoteProcedureCallClass.GetBaseChannel().IsEventStackUpdated(userId);
+                return isEventStackUpdated;
+            }
+            return -1;
+        }
+
+        [HttpGet]
+        [Route("GetAllEvents")]
+        public EventType[] GetAllEvents()
+        {
+            int userId;
+            var userIdString = GetSessionVariable("UserId");
+            if (System.Int32.TryParse(userIdString, out userId))
+            {
+                var resultJson = RemoteProcedureCallClass
+                    .GetBaseChannel()
+                    .GetAllEvents(userId);
+                EventType[] result = 
+                    resultJson?.FromJson<EventType[]>();
+                return result;
+            }
+            return new EventType[0];
+        }
+
     }
 }

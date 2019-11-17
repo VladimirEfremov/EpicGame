@@ -33,5 +33,11 @@ namespace EpicGameCommon
         [OperationContract]
         void SendMessage(MessageToAdd toSend);
 
+        [OperationContract]
+        int IsEventStackUpdated(int userId);
+
+        [OperationContract]
+        string GetAllEvents(int userId);
+    
     }
 }

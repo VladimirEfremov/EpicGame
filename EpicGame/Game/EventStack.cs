@@ -1,16 +1,8 @@
-﻿using System;
+﻿using EpicGameCommon.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EpicGame.Game
 {
-    public enum EventType
-    {
-        None, 
-        BattleEvent,
-        ChatMessageSend
-    }
-
     public class EventStack
     {
         private static Dictionary<int, List<EventType>> s_EventData;
@@ -20,21 +12,21 @@ namespace EpicGame.Game
             s_EventData = new Dictionary<int, List<EventType>>();
         }
 
-        public static bool IsLogUpdated(int userId)
+        public static int IsEventStackUpdated(int userId)
         {
             if (s_EventData.ContainsKey(userId))
             {
-                return s_EventData[userId].Count > 0;
+                return s_EventData[userId].Count > 0 ? 1 : 0;
             }
-            return false;
+            return -1;
         }
 
-        public static EventType[] UpdateEventData(LogRequest request)
+        public static EventType[] UpdateEventData(int userId)
         {
-            if (s_EventData.ContainsKey(request.UserId))
+            if (s_EventData.ContainsKey(userId))
             {
-                var eventArray = s_EventData[request.UserId]?.ToArray();
-                s_EventData[request.UserId].Clear();
+                var eventArray = s_EventData[userId]?.ToArray();
+                s_EventData[userId].Clear();
                 return eventArray;
             }
             return null;
@@ -48,6 +40,11 @@ namespace EpicGame.Game
                 {
                     s_EventData[userId].Add(type);
                 }
+            }
+            else
+            {
+                var list = new List<EventType>(1) { type };
+                s_EventData.Add(userId, list);
             }
         }
 

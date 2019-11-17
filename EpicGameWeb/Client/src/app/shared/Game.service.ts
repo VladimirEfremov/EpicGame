@@ -14,6 +14,7 @@ import { StatInfo } from '../game/game-structures/StatInfo';
 import { MessageInfo } from '../game/game-structures/MessageInfo';
 import { DialogButtonInfo } from '../game/game-structures/DialogButtonInfo';
 import { SendMessageStruct } from '../game/game-structures/SendMessageStruct';
+import { EventType } from '../game/game-structures/EventType.enum';
 
 @Injectable()
 export class GameService 
@@ -100,6 +101,12 @@ export class GameService
 
     sendMessageUrl: string = 
         "http://localhost:6430/api/game/SendMessage";
+
+    getAllEventsUrl: string = 
+        "http://localhost:6430/api/game/GetAllEvents";
+
+    isEventStackUpdatedUrl:string =
+        "http://localhost:6430/api/game/IsEventStackUpdated";
 
     constructor(
         private httpClient: HttpClient,
@@ -290,5 +297,15 @@ export class GameService
     {
         // { companionId, message }
         return this.httpClient.post<SendMessageStruct>(this.sendMessageUrl, toSend);
+    }
+
+    public IsEventStackUpdated(): Observable<number>
+    {
+        return this.httpClient.get<number>(this.isEventStackUpdatedUrl);
+    }
+
+    public GetAllEvent(userId:number) : Observable<EventType[]>
+    {
+        return this.httpClient.get<EventType[]>(this.getAllEventsUrl);
     }
 }

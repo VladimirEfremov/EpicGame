@@ -60,6 +60,7 @@
     <Compile Include="JSONHelper\JsonHelper.cs" />
     <Compile Include="Models\CoreInfo.cs" />
     <Compile Include="Models\DialogId.cs" />
+    <Compile Include="Models\EventType.cs" />
     <Compile Include="Models\Game\GameBuildingProductionTable.cs" />
     <Compile Include="Models\Game\GameBuildingProductionTable1.cs" />
     <Compile Include="Models\Game\GameBuildingsTable.cs" />
