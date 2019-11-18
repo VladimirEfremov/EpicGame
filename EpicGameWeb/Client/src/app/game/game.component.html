@@ -342,14 +342,19 @@
               </div>
             </div>
 
-            <div class="chat-table-col chat-content">
-                
+            <div class="chat-table-col chat-content"> 
+              
               <div *ngFor="let msg of dialog">
-                <div class="chat-user-nickname" *ngIf="msg.Nickname === accountData.Nickname">{{msg.Nickname}}</div>
-                <div class="chat-companion-nickname" *ngIf="msg.Nickname !== accountData.Nickname">{{msg.Nickname}}</div>
-                <div>> {{msg.Content}} [{{msg.Time}}]</div>
+                <div class="chat-table-row">
+                
+                  <div class="chat-user-nickname" *ngIf="msg.Nickname === accountData.Nickname">{{msg.Nickname}}</div>
+                  <div class="chat-companion-nickname" *ngIf="msg.Nickname !== accountData.Nickname">{{msg.Nickname}}</div>
+                  <div class="chat-table-col-msg"> {{msg.Content}} </div>
+                  <div class="chat-table-col-time"> [{{msg.Time}}] </div>
+                  
+                </div>
+                
               </div>
-
             </div>
             
         </div>
@@ -359,7 +364,7 @@
               ~_~
             </div>
             <div class="chat-table-col">
-              <textarea class="chat-text-area"
+              <textarea class="chat-text-area" cols='31'
                 [(ngModel)]="textAreaContent" 
                 placeholder="Введите текст"
                 (keypress)="OnKeyPressed($event)"></textarea>

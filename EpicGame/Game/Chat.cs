@@ -2,6 +2,7 @@
 using System.Linq;
 using EpicGameCommon.Models;
 using System.Collections.Generic;
+using NLog;
 
 namespace EpicGame.Game
 {
@@ -20,11 +21,13 @@ namespace EpicGame.Game
 
         //UserId [CompanionId, Dialog]
         public static Dictionary<int, Dictionary<int, Dialog>> s_ConverasetionsList;
-
+        private static Logger m_Logger = LogManager.GetCurrentClassLogger();
 
         static Chat()
         {
             s_ConverasetionsList = new Dictionary<int, Dictionary<int, Dialog>>();
+
+            m_Logger.Info("Conversation list init!");
         }
 
         //user1: Hi
@@ -55,20 +58,16 @@ namespace EpicGame.Game
                 s_ConverasetionsList.Add(senderId, dictionary);
             }
             EventStack.AddEventForUser(getterId, EventType.ChatMessageSend);
+
+            m_Logger.Info($"Add ChatMessageEvent for user {getterId}");
         }
 
         public static Message[] GetDialogMessages(int userId, int companionId)
         {
-            if (s_ConverasetionsList.ContainsKey(userId))
+            if (s_ConverasetionsList.ContainsKey(userId) && 
+                s_ConverasetionsList[userId].ContainsKey(companionId))
             {
-                if (s_ConverasetionsList[userId].ContainsKey(companionId))
-                {
-                    return s_ConverasetionsList[userId][companionId].Data.ToArray();
-                }
-                else
-                {
-                    return null;
-                }
+                return s_ConverasetionsList[userId][companionId].Data.ToArray();
             }
             else
             {
@@ -116,6 +115,8 @@ namespace EpicGame.Game
                     }
                 }
 
+                m_Logger.Info("Get dialog for user from user and companion lists.");
+
                 return result;
             }
             else if (thisIdMessages != null)
@@ -127,12 +128,15 @@ namespace EpicGame.Game
                     {
                         result[i] = new MessageInfo()
                         {
-                            Nickname = src.DBHelper.GameDBHelper.GetUserNickById(dialogId.UserId),
+                            Nickname = userNick,
                             Content = thisIdMessages[i].Content,
                             Time = thisIdMessages[i].Time.ToShortTimeString()
                         };
                     }
                 }
+
+                m_Logger.Info("Get dialog for user from user list.");
+
                 return result;
             }
             else if (companionIdMessages != null)
@@ -144,12 +148,15 @@ namespace EpicGame.Game
                     {
                         result[i] = new MessageInfo()
                         {
-                            Nickname = src.DBHelper.GameDBHelper.GetUserNickById(dialogId.CompanionId),
+                            Nickname = companionNick,
                             Content = companionIdMessages[i].Content,
                             Time = companionIdMessages[i].Time.ToShortTimeString()
                         };
                     }
                 }
+                
+                m_Logger.Info("Get dialog for user from companion list.");
+
                 return result;
             }
             return new MessageInfo[0];
@@ -161,21 +168,50 @@ namespace EpicGame.Game
             {
                 //чат который мы начали
                 var resultList = s_ConverasetionsList[userId].Keys.ToList();
+                
                 //чат, который начали с нами
                 var allKeys = s_ConverasetionsList.Keys.ToArray();
                 for (int i = 0; i < allKeys.Length; i++)
                 {
-                    if (allKeys[i] != userId)
+                    int index = allKeys[i];
+                    if (index != userId && 
+                        s_ConverasetionsList[index].ContainsKey(userId) && 
+                        !resultList.Contains(index))
                     {
-                        if (s_ConverasetionsList[allKeys[i]].ContainsKey(userId))
-                        {
-                            resultList.Add(allKeys[i]);
-                        }
+                        resultList.Add(index);
                     }
                 }
+                
+                m_Logger.Info($"Get DialogID for user {userId} from user and companion lists.");
+
                 return resultList.ToArray();
             }
-            return new int[0];
+            else
+            {
+                //чат, который начали с нами
+                var resultList = new List<int>();
+                var allKeys = s_ConverasetionsList.Keys.ToArray();
+                for (int i = 0; i < allKeys.Length; i++)
+                {
+                    int index = allKeys[i];
+                    if (index != userId && 
+                        s_ConverasetionsList[index].ContainsKey(userId))
+                    {
+                        resultList.Add(index);
+                    }
+                }
+
+                if (resultList.Count > 0)
+                {
+                    m_Logger.Info($"Get DialogID for user {userId} from companion list.");
+                    return resultList.ToArray();
+                }
+                else
+                {
+                    m_Logger.Info($"Can't get DialogID for user {userId}");
+                    return new int[0];
+                }
+            }
         }
 
 

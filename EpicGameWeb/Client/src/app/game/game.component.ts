@@ -158,7 +158,7 @@ export class GameComponent implements OnInit
   //Dialog
   isDialogVisible: boolean = false;
   dialogsButtonInfo:DialogButtonInfo[] = [];
-  selecterDialog: DialogButtonInfo = {UserId:-1,Nickname:""};
+  selectedDialog: DialogButtonInfo = {UserId:-1,Nickname:""};
   dialog: MessageInfo[] = [];
   textAreaContent: string = "";
 
@@ -239,17 +239,7 @@ export class GameComponent implements OnInit
         this.dialogsButtonInfo.push({UserId:2, Nickname:"Nike"});
         this.dialog.push({Nickname: "Buka", Content: "Hi", Time: "20:00"});
         this.dialog.push({Nickname: "Buka", Content: "How are you ?", Time: "20:30"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
-        this.dialog.push({Nickname: "Buka", Content: "Is all okey ?!", Time: "20:40"});
+        this.dialog.push({Nickname: "Buka", Content: "01234567890123456", Time: "20:40"});
 
         setInterval(
           () => {
@@ -260,13 +250,13 @@ export class GameComponent implements OnInit
                   {
                     this.httpGameService.GetAllEvent(this.accountData.UserId)
                     .subscribe(
-                      (data) => {
-                        if (data != null && data.length > 0)
+                      (allEvents) => {
+                        if (allEvents != null && allEvents.length > 0)
                         {
                           console.log("[success] GetAllEvents");
-                          for (let i:number = 0; i < data.length;i++)
+                          for (let i:number = 0; i < allEvents.length;i++)
                           {
-                            let element:EventType = data[i];
+                            let element:EventType = allEvents[i];
                             switch (element) {
                               case EventType.None: {
                                 break;
@@ -284,24 +274,35 @@ export class GameComponent implements OnInit
                                 );
                                 break;
                               case EventType.ChatMessageSend: {
-                                this.httpGameService
-                                .GetDialogForUser(this.selecterDialog.UserId)
-                                .subscribe(
-                                  (data) => {
-                                    console.log("[success] GetDialogForUser");
-                                    if (data != null)
-                                    {
-                                      if (data.length > 0)
+                                this.httpGameService.GetDialogButtonInfo()
+                                  .subscribe(
+                                    (_dialogButtonInfo) => {
+                                      if (_dialogButtonInfo != null && _dialogButtonInfo.length > 0)
                                       {
-                                        console.log("[success] dialog data updated");
-                                        this.dialog = data;
-                                      }
+                                        console.log("[success] GetDialogButtonInfo");
+                                        this.selectedDialog = _dialogButtonInfo[0];
+                                        this.dialogsButtonInfo = _dialogButtonInfo;
+                                        this.httpGameService
+                                          .GetDialogForUser(this.selectedDialog.UserId)
+                                          .subscribe(
+                                            (data) => {
+                                              console.log("[success] GetDialogForUser");
+                                              if (data != null && data.length > 0)
+                                              {
+                                                  console.log("[success] dialog data updated");
+                                                  this.dialog = data;
+                                              }
+                                            },
+                                            (error) => {
+                                              console.log("[error] GetDialogForUser: " + error);
+                                            });
+                                        }
+                                    },
+                                    (error) => {
+                                      console.log("[error] GetDialogButtonInfo: " + error);
                                     }
-                                  },
-                                  (error) => {
-                                    console.log("[error] GetDialogForUser: " + error);
-                                  }
-                                );
+                                  );
+
                                 break;
                               }
                             }
@@ -412,14 +413,24 @@ export class GameComponent implements OnInit
   OnBuildCasernBtnClick() : void
   {
     this.loggedData.PushBuildingMsg("Строится казарма");
-    this.httpGameService.CoreBuildCasern(this.accountData.CoreId);
-    this.httpGameService.GetCoreInfoById()
+    this.httpGameService.CoreBuildCasern(this.accountData.CoreId)
       .subscribe(
-          (data:CoreInfo) => { 
-              console.log("[success] GetCoreById "); 
-              this.coreInfo = data;
-          },
-          error => console.log("[error] GetCoreById: "+error)
+        (data) => {
+          console.log("[success] CoreBuildCasern");
+          this.httpGameService.GetCoreInfoById()
+          .subscribe(
+              (data:CoreInfo) => { 
+                  console.log("[success] GetCoreById "); 
+                  this.coreInfo = data;
+              },
+              error => {
+                console.log("[error] GetCoreById: "+error);
+              }
+          );
+        },
+        (error) => {
+          console.log("[error] CoreBuildCasern: " + error);
+        }
       );
   }
 
@@ -900,7 +911,7 @@ export class GameComponent implements OnInit
             {
               console.log(this.friendsUsers[f].Nickname + " === " + this.selectedUser.Nickname);
               if (this.friendsUsers[f].Nickname ===
-                this.selectedUser.Nickname)
+                  this.selectedUser.Nickname)
               {
                   console.log("[IsUserFriend] true");
                   result = true;
@@ -1114,7 +1125,7 @@ export class GameComponent implements OnInit
 
   OnDialogUserClick(dialogButtonInfo:DialogButtonInfo) : void 
   {
-    this.selecterDialog = dialogButtonInfo;
+    this.selectedDialog = dialogButtonInfo;
     this.httpGameService.GetDialogForUser(dialogButtonInfo.UserId)
     .subscribe(
       (data) => {
@@ -1135,10 +1146,12 @@ export class GameComponent implements OnInit
 
   OnStartConversationClick()
   {
-      this.selecterDialog.UserId = this.selectedUser.UserId;
-      this.selecterDialog.Nickname = this.selectedUser.Nickname;
-      
+      this.selectedDialog =   {
+        UserId: this.selectedUser.UserId,
+        Nickname: this.selectedUser.Nickname
+      };
       this.isUserActionsWindowVisible = false;
+
       this.httpGameService.GetDialogButtonInfo()
         .subscribe(
           (data) => {
@@ -1146,7 +1159,7 @@ export class GameComponent implements OnInit
             if (data != null && data.length > 0)
             {
               this.dialogsButtonInfo = data;
-              this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+              this.httpGameService.GetDialogForUser(this.selectedDialog.UserId)
                 .subscribe(
                   (data) => {
                     console.log("[success] GetAllDialogMessages");
@@ -1166,10 +1179,6 @@ export class GameComponent implements OnInit
             console.log("[error] GetDialogButtonInfo" + error);
           }
         );
-      //get dialog info
-      //get dialog with that user
-        //OnDialogUserClick
-      //open ui window
   }
 
   public OnKeyPressed($event:KeyboardEvent):boolean {
@@ -1180,19 +1189,39 @@ export class GameComponent implements OnInit
     else if ($event.keyCode === 13)
     {
         $event.preventDefault();
+
+        if (this.textAreaContent.length > 0)
+        {
+          var newTextAreaContent = '';
+          let charsInARow: number = 0;
+          let element; 
+          for (let i:number = 0; i < this.textAreaContent.length; i++)
+          {
+              element = this.textAreaContent.charAt(i);
+
+              if (element == '\n')
+              {
+                  charsInARow = 0;
+              }
+              
+              if (charsInARow > 0 && (charsInARow % 30 == 0) && newTextAreaContent.length > 0)
+              {
+                  newTextAreaContent += "\n" + element;
+              }
+              else 
+              {
+                newTextAreaContent += element;
+              }
+
+              ++charsInARow;
+          }
+        }
+
+        this.textAreaContent = newTextAreaContent;
+
         this.OnSendMessageClick();
     }
-    else {
-      if (this.textAreaContent.length > 0)
-      {
-        if (this.textAreaContent
-            .replace(/(\n)/g, '')
-            .length % 33 === 0)
-        {
-            this.textAreaContent += '\n';
-        }
-      }
-    }
+
     return true;
   }
 
@@ -1201,12 +1230,12 @@ export class GameComponent implements OnInit
     if (this.textAreaContent.trim().replace('\n', '').length > 0)
     {
       this.httpGameService
-        .SendMessage({CompanionId: this.selectedUser.UserId, Message: this.textAreaContent})
+        .SendMessage({CompanionId: this.selectedDialog.UserId, Message: this.textAreaContent})
         .subscribe(
           (data) => {
             console.log("[success] SendMessage");
             this.textAreaContent = "";
-            this.httpGameService.GetDialogForUser(this.selectedUser.UserId)
+            this.httpGameService.GetDialogForUser(this.selectedDialog.UserId)
               .subscribe(
                 (data) => {
                   console.log("[success] GetAllDialogMessages");

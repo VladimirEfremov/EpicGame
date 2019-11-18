@@ -845,7 +845,7 @@
                                     GoldMiningNumberOfWorkers = (goldMiningSession != null) ? goldMiningSession.WorkersNumber : 0
                                 };
                                 string coreInfoJson = coreInfo.ToJson();
-                                logger.Info($"CORE INFO SEND: {coreInfoJson}");
+                                logger.Info($"Core info send to user");
                                 return coreInfoJson;
                             }
                             else
@@ -1917,24 +1917,20 @@
 
         public string GetDialogButtonInfo(int userId)
         {
-            if (Chat.s_ConverasetionsList.ContainsKey(userId))
+            int[] dialogsIds = Chat.GetDialogsId(userId);
+            var result = new DialogButtonInfo[dialogsIds.Length];
+            var userArray = m_UserContext.UserTable.AsNoTracking();
+            for (int i = 0; i < result.Length; i++)
             {
-                int[] dialogsIds = Chat.GetDialogsId(userId);
-                var result = new DialogButtonInfo[dialogsIds.Length];
-                var userArray = m_UserContext.UserTable.AsNoTracking();
-                for (int i = 0; i < result.Length; i++)
+                var dialogId = dialogsIds[i];
+                var userNickname = userArray.FirstOrDefault(obj => obj.UserId == dialogId)?.Nickname;
+                result[i] = new DialogButtonInfo()
                 {
-                    var dialogId = dialogsIds[i];
-                    var userNickname = userArray.FirstOrDefault(obj => obj.UserId == dialogId)?.Nickname;
-                    result[i] = new DialogButtonInfo()
-                    {
-                        Nickname = userNickname,
-                        UserId = dialogsIds[i]
-                    };
-                }
-                return result.ToJson();
+                    Nickname = userNickname,
+                    UserId = dialogsIds[i]
+                };
             }
-            return new DialogButtonInfo[0].ToJson();
+            return result.ToJson();
         }
 
         public void GainMoney()
