@@ -148,7 +148,7 @@ export class GameComponent implements OnInit
   selectedFollowers:UserInfo[] = [];
   selectedFollowings:UserInfo[] = [];
 
-  isUserActionsWindowVisible = false;
+  isUserActionsWindowVisible = true;
   selectedUser : UserInfo;
   selectedUserCoreInfo : CoreInfo;
   isSelectedUserFriend:boolean = false;
@@ -265,7 +265,7 @@ export class GameComponent implements OnInit
                               case EventType.BattleEvent: 
                               case EventType.GoldUpdated:
                                 this.httpGameService
-                                .GetCoreInfoById()
+                                .GetCoreInfoById(this.accountData.CoreId)
                                 .subscribe(
                                     (data:CoreInfo) => { 
                                         console.log("[success] GetCoreById ");
@@ -338,7 +338,7 @@ export class GameComponent implements OnInit
             console.log("Get account data " +
             "[Nickname: " + this.accountData.Nickname);
             this.httpGameService
-              .GetCoreInfoById()
+              .GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById " +
@@ -418,7 +418,7 @@ export class GameComponent implements OnInit
       .subscribe(
         (data) => {
           console.log("[success] CoreBuildCasern");
-          this.httpGameService.GetCoreInfoById()
+          this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
           .subscribe(
               (data:CoreInfo) => { 
                   console.log("[success] GetCoreById "); 
@@ -443,7 +443,7 @@ export class GameComponent implements OnInit
       .subscribe(
           data  => {
               console.log("[CoreBuildGoldMining] success");
-              this.httpGameService.GetCoreInfoById()
+              this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById "); 
@@ -464,7 +464,7 @@ export class GameComponent implements OnInit
       .subscribe(
           data  => {
               console.log("[CoreBuildDefenceTower] success");
-              this.httpGameService.GetCoreInfoById()
+              this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById "); 
@@ -485,7 +485,7 @@ export class GameComponent implements OnInit
           data => {
               console.log("[success] BaseAttackUpgrade")
               this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -505,7 +505,7 @@ export class GameComponent implements OnInit
           data => {
               console.log("[success] BaseAttackUpgrade")
               this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -525,7 +525,7 @@ export class GameComponent implements OnInit
         data => {
             console.log("[success] BaseDefenceUpgrade")
             this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -545,7 +545,7 @@ export class GameComponent implements OnInit
         data => {
             console.log("[success] CasernCapacityUpgrade")
             this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -565,7 +565,7 @@ export class GameComponent implements OnInit
         data => {
             console.log("[success] GoldMiningCapacityUpgrade")
             this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -586,7 +586,7 @@ export class GameComponent implements OnInit
         data => {
             console.log("[success] DefenceTowerAttackUpgrade")
             this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -607,7 +607,7 @@ export class GameComponent implements OnInit
         data => {
             console.log("[success] DefenceTowerDefenceUpgrade")
             this.httpGameService
-                .GetCoreInfoById()
+                .GetCoreInfoById(this.accountData.CoreId)
                 .subscribe(
                     (data:CoreInfo) => { 
                         console.log("[success] GetCoreById");
@@ -627,7 +627,7 @@ export class GameComponent implements OnInit
       .subscribe(
         data  => {
             console.log("[BaseProduceWorker] success");
-            this.httpGameService.GetCoreInfoById()
+            this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById "); 
@@ -655,7 +655,7 @@ export class GameComponent implements OnInit
         .subscribe(
           data  => { 
               console.log("[CasernProduceWarrior] success");
-              this.httpGameService.GetCoreInfoById()
+              this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById "); 
@@ -676,7 +676,7 @@ export class GameComponent implements OnInit
         .subscribe(
             data  => {
                 console.log("[CasernProduceAttackAircraft] success");
-                this.httpGameService.GetCoreInfoById()
+                this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById "); 
@@ -706,7 +706,7 @@ export class GameComponent implements OnInit
       .subscribe(
           data  => { 
               console.log("[GoldMiningAddWorker] success");
-              this.httpGameService.GetCoreInfoById()
+              this.httpGameService.GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById "); 
@@ -898,6 +898,19 @@ export class GameComponent implements OnInit
       ", coreid: " + userInfo.CoreId);
     this.selectedUser = userInfo;
     //rework getcoreinfo this.getCoreStats
+    this.httpGameService.GetCoreInfoById(userInfo.CoreId)
+      .subscribe(
+        (data) => {
+          console.log("[success] GetCoreInfoById");
+          if (data != null)
+          {
+            this.selectedUserCoreInfo = data;
+          }
+        },
+        (error) => {
+          console.log("[error] GetCoreInfoById: " + error);
+        }
+      );
     this.isSelectedUserFriend = this.IsUserFriend();
   }
 
@@ -1085,7 +1098,7 @@ export class GameComponent implements OnInit
           console.log("[success] DuelBattle")
           result = data;
           this.httpGameService
-              .GetCoreInfoById()
+              .GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById ");
@@ -1110,7 +1123,7 @@ export class GameComponent implements OnInit
             console.log("[success] CoreBattle")
             result = data;
             this.httpGameService
-              .GetCoreInfoById()
+              .GetCoreInfoById(this.accountData.CoreId)
               .subscribe(
                   (data:CoreInfo) => { 
                       console.log("[success] GetCoreById ");

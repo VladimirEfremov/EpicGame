@@ -3,7 +3,6 @@
 td
 {
     text-align: left;
-    padding: 0.5rem;
 }
 
 
@@ -15,7 +14,7 @@ td
 
 .CoreTable
 {
-    width: 70rem;
+    width: 50rem;
     border: 1px solid black;
     border-left: 1px solid black;
 }
@@ -32,12 +31,11 @@ td
     background-color: gray;
 }
 
-.CommunicationTable
+.communication-table
 {
     width: 350px;
     height:200px;
     border: 1px solid black;
-    margin-right: 5%;
 }
 
 .cmntr {
@@ -63,8 +61,8 @@ td
     display: flex;
 }
 
-.Logger {
-    margin-left:25px;
+.logger {
+    margin-left:5px;
     background-color: #0f0d53;
     height:350px;
     width:650px;
@@ -73,29 +71,29 @@ td
     overflow-y: scroll;
 }
 
-.LoggerContent
+.logger-content
 {
     margin-left:1px;
     margin-top:5px;
     font-size:14px;
 }
 
-.LoggerDefaultContent
+.logger-default-content
 {
     color: #ffffff;
 }
 
-.LoggerBuildContent
+.logger-build-content
 {
     color: #f1ee12;
 }
 
-.LoggerWarContent
+.logger-war-content
 {
     color: #ff0000;
 }
 
-.LoggerCommunicationContent
+.logger-communication-content
 {
     color: #09ff00;
 }
@@ -131,9 +129,9 @@ td
 .UsersActionWindow {
     position: absolute;
     z-index:2;
-    height:600px;
-    width:650px;
-    background-color: rgb(0,0,0);
+    height:500px;
+    width:550px;
+    background-color: rgb(0,0,0, 1.0);
     color:white;
     font-size: 30px;
 }
@@ -153,20 +151,10 @@ td
 .chat {
     z-index: 1;
     width: 550px;
-    height: 550px;
+    height: 350px;
     background-color: rgba(0, 0, 0, 0.438);
     color:white;
-}
-
-.chat-close-button {
-    float: right;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    background-color: rgba(255, 255, 255, 0);
-    border-color: white;
-    color: rgb(255, 255, 255);
-    font-size:20px;
+    margin-left: 5px;
 }
 
 .chat-table {

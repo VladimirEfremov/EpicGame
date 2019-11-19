@@ -25,10 +25,4 @@ export class GameMenuComponent implements OnInit {
   {
       this.gameService.SwitchToStatisticTable();
   }
-
-  OnBtnPeopleClick() : void
-  {
-      //
-  }
-
 }

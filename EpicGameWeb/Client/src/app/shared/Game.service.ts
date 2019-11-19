@@ -174,9 +174,9 @@ export class GameService
         return this.httpClient.post(this.goldMiningAddWorkerUrl, coreId)
     }
 
-    public GetCoreInfoById():Observable<CoreInfo>
+    public GetCoreInfoById(coreId : number):Observable<CoreInfo>
     {
-        return this.httpClient.get<CoreInfo>(this.getCoreInfoByIdUrl);
+        return this.httpClient.post<CoreInfo>(this.getCoreInfoByIdUrl, coreId);
     }
 
     public DuelBattle(coreId : number):Observable<number>

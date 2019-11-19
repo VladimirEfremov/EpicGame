@@ -113,21 +113,21 @@ namespace EpicGameWeb.Controllers
             return "";
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetCoreInfoById")]
-        public CoreInfo GetCoreInfoById()
+        public CoreInfo GetCoreInfoById([FromBody]int id)
         {
-            int coreid;
-            var coreIdString = GetSessionVariable("CoreId");
-            if (System.Int32.TryParse(coreIdString, out coreid))
-            {
+            //int coreid;
+            //var coreIdString = GetSessionVariable("CoreId");
+            //if (System.Int32.TryParse(coreIdString, out coreid))
+            //{
                 string coreInfoJson = RemoteProcedureCallClass
                     .GetGameChannel()
-                    .GetCoreInfoById(coreid);
+                    .GetCoreInfoById(id);
                 CoreInfo coreInfo = coreInfoJson.FromJson<CoreInfo>();
                 return coreInfo;
-            }
-            return new CoreInfo();
+            //}
+            //return new CoreInfo();
         }
 
         [HttpPost]

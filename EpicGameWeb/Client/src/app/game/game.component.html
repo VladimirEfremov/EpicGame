@@ -37,20 +37,20 @@
           <button (click)="OnCasernBtnClick()">Казарма</button> 
         </ng-template>
         <ng-template [ngIf]="coreInfo.DefenceTower == 1">
-          <button (click)="OnGoldMiningBtnClick()">Шахта для добычи золота</button> 
+          <button (click)="OnGoldMiningBtnClick()">Шахта</button> 
         </ng-template>
         <ng-template [ngIf]="coreInfo.GoldMining == 1">
-          <button (click)="OnDefenceTowerBtnClick()">Защитная башня</button> 
+          <button (click)="OnDefenceTowerBtnClick()">Башня</button> 
         </ng-template>
 
         <ng-template [ngIf]="coreInfo.Casern == 0">
             <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Казармаы</button> 
         </ng-template>
         <ng-template [ngIf]="coreInfo.DefenceTower == 0">
-            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Шахта для добычи золота</button> 
+            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Шахта</button> 
         </ng-template>
         <ng-template [ngIf]="coreInfo.GoldMining == 0">
-            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Защитная башня</button> 
+            <button class="DiactivatedButton" title="Необходимо купить в Core" disabled="true">Башня</button> 
         </ng-template>
 
       </td>
@@ -71,14 +71,14 @@
               <div>Outcome: {{coreInfo.BaseOutcome}}</div>
           </td>
           <td>
-            <tr><button title="Стоимость: 1000 gold" (click)="OnBaseCapacityUpgrade()">Улучшить вместительность</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBaseCapacityUpgrade()">Улучшить вмест.</button></tr>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBaseAttackUpgrade()">Улучшить атаку</button></tr>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBaseDefenceUpgrade()">Улучшить защиту</button></tr>
           </td>
           <td>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildCasernBtnClick()">Построить казарму</button></tr>
             <tr><button title="Стоимость: 1000 gold" (click)="OnBuildGoldMiningBtnClick()">Построить шахту</button></tr>
-            <tr><button title="Стоимость: 1000 gold" (click)="OnBuildDefenceTowerBtnClick()">Построить защитную башню</button></tr>
+            <tr><button title="Стоимость: 1000 gold" (click)="OnBuildDefenceTowerBtnClick()">Построить башню</button></tr>
           </td>
           <td>
             <button title="Стоимость: 1000 gold" (click)="OnProduceWorkerBtnClick()">Создать рабочего</button>
@@ -103,7 +103,7 @@
           </td>
           <td>
             <button title="Стоимость: 1000 gold" (click)="OnProduceWarriorBtnClick()">Создать война</button> <br/>
-            <button title="Стоимость: 1000 gold" (click)="OnProduceAttackAircraftBtnClick()">Создать корабль для нападения</button>
+            <button title="Стоимость: 1000 gold" (click)="OnProduceAttackAircraftBtnClick()">Создать корабль</button>
           </td>
         </ng-template>
         
@@ -133,7 +133,7 @@
               <div>Type: {{coreInfo.GoldMiningType}}</div>
             </td>
             <td>
-              <tr><button title="Стоимость: 1000 gold" (click)="OnGoldMiningCapacityUpgrade()">Улучшить вместительность</button></tr>
+              <tr><button title="Стоимость: 1000 gold" (click)="OnGoldMiningCapacityUpgrade()">Улучшить вместит.</button></tr>
             </td>
             <td>
                 <div>Income: {{coreInfo.GoldMiningIncome}}</div> 
@@ -150,7 +150,7 @@
   </td>
   
   <td>
-    <table class="CommunicationTable">
+    <table class="communication-table">
       <tr align="center" class="cmntr">
           <td>
               <div class="TextInCenter" [ngSwitch]="numberOfSelectedList">
@@ -265,6 +265,7 @@
         Информация о Core 
         <br/> 
         Кол-во войнов: {{selectedUserCoreInfo.CasernWarriorsCount}}
+        <br/>
         Кол-во кораблей: {{selectedUserCoreInfo.CasernAttackAircraftsCount}}
 
       </div>
@@ -314,19 +315,19 @@
 
 <table class="LowTable">
   <td>
-  <div class="Logger" onload="this.scrollTop = 9999;"> 
-      <div class="LoggerContent"
+  <div class="logger" onload="this.scrollTop = 9999;"> 
+      <div class="logger-content"
       *ngFor="let log of loggedData?.Data2">
       <div [ngSwitch]="log.Type">
-        <ng-template ngSwitchCase="1"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-        <ng-template ngSwitchCase="2"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-        <ng-template ngSwitchCase="3"><div class="LoggerWarContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="1"><div class="logger-war-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="2"><div class="logger-war-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="3"><div class="logger-war-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
         
-        <ng-template ngSwitchCase="4"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-        <ng-template ngSwitchCase="5"> <div class="LoggerBuildContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="4"> <div class="logger-build-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="5"> <div class="logger-build-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
         
-        <ng-template ngSwitchCase="6"><div class="LoggerCommunicationContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
-        <ng-template ngSwitchDefault><div class="LoggerDefaultContent">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchCase="6"><div class="logger-communication-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
+        <ng-template ngSwitchDefault><div class="logger-default-content">{{log.Message}} [{{log.Time}}]</div></ng-template>
       </div>
     </div>
   </div>
@@ -335,8 +336,6 @@
   <td>
     <div class="chat">
     
-      <button class="chat-close-button">x</button>
-
       <div class="chat-table">
         <div class="chat-table-row chat-first-row">
             <div class="chat-table-col">
@@ -381,7 +380,3 @@
 
 </table>
 
-
- <!-- <canvas id="map" width=1000 height=1000>
-    Canvas not supported
- </canvas> -->
