@@ -13,7 +13,7 @@ namespace EpicGameWeb.Controllers
 
         public string GetSessionVariable(string variableName)
         {
-            if (HttpContext.Request.Cookies[variableName].Value != null)
+            if (HttpContext.Request.Cookies[variableName]?.Value != null)
             {
                 return HttpContext.Request.Cookies[variableName].Value;
             }
@@ -58,6 +58,9 @@ namespace EpicGameWeb.Controllers
 
         public string Registration(RegistrationModel model)
         {
+            SetSessionVariable("UserId", "");
+            SetSessionVariable("CoreId", "");
+
             if (model != null)
             {
                 if (ModelState.IsValid)

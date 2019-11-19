@@ -27,7 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -342,16 +342,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="Scripts\Client\main-es2015.js.map" />
-    <Content Include="Scripts\Client\main-es5.js.map" />
-    <Content Include="Scripts\Client\polyfills-es2015.js.map" />
-    <Content Include="Scripts\Client\polyfills-es5.js.map" />
-    <Content Include="Scripts\Client\runtime-es2015.js.map" />
-    <Content Include="Scripts\Client\runtime-es5.js.map" />
-    <Content Include="Scripts\Client\styles-es2015.js.map" />
-    <Content Include="Scripts\Client\styles-es5.js.map" />
-    <Content Include="Scripts\Client\vendor-es2015.js.map" />
-    <Content Include="Scripts\Client\vendor-es5.js.map" />
     <Content Include="Scripts\Client\favicon.ico" />
     <Content Include="Scripts\Client\main-es2015.js" />
     <Content Include="Scripts\Client\main-es5.js" />
@@ -363,7 +353,9 @@
     <Content Include="Scripts\Client\styles-es5.js" />
     <Content Include="Scripts\Client\vendor-es2015.js" />
     <Content Include="Scripts\Client\vendor-es5.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -423,6 +415,16 @@
     <Content Include="Client\tsconfig.spec.json" />
     <Content Include="Client\tslint.json" />
     <None Include="packages.config" />
+    <Content Include="Scripts\Client\main-es2015.js.map" />
+    <Content Include="Scripts\Client\main-es5.js.map" />
+    <Content Include="Scripts\Client\polyfills-es2015.js.map" />
+    <Content Include="Scripts\Client\polyfills-es5.js.map" />
+    <Content Include="Scripts\Client\runtime-es2015.js.map" />
+    <Content Include="Scripts\Client\runtime-es5.js.map" />
+    <Content Include="Scripts\Client\styles-es2015.js.map" />
+    <Content Include="Scripts\Client\styles-es5.js.map" />
+    <Content Include="Scripts\Client\vendor-es2015.js.map" />
+    <Content Include="Scripts\Client\vendor-es5.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

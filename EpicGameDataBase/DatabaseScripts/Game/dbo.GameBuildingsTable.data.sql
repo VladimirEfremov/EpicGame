@@ -1,6 +1,0 @@
-SET IDENTITY_INSERT [dbo].[GameBuildingsTable] ON
-INSERT INTO [dbo].[GameBuildingsTable] ([GameBuildingId], [GameBuildingType], [GameBuildingName], [GameBuildingHP], [GameBuildingAttack], [GameBuildingDefence], [GameBuildingGoldIncome], [GameBuildingGoldOutcome], [Capcatity]) VALUES (1, 4, N'Core                                    ', 10000, 0, 20, 0, 10, 1)
-INSERT INTO [dbo].[GameBuildingsTable] ([GameBuildingId], [GameBuildingType], [GameBuildingName], [GameBuildingHP], [GameBuildingAttack], [GameBuildingDefence], [GameBuildingGoldIncome], [GameBuildingGoldOutcome], [Capcatity]) VALUES (3, 3, N'GoldMining                              ', 2500, 0, 0, 0, 0, 10)
-INSERT INTO [dbo].[GameBuildingsTable] ([GameBuildingId], [GameBuildingType], [GameBuildingName], [GameBuildingHP], [GameBuildingAttack], [GameBuildingDefence], [GameBuildingGoldIncome], [GameBuildingGoldOutcome], [Capcatity]) VALUES (5, 2, N'DefenceTower                            ', 12500, 200, 15, 0, 10, 2)
-INSERT INTO [dbo].[GameBuildingsTable] ([GameBuildingId], [GameBuildingType], [GameBuildingName], [GameBuildingHP], [GameBuildingAttack], [GameBuildingDefence], [GameBuildingGoldIncome], [GameBuildingGoldOutcome], [Capcatity]) VALUES (7, 1, N'Casern                                  ', 7500, 0, 15, 0, 10, 10)
-SET IDENTITY_INSERT [dbo].[GameBuildingsTable] OFF
