@@ -150,6 +150,7 @@ export class GameComponent implements OnInit
 
   isUserActionsWindowVisible = false;
   selectedUser : UserInfo;
+  selectedUserCoreInfo : CoreInfo;
   isSelectedUserFriend:boolean = false;
 
   //Log
@@ -896,6 +897,7 @@ export class GameComponent implements OnInit
       ", userid: " + userInfo.UserId + 
       ", coreid: " + userInfo.CoreId);
     this.selectedUser = userInfo;
+    //rework getcoreinfo this.getCoreStats
     this.isSelectedUserFriend = this.IsUserFriend();
   }
 
