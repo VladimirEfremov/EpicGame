@@ -236,11 +236,11 @@ export class GameComponent implements OnInit
         );
 
         //temporary for Dialog
-        this.dialogsButtonInfo.push({UserId:1, Nickname:"John"});
-        this.dialogsButtonInfo.push({UserId:2, Nickname:"Nike"});
-        this.dialog.push({Nickname: "Buka", Content: "Hi", Time: "20:00"});
-        this.dialog.push({Nickname: "Buka", Content: "How are you ?", Time: "20:30"});
-        this.dialog.push({Nickname: "Buka", Content: "01234567890123456", Time: "20:40"});
+        //this.dialogsButtonInfo.push({UserId:1, Nickname:"John"});
+        //this.dialogsButtonInfo.push({UserId:2, Nickname:"Nike"});
+        //this.dialog.push({Nickname: "Buka", Content: "Hi", Time: "20:00"});
+        //this.dialog.push({Nickname: "Buka", Content: "How are you ?", Time: "20:30"});
+        //this.dialog.push({Nickname: "Buka", Content: "01234567890123456", Time: "20:40"});
 
         setInterval(
           () => {

@@ -26,9 +26,7 @@ input {
 
 button {
     font-size: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    float: right;
 }
 
 .link_registration { 
