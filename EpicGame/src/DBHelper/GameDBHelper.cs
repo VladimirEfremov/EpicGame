@@ -25,7 +25,6 @@
         private GameUnitsTypeEntity m_GameUnitsTypeEntity = new GameUnitsTypeEntity();
         private GameBuildingsEntity m_GameBuildingsEntity = new GameBuildingsEntity();
         private GameBuildingTypeEntity m_GameBuildingsTypeEntity = new GameBuildingTypeEntity();
-        private GameBuildingProductionEntity m_GameBuildingProductionEntity = new GameBuildingProductionEntity();
 
         private static SessionMapEntity m_SessionMapEntity = new SessionMapEntity();
         private static SessionCoresEntity m_SessionCoreEntity = new SessionCoresEntity();
@@ -57,7 +56,6 @@
                 m_GameUnitsTypeEntity.Dispose();
                 m_GameBuildingsEntity.Dispose();
                 m_GameBuildingsTypeEntity.Dispose();
-                m_GameBuildingProductionEntity.Dispose();
 
                 m_SessionMapEntity.Dispose();
                 m_SessionCoreEntity.Dispose();
@@ -86,11 +84,6 @@
         private List<GameBuildingTypeTable> GetAllGameBuildingsTypeList()
         {
             return m_GameBuildingsTypeEntity.GameBuildingTypeTable.AsNoTracking().ToList();
-        }
-
-        private List<GameBuildingProductionTable> GetAllGameBuildingProductionList()
-        {
-            return m_GameBuildingProductionEntity.GameBuildingProductionTable.AsNoTracking().ToList();
         }
 
         public static string GetUserNickById(int id)

@@ -148,7 +148,7 @@ export class GameComponent implements OnInit
   selectedFollowers:UserInfo[] = [];
   selectedFollowings:UserInfo[] = [];
 
-  isUserActionsWindowVisible = true;
+  isUserActionsWindowVisible = false;
   selectedUser : UserInfo;
   selectedUserCoreInfo : CoreInfo;
   isSelectedUserFriend:boolean = false;
